@@ -1,0 +1,29 @@
+form {
+    .input-group {
+        margin-bottom: 15px;
+
+        .form-control {
+            border: 1px solid #d5d5d5 !important;
+            border-radius: 5px;
+            background-color: var(--whiteColor) !important;
+            padding-top: 9px;
+        }
+    }
+    button {
+        display: block;
+        background-color: var(--mainColor);
+        color: var(--whiteColor);
+        border: none;
+        font-weight: 600;
+        display: block;
+        width: 100%;
+        border-radius: 5px;
+        padding: 14px 30px 13px;
+        transition: var(--transition);
+
+        &:hover {
+            background-color: var(--blackColor);
+            color: var(--whiteColor);
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<section class="listing-area">
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
+      <div class="pagination-area text-center">
+        <pagination-controls (pageChange)="gridListings = $event"></pagination-controls>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 pt-2"
+      *ngFor="let persona of personasDesplegables | paginate: { itemsPerPage: 12, currentPage: gridListings }">
+      <app-persona-card [persona]="persona"></app-persona-card>
+    </div>
+    <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
+      <div class="pagination-area text-center">
+        <pagination-controls (pageChange)="gridListings = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</section>

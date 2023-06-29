@@ -1,0 +1,138 @@
+<!-- Start Navbar Area -->
+<div class="navbar-area">
+    <div class="vesax-responsive-nav">
+        <div class="container">
+            <div class="vesax-responsive-menu">
+                <div class="logo">
+                    <a routerLink="/"><img [src]="cliente.webLogoBase64" alt="logo"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vesax-nav">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a class="navbar-brand" routerLink="/"><img [src]="cliente.webLogoBase64" alt="logo"></a>
+
+                <div class="collapse navbar-collapse mean-menu">
+                 
+                    <ul class="navbar-nav">
+                        <li *ngIf="autenticado && staff" class="nav-item"><a routerLink="/staff" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-staff' | translate }}</a></li>
+                        <li *ngIf="autenticado && modelo" class="nav-item"><a routerLink="/model" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-modelo' | translate }}</a></li>
+                        <li *ngIf="autenticado && modelo" class="nav-item"><a routerLink="/perfil" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-perfil' | translate }}</a></li>
+                        <li *ngIf="autenticado && modelo" class="nav-item"><a routerLink="/galeria" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-fotos' | translate }}</a></li>
+                        <li *ngIf="autenticado && !mobile" class="nav-item"><a href="javascript:void(0)" class="dropdown-toggle nav-link">{{ 'navbar.menu-sesion' | translate }}</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link" [routerLink]="" (click)="logout()">{{ 'navbar.menu-chpass' | translate }}</a></li>
+                                <li class="nav-item"><a class="nav-link" [routerLink]="" (click)="logout()">{{ 'navbar.menu-logout' | translate }}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div *ngIf="!autenticado" class="others-option d-flex align-items-center">
+                        <div class="option-item">
+                            <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="autenticado" class="others-option d-flex align-items-center">
+                        <div class="option-item">
+                            <span><i class="flaticon-user"></i>{{userName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="others-option-for-responsive">
+        <div class="container">
+            <div class="dot-menu">
+                <div class="inner">
+                    <div class="circle circle-one"></div>
+                    <div class="circle circle-two"></div>
+                    <div class="circle circle-three"></div>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="option-inner">
+                    <div class="others-option">
+                        <div *ngIf="!autenticado" class="option-item">
+                            <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span>
+                        </div>
+                        <div *ngIf="autenticado" class="option-item">
+                            <span><i class='bx bx-key'></i> {{ 'navbar.menu-chpass' | translate }}</span>
+                        </div>
+                        <div *ngIf="autenticado" class="option-item">
+                            <span (click) ="logout()"><i class='bx bx-exit'></i> {{ 'navbar.menu-logout' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Navbar Area -->
+
+<!-- Start Login & Register Modal -->
+<div class="modal fade loginRegisterModal" id="loginRegisterModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" #closemodal aria-label="Close"><i class='bx bx-x'></i></button>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">{{ 'navbar.acceso' | translate }}</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="true">{{ 'navbar.registro' | translate }}</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="login" role="tabpanel">
+                    <div class="vesax-login">
+                        <ngx-spinner name="splogin" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+                            <p class="loading">...</p>
+                        </ngx-spinner>
+                        <span class="sub-title"><span>{{ 'navbar.ingreso-titulo' | translate }}</span></span>
+                        <form [formGroup]="loginForm">
+                            <div class="form-group">
+                                <input type="text" placeholder="{{ 'navbar.ingreso-email' | translate }}" class="form-control" formControlName="usuario">
+                            </div>
+
+                            <div class="input-group">
+                                <input [type]="showPass ? 'text' : 'password'"
+                                    placeholder="{{ 'navbar.ingreso-password' | translate }}" class="form-control"
+                                    formControlName="contrasena">
+                                <span class="input-group-text" (click)="swapShowPass()">
+                                    <i [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"></i>
+                                </span>
+                            </div>
+                            <button [disabled]="inCall" (click)="login()" type="submit">{{ 'navbar.login-btn' | translate }}</button>
+                        </form>
+                        <span class="dont-account">{{ 'navbar.cuenta-inexistente' | translate }}  <a href="#">{{ 'navbar.registro' | translate }}</a></span>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="register" role="tabpanel">
+                    <div class="vesax-register">
+                        <ngx-spinner name="spregistro" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+                            <p class="loading">...</p>
+                        </ngx-spinner>
+                        <span class="sub-title"><span>{{ 'navbar.registro-titulo' | translate }}</span></span>
+                        <form [formGroup]="registroForm">
+                            <div class="form-group">
+                                <input type="text" placeholder="{{ 'navbar.registro-nombre' | translate }}" class="form-control" formControlName="nombre">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="{{ 'navbar.registro-email' | translate }}" class="form-control" formControlName="email">
+                            </div>
+                            <button [disabled]="inCall" (click)="creaRegistro()" type="submit">{{ 'navbar.registro-btn-registrar' | translate }}</button>
+                        </form>
+                        <span class="already-account"> {{ 'navbar.cuenta-existente' | translate }} <a href="#">{{ 'navbar.acceso' | translate }}</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Login & Register Modal -->

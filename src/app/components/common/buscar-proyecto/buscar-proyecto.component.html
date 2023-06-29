@@ -1,0 +1,28 @@
+<form [formGroup]="formBuscar">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <label>{{'buscar-proyecto.nombre' | translate}}</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="">
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <label>{{'buscar-proyecto.fecha-inicio' | translate}}</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="fechaApertura" formControlName="fechaApertura" placeholder="">
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <label>{{'buscar-proyecto.fecha-cierre' | translate}}</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="fechaCierre" formControlName="fechaCierre" placeholder="">
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
+      <div class="text-center">
+        <button type="button" [disabled]="inCall" (click)="buscar()" class="btn btn-primary">
+          {{'buscar-proyecto.btn-buscar' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</form>

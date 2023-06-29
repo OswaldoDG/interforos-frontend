@@ -1,0 +1,85 @@
+<!-- Start Footer Area -->
+<footer class="footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>Acera de nosotros</h3>
+
+                    <ul class="link-list">
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Acerca de interforos</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Oportunidades laborales</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Noticias</a></li>
+                        <!-- <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Investor Relations</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Content Guidelines</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Terms of Service</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Privacy Policy</a></li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <!-- <div class="single-footer-widget">
+                    <h3>Discover</h3>
+
+                    <ul class="link-list">
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Project Cost Guides</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Upcoming Events</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Mobile App</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Customer Support</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Developers</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Collections</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Our Blog</a></li>
+                    </ul>
+                </div> -->
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <!-- <div class="single-footer-widget">
+                    <h3>Business With Vesax</h3>
+
+                    <ul class="link-list">
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Claim your Business</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Advertise on Vesax</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Restaurant Owners</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Business Success Stories</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Business Support</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Blog for Business</a></li>
+                        <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Privacy Policy</a></li>
+                    </ul>
+                </div> -->
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>Información de contacto</h3>
+
+                    <ul class="footer-contact-info">
+                        <li><i class="bx bx-map"></i>{{c.contacto.direccion}}</li>
+                        <li><i class="bx bx-phone-call"></i><a href="tel:+11234567890">{{c.contacto.telefono}}</a></li>
+                        <li><i class="bx bx-envelope"></i><a href="mailto:hello@vesax.com">{{c.contacto.email}}</a></li>
+                        <!-- <li><i class="bx bxs-inbox"></i><a href="tel:+557854578964">+55 785 4578964</a></li> -->
+                    </ul>
+
+                    <ul class="social-link">
+                        <li *ngIf="c.contacto.faceBook"><a href="c.contacto.faceBook" class="d-block" target="_blank"><i class="bx bxl-facebook"></i></a></li>
+                        <li *ngIf="c.contacto.twitter"><a href="c.contacto.twitter" class="d-block" target="_blank"><i class="bx bxl-twitter"></i></a></li>
+                        <li *ngIf="c.contacto.instagram"><a href="c.contacto.instagram" class="d-block" target="_blank"><i class="bx bxl-instagram"></i></a></li>
+                        <li *ngIf="c.contacto.linkedIn"><a href="c.contacto.linkedIn" class="d-block" target="_blank"><i class="bx bxl-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright-area">
+            <p>© {{c.nombre}} <a href="#" target="_blank">2023</a></p>
+        </div>
+    </div>
+
+    <div class="footer-image text-center">
+        <img src="assets/img/footer-image3.png" alt="image">
+    </div>
+</footer>
+<!-- End Footer Area -->
+
+<div class="go-top"><i class='bx bx-up-arrow-alt'></i></div>

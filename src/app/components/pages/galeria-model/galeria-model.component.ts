@@ -1,0 +1,288 @@
+import { Component, InjectionToken, OnInit } from '@angular/core';
+
+import {
+  FileParameter,
+  ContenidoClient,
+  ElementoMediaCliente,
+} from 'src/app/services/api/api-promodel';
+import { first } from 'rxjs/operators';
+import { HotToastService } from '@ngneat/hot-toast';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
+import { ElementoMediaView } from 'src/app/modelos/locales/elemento-media-view';
+import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
+import { OwlOptions } from 'ngx-owl-carousel-o';
+
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
+
+@Component({
+  selector: 'app-galeria-model',
+  templateUrl: './galeria-model.component.html',
+  styleUrls: ['./galeria-model.component.scss'],
+})
+export class GaleriaModelComponent implements OnInit {
+  blogGrid: number = 1;
+  working = false;
+  uploadFile: File | null;
+  uploadFileLabel: string | undefined = 'Choose an image to upload';
+  uploadProgress: number;
+  uploadUrl: string;
+  usuarioId: string = '';
+  T: any;
+  fotos: ElementoMediaView[] = [];
+  imageObject: Array<object> = [];
+
+  constructor(
+    private servicioPersona: PersonaInfoService,
+    private apiContenido: ContenidoClient,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService,
+    private toastService: HotToastService
+  ) {}
+
+  ngOnInit(): void {
+    this.cargaTraducciones();
+    this.spinner.show('spupload');
+    this.apiContenido
+      .mi()
+      .pipe(first())
+      .subscribe(
+        (media) => {
+          console.log(media);
+          this.usuarioId = media.usuarioId;
+          media.elementos.forEach((e) => {
+            this.addElementoView(this.toLink(e));
+          });
+          this.spinner.hide('spupload');
+        },
+        (err) => {
+          this.spinner.hide('spupload');
+          console.error(err);
+        }
+      );
+  }
+
+  toLink(e: ElementoMediaCliente): ElementoMediaView {
+    const elementoId = e.video ? e.frameVideoId : e.id;
+    return {
+      id: e.id,
+      extension: e.extension,
+      mimeType: e.mimeType,
+      imagen: e.imagen,
+      video: e.video,
+      permanente: e.permanente,
+      principal: e.principal,
+      landscape: e.landscape,
+      url: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
+      urlFull: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
+    };
+  }
+
+  setPrincipal(id: string) {
+    this.servicioPersona.eliminaPersonaCachePurUID(this.usuarioId);
+    this.fotos.forEach((f) => {
+      if (f.id == id) {
+        f.principal = true;
+        f.permanente = true;
+      } else {
+        if (f.principal) {
+          f.permanente = false;
+        }
+        f.principal = false;
+      }
+    });
+  }
+
+  bntPrincipal(id: string) {
+    this.apiContenido
+      .principal(id)
+      .pipe(first())
+      .subscribe(
+        (e) => {
+          this.setPrincipal(id);
+        },
+        (err) => {
+          this.toastService.error(this.T['fotos.foto-gen-error'], {
+            position: 'bottom-center',
+          });
+          console.error(err);
+        }
+      );
+  }
+
+  eliminaElemento(id: string) {
+    const index = this.fotos.findIndex((f) => f.id == id);
+    this.fotos.splice(index, 1);
+  }
+
+  bntEliminar(id: any) {
+    const foto = this.fotos.find((f) => f.id == id);
+    if (foto.principal) {
+      this.toastService.warning(this.T['fotos.foto-delprin-error'], {
+        position: 'bottom-center',
+      });
+      return;
+    }
+
+    this.apiContenido
+      .contenidoDelete(id)
+      .pipe(first())
+      .subscribe(
+        (e) => {
+          this.eliminaElemento(id);
+        },
+        (err) => {
+          this.toastService.error(this.T['fotos.foto-gen-error'], {
+            position: 'bottom-center',
+          });
+          console.error(err);
+        }
+      );
+  }
+
+  setBloqueo(id: string) {
+    this.fotos.forEach((f) => {
+      if (f.id == id) {
+        f.permanente = !f.permanente;
+      }
+    });
+  }
+
+  bntPin(id: any) {
+    const foto = this.fotos.find((f) => f.id == id);
+    if (foto.principal) {
+      this.toastService.warning(this.T['fotos.foto-altprin-error'], {
+        position: 'bottom-center',
+      });
+      return;
+    }
+
+    this.apiContenido
+      .bloqueo(id)
+      .pipe(first())
+      .subscribe(
+        (e) => {
+          this.setBloqueo(id);
+        },
+        (err) => {
+          this.toastService.error(this.T['fotos.foto-gen-error'], {
+            position: 'bottom-center',
+          });
+          console.error(err);
+        }
+      );
+  }
+
+  addElementoView(e: ElementoMediaView) {
+    const items: ElementoMediaView[] = [...this.fotos];
+    items.push(e);
+    this.ordenaImagenes(items);
+  }
+
+  ordenaImagenes(items: ElementoMediaView[]) {
+    const ordenados: ElementoMediaView[] = [];
+
+    const principales = items.filter((x) => x.principal == true);
+    const permanentes = items.filter(
+      (x) => x.principal == false && x.permanente == true
+    );
+    const caducibles = items.filter((x) => x.permanente == false);
+
+    if (principales) {
+      principales.forEach((i) => {
+        ordenados.push(i);
+      });
+    }
+
+    if (permanentes) {
+      permanentes.forEach((i) => {
+        ordenados.push(i);
+      });
+    }
+
+    if (caducibles) {
+      caducibles.forEach((i) => {
+        ordenados.push(i);
+      });
+    }
+    this.fotos = ordenados;
+    console.log(ordenados);
+  }
+
+  cargaTraducciones() {
+    this.translate
+      .get([
+        'fotos.foto-ok',
+        'fotos.foto-error',
+        'fotos.no-file',
+        'fotos.foto-gen-error',
+        'fotos.foto-altprin-error',
+        'fotos.foto-delprin-error',
+      ])
+      .pipe(first())
+      .subscribe((ts) => {
+        this.T = ts;
+      });
+  }
+
+  handleFileInput(files: FileList) {
+    if (files.length > 0) {
+      this.uploadFile = files.item(0);
+      this.uploadFileLabel = this.uploadFile?.name;
+    }
+  }
+
+  upload() {
+    if (!this.uploadFile) {
+      this.toastService.warning(this.T['fotos.no-file'], {
+        position: 'bottom-center',
+      });
+      return;
+    }
+
+    this.uploadUrl = '';
+    this.uploadProgress = 0;
+    this.working = true;
+    this.spinner.show('spupload');
+
+    const formData: FileParameter = {
+      fileName: this.uploadFile.name,
+      data: this.uploadFile,
+    };
+    this.apiContenido
+      .carga('galeria', formData)
+      .pipe(first())
+      .subscribe(
+        (e) => {
+          this.toastService.success(this.T['fotos.foto-ok'], {
+            position: 'bottom-center',
+          });
+          this.uploadFile = null;
+          this.uploadFileLabel = '';
+          this.spinner.hide('spupload');
+          this.uploadProgress = 0;
+          this.working = false;
+          this.addElementoView(this.toLink(e));
+        },
+        (err) => {
+          this.toastService.error(this.T['fotos.foto-error'], {
+            position: 'bottom-center',
+          });
+          this.uploadFile = null;
+          this.uploadFileLabel = '';
+          this.spinner.hide('spupload');
+          this.uploadProgress = 0;
+          this.working = false;
+          console.error(err);
+        }
+      );
+  }
+
+  pageTitleContent = [
+    {
+      title: 'Mis fotos',
+      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+    },
+  ];
+}

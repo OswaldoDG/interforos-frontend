@@ -1,0 +1,26 @@
+<div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+  <ngx-spinner name="docupload" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+    <p class="loading">...</p>
+  </ngx-spinner>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <label>{{ Documento.nombre }}</label>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <table style="width: 100%;">
+      <tr>
+        <td>
+          <img *ngIf="uploaded" src="../../../../assets/icons/ok.png" class="uploadicon">
+          <img *ngIf="!uploaded" src="../../../../assets/icons/pendiente.png" class="uploadicon">
+        </td>
+        <td>
+          <input class="form-control" type="file" id="customFile" (change)="handleFileInput($any($event.target).files)"
+            [disabled]="working">
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="working">{{
+            'perfil.t-docs-enviar' | translate }}</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

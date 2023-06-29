@@ -1,0 +1,490 @@
+<app-navbar-promodel></app-navbar-promodel>
+
+<ngx-spinner name="spperfil" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+  <p class="loading">...</p>
+</ngx-spinner>
+
+<!-- Start Page Title Area -->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent;"
+  style="background-image: url({{Content.backgroundImage}});">
+  <div class="container">
+    <div class="page-title-content">
+      <h2>{{Content.title}}</h2>
+      <!-- <ul>
+                <li><a routerLink="/">Home</a></li>
+                <li>{{Content.title}}</li>
+            </ul> -->
+    </div>
+  </div>
+</div>
+<!-- End Page Title Area -->
+
+<div class="accordion" id="accordionPersona">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headDocs">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-controls="collapseOne">
+          {{ 'perfil.t-docs' | translate}}{{'perfil.t-doctype' | translate}}
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+        data-bs-parent="#accordionPersona">
+        <div class="accordion-body">
+          <div class="row">
+                        <div class="col-lg-12">
+                          <h6>{{ 'perfil.t-IdUsuario' | translate}}<span style="color: red; font-weight: bold;">&nbsp; {{ consecutivo }}</span>
+                          </h6>
+                        </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let doc of documentos">
+              <app-documento-persona (docUploaded)="DocUploaded($event)" [Documento]="doc" [Instancias]="instanciasDocumento"></app-documento-persona>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="true" aria-controls="collapseOne">
+        {{ 'perfil.t-general' | translate}}
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+      data-bs-parent="#accordionPersona">
+      <div class="accordion-body">
+        <p>{{'perfil.d-general' | translate }}</p>
+        <form [formGroup]="formGenerales">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <input type="hidden" formControlName="relacion" id="relacion">
+              <label for="nombreArtistico">{{ 'perfil.alias' | translate }}</label>
+              <div class="input-group">
+                <input type="text" placeholder="{{ 'perfil.alias' | translate }}" class="form-control"
+                  formControlName="nombreArtistico" id="nombreArtistico">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.nombre' | translate }}</label>
+              <div class="input-group">
+                <input type="text" placeholder="{{ 'perfil.nombre' | translate }}" class="form-control"
+                  formControlName="nombre" id="nombre">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.apellido1' | translate }}</label>
+              <div class="input-group">
+                <input type="text" placeholder="{{ 'perfil.apellido1' | translate }}" class="form-control"
+                  formControlName="apellido1" id="apellido1">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.apellido2' | translate }}</label>
+              <div class="input-group">
+                <input type="text" placeholder="{{ 'perfil.apellido2' | translate }}" class="form-control"
+                  formControlName="apellido2" id="apellido2">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.fechaNacimiento' | translate }}</label>
+              <div class="input-group">
+                <input type="text" [owlDateTime]="dtfn" [owlDateTimeTrigger]="dtfn"
+                  placeholder="{{ 'perfil.fechaNacimiento' | translate }}" class="form-control"
+                  formControlName="fechaNacimiento" id="fechaNacimiento">
+                <owl-date-time #dtfn pickerType="calendar" pickerMode="popup"></owl-date-time>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.generoId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="generoId" id="GeneroId" class="form-control">
+                  <option disabled selected>{{ 'perfil.generoId' | translate }}</option>
+                  <option *ngFor="let p of generos" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.paisOrigenId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="paisOrigenId" id="paisOrigenId" class="form-control">
+                  <option disabled selected>{{ 'perfil.paisOrigenId' | translate }}</option>
+                  <option *ngFor="let p of paises" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.paisActualId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" (change)="onChangePais($event.target.value)" formControlName="paisActualId"
+                  id="paisActualId" class="form-control">
+                  <option disabled selected>{{ 'perfil.paisActualId' | translate }}</option>
+                  <option *ngFor="let p of paises" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.estadoPaisId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="estadoPaisId" id="estadoPaisId" class="form-control">
+                  <option disabled selected>{{ 'perfil.estadoPaisId' | translate }}</option>
+                  <option *ngFor="let e of estados" value="{{e.clave}}">{{e.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="nombre">{{ 'perfil.l-extranjero' | translate }}</label>
+              <div class="input-group">
+                <input class="form-check-input" type="checkbox" formControlName="extranjero" id="extranjero"
+                  name="extranjero">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="esExtranjero">
+              <label for="nombre">{{ 'perfil.l-permisoTrabajo' | translate }}</label>
+              <div class="input-group">
+                <input class="form-check-input" type="checkbox" formControlName="permisoTrabajo" id="permisoTrabajo"
+                  name="permisoTrabajo">
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="agencias">{{ 'perfil.agenciasIds' | translate }}</label>
+            <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
+              [settings]="dropdownSettingsAgencias" [data]="dropdownListAgencias" [(ngModel)]="selectedItemsAgencias"
+              (onSelect)="onSelectAgencias($event)" (onSelectAll)="onSelectAllAgencias($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            &nbsp;
+            <div style="display: none;">
+            <label for="nombre">{{ 'perfil.otrosAgenciasIds' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otrosAgenciasIds' | translate }}" class="form-control"
+                [(ngModel)]="otroAgencia" id="otroAgencia">
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="idiomas">{{ 'perfil.idiomas' | translate }}</label>
+            <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
+              [settings]="dropdownSettingsIdiomas" [data]="dropdownListIdiomas" [(ngModel)]="selectedItemsIdiomas"
+              (onSelect)="onSelectIdiomas($event)" (onSelectAll)="onSelectAllIdiomas($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroIdioma' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroIdioma' | translate }}" class="form-control"
+                [(ngModel)]="otroIdioma" id="otroIdioma">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
+        {{ 'perfil.t-fisicas' | translate}}
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+      data-bs-parent="#accordionPersona">
+      <div class="accordion-body">
+        <p style="display:none;">{{'perfil.d-fisicas' | translate}}</p>
+        <form [formGroup]="formFisicas">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label style="display: none;" for="mks">{{ 'perfil.unidades' | translate }}</label>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2" style="display: none;">
+                  <input class="form-check-input" type="radio" id="mks" value="mks" formControlName="unidadesmks">
+                  <label class="form-check-label" for="mks">
+                    &nbsp;&nbsp;{{ 'perfil.mks' | translate }}
+                  </label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" [ngClass]="mobile ? 'mt-4' : 'mt-2'" style="display: none;">
+                  <input class="form-check-input" type="radio" id="ingles" value="ingles" formControlName="unidadesmks">
+                  <label class="form-check-label" for="ingles">
+                    &nbsp;&nbsp;{{ 'perfil.ingles' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!mobile" class="col-lg-12 col-md-12 col-sm-12">
+              &nbsp;
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12" [ngClass]="mobile ? 'mt-4' : ''">
+              <label for="altura">{{ 'perfil.altura' | translate }}</label>
+              <div class="input-group">
+                <input type="number" placeholder="{{ 'perfil.altura' | translate }}" class="form-control"
+                  formControlName="altura" id="altura">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="peso">{{ 'perfil.peso' | translate }}</label>
+              <div class="input-group">
+                <input type="number" placeholder="{{ 'perfil.peso' | translate }}" class="form-control"
+                  formControlName="peso" id="peso">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="colorOjosId">{{ 'perfil.colorOjosId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="colorOjosId" id="colorOjosId" class="form-control">
+                  <option disabled selected>{{ 'perfil.colorOjosId' | translate }}</option>
+                  <option *ngFor="let p of coloresojos" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="tipoCabelloId">{{ 'perfil.tipoCabelloId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="tipoCabelloId" id="tipoCabelloId" class="form-control">
+                  <option disabled selected>{{ 'perfil.tipoCabelloId' | translate }}</option>
+                  <option *ngFor="let p of tiposcabello" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="colorCabelloId">{{ 'perfil.colorCabelloId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="colorCabelloId" id="colorCabelloId" class="form-control">
+                  <option disabled selected>{{ 'perfil.colorCabelloId' | translate }}</option>
+                  <option *ngFor="let p of colorescabello" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="etniaId">{{ 'perfil.etniaId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="etniaId" id="etniaId" class="form-control">
+                  <option disabled selected>{{ 'perfil.etniaId' | translate }}</option>
+                  <option *ngFor="let p of etnias" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroColorOjos' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroColorOjos' | translate }}" class="form-control"
+                [(ngModel)]="otroColorOjos" id="otroColorOjos">
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroTipoCabello' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroTipoCabello' | translate }}" class="form-control"
+                [(ngModel)]="otroTipoCabello" id="otroTipoCabello">
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroColorCabello' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroColorCabello' | translate }}" class="form-control"
+                [(ngModel)]="otroColorCabello" id="otroColorCabello">
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroGrupoRacial' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroGrupoRacial' | translate }}" class="form-control"
+                [(ngModel)]="otroGrupoRacial" id="otroGrupoRacial">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+        aria-expanded="false" aria-controls="collapseThree">
+        {{ 'perfil.t-vestuario' | translate}}
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+      data-bs-parent="#accordionPersona">
+      <div class="accordion-body">
+        <p>{{'perfil.d-vestuario' | translate}}</p>
+        <form [formGroup]="formVestuario">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="tipoTallaId">{{ 'perfil.tipoTallaId' | translate }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="tipoTallaId" id="tipoTallaId" class="form-control">
+                  <option disabled selected>{{ 'perfil.tipoTalla' | translate }}</option>
+                  <option *ngFor="let p of tiposTalla" value="{{p.clave}}">{{p.texto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="pantalon">{{ 'perfil.pantalon' | translate }}</label>
+              <div class="input-group">
+                <input type="number" placeholder="{{ 'perfil.pantalon' | translate }}" class="form-control"
+                  formControlName="pantalon" id="pantalon">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="playera">{{ 'perfil.playera' | translate }}</label>
+              <div class="input-group">
+                <input type="number" placeholder="{{ 'perfil.playera' | translate }}" class="form-control"
+                  formControlName="playera" id="playera">
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="calzado">{{ 'perfil.calzado' | translate }}</label>
+              <div class="input-group">
+                <input type="number" placeholder="{{ 'perfil.calzado' | translate }}" class="form-control"
+                  formControlName="calzado" id="calzado">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+        aria-expanded="false" aria-controls="collapseThree">
+        {{ 'perfil.t-habilidades' | translate}}
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+      data-bs-parent="#accordionPersona">
+      <div class="accordion-body">
+        <p>{{'perfil.d-habilidades' | translate}}</p>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
+              [settings]="dropdownSettingsHabilidades" [data]="dropdownListHabilidades"
+              [(ngModel)]="selectedItemsHabilidades" (onSelect)="onSelectHabilidades($event)"
+              (onSelectAll)="onSelectAllHabilidades($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="nombre">{{ 'perfil.otroHabilidad' | translate }}</label>
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'perfil.otroHabilidad' | translate }}" class="form-control"
+                [(ngModel)]="otroHabilidad" id="otroHabilidad">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          {{ 'perfil.t-contacto' | translate}}
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+        data-bs-parent="#accordionPersona">
+        <div class="accordion-body">
+          <p>{{'perfil.d-contacto' | translate}}</p>
+
+          <form [formGroup]="formContacto">
+            <!-- <div class="input-group">
+              <input class="form-check-input" type="checkbox" formControlName="omitirDatos" id="omitirDatos"
+                name="omitirDatos">
+              <label>&nbsp;{{'perfil.no-contacto' | translate}}</label>
+            </div> -->
+            <div class="row" [hidden]="!mostrarContacto">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <label for="direccion">{{ 'perfil.direccion' | translate }}</label>
+                <div class="input-group">
+                  <textarea placeholder="{{ 'perfil.direccion' | translate }}" class="form-control"
+                    formControlName="direccion" id="direccion">
+                                    </textarea>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label for="telefono">{{ 'perfil.telefono' | translate }}</label>
+                <div class="input-group">
+                  <input type="text" placeholder="{{ 'perfil.telefono' | translate }}" class="form-control"
+                    formControlName="telefono" id="telefono">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="input-group pt-2">
+                  <input class="form-check-input" type="checkbox" formControlName="telSMS" id="telSMS"
+                    name="telSMS">&nbsp;
+                  <label for="telefono">{{ 'perfil.tel-sms' | translate }}</label>
+                </div>
+                <div class="input-group">
+                  <input class="form-check-input" type="checkbox" formControlName="telefonoWhatsApp"
+                    id="telefonoWhatsApp" name="telefonoWhatsApp"> &nbsp;
+                  <label for="telefono">{{ 'perfil.tel-wa' | translate }}</label>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label for="twitter">{{ 'perfil.twitter' | translate }}</label>
+                <div class="input-group">
+                  <input type="text" placeholder="{{ 'perfil.twitter' | translate }}" class="form-control"
+                    formControlName="twitter" id="twitter">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label for="faceBook">{{ 'perfil.faceBook' | translate }}</label>
+                <div class="input-group">
+                  <input type="text" placeholder="{{ 'perfil.faceBook' | translate }}" class="form-control"
+                    formControlName="faceBook" id="faceBook">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label for="linkedIn">{{ 'perfil.linkedIn' | translate }}</label>
+                <div class="input-group">
+                  <input type="text" placeholder="{{ 'perfil.linkedIn' | translate }}" class="form-control"
+                    formControlName="linkedIn" id="linkedIn">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label for="instagram">{{ 'perfil.instagram' | translate }}</label>
+                <div class="input-group">
+                  <input type="text" placeholder="{{ 'perfil.instagram' | translate }}" class="form-control"
+                    formControlName="instagram" id="instagram">
+                </div>
+              </div>
+              <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+                <h6>{{ 'perfil.permisos' | translate }}</h6>
+                <div class="input-group">
+                  <input class="form-check-input" type="checkbox" formControlName="amigos" id="amigos" name="amigos">
+                  <label>&nbsp;{{'perfil.amigos' | translate}}</label>
+                </div>
+                <div class="input-group">
+                  <input class="form-check-input" type="checkbox" formControlName="profesionales" id="profesionales"
+                    name="profesionales">
+                  <label>&nbsp;{{'perfil.profesionales' | translate}}</label>
+                </div>
+              </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 mb-4">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="text-center">
+        <button type="button" [disabled]="inCall" (click)="salvaPersona()" class="btn btn-primary">{{
+          'perfil.btn-save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+
+  <app-footer-style-one></app-footer-style-one>
