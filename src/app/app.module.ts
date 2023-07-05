@@ -122,6 +122,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { QuillModule } from 'ngx-quill';
+import { EditorCastingComponent } from './components/common/editor-casting/editor-casting.component';
+import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -216,6 +218,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BuscarProyectoComponent,
     DocumentoPersonaComponent,
     ModalUpsertProyectoComponent,
+    EditorCastingComponent,
+    PaginaEditorCastingComponent,
   ],
   imports: [
     QuillModule.forRoot(),
@@ -262,6 +266,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
     },
   ],
+  entryComponents: [ModalUpsertProyectoComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

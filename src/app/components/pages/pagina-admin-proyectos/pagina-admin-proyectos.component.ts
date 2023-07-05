@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
+import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagina-admin-proyectos',
@@ -10,8 +12,9 @@ import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto
 })
 export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
-
-  constructor(private modalService: BsModalService) {}
+  data : Casting;
+  public event: EventEmitter<any> = new EventEmitter();
+  constructor(private modalService: BsModalService, private ruta: Router) {}
 
   ngOnInit(): void {}
 
@@ -20,18 +23,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   creaProyecto() {
-    this.openModalWithComponent();
-  }
-
-  openModalWithComponent() {
-    const initialState = {};
-    this.bsModalRef = this.modalService.show(ModalUpsertProyectoComponent, {
-      initialState,
-    });
-    this.bsModalRef.content.closeBtnName = 'Close';
-
-    this.bsModalRef.content.event.subscribe((res) => {
-      console.log(res);
-    });
+    this.ruta.navigateByUrl('proyectos/casting');
   }
 }
