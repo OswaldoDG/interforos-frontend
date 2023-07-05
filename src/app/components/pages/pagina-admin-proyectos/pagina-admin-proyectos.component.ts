@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
+<<<<<<< HEAD
 import {
   CastingClient,
   CastingListElement,
@@ -14,6 +15,8 @@ import {
   SortDirection,
 } from 'ag-grid-community';
 import { localeEs } from './ad-gridES.js';
+=======
+>>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
 import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
 import { Router } from '@angular/router';
 
@@ -24,6 +27,7 @@ import { Router } from '@angular/router';
 })
 export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
+<<<<<<< HEAD
   idSeleccionado = '';
   casting: CastingListElement[] = [];
   public gridOptions = {};
@@ -91,6 +95,8 @@ export class PaginaAdminProyectosComponent implements OnInit {
       sortable: true,
     },
   ];
+=======
+>>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
   data : Casting;
   public event: EventEmitter<any> = new EventEmitter();
   constructor(private modalService: BsModalService, private ruta: Router) {}
@@ -124,6 +130,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
 
   creaProyecto() {
     this.ruta.navigateByUrl('proyectos/casting');
+<<<<<<< HEAD
   }
 
   onRowSelected(event: RowSelectedEvent) {
@@ -143,6 +150,8 @@ export class PaginaAdminProyectosComponent implements OnInit {
       this.casting = data;
       console.log(this.casting);
     });
+=======
+>>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
   }
 
   onFilterTextBoxChanged() {

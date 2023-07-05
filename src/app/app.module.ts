@@ -122,7 +122,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { QuillModule } from 'ngx-quill';
+<<<<<<< HEAD
 import { AgGridModule } from 'ag-grid-angular';
+=======
+>>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
 import { EditorCastingComponent } from './components/common/editor-casting/editor-casting.component';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 defineLocale('es', esLocale);
