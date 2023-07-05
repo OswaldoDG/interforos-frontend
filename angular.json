@@ -41,7 +41,9 @@
               "src/assets/css/simplebar.min.css",
               "src/assets/css/dropzone.min.css",
               "node_modules/magnific-popup/dist/magnific-popup.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "ag-grid-community/styles/ag-grid.css",
+              "ag-grid-community/styles/ag-theme-alpine.css"
             ],
             "scripts": [
               "node_modules/quill/dist/quill.js",

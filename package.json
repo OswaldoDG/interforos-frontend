@@ -25,6 +25,8 @@
     "@ngneat/overview": "^2.0.2",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "ag-grid-angular": "^30.0.3",
+    "ag-grid-community": "^30.0.3",
     "bootstrap": "^5.2.0-beta1",
     "jquery": "^3.6.0",
     "magnific-popup": "^1.1.0",
