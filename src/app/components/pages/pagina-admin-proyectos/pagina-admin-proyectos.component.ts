@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
@@ -14,6 +14,9 @@ import {
   SortDirection,
 } from 'ag-grid-community';
 import { localeEs } from './ad-gridES.js';
+import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-pagina-admin-proyectos',
   templateUrl: './pagina-admin-proyectos.component.html',
@@ -88,6 +91,9 @@ export class PaginaAdminProyectosComponent implements OnInit {
       sortable: true,
     },
   ];
+  data : Casting;
+  public event: EventEmitter<any> = new EventEmitter();
+  constructor(private modalService: BsModalService, private ruta: Router) {}
 
   public defaultColDef: ColDef = {
     resizable: true,
@@ -117,19 +123,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   creaProyecto() {
-    this.openModalWithComponent();
-  }
-
-  openModalWithComponent() {
-    const initialState = {};
-    this.bsModalRef = this.modalService.show(ModalUpsertProyectoComponent, {
-      initialState,
-    });
-    this.bsModalRef.content.closeBtnName = 'Close';
-
-    this.bsModalRef.content.event.subscribe((res) => {
-      console.log(res);
-    });
+    this.ruta.navigateByUrl('proyectos/casting');
   }
 
   onRowSelected(event: RowSelectedEvent) {

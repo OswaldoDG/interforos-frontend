@@ -1,0 +1,32 @@
+<div class="modal-body">
+  <form [formGroup]="formProyecto" (ngSubmit)="saveToList(formProyecto, modoSalvar)">
+    <div class="row">
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-nombre' | translate }}</label>
+        <input type="text" class="form-control" formControlName="nombre">
+      </div>
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-cliente' | translate }}</label>
+        <input type="text" class="form-control" formControlName="nombreCliente">
+      </div>
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-descripcion' | translate }}</label>
+        <quill-editor #txtDescripcion id="txtDescripcion" [modules]="modulesQuill"
+          (onEditorChanged)="onChangedEditor($event)" formControlName="descripcion"></quill-editor>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <label>{{ 'proyectos.form-apertura' | translate }}</label>
+        <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="fechaApertura"
+          [bsValue]="fechaAperturaSingle" [bsConfig]="{dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }">
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <label>{{ 'proyectos.form-cierre' | translate }}</label>
+        <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="fechaCierre"
+          [bsValue]="fechaCierreSingle" [bsConfig]="{dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }">
+      </div>
+      <div class="col-md-6">
+        <button class="button mt-1" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
