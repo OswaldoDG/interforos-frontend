@@ -122,6 +122,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { QuillModule } from 'ngx-quill';
+import { AgGridModule } from 'ag-grid-angular';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -218,6 +219,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalUpsertProyectoComponent,
   ],
   imports: [
+    AgGridModule,
     QuillModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule,

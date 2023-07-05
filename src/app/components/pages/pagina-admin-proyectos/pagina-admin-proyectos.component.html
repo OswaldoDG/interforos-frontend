@@ -2,35 +2,71 @@
 
 <!-- Start Main Content Wrapper Area -->
 <div class="main-content d-flex flex-column">
-
   <app-navbar-staff></app-navbar-staff>
   <!-- Start -->
   <div class="bookings-listings-box">
-    <h3>{{ 'proyectos.header' | translate }}</h3>
+    <h3>{{ "proyectos.header" | translate }}</h3>
 
-    <ngx-spinner name="buscar" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+    <ngx-spinner
+      name="buscar"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+    >
       <p class="loading">...</p>
     </ngx-spinner>
 
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-          <button type="button" class="btn btn-primary" (click) ="creaProyecto()">
-            {{ 'proyectos.crear' | translate }}
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="creaProyecto()"
+          >
+            {{ "proyectos.crear" | translate }}
           </button>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
-          <app-buscar-proyecto (Query)="doQuery($event)"></app-buscar-proyecto>
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-4 mt-4 me-3">
+          <input
+            type="text"
+            id="filter-text-box"
+            placeholder="Buscar"
+            (input)="onFilterTextBoxChanged()"
+            style="width: 300px; max-width: 500px"
+          />
         </div>
       </div>
     </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <ag-grid-angular
+            style="width: 100%; height: 600px"
+            class="ag-theme-alpine"
+            [defaultColDef]="defaultColDef"
+            [rowData]="casting"
+            [columnDefs]="columnDefs"
+            [pagination]="true"
+            [paginationPageSize]="paginationPageSize"
+            [animateRows]="true"
+            [sortingOrder]="sortingOrder"
+            [rowSelection]="rowSelection"
+            [postSortRows]="resetear()"
+            (paginationChanged)="resetear()"
+            (rowSelected)="onRowSelected($event)"
+            (gridReady)="onGridReady($event)"
+            [gridOptions]="gridOptions"
+          >
+          </ag-grid-angular>
+        </div>
+      </div>
+    </div>
+    <!-- End -->
 
+    <div class="flex-grow-1"></div>
+
+    <app-copyrights></app-copyrights>
   </div>
-  <!-- End -->
-
-  <div class="flex-grow-1"></div>
-
-  <app-copyrights></app-copyrights>
-
+  <!-- End Main Content Wrapper Area -->
 </div>
-<!-- End Main Content Wrapper Area -->
