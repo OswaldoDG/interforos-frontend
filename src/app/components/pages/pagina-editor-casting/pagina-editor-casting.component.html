@@ -2,13 +2,25 @@
 
 <!-- Start Main Content Wrapper Area -->
 <div class="main-content d-flex flex-column">
-
   <app-navbar-staff></app-navbar-staff>
   <!-- Start -->
   <div class="bookings-listings-box">
-    <h3>{{ 'proyectos.header' | translate }}</h3>
-
-    <ngx-spinner name="buscar" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+    <div class="d-flex m-3 col-lg-12 col-md-12 col-sm-12">
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="regresar()"
+        style="width: 30px; height: 40px"
+      ></button>
+      <span style="font-size: 30px">{{ "proyectos.header" | translate }}</span>
+    </div>
+    <ngx-spinner
+      name="buscar"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+    >
       <p class="loading">...</p>
     </ngx-spinner>
 
@@ -19,11 +31,8 @@
         </div>
       </div>
     </div>
-
   </div>
   <!-- End -->
   <app-copyrights></app-copyrights>
-
 </div>
 <!-- End Main Content Wrapper Area -->
-

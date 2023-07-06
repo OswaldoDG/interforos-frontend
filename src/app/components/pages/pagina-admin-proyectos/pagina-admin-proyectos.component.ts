@@ -1,17 +1,13 @@
-
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
+import { BsModalRef,} from 'ngx-bootstrap/modal';
+
 import {
   CastingClient,
   CastingListElement,
-
   ClientesClient,
-
   Casting,
-
 } from 'src/app/services/api/api-promodel';
 import {
   ColDef,
@@ -22,7 +18,6 @@ import {
 } from 'ag-grid-community';
 
 import { formatDate } from '@angular/common';
-import { localeEs } from './ad-gridES.js';
 import { Router } from '@angular/router';
 import { identifierName } from '@angular/compiler';
 @Component({
@@ -116,10 +111,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       sortable: true,
     },
   ];
-  data : Casting;
-  public event: EventEmitter<any> = new EventEmitter();
-  constructor(private modalService: BsModalService, private ruta: Router, private castingClient: CastingClient) {}
-
+  data: Casting;
   public defaultColDef: ColDef = {
     resizable: true,
     initialWidth: 200,
@@ -131,14 +123,12 @@ export class PaginaAdminProyectosComponent implements OnInit {
   };
 
   constructor(
-    private modalService: BsModalService,
     private castingClient: CastingClient,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private ruta: Router
   ) {}
 
   ngOnInit(): void {}
-
-
 
   doQuery(query: BuscarProyectoDTO) {
     console.log(query);
@@ -177,12 +167,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     );
   }
 
-
-  editarDobleClick(){
+  editarDobleClick() {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
     console.log(this.idSeleccionado);
     this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
 }
-
