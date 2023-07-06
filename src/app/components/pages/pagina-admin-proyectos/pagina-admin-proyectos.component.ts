@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
 import {
   CastingClient,
   CastingListElement,
+  ClientesClient,
 } from 'src/app/services/api/api-promodel';
 import {
   ColDef,
@@ -13,7 +14,7 @@ import {
   RowSelectedEvent,
   SortDirection,
 } from 'ag-grid-community';
-import { localeEs } from './ad-gridES.js';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-pagina-admin-proyectos',
   templateUrl: './pagina-admin-proyectos.component.html',
@@ -21,9 +22,8 @@ import { localeEs } from './ad-gridES.js';
 })
 export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
-  idSeleccionado = '';
+  idSeleccionado: string = '';
   casting: CastingListElement[] = [];
-  public gridOptions = {};
   private gridApi!: GridApi<CastingListElement>;
 
   columnDefs: ColDef[] = [
@@ -47,6 +47,9 @@ export class PaginaAdminProyectosComponent implements OnInit {
       editable: false,
       width: 150,
       sortable: true,
+      cellRenderer: (data) => {
+        return formatDate(data.value, 'MM-dd-YYYY', this.locale);
+      },
     },
     {
       headerName: 'Cierre',
@@ -54,11 +57,17 @@ export class PaginaAdminProyectosComponent implements OnInit {
       editable: false,
       width: 150,
       sortable: true,
+      cellRenderer: (data) => {
+        return formatDate(data.value, 'dd-MM-YYYY', this.locale);
+      },
     },
     {
       headerName: 'Acepta AutoInscripcion',
       field: 'aceptaAutoInscripcion',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -66,7 +75,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Activo',
       field: 'activo',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -74,7 +86,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Apertura Automatica',
       field: 'aperturaAutomatica',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -82,7 +97,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Cierre Automatico',
       field: 'cierreAutomatico',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -96,21 +114,16 @@ export class PaginaAdminProyectosComponent implements OnInit {
     autoHeaderHeight: true,
     sortable: true,
     filter: true,
-    flex: 1,
     minWidth: 100,
   };
 
   constructor(
     private modalService: BsModalService,
-    private castingClient: CastingClient
+    private castingClient: CastingClient,
+    @Inject(LOCALE_ID) private locale: string
   ) {}
 
-  ngOnInit(): void {
-    this.gridOptions = {
-      localeTextFunc: (key: string, defaultValue: string) =>
-        localeEs[key] || defaultValue,
-    };
-  }
+  ngOnInit(): void {}
 
   doQuery(query: BuscarProyectoDTO) {
     console.log(query);
@@ -132,8 +145,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     });
   }
 
-  onRowSelected(event: RowSelectedEvent) {
-    this.idSeleccionado = event.node.data.id;
+  columSelect() {
+    const selectedRows = this.gridApi.getSelectedRows();
+    this.idSeleccionado = selectedRows.length === 1 ? selectedRows[0].id : null;
+    console.log(this.idSeleccionado);
   }
   public resetear() {
     this.idSeleccionado = null;
@@ -156,12 +171,4 @@ export class PaginaAdminProyectosComponent implements OnInit {
       (document.getElementById('filter-text-box') as HTMLInputElement).value
     );
   }
-}
-
-function checkboxCellRenderer(params) {
-  var input = document.createElement('input');
-  input.type = 'checkbox';
-  input.checked = params.value;
-  input.disabled = true;
-  return input;
 }

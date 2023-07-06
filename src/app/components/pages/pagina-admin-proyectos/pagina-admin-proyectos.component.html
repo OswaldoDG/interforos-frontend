@@ -54,9 +54,8 @@
             [rowSelection]="rowSelection"
             [postSortRows]="resetear()"
             (paginationChanged)="resetear()"
-            (rowSelected)="onRowSelected($event)"
+            (selectionChanged)="columSelect()"
             (gridReady)="onGridReady($event)"
-            [gridOptions]="gridOptions"
           >
           </ag-grid-angular>
         </div>
