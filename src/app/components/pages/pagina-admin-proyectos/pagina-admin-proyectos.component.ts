@@ -1,11 +1,17 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
 import {
   CastingClient,
   CastingListElement,
+
+  ClientesClient,
+
   Casting,
+
 } from 'src/app/services/api/api-promodel';
 import {
   ColDef,
@@ -14,10 +20,11 @@ import {
   RowSelectedEvent,
   SortDirection,
 } from 'ag-grid-community';
+
+import { formatDate } from '@angular/common';
 import { localeEs } from './ad-gridES.js';
 import { Router } from '@angular/router';
 import { identifierName } from '@angular/compiler';
-
 @Component({
   selector: 'app-pagina-admin-proyectos',
   templateUrl: './pagina-admin-proyectos.component.html',
@@ -25,10 +32,8 @@ import { identifierName } from '@angular/compiler';
 })
 export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
-  idSeleccionado = '';
+  idSeleccionado: string = '';
   casting: CastingListElement[] = [];
-  public gridOptions = {
-  };
   private gridApi!: GridApi<CastingListElement>;
 
   columnDefs: ColDef[] = [
@@ -52,6 +57,9 @@ export class PaginaAdminProyectosComponent implements OnInit {
       editable: false,
       width: 150,
       sortable: true,
+      cellRenderer: (data) => {
+        return formatDate(data.value, 'MM-dd-YYYY', this.locale);
+      },
     },
     {
       headerName: 'Cierre',
@@ -59,11 +67,17 @@ export class PaginaAdminProyectosComponent implements OnInit {
       editable: false,
       width: 150,
       sortable: true,
+      cellRenderer: (data) => {
+        return formatDate(data.value, 'dd-MM-YYYY', this.locale);
+      },
     },
     {
       headerName: 'Acepta AutoInscripcion',
       field: 'aceptaAutoInscripcion',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -71,7 +85,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Activo',
       field: 'activo',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -79,7 +96,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Apertura Automatica',
       field: 'aperturaAutomatica',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -87,7 +107,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Cierre Automatico',
       field: 'cierreAutomatico',
-      cellRenderer: checkboxCellRenderer,
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellRendererParams: {
+        disabled: true,
+      },
       width: 80,
       editable: false,
       sortable: true,
@@ -104,15 +127,17 @@ export class PaginaAdminProyectosComponent implements OnInit {
     autoHeaderHeight: true,
     sortable: true,
     filter: true,
-    flex: 1,
     minWidth: 100,
   };
-  ngOnInit(): void {
-    this.gridOptions = {
-      localeTextFunc: (key: string, defaultValue: string) =>
-        localeEs[key] || defaultValue,
-    };
-  }
+
+  constructor(
+    private modalService: BsModalService,
+    private castingClient: CastingClient,
+    @Inject(LOCALE_ID) private locale: string
+  ) {}
+
+  ngOnInit(): void {}
+
 
 
   doQuery(query: BuscarProyectoDTO) {
@@ -160,14 +185,4 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
 }
-
-function checkboxCellRenderer(params) {
-  var input = document.createElement('input');
-  input.type = 'checkbox';
-  input.checked = params.value;
-  input.disabled = true;
-  return input;
-}
-
-
 
