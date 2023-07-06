@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
 
@@ -35,6 +36,7 @@ export class EditorCastingComponent implements OnInit {
     private localeService: BsLocaleService,
     private clientApi : CastingClient,
     private formBuilder: FormBuilder,
+    private ruta : Router,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -47,9 +49,9 @@ export class EditorCastingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formProyecto.valueChanges.subscribe((c) => {
-      console.log(c);
-    });
+    // this.formProyecto.valueChanges.subscribe((c) => {
+    //   console.log(c);
+    // });
     if(this.CastingId != null){
       console.log('Haremos la Actualización');
       this.modoSalvar = 'Editar';
@@ -130,5 +132,9 @@ export class EditorCastingComponent implements OnInit {
         console.log(this.Respuesta);
       }
     )
+  }
+
+  regresar() {
+    this.ruta.navigateByUrl('/proyectos');
   }
 }

@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalUpsertProyectoComponent } from '../../common/modal-upsert-proyecto/modal-upsert-proyecto.component';
-<<<<<<< HEAD
 import {
   CastingClient,
   CastingListElement,
+  Casting,
 } from 'src/app/services/api/api-promodel';
 import {
   ColDef,
@@ -15,10 +15,8 @@ import {
   SortDirection,
 } from 'ag-grid-community';
 import { localeEs } from './ad-gridES.js';
-=======
->>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
-import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
 import { Router } from '@angular/router';
+import { identifierName } from '@angular/compiler';
 
 @Component({
   selector: 'app-pagina-admin-proyectos',
@@ -27,10 +25,10 @@ import { Router } from '@angular/router';
 })
 export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
-<<<<<<< HEAD
   idSeleccionado = '';
   casting: CastingListElement[] = [];
-  public gridOptions = {};
+  public gridOptions = {
+  };
   private gridApi!: GridApi<CastingListElement>;
 
   columnDefs: ColDef[] = [
@@ -95,11 +93,9 @@ export class PaginaAdminProyectosComponent implements OnInit {
       sortable: true,
     },
   ];
-=======
->>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
   data : Casting;
   public event: EventEmitter<any> = new EventEmitter();
-  constructor(private modalService: BsModalService, private ruta: Router) {}
+  constructor(private modalService: BsModalService, private ruta: Router, private castingClient: CastingClient) {}
 
   public defaultColDef: ColDef = {
     resizable: true,
@@ -111,12 +107,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
     flex: 1,
     minWidth: 100,
   };
-
-  constructor(
-    private modalService: BsModalService,
-    private castingClient: CastingClient
-  ) {}
-
   ngOnInit(): void {
     this.gridOptions = {
       localeTextFunc: (key: string, defaultValue: string) =>
@@ -124,18 +114,22 @@ export class PaginaAdminProyectosComponent implements OnInit {
     };
   }
 
+
   doQuery(query: BuscarProyectoDTO) {
     console.log(query);
   }
 
   creaProyecto() {
     this.ruta.navigateByUrl('proyectos/casting');
-<<<<<<< HEAD
   }
 
-  onRowSelected(event: RowSelectedEvent) {
-    this.idSeleccionado = event.node.data.id;
+  columSelected() {
+    const selectedData = this.gridApi.getSelectedRows();
+    this.idSeleccionado = selectedData[0].id;
+    console.log(this.idSeleccionado);
+    this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
+
   public resetear() {
     this.idSeleccionado = null;
   }
@@ -148,16 +142,22 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.gridApi = params.api;
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
-      console.log(this.casting);
+      // console.log(this.casting);
     });
-=======
->>>>>>> 27ce82c7431f60c8549a9a078f693c568deec4b4
   }
 
   onFilterTextBoxChanged() {
     this.gridApi.setQuickFilter(
       (document.getElementById('filter-text-box') as HTMLInputElement).value
     );
+  }
+
+
+  editarDobleClick(){
+    const selectedData = this.gridApi.getSelectedRows();
+    this.idSeleccionado = selectedData[0].id;
+    console.log(this.idSeleccionado);
+    this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
 }
 
@@ -168,3 +168,6 @@ function checkboxCellRenderer(params) {
   input.disabled = true;
   return input;
 }
+
+
+
