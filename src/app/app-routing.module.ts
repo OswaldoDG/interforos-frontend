@@ -46,11 +46,14 @@ import { VerticalListingsFullWidthComponent } from './components/pages/vertical-
 import { VerticalListingsLeftSidebarComponent } from './components/pages/vertical-listings-left-sidebar/vertical-listings-left-sidebar.component';
 import { VerticalListingsRightSidebarComponent } from './components/pages/vertical-listings-right-sidebar/vertical-listings-right-sidebar.component';
 import { UserGuard } from './services/guards/user-guard';
+import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
   { path: 'staff', component: PromodelStaffComponent },
   { path: 'proyectos', component: PaginaAdminProyectosComponent },
+  { path: 'proyectos/casting/:id', component: PaginaEditorCastingComponent },
+  { path: 'proyectos/casting', component: PaginaEditorCastingComponent },
   { path: 'model', component: ModelComponent },
   { path: 'perfil', component: PerfilPersonaComponent },
   { path: 'galeria', component: GaleriaModelComponent },
