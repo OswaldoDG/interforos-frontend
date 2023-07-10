@@ -1148,15 +1148,10 @@ export class ClientesClient implements IClientesClient {
   }
 
   /**
-   * @param buscar (optional)
    * @return Success
    */
-  contactosCliente(buscar: string | undefined): Observable<ContactoUsuario[]> {
-    let url_ = this.baseUrl + '/clientes/contactos?';
-    if (buscar === null)
-      throw new Error("The parameter 'buscar' cannot be null.");
-    else if (buscar !== undefined)
-      url_ += 'buscar=' + encodeURIComponent('' + buscar) + '&';
+  contactosCliente(): Observable<ContactoUsuario[]> {
+    let url_ = this.baseUrl + '/clientes/contactos';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {

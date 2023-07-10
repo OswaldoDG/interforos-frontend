@@ -125,6 +125,7 @@ import { QuillModule } from 'ngx-quill';
 import { AgGridModule } from 'ag-grid-angular';
 import { EditorCastingComponent } from './components/common/editor-casting/editor-casting.component';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -223,6 +224,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaEditorCastingComponent,
   ],
   imports: [
+    TypeaheadModule.forRoot(),
     AgGridModule,
     QuillModule.forRoot(),
     BsDatepickerModule.forRoot(),
