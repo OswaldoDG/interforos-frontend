@@ -14,6 +14,10 @@
         <quill-editor #txtDescripcion id="txtDescripcion" [modules]="modulesQuill"
           (onEditorChanged)="onChangedEditor($event)" formControlName="descripcion"></quill-editor>
       </div>
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-contactos' | translate }}</label>
+        <app-contactos-cliente #contactos [Casting]="CastingActual" ></app-contactos-cliente>
+      </div>
       <div class="col-md-6 col-sm-6">
         <label>{{ 'proyectos.form-apertura' | translate }}</label>
         <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="fechaApertura"

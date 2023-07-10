@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
+import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 
 @Component({
   selector: 'app-editor-casting',
@@ -10,11 +11,15 @@ import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
   styleUrls: ['./editor-casting.component.scss'],
 })
 export class EditorCastingComponent implements OnInit {
+
+  // Almacena los datos del casting actual
+  CastingActual: Casting = null; 
+  @ViewChild('contactos') componenteContactos: ContactosClienteComponent;
+
   public event: EventEmitter<any> = new EventEmitter();
   formProyecto: FormGroup;
   fechaAperturaSingle;
   fechaCierreSingle;
-  respuestaBusqueda: Casting;
   Respuesta: Casting;
   modoSalvar: string;
   // Cuando se recibe un Casting ID se trata de un update
@@ -77,25 +82,26 @@ export class EditorCastingComponent implements OnInit {
   }
 
   editar(id: string, formProyecto) {
+    this.CastingActual = null;
     console.log('Buscando id');
     this.clientApi.$id(id).subscribe((data) => {
-      this.respuestaBusqueda = data;
+      this.CastingActual = data;
       console.log('Imipriendo datos de busqueda');
-      console.log(this.respuestaBusqueda);
-      if (this.respuestaBusqueda != null) {
-        formProyecto.get('nombre').setValue(this.respuestaBusqueda.nombre);
+      console.log(this.CastingActual);
+      if (this.CastingActual != null) {
+        formProyecto.get('nombre').setValue(this.CastingActual.nombre);
         formProyecto
           .get('nombreCliente')
-          .setValue(this.respuestaBusqueda.nombreCliente);
+          .setValue(this.CastingActual.nombreCliente);
         formProyecto
           .get('fechaApertura')
-          .setValue(this.respuestaBusqueda.fechaApertura);
+          .setValue(this.CastingActual.fechaApertura);
         formProyecto
           .get('fechaCierre')
-          .setValue(this.respuestaBusqueda.fechaCierre);
+          .setValue(this.CastingActual.fechaCierre);
         formProyecto
           .get('descripcion')
-          .setValue(this.respuestaBusqueda.descripcion);
+          .setValue(this.CastingActual.descripcion);
       } else {
         console.log('no se pueden, llenar los datos');
       }
