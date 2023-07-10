@@ -1,8 +1,15 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
+import { Observable, Subscriber, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import {
+  Casting,
+  CastingClient,
+  ClientesClient,
+  ContactoUsuario,
+} from 'src/app/services/api/api-promodel';
 
 @Component({
   selector: 'app-editor-casting',
@@ -11,12 +18,15 @@ import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
 })
 export class EditorCastingComponent implements OnInit {
   public event: EventEmitter<any> = new EventEmitter();
+  contactosUsuario: ContactoUsuario[] = [];
   formProyecto: FormGroup;
   fechaAperturaSingle;
   fechaCierreSingle;
   respuestaBusqueda: Casting;
   Respuesta: Casting;
   modoSalvar: string;
+  selected?: string;
+  noResult = false;
   // Cuando se recibe un Casting ID se trata de un update
   // si es nulo es una adición
   @Input() CastingId: string = null;
@@ -32,11 +42,14 @@ export class EditorCastingComponent implements OnInit {
     ],
   };
 
+  typeaheadNoResults(event: boolean): void {
+    this.noResult = event;
+  }
   constructor(
     private localeService: BsLocaleService,
     private clientApi: CastingClient,
-    private formBuilder: FormBuilder,
-    private ruta: Router
+    private clientesClient: ClientesClient,
+    private formBuilder: FormBuilder
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -47,11 +60,10 @@ export class EditorCastingComponent implements OnInit {
     });
     this.localeService.use('es');
   }
-
   ngOnInit() {
-    // this.formProyecto.valueChanges.subscribe((c) => {
-    //   console.log(c);
-    // });
+    this.clientesClient.contactosCliente().subscribe((data) => {
+      this.contactosUsuario = data;
+    });
     if (this.CastingId != null) {
       console.log('Haremos la Actualización');
       this.modoSalvar = 'Editar';
@@ -61,7 +73,6 @@ export class EditorCastingComponent implements OnInit {
       this.modoSalvar = 'Insertar';
     }
   }
-
   saveToList(formProyecto, modoSalvar) {
     if (modoSalvar == 'Insertar') {
       this.salvarDatos(formProyecto, modoSalvar);
