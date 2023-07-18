@@ -473,7 +473,7 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
       (x) => x.tipoPropiedad == `estado${clave.toLowerCase()}`
     );
     if (c) {
-      this.estados = c.elementos.sort(compare);
+      this.estados = c.elementos;
     } else {
       this.estados = [];
     }
@@ -486,27 +486,21 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
       .subscribe(
         (cs) => {
           this.catalogos = cs;
-          this.tiposTalla = cs
-            .find((x) => x.tipoPropiedad == 'tallasvestuario')
-            .elementos.sort(compare);
-          this.etnias = cs
-            .find((x) => x.tipoPropiedad == 'etnia')
-            .elementos.sort(compare);
-          this.colorescabello = cs
-            .find((x) => x.tipoPropiedad == 'colorcabello')
-            .elementos.sort(compare);
-          this.tiposcabello = cs
-            .find((x) => x.tipoPropiedad == 'tipocabello')
-            .elementos.sort(compare);
-          this.coloresojos = cs
-            .find((x) => x.tipoPropiedad == 'colorojos')
-            .elementos.sort(compare);
-          this.paises = cs
-            .find((x) => x.tipoPropiedad == 'pais')
-            .elementos.sort(compare);
-          this.generos = cs
-            .find((x) => x.tipoPropiedad == 'genero')
-            .elementos.sort(compare);
+          this.tiposTalla = cs.find(
+            (x) => x.tipoPropiedad == 'tallasvestuario'
+          ).elementos;
+          this.etnias = cs.find((x) => x.tipoPropiedad == 'etnia').elementos;
+          this.colorescabello = cs.find(
+            (x) => x.tipoPropiedad == 'colorcabello'
+          ).elementos;
+          this.tiposcabello = cs.find(
+            (x) => x.tipoPropiedad == 'tipocabello'
+          ).elementos;
+          this.coloresojos = cs.find(
+            (x) => x.tipoPropiedad == 'colorojos'
+          ).elementos;
+          this.paises = cs.find((x) => x.tipoPropiedad == 'pais').elementos;
+          this.generos = cs.find((x) => x.tipoPropiedad == 'genero').elementos;
           this.ObtienePerfil();
         },
         (err) => {
