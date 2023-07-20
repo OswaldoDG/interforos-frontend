@@ -26,7 +26,7 @@
           >
             {{ "proyectos.crear" | translate }}
           </button>
-          <button class="ms-3 btn btn-primary" (click)="columSelected()">Editar</button>
+          <button class="ms-3 btn btn-primary" (click)="columSelected()">{{ "proyectos.edita" | translate }}</button>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 mb-4 mt-4 me-3">
           <input
@@ -58,7 +58,6 @@
             (rowDoubleClicked)="editarDobleClick()"
             (gridReady)="onGridReady($event)"
           >
-          <button>HOLA</button>
           </ag-grid-angular>
         </div>
       </div>
