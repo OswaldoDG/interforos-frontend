@@ -61,7 +61,12 @@
     "form-apertura": "Fecha apertura",
     "form-cierre": "Fecha cierre",
     "form-cliente": "Empresa o cliente",
-    "form-descripcion": "Descripción"
+    "form-descripcion": "Descripción",
+    "form-contactos": "Agregar Participantes",
+    "form-roles": "Roles",
+    "form-invitar": "Invitar",
+    "form-eliminar": "Eliminar",
+    "form-cambiarRol": "Cambiar Rol"
   },
   "navbar": {
     "salir": "Salir",

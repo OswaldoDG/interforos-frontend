@@ -157,7 +157,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.gridApi = params.api;
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
-      // console.log(this.casting);
+      console.log(this.casting);
     });
   }
 

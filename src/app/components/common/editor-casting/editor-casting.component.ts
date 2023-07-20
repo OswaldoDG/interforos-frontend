@@ -7,10 +7,10 @@ import { mergeMap } from 'rxjs/operators';
 import {
   Casting,
   CastingClient,
-  ClientesClient,
-  ContactoUsuario,
+  ContactoUsuario
 } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editor-casting',
@@ -24,14 +24,10 @@ export class EditorCastingComponent implements OnInit {
   @ViewChild('contactos') componenteContactos: ContactosClienteComponent;
 
   public event: EventEmitter<any> = new EventEmitter();
-  contactosUsuario: ContactoUsuario[] = [];
   formProyecto: FormGroup;
   fechaAperturaSingle;
   fechaCierreSingle;
-  Respuesta: Casting;
   modoSalvar: string;
-  selected?: string;
-  noResult = false;
   // Cuando se recibe un Casting ID se trata de un update
   // si es nulo es una adición
   @Input() CastingId: string = null;
@@ -47,14 +43,11 @@ export class EditorCastingComponent implements OnInit {
     ],
   };
 
-  typeaheadNoResults(event: boolean): void {
-    this.noResult = event;
-  }
   constructor(
     private localeService: BsLocaleService,
     private clientApi: CastingClient,
-    private clientesClient: ClientesClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private ruta: Router,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -65,24 +58,21 @@ export class EditorCastingComponent implements OnInit {
     });
     this.localeService.use('es');
   }
+
   ngOnInit() {
-    this.clientesClient.contactosCliente().subscribe((data) => {
-      this.contactosUsuario = data;
-    });
     if (this.CastingId != null) {
-      console.log('Haremos la Actualización');
       this.modoSalvar = 'Editar';
       this.editar(this.CastingId, this.formProyecto);
     } else {
-      console.log('Se hará una inserción');
       this.modoSalvar = 'Insertar';
     }
   }
-  saveToList(formProyecto, modoSalvar) {
-    if (modoSalvar == 'Insertar') {
-      this.salvarDatos(formProyecto, modoSalvar);
-    } else if (modoSalvar == 'Editar') {
-      this.salvarDatos(formProyecto, modoSalvar);
+
+  saveToList() {
+    if (this.modoSalvar == 'Insertar') {
+      this.salvarDatos(this.formProyecto, this.modoSalvar);
+    } else if (this.modoSalvar == 'Editar') {
+      this.salvarDatos(this.formProyecto, this.modoSalvar);
     }
   }
 
@@ -94,11 +84,8 @@ export class EditorCastingComponent implements OnInit {
 
   editar(id: string, formProyecto) {
     this.CastingActual = null;
-    console.log('Buscando id');
     this.clientApi.$id(id).subscribe((data) => {
       this.CastingActual = data;
-      console.log('Imipriendo datos de busqueda');
-      console.log(this.CastingActual);
       if (this.CastingActual != null) {
         formProyecto.get('nombre').setValue(this.CastingActual.nombre);
         formProyecto
@@ -113,8 +100,6 @@ export class EditorCastingComponent implements OnInit {
         formProyecto
           .get('descripcion')
           .setValue(this.CastingActual.descripcion);
-      } else {
-        console.log('no se pueden, llenar los datos');
       }
     });
   }
@@ -135,20 +120,21 @@ export class EditorCastingComponent implements OnInit {
   }
 
   actualizarCasting(IdCasting: string, datos: Casting) {
-    console.log('Intentanod hacer el put');
-    console.log(datos);
     this.clientApi.castingPut(IdCasting, datos).subscribe((data) => {
-      this.Respuesta = data;
-      console.log(this.Respuesta);
+      this.CastingActual = data;
+      if(this.CastingActual != null){
+        this.componenteContactos.actualizaContactos(this.CastingActual.id);
+        this.ruta.navigateByUrl('proyectos/casting/' + this.CastingActual.id);
+      }
     });
   }
 
   altaCasting(datos: Casting) {
-    console.log('Intentanod hacer el POST');
-    console.log(datos);
     this.clientApi.castingPost(datos).subscribe((data) => {
-      this.Respuesta = data;
-      console.log(this.Respuesta);
+      this.CastingActual = data;
+      if(this.CastingActual != null){
+        this.componenteContactos.actualizaContactos(this.CastingActual.id);
+      }
     });
   }
 }
