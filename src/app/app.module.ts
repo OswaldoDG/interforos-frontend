@@ -126,6 +126,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { EditorCastingComponent } from './components/common/editor-casting/editor-casting.component';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ContactosClienteComponent } from './components/common/contactos-cliente/contactos-cliente.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -222,6 +223,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalUpsertProyectoComponent,
     EditorCastingComponent,
     PaginaEditorCastingComponent,
+    ContactosClienteComponent,
   ],
   imports: [
     TypeaheadModule.forRoot(),

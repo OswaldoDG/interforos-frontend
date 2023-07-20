@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -7,9 +7,10 @@ import { mergeMap } from 'rxjs/operators';
 import {
   Casting,
   CastingClient,
-  ClientesClient,
-  ContactoUsuario,
+  ContactoUsuario
 } from 'src/app/services/api/api-promodel';
+import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editor-casting',
@@ -17,16 +18,16 @@ import {
   styleUrls: ['./editor-casting.component.scss'],
 })
 export class EditorCastingComponent implements OnInit {
+
+  // Almacena los datos del casting actual
+  CastingActual: Casting = null;
+  @ViewChild('contactos') componenteContactos: ContactosClienteComponent;
+
   public event: EventEmitter<any> = new EventEmitter();
-  contactosUsuario: ContactoUsuario[] = [];
   formProyecto: FormGroup;
   fechaAperturaSingle;
   fechaCierreSingle;
-  respuestaBusqueda: Casting;
-  Respuesta: Casting;
   modoSalvar: string;
-  selected?: string;
-  noResult = false;
   // Cuando se recibe un Casting ID se trata de un update
   // si es nulo es una adición
   @Input() CastingId: string = null;
@@ -42,14 +43,11 @@ export class EditorCastingComponent implements OnInit {
     ],
   };
 
-  typeaheadNoResults(event: boolean): void {
-    this.noResult = event;
-  }
   constructor(
     private localeService: BsLocaleService,
     private clientApi: CastingClient,
-    private clientesClient: ClientesClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private ruta: Router,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -60,24 +58,21 @@ export class EditorCastingComponent implements OnInit {
     });
     this.localeService.use('es');
   }
+
   ngOnInit() {
-    this.clientesClient.contactosCliente().subscribe((data) => {
-      this.contactosUsuario = data;
-    });
     if (this.CastingId != null) {
-      console.log('Haremos la Actualización');
       this.modoSalvar = 'Editar';
       this.editar(this.CastingId, this.formProyecto);
     } else {
-      console.log('Se hará una inserción');
       this.modoSalvar = 'Insertar';
     }
   }
-  saveToList(formProyecto, modoSalvar) {
-    if (modoSalvar == 'Insertar') {
-      this.salvarDatos(formProyecto, modoSalvar);
-    } else if (modoSalvar == 'Editar') {
-      this.salvarDatos(formProyecto, modoSalvar);
+
+  saveToList() {
+    if (this.modoSalvar == 'Insertar') {
+      this.salvarDatos(this.formProyecto, this.modoSalvar);
+    } else if (this.modoSalvar == 'Editar') {
+      this.salvarDatos(this.formProyecto, this.modoSalvar);
     }
   }
 
@@ -88,27 +83,23 @@ export class EditorCastingComponent implements OnInit {
   }
 
   editar(id: string, formProyecto) {
-    console.log('Buscando id');
+    this.CastingActual = null;
     this.clientApi.$id(id).subscribe((data) => {
-      this.respuestaBusqueda = data;
-      console.log('Imipriendo datos de busqueda');
-      console.log(this.respuestaBusqueda);
-      if (this.respuestaBusqueda != null) {
-        formProyecto.get('nombre').setValue(this.respuestaBusqueda.nombre);
+      this.CastingActual = data;
+      if (this.CastingActual != null) {
+        formProyecto.get('nombre').setValue(this.CastingActual.nombre);
         formProyecto
           .get('nombreCliente')
-          .setValue(this.respuestaBusqueda.nombreCliente);
+          .setValue(this.CastingActual.nombreCliente);
         formProyecto
           .get('fechaApertura')
-          .setValue(this.respuestaBusqueda.fechaApertura);
+          .setValue(this.CastingActual.fechaApertura);
         formProyecto
           .get('fechaCierre')
-          .setValue(this.respuestaBusqueda.fechaCierre);
+          .setValue(this.CastingActual.fechaCierre);
         formProyecto
           .get('descripcion')
-          .setValue(this.respuestaBusqueda.descripcion);
-      } else {
-        console.log('no se pueden, llenar los datos');
+          .setValue(this.CastingActual.descripcion);
       }
     });
   }
@@ -129,20 +120,21 @@ export class EditorCastingComponent implements OnInit {
   }
 
   actualizarCasting(IdCasting: string, datos: Casting) {
-    console.log('Intentanod hacer el put');
-    console.log(datos);
     this.clientApi.castingPut(IdCasting, datos).subscribe((data) => {
-      this.Respuesta = data;
-      console.log(this.Respuesta);
+      this.CastingActual = data;
+      if(this.CastingActual != null){
+        this.componenteContactos.actualizaContactos(this.CastingActual.id);
+        this.ruta.navigateByUrl('proyectos/casting/' + this.CastingActual.id);
+      }
     });
   }
 
   altaCasting(datos: Casting) {
-    console.log('Intentanod hacer el POST');
-    console.log(datos);
     this.clientApi.castingPost(datos).subscribe((data) => {
-      this.Respuesta = data;
-      console.log(this.Respuesta);
+      this.CastingActual = data;
+      if(this.CastingActual != null){
+        this.componenteContactos.actualizaContactos(this.CastingActual.id);
+      }
     });
   }
 }

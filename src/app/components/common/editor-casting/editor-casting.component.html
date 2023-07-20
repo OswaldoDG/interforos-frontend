@@ -1,7 +1,6 @@
 <div class="modal-body">
   <form
     [formGroup]="formProyecto"
-    (ngSubmit)="saveToList(formProyecto, modoSalvar)"
   >
     <div class="row">
       <div class="col-md-12">
@@ -25,6 +24,10 @@
           (onEditorChanged)="onChangedEditor($event)"
           formControlName="descripcion"
         ></quill-editor>
+      </div>
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-contactos' | translate }}</label>
+        <app-contactos-cliente #contactos [Casting]="CastingActual"></app-contactos-cliente>
       </div>
       <div class="col-md-6 col-sm-6">
         <label>{{ "proyectos.form-apertura" | translate }}</label>
@@ -51,23 +54,9 @@
         />
       </div>
       <div class="col-md-6">
-        <button class="button mt-1" type="submit">Save</button>
+        <button class="ms-3 mt-3 btn btn-primary" (click)="saveToList()" [disabled]="formProyecto.invalid">Save</button>
       </div>
     </div>
   </form>
-  <div class="col-md-12">
-    <span> email: {{ selected }}</span>
-    <input
-      [(ngModel)]="selected"
-      [typeahead]="contactosUsuario"
-      [isAnimated]="true"
-      typeaheadOptionField="email"
-      (typeaheadNoResults)="typeaheadNoResults($event)"
-      placeholder="Email"
-      class="form-control"
-      [typeaheadScrollable]="true"
-      [typeaheadOptionsInScrollableView]="5"
-    />
-    <div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
-  </div>
+
 </div>
