@@ -17,9 +17,6 @@ export class PaginaEditorCastingComponent implements OnInit {
 
     if (this.id != null) {
       this.CastingId = this.id;
-      console.log('Haremos la Actualización');
-    } else {
-      console.log('Se hará una inserción');
     }
   }
   regresar() {

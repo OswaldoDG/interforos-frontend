@@ -117,7 +117,6 @@ import { PaginaAdminProyectosComponent } from './components/pages/pagina-admin-p
 import { BuscarProyectoComponent } from './components/common/buscar-proyecto/buscar-proyecto.component';
 import { DocumentoPersonaComponent } from './components/common/documento-persona/documento-persona.component';
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
-import { ModalUpsertProyectoComponent } from './components/common/modal-upsert-proyecto/modal-upsert-proyecto.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
@@ -220,7 +219,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaAdminProyectosComponent,
     BuscarProyectoComponent,
     DocumentoPersonaComponent,
-    ModalUpsertProyectoComponent,
     EditorCastingComponent,
     PaginaEditorCastingComponent,
     ContactosClienteComponent,
@@ -272,7 +270,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
     },
   ],
-  entryComponents: [ModalUpsertProyectoComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

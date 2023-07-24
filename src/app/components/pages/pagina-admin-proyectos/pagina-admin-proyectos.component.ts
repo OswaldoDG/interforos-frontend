@@ -141,7 +141,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   columSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
-    console.log(this.idSeleccionado);
     this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
 
@@ -157,7 +156,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.gridApi = params.api;
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
-      console.log(this.casting);
     });
   }
 
@@ -170,7 +168,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   editarDobleClick() {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
-    console.log(this.idSeleccionado);
     this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
   }
 }
