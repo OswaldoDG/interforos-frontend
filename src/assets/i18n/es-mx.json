@@ -66,7 +66,9 @@
     "form-roles": "Roles",
     "form-invitar": "Invitar",
     "form-eliminar": "Eliminar",
-    "form-cambiarRol": "Cambiar Rol"
+    "form-cambiarRol": "Cambiar Rol",
+    "form-logo": "Selecione una imagen",
+    "form-logo-error": "Imagen Casting Requerida"
   },
   "navbar": {
     "salir": "Salir",

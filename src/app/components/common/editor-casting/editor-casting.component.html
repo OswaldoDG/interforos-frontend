@@ -1,7 +1,5 @@
 <div class="modal-body">
-  <form
-    [formGroup]="formProyecto"
-  >
+  <form [formGroup]="formProyecto">
     <div class="row">
       <div class="col-md-12">
         <label>{{ "proyectos.form-nombre" | translate }}</label>
@@ -26,8 +24,11 @@
         ></quill-editor>
       </div>
       <div class="col-md-12">
-        <label>{{ 'proyectos.form-contactos' | translate }}</label>
-        <app-contactos-cliente #contactos [Casting]="CastingActual"></app-contactos-cliente>
+        <label>{{ "proyectos.form-contactos" | translate }}</label>
+        <app-contactos-cliente
+          #contactos
+          [Casting]="CastingActual"
+        ></app-contactos-cliente>
       </div>
       <div class="col-md-6 col-sm-6">
         <label>{{ "proyectos.form-apertura" | translate }}</label>
@@ -53,10 +54,58 @@
           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
         />
       </div>
+      <div class="row justify-content-md-center align-items-center">
+        <div class="col-md-3">
+          <div class="custom-file fileInputProfileWrap">
+            <div class="img-space">
+              <ng-container *ngIf="isImageLoading; else elseTemplate">
+                <img [src]="logoCasting" />
+              </ng-container>
+              <ng-template #elseTemplate>
+                <img [src]="logoDefault" class="img-responsive" />
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="row justify-content-md-center align-items-center">
+            <label>{{ "proyectos.form-logo" | translate }}</label>
+          </div>
+          <button
+            class="btn btn-primary"
+            (click)="file.click()"
+            style="max-width: 200px"
+          >
+            Subir
+          </button>
+          <div class="row justify-content-md-center align-items-center">
+            <div *ngIf="nameImg == null">
+              <span></span>
+            </div>
+            <span>{{ nameImg }}</span>
+            <input
+              #file
+              type="file"
+              (click)="$event.target.value = null"
+              (change)="handleUpload($event)"
+              accept=".png, .jpg, .jpeg, .gif"
+              class="d-none"
+            />
+            <alert type="danger" *ngIf="!esLogoNuevo">
+              <strong>{{ "proyectos.form-logo-error" | translate }}</strong>
+            </alert>
+          </div>
+        </div>
+      </div>
       <div class="col-md-6">
-        <button class="ms-3 mt-3 btn btn-primary" (click)="salvarDatos()" [disabled]="formProyecto.invalid">Save</button>
+        <button
+          class="ms-3 mt-3 btn btn-primary"
+          (click)="salvarDatos()"
+          [disabled]="formProyecto.invalid"
+        >
+          Save
+        </button>
       </div>
     </div>
   </form>
-
 </div>
