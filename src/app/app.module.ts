@@ -126,6 +126,7 @@ import { EditorCastingComponent } from './components/common/editor-casting/edito
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ContactosClienteComponent } from './components/common/contactos-cliente/contactos-cliente.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -224,6 +225,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactosClienteComponent,
   ],
   imports: [
+    AlertModule,
     TypeaheadModule.forRoot(),
     AgGridModule,
     QuillModule.forRoot(),
