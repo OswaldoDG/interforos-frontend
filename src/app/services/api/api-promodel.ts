@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAccesoClient {
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     login(body: SolicitudAcceso | undefined): Observable<RespuestaLogin>;
@@ -41,7 +41,7 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     login(body: SolicitudAcceso | undefined, httpContext?: HttpContext): Observable<RespuestaLogin> {
@@ -165,12 +165,12 @@ export class AccesoClient implements IAccesoClient {
 
 export interface ICastingClient {
     /**
-     * @param inactivos (optional) 
+     * @param inactivos (optional)
      * @return Success
      */
     castingGet(inactivos: boolean | undefined): Observable<CastingListElement[]>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     castingPost(body: Casting | undefined): Observable<Casting>;
@@ -183,7 +183,7 @@ export interface ICastingClient {
      */
     id(id: string): Observable<Casting>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     castingPut(id: string, body: Casting | undefined): Observable<void>;
@@ -192,7 +192,7 @@ export interface ICastingClient {
      */
     castingDelete(castingId: string): Observable<CastingListElement>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     contactos(castingId: string, body: ContactoUsuario[] | undefined): Observable<Casting>;
@@ -201,17 +201,17 @@ export interface ICastingClient {
      */
     logoGet(castingId: string): Observable<string>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     logoPut(castingId: string, body: string | undefined): Observable<void>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     eventos(castingId: string, body: EventoCasting[] | undefined): Observable<void>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     categorias(castingId: string, body: CategoriaCasting[] | undefined): Observable<void>;
@@ -231,7 +231,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param inactivos (optional) 
+     * @param inactivos (optional)
      * @return Success
      */
     castingGet(inactivos: boolean | undefined, httpContext?: HttpContext): Observable<CastingListElement[]> {
@@ -299,7 +299,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     castingPost(body: Casting | undefined, httpContext?: HttpContext): Observable<Casting> {
@@ -496,7 +496,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     castingPut(id: string, body: Casting | undefined, httpContext?: HttpContext): Observable<void> {
@@ -636,7 +636,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     contactos(castingId: string, body: ContactoUsuario[] | undefined, httpContext?: HttpContext): Observable<Casting> {
@@ -767,7 +767,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     logoPut(castingId: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
@@ -823,7 +823,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     eventos(castingId: string, body: EventoCasting[] | undefined, httpContext?: HttpContext): Observable<void> {
@@ -879,7 +879,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     categorias(castingId: string, body: CategoriaCasting[] | undefined, httpContext?: HttpContext): Observable<void> {
@@ -941,7 +941,7 @@ export interface IClientesClient {
      */
     config(): Observable<ClienteView>;
     /**
-     * @param url (optional) 
+     * @param url (optional)
      * @return Success
      */
     porurl(url: string | undefined): Observable<Cliente>;
@@ -1022,7 +1022,7 @@ export class ClientesClient implements IClientesClient {
     }
 
     /**
-     * @param url (optional) 
+     * @param url (optional)
      * @return Success
      */
     porurl(url: string | undefined, httpContext?: HttpContext): Observable<Cliente> {
@@ -1159,14 +1159,14 @@ export interface IContenidoClient {
      */
     contenidoGet(usuarioid: string, id: string, tipo: string): Observable<void>;
     /**
-     * @param id (optional) 
-     * @param formFile (optional) 
+     * @param id (optional)
+     * @param formFile (optional)
      * @return Success
      */
     documentacion(id: string | undefined, formFile: FileParameter | undefined): Observable<ElementoMediaCliente>;
     /**
-     * @param id (optional) 
-     * @param formFile (optional) 
+     * @param id (optional)
+     * @param formFile (optional)
      * @return Success
      */
     carga(id: string | undefined, formFile: FileParameter | undefined): Observable<ElementoMediaCliente>;
@@ -1651,8 +1651,8 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param id (optional) 
-     * @param formFile (optional) 
+     * @param id (optional)
+     * @param formFile (optional)
      * @return Success
      */
     documentacion(id: string | undefined, formFile: FileParameter | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
@@ -1731,8 +1731,8 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param id (optional) 
-     * @param formFile (optional) 
+     * @param id (optional)
+     * @param formFile (optional)
      * @return Success
      */
     carga(id: string | undefined, formFile: FileParameter | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
@@ -1886,7 +1886,7 @@ export interface IPersonaClient {
      */
     mi(): Observable<Persona>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     buscar(body: BusquedaPersonasRequestPaginado | undefined): Observable<PersonaResponsePaginado>;
@@ -1895,12 +1895,12 @@ export interface IPersonaClient {
      */
     personaGet(usuarioid: string): Observable<Persona>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Created
      */
     personaPost(body: Persona | undefined): Observable<Persona>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     personaPut(id: string, body: Persona | undefined): Observable<void>;
@@ -1999,7 +1999,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     buscar(body: BusquedaPersonasRequestPaginado | undefined, httpContext?: HttpContext): Observable<PersonaResponsePaginado> {
@@ -2133,7 +2133,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Created
      */
     personaPost(body: Persona | undefined, httpContext?: HttpContext): Observable<Persona> {
@@ -2201,7 +2201,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     personaPut(id: string, body: Persona | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2544,7 +2544,7 @@ export class PersonaClient implements IPersonaClient {
 
 export interface IRegistroClient {
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     registroPost(body: RegistroUsuario | undefined): Observable<void>;
@@ -2553,7 +2553,7 @@ export interface IRegistroClient {
      */
     registroGet(id: string): Observable<InvitacionRegistro>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     completar(id: string, body: CreacionUsuario | undefined): Observable<void>;
@@ -2573,7 +2573,7 @@ export class RegistroClient implements IRegistroClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     registroPost(body: RegistroUsuario | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2704,7 +2704,7 @@ export class RegistroClient implements IRegistroClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Success
      */
     completar(id: string, body: CreacionUsuario | undefined, httpContext?: HttpContext): Observable<void> {

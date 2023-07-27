@@ -175,6 +175,7 @@ export class ContactosClienteComponent
       this.contactosCasting.splice(index, 1);
       this.gridApi.setRowData(this.contactosCasting);
     }
+    this.listaModificada = true;
   }
 
   // revisar si se utilzai esta funcion
@@ -198,7 +199,7 @@ export class ContactosClienteComponent
     wrapHeaderText: true,
     autoHeaderHeight: true,
     sortable: true,
-    filter: true,
+    filter: false,
     minWidth: 100,
   };
 
@@ -209,16 +210,36 @@ export class ContactosClienteComponent
   }
 
   columnDefs: ColDef[] = [
-    { headerName: 'Email', field: 'email', minWidth: 50, maxWidth: 333 },
-    { headerName: 'Rol', field: 'rol', flex: 1 },
+    {
+      headerName: 'Email',
+      field: 'email',
+      minWidth: 180,
+      maxWidth:315,
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: 'Rol',
+      field: 'rol',
+      minWidth: 180,
+      maxWidth:315,
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
     {
       headerName: 'Activo',
       field: 'confirmado',
       cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },
-      flex: 2,
+       cellRendererParams: {
+          disabled: true,
+        },
+        minWidth: 180,
+        maxWidth:315,
+        editable: false,
+        sortable: true,
+        resizable: true,
     },
   ];
 }

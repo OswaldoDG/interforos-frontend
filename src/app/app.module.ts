@@ -96,7 +96,7 @@ import { ConfirmacionComponent } from './components/pages/confirmacion/confirmac
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BearerInterceptor } from './services/interceptors/bearer-interceptor';
 import { PerfilPersonaComponent } from './components/pages/perfil-persona/perfil-persona.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ModelComponent } from './components/pages/model/model.component';
 import { NavbarPromodelComponent } from './components/common/navbar-promodel/navbar-promodel.component';
@@ -130,6 +130,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { CategoriasCastingComponent } from './components/common/categorias-casting/categorias-casting.component';
 import { BtnCloseRenderer } from './components/common/cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from './components/common/cells-render/btn-edit-renderer.component';
+import { EventosCastingComponent } from './components/common/eventos-casting/eventos-casting.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -229,6 +230,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CategoriasCastingComponent,
     BtnCloseRenderer,
     BtnEditRenderer
+    EventosCastingComponent,
   ],
   imports: [
     AlertModule,
@@ -267,6 +269,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     { provide: API_BASE_URL, useValue: environment.apiRoot },
     { provide: HTTP_INTERCEPTORS, useClass: BearerInterceptor, multi: true },
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX'},
     UserGuard,
     BsModalService,
     AppConfigService,
