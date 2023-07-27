@@ -127,6 +127,9 @@ import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-c
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ContactosClienteComponent } from './components/common/contactos-cliente/contactos-cliente.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { CategoriasCastingComponent } from './components/common/categorias-casting/categorias-casting.component';
+import { BtnCloseRenderer } from './components/common/cells-render/btn-close-renderer.component';
+import { BtnEditRenderer } from './components/common/cells-render/btn-edit-renderer.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -223,6 +226,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditorCastingComponent,
     PaginaEditorCastingComponent,
     ContactosClienteComponent,
+    CategoriasCastingComponent,
+    BtnCloseRenderer,
+    BtnEditRenderer
   ],
   imports: [
     AlertModule,
