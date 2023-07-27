@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
+import { CategoriasCastingComponent } from '../categorias-casting/categorias-casting.component';
 
 @Component({
   selector: 'app-editor-casting',
@@ -18,6 +19,8 @@ export class EditorCastingComponent implements OnInit {
   CastingActual: Casting = null;
   @ViewChild('contactos') componenteContactos: ContactosClienteComponent;
 
+  @ViewChild('categorias') componenteCategorias: CategoriasCastingComponent;
+
   // Mantiene los datos del casting en el formulario
   formProyecto: FormGroup;
 
@@ -28,7 +31,7 @@ export class EditorCastingComponent implements OnInit {
 
   // VariablesLogo
   logoCasting: string;
-  esLogoNuevo: boolean = true;
+  esLogoNuevo: boolean;
   nameImg: string;
   isImageLoading: boolean = false;
   logoDefault = './../../assets/img/casting/camera-icon.png';
@@ -84,12 +87,14 @@ export class EditorCastingComponent implements OnInit {
     };
 
     this.clientApi.castingPost(datos).subscribe((data) => {
+      console.log(data);
       this.CastingActual = data;
       this.CastingId = data.id;
       this.actualizarLogo(data.id);
       this.esUpdate = true;
       if (data != null) {
         this.componenteContactos.actualizaContactos(this.CastingId);
+        this.componenteCategorias.enviarCategorias(this.CastingActual);
       }
     });
   }
@@ -111,8 +116,12 @@ export class EditorCastingComponent implements OnInit {
       this.clientApi
         .castingPut(this.CastingId, this.CastingActual)
         .subscribe((data) => {
-          if (this.componenteContactos.Casting != null) {
+          if (
+            this.componenteContactos.Casting != null &&
+            this.componenteCategorias.Casting != null
+          ) {
             this.componenteContactos.actualizaContactos(this.CastingId);
+            this.componenteCategorias.enviarCategorias(this.CastingActual);
           }
         });
     this.actualizarLogo(this.CastingActual.id);
@@ -121,6 +130,7 @@ export class EditorCastingComponent implements OnInit {
   // Obitne el casting y asigna los valores del form
   obtenerCasting() {
     this.clientApi.id(this.CastingId).subscribe((data) => {
+      console.log(data);
       this.CastingActual = data;
       if (this.CastingActual != null) {
         this.formProyecto.get('nombre').setValue(this.CastingActual.nombre);
@@ -166,6 +176,7 @@ export class EditorCastingComponent implements OnInit {
     if (this.esLogoNuevo && castignId != null) {
       this.clientApi.logoPut(castignId, this.logoCasting).subscribe();
     }
+    this.esLogoNuevo = false;
   }
   //evento de input para cargar la imagen
   handleUpload(event) {

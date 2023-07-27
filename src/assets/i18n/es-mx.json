@@ -68,7 +68,12 @@
     "form-eliminar": "Eliminar",
     "form-cambiarRol": "Cambiar Rol",
     "form-logo": "Selecione una imagen",
-    "form-logo-error": "Imagen Casting Requerida"
+    "form-logo-error": "Imagen Casting Requerida",
+    "form-categorias": "Agregar Categorias",
+    "form-agregar": "Agregar",
+    "form-actualizar": "Guardar",
+    "form-nombreCategoria": "Nombre",
+    "form-descripcionCategoria": "Descripcion"
   },
   "navbar": {
     "salir": "Salir",
