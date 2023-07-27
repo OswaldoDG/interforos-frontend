@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import {
   Casting,
   CastingClient,
   ContactoUsuario
 } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
+import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
+import { DateTimeAdapter } from 'ng-pick-datetime';
 
 @Component({
   selector: 'app-editor-casting',
@@ -23,7 +24,7 @@ export class EditorCastingComponent implements OnInit {
   // Almacena los datos del casting actual
   CastingActual: Casting = null;
   @ViewChild('contactos') componenteContactos: ContactosClienteComponent;
-
+  @ViewChild('eventos') componenteEventos: EventosCastingComponent;
   // Mantiene los datos del casting en el formulario
   formProyecto: FormGroup;
 
@@ -33,9 +34,9 @@ export class EditorCastingComponent implements OnInit {
   fechaCierreSingle: any;
 
   constructor(
-    private localeService: BsLocaleService,
     private clientApi: CastingClient,
     private formBuilder: FormBuilder,
+    private dateTimeAdapter: DateTimeAdapter<any>,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -44,13 +45,14 @@ export class EditorCastingComponent implements OnInit {
       fechaCierre: [null],
       descripcion: [null],
     });
-    this.localeService.use('es');
+    this.dateTimeAdapter.setLocale('es-ES');
   }
 
   ngOnInit() {
     this.esUpdate = this.CastingId != null;
 
     if (this.esUpdate) {
+      console.log('Es un update');
       this.obtenerCasting();
     }
   }
@@ -89,9 +91,12 @@ export class EditorCastingComponent implements OnInit {
       this.CastingId = data.id;
       this.esUpdate = true;
       if(data != null){
-        this.componenteContactos.actualizaContactos(this.CastingId);
+/*          this.componenteContactos.actualizaContactos(this.CastingId);
+ */         this.componenteEventos.actualizarEventos(this.CastingActual);
+
       }
     });
+    this.obtenerCasting();
   }
 
 
@@ -110,8 +115,9 @@ export class EditorCastingComponent implements OnInit {
     this.CastingActual.descripcion = this.formProyecto.value.descripcion,
 
     this.clientApi.castingPut(this.CastingId, this.CastingActual).subscribe((data) => {
-      if(this.componenteContactos.Casting != null){
-        this.componenteContactos.actualizaContactos(this.CastingId);
+      if(this.componenteEventos.Casting != null){
+/*          this.componenteContactos.actualizaContactos(this.CastingId);
+ */        this.componenteEventos.actualizarEventos(this.CastingActual);
       }
     });
   }
@@ -119,6 +125,7 @@ export class EditorCastingComponent implements OnInit {
 
   // Obitne el casting y asigna los valores del form
   obtenerCasting() {
+    console.log('Se llena la tabla');
     this.clientApi.id(this.CastingId).subscribe((data) => {
       this.CastingActual = data;
       if (this.CastingActual != null) {

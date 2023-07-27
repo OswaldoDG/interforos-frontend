@@ -90,6 +90,7 @@ export class ContactosClienteComponent implements OnInit, AfterViewInit, OnChang
           }
           this.contactosCasting.push(contacto);
         } else {
+          existeEnDB.rol = this.formContactos.value.rol;
           this.contactosCasting.push(existeEnDB);
         }
     }else{
@@ -106,35 +107,28 @@ export class ContactosClienteComponent implements OnInit, AfterViewInit, OnChang
     this.listaModificada = true;
   }
 
-// Realiza una actualización de los contactos al backend utilizando la proiedad casting y la lista de contactosCliente
-public actualizaContactos(castingId : string) {
-  if(this.listaModificada == true && castingId != null){
-    const payload: ContactoUsuario[] = [];
-    this.contactosCasting.forEach(c => {
-      if(c.usuarioId != null){
-        payload.push( {
-          id: c.usuarioId,
-          email: c.email,
-          nombreCompleto: null,
-          rol: c.rol,
-          localizado: c.confirmado
-         })
-      }else{
-        payload.push(c);
-      }
-    });
-    this.clientApi.contactos(castingId, payload).subscribe((data)=>{
-      this.contactosCasting = [...data.contactos];
-      this.gridApi.setRowData(this.contactosCasting);
-    });
-  }
-}
-
-
-  public eliminar(){
-    const selectedData = this.gridApi.getSelectedRows();
-    this.eliminaContacto(selectedData[0].email);
-    this.limpiar();
+  // Realiza una actualización de los contactos al backend utilizando el parámetro castingId y la lista de contactosCliente
+  public actualizaContactos(castingId : string) {
+    if(this.listaModificada == true && castingId != null){
+      const payload: ContactoUsuario[] = [];
+      this.contactosCasting.forEach(c => {
+        if(c.usuarioId != null){
+          payload.push( {
+            id: c.usuarioId,
+            email: c.email,
+            nombreCompleto: null,
+            rol: c.rol,
+            localizado: c.confirmado
+          })
+        }else{
+          payload.push(c);
+        }
+      });
+      this.clientApi.contactos(castingId, payload).subscribe((data)=>{
+        this.contactosCasting = [...data.contactos];
+        this.gridApi.setRowData(this.contactosCasting);
+      });
+    }
   }
 
   public mostrarContactoSeleccionado(){
@@ -161,12 +155,13 @@ public actualizaContactos(castingId : string) {
     .setValue('');
   }
 
-  public eliminaContacto(seleccionado : string){
-    var index = this.contactosCasting.findIndex(element => element.email == seleccionado);
+  public eliminaContacto(){
+    var index = this.contactosCasting.findIndex(element => element.email == this.idContactoSeleccionado());
     if(index > -1){
       this.contactosCasting.splice(index,1);
       this.gridApi.setRowData(this.contactosCasting);
     }
+    this.listaModificada = true;
   }
 
 
@@ -192,7 +187,7 @@ public actualizaContactos(castingId : string) {
     wrapHeaderText: true,
     autoHeaderHeight: true,
     sortable: true,
-    filter: true,
+    filter: false,
     minWidth: 100,
   };
 
@@ -204,16 +199,36 @@ public actualizaContactos(castingId : string) {
 
 
   columnDefs: ColDef[] = [
-    {       headerName: 'Email',
-    field: 'email',       minWidth: 50,maxWidth:333},
-    {       headerName: 'Rol',
-    field: 'rol',       flex:1,},
-    {       headerName: 'Activo',
-    field: 'confirmado',
-    cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },      flex:2,
+    {
+      headerName: 'Email',
+      field: 'email',
+      minWidth: 180,
+      maxWidth:315,
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: 'Rol',
+      field: 'rol',
+      minWidth: 180,
+      maxWidth:315,
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: 'Activo',
+      field: 'confirmado',
+      cellRenderer: 'agCheckboxCellRenderer',
+       cellRendererParams: {
+          disabled: true,
+        },
+        minWidth: 180,
+        maxWidth:315,
+        editable: false,
+        sortable: true,
+        resizable: true,
     },
   ];
 

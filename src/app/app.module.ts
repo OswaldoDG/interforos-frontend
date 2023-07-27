@@ -96,7 +96,7 @@ import { ConfirmacionComponent } from './components/pages/confirmacion/confirmac
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BearerInterceptor } from './services/interceptors/bearer-interceptor';
 import { PerfilPersonaComponent } from './components/pages/perfil-persona/perfil-persona.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ModelComponent } from './components/pages/model/model.component';
 import { NavbarPromodelComponent } from './components/common/navbar-promodel/navbar-promodel.component';
@@ -126,6 +126,7 @@ import { EditorCastingComponent } from './components/common/editor-casting/edito
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ContactosClienteComponent } from './components/common/contactos-cliente/contactos-cliente.component';
+import { EventosCastingComponent } from './components/common/eventos-casting/eventos-casting.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -222,6 +223,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditorCastingComponent,
     PaginaEditorCastingComponent,
     ContactosClienteComponent,
+    EventosCastingComponent,
   ],
   imports: [
     TypeaheadModule.forRoot(),
@@ -259,6 +261,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     { provide: API_BASE_URL, useValue: environment.apiRoot },
     { provide: HTTP_INTERCEPTORS, useClass: BearerInterceptor, multi: true },
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX'},
     UserGuard,
     BsModalService,
     AppConfigService,

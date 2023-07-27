@@ -64,9 +64,16 @@
     "form-descripcion": "Descripción",
     "form-contactos": "Agregar Participantes",
     "form-roles": "Roles",
-    "form-invitar": "Invitar",
-    "form-eliminar": "Eliminar",
-    "form-cambiarRol": "Cambiar Rol"
+    "form-invitar": "Invitar Contacto",
+    "form-eliminar": "Eliminar Contacto",
+    "form-cambiarRol": "Cambiar Rol del Contacto",
+    "form-eventos":"Agregar Evento",
+    "form-notas":"Notas",
+    "form-link": "Link",
+    "form-lugar": "Lugar",
+    "form-agregarEvento": "Agregar Evento",
+    "form-modificarEvento": "Modificar Evento",
+    "form-eliminarEvento": "Eliminar Evento"
   },
   "navbar": {
     "salir": "Salir",

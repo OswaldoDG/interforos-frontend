@@ -25,33 +25,23 @@
           formControlName="descripcion"
         ></quill-editor>
       </div>
+      <div class="col-md-6 col-sm-6">
+        <label>{{ "proyectos.form-apertura" | translate }}</label>
+        <input class="form-control"  formControlName="fechaApertura" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"/>
+        <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <label>{{ "proyectos.form-cierre" | translate }}</label>
+        <input class="form-control"  formControlName="fechaCierre" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"/>
+        <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
+      </div>
       <div class="col-md-12">
         <label>{{ 'proyectos.form-contactos' | translate }}</label>
         <app-contactos-cliente #contactos [Casting]="CastingActual"></app-contactos-cliente>
       </div>
-      <div class="col-md-6 col-sm-6">
-        <label>{{ "proyectos.form-apertura" | translate }}</label>
-        <input
-          type="text"
-          class="form-control"
-          #dp="bsDatepicker"
-          bsDatepicker
-          formControlName="fechaApertura"
-          [bsValue]="fechaAperturaSingle"
-          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
-        />
-      </div>
-      <div class="col-md-6 col-sm-6">
-        <label>{{ "proyectos.form-cierre" | translate }}</label>
-        <input
-          type="text"
-          class="form-control"
-          #dp="bsDatepicker"
-          bsDatepicker
-          formControlName="fechaCierre"
-          [bsValue]="fechaCierreSingle"
-          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
-        />
+      <div class="col-md-12">
+        <label>{{ 'proyectos.form-eventos' | translate }}</label>
+        <app-eventos-casting #eventos [Casting]="CastingActual"></app-eventos-casting>
       </div>
       <div class="col-md-6">
         <button class="ms-3 mt-3 btn btn-primary" (click)="salvarDatos()" [disabled]="formProyecto.invalid">Save</button>
