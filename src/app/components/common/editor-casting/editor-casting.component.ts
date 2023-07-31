@@ -1,9 +1,14 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { Casting, CastingClient } from 'src/app/services/api/api-promodel';
-import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 import { CategoriasCastingComponent } from '../categorias-casting/categorias-casting.component';
+import {
+  Casting,
+  CastingClient,
+  ContactoUsuario
+} from 'src/app/services/api/api-promodel';
+import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
+import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
+import { DateTimeAdapter } from 'ng-pick-datetime';
 
 @Component({
   selector: 'app-editor-casting',
@@ -21,6 +26,7 @@ export class EditorCastingComponent implements OnInit {
 
   @ViewChild('categorias') componenteCategorias: CategoriasCastingComponent;
 
+  @ViewChild('eventos') componenteEventos: EventosCastingComponent;
   // Mantiene los datos del casting en el formulario
   formProyecto: FormGroup;
 
@@ -37,9 +43,9 @@ export class EditorCastingComponent implements OnInit {
   logoDefault = './../../assets/img/casting/camera-icon.png';
 
   constructor(
-    private localeService: BsLocaleService,
     private clientApi: CastingClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dateTimeAdapter: DateTimeAdapter<any>,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -48,7 +54,7 @@ export class EditorCastingComponent implements OnInit {
       fechaCierre: [null],
       descripcion: [null],
     });
-    this.localeService.use('es');
+    this.dateTimeAdapter.setLocale('es-ES');
   }
 
   ngOnInit() {
@@ -86,15 +92,39 @@ export class EditorCastingComponent implements OnInit {
       descripcion: this.formProyecto.value.descripcion,
     };
 
-    this.clientApi.castingPost(datos).subscribe((data) => {
-      console.log(data);
-      this.CastingActual = data;
-      this.CastingId = data.id;
-      this.actualizarLogo(data.id);
+    this.clientApi.castingPost(datos).subscribe((data1) => {
+      this.CastingActual = data1;
+      this.CastingId = data1.id;
+      this.actualizarLogo(data1.id);
       this.esUpdate = true;
-      if (data != null) {
-        this.componenteContactos.actualizaContactos(this.CastingId);
-        this.componenteCategorias.enviarCategorias(this.CastingActual);
+      if (data1 != null) {
+        var a = this.componenteEventos.listaEventos;
+        var b = this.componenteCategorias.categoriasCasting;
+        var c = this.componenteContactos.listaContactoUsuario();
+        this.clientApi
+          .eventos(this.CastingId,a)
+          .subscribe((data2)=>{
+            this.CastingActual = data1;
+            this.CastingId = data1.id;
+            this.componenteEventos.gridApi.setRowData(a);
+            this.componenteEventos.listaEventos = [...a];
+            this.clientApi
+              .categorias(this.CastingId, b)
+              .subscribe((data2) => {
+                this.CastingActual = data1;
+                this.CastingId = data1.id;
+                this.componenteCategorias.gridApi.setRowData(b);
+                this.componenteCategorias.categoriasCasting = [...b];
+                  this.clientApi
+                    .contactos(this.CastingId, c)
+                    .subscribe((data3) => {
+                    this.componenteContactos.contactosCasting = [...data3];
+                    this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
+                    this.CastingActual = data1;
+                    this.CastingId = data1.id;
+              });
+            });
+          });
       }
     });
   }
@@ -118,19 +148,38 @@ export class EditorCastingComponent implements OnInit {
         .subscribe((data) => {
           if (
             this.componenteContactos.Casting != null &&
-            this.componenteCategorias.Casting != null
+            this.componenteCategorias.Casting != null &&
+            this.componenteEventos.Casting != null
           ) {
-            this.componenteContactos.actualizaContactos(this.CastingId);
-            this.componenteCategorias.enviarCategorias(this.CastingActual);
+            var a = this.componenteEventos.listaEventos;
+            var b = this.componenteCategorias.categoriasCasting;
+            var c = this.componenteContactos.listaContactoUsuario()
+            this.clientApi
+              .eventos(this.CastingId,a)
+              .subscribe((data2)=>{
+                this.componenteEventos.gridApi.setRowData(a);
+                this.componenteEventos.listaEventos = [...a];
+                this.clientApi
+                  .categorias(this.CastingId, b)
+                  .subscribe((data2) => {
+                    this.componenteCategorias.gridApi.setRowData(b);
+                    this.componenteCategorias.categoriasCasting = [...b];
+                      this.clientApi
+                        .contactos(this.CastingId, c)
+                        .subscribe((data3) => {
+                        this.componenteContactos.contactosCasting = [...data3];
+                        this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
+                        this.actualizarLogo(this.CastingActual.id);
+                  });
+                });
+              });
           }
         });
-    this.actualizarLogo(this.CastingActual.id);
   }
 
   // Obitne el casting y asigna los valores del form
   obtenerCasting() {
     this.clientApi.id(this.CastingId).subscribe((data) => {
-      console.log(data);
       this.CastingActual = data;
       if (this.CastingActual != null) {
         this.formProyecto.get('nombre').setValue(this.CastingActual.nombre);

@@ -1,0 +1,45 @@
+<div class="modal-body">
+  <form [formGroup]="formEventos">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <label>{{ "proyectos.form-apertura" | translate }}</label>
+        <input class="form-control"  formControlName="fechaHoraInicial" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"/>
+        <owl-date-time #dt1 [pickerType]="'both'"></owl-date-time>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <label>{{ "proyectos.form-cierre" | translate }}</label>
+        <input class="form-control"  formControlName="fechaHoraFinal" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"/>
+        <owl-date-time #dt2 [pickerType]="'both'"></owl-date-time>
+      </div>
+      <div class="col-md-6">
+        <label>{{ "proyectos.form-lugar" | translate }}</label>
+        <input type="text" class="form-control" formControlName="lugar" />
+      </div>
+      <div class="col-md-12">
+        <label>{{ "proyectos.form-notas" | translate }}</label>
+        <textarea type="text" class="form-control" formControlName="notas" rows="5" cols="40"></textarea>
+      </div>
+      <div class="col-md-12">
+        <label>{{ "proyectos.form-link" | translate }}</label>
+        <input type="text" class="form-control" formControlName="link" />
+      </div>
+      <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+        <br>
+        <button class="btn btn-primary m-4" (click)="agregarEvento()" [disabled]="formEventos.invalid">{{ "proyectos.form-agregarEvento" | translate }}</button>
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 d-flex   align-items-center justify-content-center ag-theme-alpine">
+        <ag-grid-angular
+        style="width: 100%; height: 300px"
+        class="ag-theme-alpine"
+        [columnDefs]="columnDefs"
+        [animateRows]="true"
+        [rowData]="listaEventos"
+        (gridReady)="onGridReady($event)"
+        [rowSelection]="rowSelection"
+        [defaultColDef]="defaultColDef"        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </form>
+</div>

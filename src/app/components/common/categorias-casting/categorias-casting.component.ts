@@ -27,10 +27,10 @@ export class CategoriasCastingComponent implements OnInit {
   // Forma para la captura de contactos
   formCategorias: FormGroup;
 
-  categoriasCasting: CategoriaCasting[] = [];
+  public categoriasCasting: CategoriaCasting[] = [];
 
   // Api para acceso a la tabla
-  private gridApi!: GridApi<CategoriaCasting>;
+  public gridApi!: GridApi<CategoriaCasting>;
   //aqui se almacenan las categorias
   categoriaEditar: CategoriaCasting;
   //bandras
@@ -38,7 +38,6 @@ export class CategoriasCastingComponent implements OnInit {
   editar: boolean = false;
 
   constructor(
-    private clientApi: CastingClient,
     private formBuilder: FormBuilder
   ) {
     this.formCategorias = this.formBuilder.group({
@@ -87,7 +86,6 @@ export class CategoriasCastingComponent implements OnInit {
     var index = this.categoriasCasting.findIndex(
       (element) => element.id == seleccionado
     );
-    console.log(index);
     if (index > -1) {
       this.categoriasCasting.splice(index, 1);
       this.gridApi.setRowData(this.categoriasCasting);
@@ -101,10 +99,12 @@ export class CategoriasCastingComponent implements OnInit {
 
   //configuracion para columnas
   public defaultColDef: ColDef = {
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    sortable: true,
-    filter: true,
+    wrapHeaderText: false,
+    autoHeaderHeight: false,
+    sortable: false,
+    filter: false,
+    suppressMovable:true,
+    resizable:false,
   };
 
   public rowSelection: 'single' | 'multiple' = 'single';
@@ -114,7 +114,7 @@ export class CategoriasCastingComponent implements OnInit {
     {
       headerName: '',
       field: 'id',
-      width: 5,
+      width: 6,
       cellRenderer: BtnCloseRenderer,
       cellRendererParams: {
         clicked: (field: any) => {
@@ -132,7 +132,7 @@ export class CategoriasCastingComponent implements OnInit {
     {
       headerName: '',
       field: 'id',
-      width: 82,
+      width: 81,
       cellRenderer: BtnEditRenderer,
       cellRendererParams: {
         clicked: (field: any) => {
@@ -167,15 +167,5 @@ export class CategoriasCastingComponent implements OnInit {
     this.editar = false;
     this.gridApi.setRowData(this.categoriasCasting);
     this.limpiar();
-  }
-
-  public enviarCategorias(castingId: Casting) {
-    if (this.listaModificada == true && castingId != null) {
-      this.clientApi
-        .categorias(castingId.id, this.categoriasCasting)
-        .subscribe((data) => {});
-      this.Casting = castingId;
-      this.Casting.categorias = this.categoriasCasting;
-    }
   }
 }

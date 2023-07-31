@@ -195,7 +195,7 @@ export interface ICastingClient {
      * @param body (optional) 
      * @return Success
      */
-    contactos(castingId: string, body: ContactoUsuario[] | undefined): Observable<Casting>;
+    contactos(castingId: string, body: ContactoUsuario[] | undefined): Observable<ContactoUsuario[]>;
     /**
      * @return Success
      */
@@ -639,7 +639,7 @@ export class CastingClient implements ICastingClient {
      * @param body (optional) 
      * @return Success
      */
-    contactos(castingId: string, body: ContactoUsuario[] | undefined, httpContext?: HttpContext): Observable<Casting> {
+    contactos(castingId: string, body: ContactoUsuario[] | undefined, httpContext?: HttpContext): Observable<ContactoUsuario[]> {
         let url_ = this.baseUrl + "/api/Casting/contactos/{castingId}";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
@@ -666,14 +666,14 @@ export class CastingClient implements ICastingClient {
                 try {
                     return this.processContactos(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<Casting>;
+                    return _observableThrow(e) as any as Observable<ContactoUsuario[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<Casting>;
+                return _observableThrow(response_) as any as Observable<ContactoUsuario[]>;
         }));
     }
 
-    protected processContactos(response: HttpResponseBase): Observable<Casting> {
+    protected processContactos(response: HttpResponseBase): Observable<ContactoUsuario[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -683,7 +683,7 @@ export class CastingClient implements ICastingClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Casting;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ContactoUsuario[];
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -703,7 +703,7 @@ export class CastingClient implements ICastingClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Casting>(null as any);
+        return _observableOf<ContactoUsuario[]>(null as any);
     }
 
     /**

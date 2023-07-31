@@ -25,7 +25,6 @@
   margin: auto;
   cursor: pointer;
 }
-
 .fileInputProfileWrap {
   width: 100%;
   height: auto;
@@ -43,3 +42,14 @@
   cursor: not-allowed!important;
 }
 
+.responsive {
+  width: 100%;
+  max-width: 249px;
+  height: auto;
+}
+
+.abc{
+    font: {
+      size: 17px;
+    }
+}

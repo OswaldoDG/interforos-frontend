@@ -16,6 +16,8 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
+import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
 
 @Component({
   selector: 'app-contactos-cliente',
@@ -31,8 +33,8 @@ export class ContactosClienteComponent
   protected listaModificada: boolean = false;
   // Es esta variable se guardan todos los contactos del cliente, en el typeahead se filtran por email
   protected contactosCliente: any[] = [];
-  // En esta variabl se llenan los contactos seleccionados
-  protected contactosCasting: ContactoCasting[] = [];
+  // En esta variable se llenan los contactos seleccionados
+  public contactosCasting: ContactoCasting[] = [];
   //  dropdown en el template
   roles: TipoRolCliente[] = [
     TipoRolCliente.Staff,
@@ -44,7 +46,7 @@ export class ContactosClienteComponent
   formContactos: FormGroup;
 
   // Api para ccesdo a la tabla
-  private gridApi!: GridApi<ContactoCasting>;
+  public gridApi!: GridApi<ContactoCasting>;
 
   constructor(
     private clientApi: CastingClient,
@@ -85,6 +87,26 @@ export class ContactosClienteComponent
     }
   }
 
+  //Retonar la lista de contactos convertida a contactos usuarios.
+  public listaContactoUsuario(){
+    const payload: ContactoUsuario[] = [];
+    this.contactosCasting.forEach((c) => {
+      if (c.usuarioId != null) {
+        payload.push({
+          id: c.usuarioId,
+          email: c.email,
+          nombreCompleto: null,
+          rol: c.rol,
+          localizado: c.confirmado,
+        });
+      } else {
+        payload.push(c);
+      }
+    });
+
+    return payload;
+  }
+
   //Se añaden los contactos a la lista de seleccionados.
   public invitar() {
     let existeEnLista = this.contactosCasting.find(
@@ -120,40 +142,10 @@ export class ContactosClienteComponent
     this.listaModificada = true;
   }
 
-  // Realiza una actualización de los contactos al backend utilizando la proiedad casting y la lista de contactosCliente
-  public actualizaContactos(castingId: string) {
-    if (this.listaModificada == true && castingId != null) {
-      const payload: ContactoUsuario[] = [];
-      this.contactosCasting.forEach((c) => {
-        if (c.usuarioId != null) {
-          payload.push({
-            id: c.usuarioId,
-            email: c.email,
-            nombreCompleto: null,
-            rol: c.rol,
-            localizado: c.confirmado,
-          });
-        } else {
-          payload.push(c);
-        }
-      });
-      this.clientApi.contactos(castingId, payload).subscribe((data) => {
-        this.contactosCasting = [...data.contactos];
-        this.gridApi.setRowData(this.contactosCasting);
-      });
-    }
-  }
-
-  public eliminar() {
-    const selectedData = this.gridApi.getSelectedRows();
-    this.eliminaContacto(selectedData[0].email);
-    this.limpiar();
-  }
-
-  public mostrarContactoSeleccionado() {
-    if (this.idContactoSeleccionado() != null) {
+  public mostrarContactoSeleccionado(field : any) {
+    if (field != null) {
       let contacto = this.contactosCasting.find(
-        (c) => c.email == this.idContactoSeleccionado()
+        (c) => c.email == field
       );
       if (contacto != undefined) {
         this.formContactos.get('email').setValue(contacto.email);
@@ -167,23 +159,13 @@ export class ContactosClienteComponent
     this.formContactos.get('rol').setValue('');
   }
 
-  public eliminaContacto(seleccionado: string) {
-    var index = this.contactosCasting.findIndex(
-      (element) => element.email == seleccionado
-    );
-    if (index > -1) {
-      this.contactosCasting.splice(index, 1);
+  public eliminaContacto(field : any){
+    var index = this.contactosCasting.findIndex(element => element.email == field);
+    if(index > -1){
+      this.contactosCasting.splice(index,1);
       this.gridApi.setRowData(this.contactosCasting);
     }
-  }
-
-  // revisar si se utilzai esta funcion
-  public idContactoSeleccionado(): string {
-    const selectedData = this.gridApi.getSelectedRows();
-    if (selectedData.length > 0) {
-      return selectedData[0].email;
-    }
-    return null;
+    this.listaModificada = true;
   }
 
   onGridReady(params: GridReadyEvent<ContactoCasting>) {
@@ -193,13 +175,11 @@ export class ContactosClienteComponent
   // Auxiliares UI
 
   public defaultColDef: ColDef = {
-    resizable: true,
-    initialWidth: 200,
+    resizable: false,
     wrapHeaderText: true,
     autoHeaderHeight: true,
-    sortable: true,
-    filter: true,
-    minWidth: 100,
+    sortable: false,
+    filter: false,
   };
 
   public rowSelection: 'single' | 'multiple' = 'single';
@@ -209,16 +189,48 @@ export class ContactosClienteComponent
   }
 
   columnDefs: ColDef[] = [
-    { headerName: 'Email', field: 'email', minWidth: 50, maxWidth: 333 },
-    { headerName: 'Rol', field: 'rol', flex: 1 },
+    {
+      headerName: '',
+      field: 'email',
+      width:10,
+      cellRenderer: BtnCloseRenderer,
+      cellRendererParams:{
+        clicked: (field : any) => {
+          this.eliminaContacto(field);
+        },
+      },
+    },
+    {
+      headerName: 'Email',
+      field: 'email',
+      minWidth:260,
+    },
+    {
+      headerName: 'Rol',
+      field: 'rol',
+      minWidth: 90,
+
+
+    },
     {
       headerName: 'Activo',
+      minWidth:20,
       field: 'confirmado',
       cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
+       cellRendererParams: {
+          disabled: true,
+        },
+    },
+    {
+      headerName: '',
+      field: 'email',
+      width:82,
+      cellRenderer: BtnEditRenderer,
+      cellRendererParams:{
+        clicked: (field : any) => {
+          this.mostrarContactoSeleccionado(field);
+        },
       },
-      flex: 2,
     },
   ];
 }
