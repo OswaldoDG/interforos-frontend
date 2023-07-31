@@ -60,7 +60,6 @@ export class EditorCastingComponent implements OnInit {
   ngOnInit() {
     this.esUpdate = this.CastingId != null;
     if (this.esUpdate) {
-      console.log('Es un update');
       this.obtenerCasting();
     }
   }
@@ -93,18 +92,41 @@ export class EditorCastingComponent implements OnInit {
       descripcion: this.formProyecto.value.descripcion,
     };
 
-    this.clientApi.castingPost(datos).subscribe((data) => {
-      console.log(data);
-      this.CastingActual = data;
-      this.CastingId = data.id;
-      this.actualizarLogo(data.id);
+    this.clientApi.castingPost(datos).subscribe((data1) => {
+      this.CastingActual = data1;
+      this.CastingId = data1.id;
+      this.actualizarLogo(data1.id);
       this.esUpdate = true;
-      if (data != null) {
-        this.componenteContactos.actualizaContactos(this.CastingId);
-        this.componenteCategorias.enviarCategorias(this.CastingActual);
+      if (data1 != null) {
+        var a = this.componenteEventos.listaEventos;
+        var b = this.componenteCategorias.categoriasCasting;
+        var c = this.componenteContactos.listaContactoUsuario();
+        this.clientApi
+          .eventos(this.CastingId,a)
+          .subscribe((data2)=>{
+            this.CastingActual = data1;
+            this.CastingId = data1.id;
+            this.componenteEventos.gridApi.setRowData(a);
+            this.componenteEventos.listaEventos = [...a];
+            this.clientApi
+              .categorias(this.CastingId, b)
+              .subscribe((data2) => {
+                this.CastingActual = data1;
+                this.CastingId = data1.id;
+                this.componenteCategorias.gridApi.setRowData(b);
+                this.componenteCategorias.categoriasCasting = [...b];
+                  this.clientApi
+                    .contactos(this.CastingId, c)
+                    .subscribe((data3) => {
+                    this.componenteContactos.contactosCasting = [...data3];
+                    this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
+                    this.CastingActual = data1;
+                    this.CastingId = data1.id;
+              });
+            });
+          });
       }
     });
-    this.obtenerCasting();
   }
 
   // Actualzia el casting con los datos de la forma
@@ -126,20 +148,38 @@ export class EditorCastingComponent implements OnInit {
         .subscribe((data) => {
           if (
             this.componenteContactos.Casting != null &&
-            this.componenteCategorias.Casting != null
+            this.componenteCategorias.Casting != null &&
+            this.componenteEventos.Casting != null
           ) {
-            this.componenteContactos.actualizaContactos(this.CastingId);
-            this.componenteCategorias.enviarCategorias(this.CastingActual);
+            var a = this.componenteEventos.listaEventos;
+            var b = this.componenteCategorias.categoriasCasting;
+            var c = this.componenteContactos.listaContactoUsuario()
+            this.clientApi
+              .eventos(this.CastingId,a)
+              .subscribe((data2)=>{
+                this.componenteEventos.gridApi.setRowData(a);
+                this.componenteEventos.listaEventos = [...a];
+                this.clientApi
+                  .categorias(this.CastingId, b)
+                  .subscribe((data2) => {
+                    this.componenteCategorias.gridApi.setRowData(b);
+                    this.componenteCategorias.categoriasCasting = [...b];
+                      this.clientApi
+                        .contactos(this.CastingId, c)
+                        .subscribe((data3) => {
+                        this.componenteContactos.contactosCasting = [...data3];
+                        this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
+                        this.actualizarLogo(this.CastingActual.id);
+                  });
+                });
+              });
           }
         });
-    this.actualizarLogo(this.CastingActual.id);
   }
 
   // Obitne el casting y asigna los valores del form
   obtenerCasting() {
-    console.log('Se llena la tabla');
     this.clientApi.id(this.CastingId).subscribe((data) => {
-      console.log(data);
       this.CastingActual = data;
       if (this.CastingActual != null) {
         this.formProyecto.get('nombre').setValue(this.CastingActual.nombre);

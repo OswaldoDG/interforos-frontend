@@ -229,7 +229,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactosClienteComponent,
     CategoriasCastingComponent,
     BtnCloseRenderer,
-    BtnEditRenderer
+    BtnEditRenderer,
     EventosCastingComponent,
   ],
   imports: [

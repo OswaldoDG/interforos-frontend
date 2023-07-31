@@ -25,10 +25,6 @@
       </div>
       <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
         <br>
-        <button class="btn btn-primary m-4" (click)="eliminaEventoSeleccionado()">{{ "proyectos.form-eliminarEvento" | translate }}</button>
-        <br>
-        <button class="btn btn-primary m-4 " (click)="mostrarEventoSeleccionado()">{{ "proyectos.form-modificarEvento" | translate }}</button>
-        <br>
         <button class="btn btn-primary m-4" (click)="agregarEvento()" [disabled]="formEventos.invalid">{{ "proyectos.form-agregarEvento" | translate }}</button>
       </div>
 
@@ -41,9 +37,7 @@
         [rowData]="listaEventos"
         (gridReady)="onGridReady($event)"
         [rowSelection]="rowSelection"
-        columnSize="responsiveSizeToFit"
-        [defaultColDef]="defaultColDef"
-        >
+        [defaultColDef]="defaultColDef"        >
         </ag-grid-angular>
       </div>
     </div>

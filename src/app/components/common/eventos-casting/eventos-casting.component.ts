@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { Casting, CastingClient, EventoCasting } from 'src/app/services/api/api-promodel';
+import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
+import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
 
 
 @Component({
@@ -23,13 +25,16 @@ export class EventosCastingComponent implements OnInit {
   fechaCierreSingle : Date;
 
   //Lista de Eventos
-  protected listaEventos : EventoCasting[] = [];
+  public listaEventos : EventoCasting[] = [];
 
   //Bandera que indica si se ha modificado la lista
   protected listaModificada : boolean = false;
 
   //Api de Ag Grid
-  private gridApi!: GridApi<EventoCasting>;
+  public gridApi!: GridApi<EventoCasting>;
+
+  //variable que almacena el evento que se va a modificar.
+  protected eventoSeleccionado : any;
 
   constructor(private formBuilder: FormBuilder,
               @Inject(LOCALE_ID) private locale: string,
@@ -67,7 +72,7 @@ export class EventosCastingComponent implements OnInit {
 
   //Se añaden los eventos a listaEventos (la lista que se va enviar a la api).
   public agregarEvento(){
-    let existeEnListaEventos = this.listaEventos.find(e=> e.id == this.idEventoSeleccionado());
+    let existeEnListaEventos = this.listaEventos.find(e=> e.id == this.eventoSeleccionado);
     if(existeEnListaEventos == undefined){
       this.listaEventos.push({
         id : this.generaId(),
@@ -93,6 +98,7 @@ export class EventosCastingComponent implements OnInit {
               e.coordenadas = this.formEventos.value.link
             }
           });
+          this.eventoSeleccionado = undefined;
          }
     }
     this.limpiarFormEventos();
@@ -100,22 +106,11 @@ export class EventosCastingComponent implements OnInit {
     this.listaModificada = true;
   }
 
-
-  //Realiza una actualización de los eventos al backend utilizando el parámetro castingId y la lista de Eventos
-  public actualizarEventos(castingId : Casting){
-    if(this.listaModificada == true && castingId != null){
-      this.clientApi.eventos(castingId.id, this.listaEventos).subscribe((data)=>{
-
-      });
-      this.Casting = castingId;
-      this.Casting.eventos = this.listaEventos;
-    }
-  }
-
   //Muesta los datos del evento seleccionaod en la tabla en el formulario de eventos
-  public mostrarEventoSeleccionado(){
-    if(this.idEventoSeleccionado() != null){
-      let evento = this.listaEventos.find(e => e.id == this.idEventoSeleccionado());
+  public mostrarEventoSeleccionado(field : any){
+    if(field!= null){
+      this.eventoSeleccionado = field;
+      let evento = this.listaEventos.find(e => e.id == field);
       if(evento != undefined){
         this.formEventos
         .get('fechaHoraInicial')
@@ -168,24 +163,14 @@ export class EventosCastingComponent implements OnInit {
   }
 
   //Elimina el evento seleccionado de la tabla
-  public eliminaEventoSeleccionado(){
-    this.listaModificada = true;
-    var index = this.listaEventos.findIndex(element => element.id == this.idEventoSeleccionado());
+  public eliminaEventoSeleccionado(field : any){
+    var index = this.listaEventos.findIndex(element => element.id == field);
     if(index > -1){
       this.listaEventos.splice(index,1);
       this.gridApi.setRowData(this.listaEventos);
     }
+    this.listaModificada = true;
   }
-
-  //Se obtiene el id del evento seleccionado de la tabla
-  public idEventoSeleccionado(): number {
-    const selectedData = this.gridApi.getSelectedRows();
-    if(selectedData.length > 0) {
-      return selectedData[0].id;
-    }
-    return null;
-  }
-
 
   onGridReady(params: GridReadyEvent<EventoCasting>) {
     this.gridApi = params.api;
@@ -194,70 +179,75 @@ export class EventosCastingComponent implements OnInit {
 
   //AUXILIARES
   public defaultColDef: ColDef = {
-    resizable: true,
-    initialWidth: 500,
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    sortable: true,
-    filter: false,
-    minWidth: 90,
-  };
+    wrapHeaderText: false,
+    autoHeaderHeight: false,
+    sortable: false,
+    suppressMovable:true,
+    resizable:false,
+    };
 
   public rowSelection: 'single' | 'multiple' = 'single';
 
   columnDefs: ColDef[] = [
     {
-      headerName: 'No. Evento',
+
+      headerName: '',
       field: 'id',
-      minWidth:90,
-      maxWidth: 150,
-      editable: false,
-      sortable: true,
-      resizable: true,
+      minWidth:10,
+      maxWidth: 40,
+
+      cellRenderer: BtnCloseRenderer,
+      cellRendererParams:{
+        clicked: (field : any) => {
+          this.eliminaEventoSeleccionado(field);
+        },
+      },
+
     },
     {
       headerName: 'Fecha Inicial',
       field: 'fechaInicial',
-      minWidth:90,
-      maxWidth: 150,
-      cellRenderer: (data) => {
-        return formatDate(data.value, 'dd-MM-YYYY', this.locale);
+      minWidth:150,
+          cellRenderer: (data) => {
+        return formatDate(data.value, 'dd-MM-YYYY: hh:mm', this.locale);
       },
-      editable: false,
-      sortable: true,
-      resizable: true,
+
     },
     {       headerName: 'Fecha Final',
-    field: 'fechaFinal',minWidth:90, maxWidth: 150,
+    field: 'fechaFinal',minWidth:150, maxWidth: 190,
     cellRenderer: (data) => {
-      return formatDate(data.value, 'dd-MM-YYYY', this.locale);
+      return formatDate(data.value, 'dd-MM-YYYY : hh:mm', this.locale);
     },},
     {
       headerName: 'Notas',
       field: 'notas',
-      minWidth:90,
-      maxWidth: 150,
-      editable: false,
-      sortable: true,
-      resizable: true,
+      minWidth:290,
+
+
     },
     {
       headerName: 'Lugar',
       field: 'lugar',
-      minWidth:90,
-      maxWidth: 150,
-      editable: false,
-      sortable: true,
-      resizable: true,
+      minWidth:200,
+
+
     },
     {
       headerName: 'Link',
       field: 'coordenadas',
-      minWidth:90,
-      maxWidth: 150,
-      editable: false,
-      sortable: true,
-      resizable: true,
+      minWidth:200,
+
+    },
+    {
+      headerName: '',
+      field: 'id',
+      width:75,
+      cellRenderer: BtnEditRenderer,
+      cellRendererParams:{
+        clicked: (field: any) => {
+          this.mostrarEventoSeleccionado(field);
+        },
+      },
     },
   ];
 
