@@ -109,7 +109,9 @@
     "menu-chpass": "Cambiar contraseña",
     "menu-perfil": "Mis datos",
     "menu-fotos": "Mi galería",
-    "menu-sesion": "Sesión"
+    "menu-sesion": "Sesión",
+    "recuperar-password": "Restablecer Contraseña",
+    "recuperar-passwordText": "Se requiere de su Email para restablecer contraseña, por favor ingrese su Email"
   },
   "navbar-staff": {
     "mi-cuenta": "Mi cuenta",
@@ -155,7 +157,7 @@
     "btn-registrar": "Crear cuenta",
     "datos-incorrectos": "Los datos de registro no son correctos",
     "cuenta-activada-titulo": "Felicitaciones",
-    "cuenta-activada": "Su cuenta ha sido activada puede utilizarla para ingresa con la contraseña definida",
+    "cuenta-activada": "Su cuenta ha sido activada puede utilizarla para ingresar con la contraseña definida",
     "error-activada": "Ocurrió un error al realizar la activación, intente más tarde"
   },
   "perfil": {
@@ -234,5 +236,24 @@
     "otroHabilidad": "Otra habilidad",
     "ok-envio-documento": "El documento ha sido almacenado",
     "error-envio-documento": "El documento no pudo ser enviado"
+  },
+  "recuperacion":{
+    "titulo": "Restablecer Contraseña",
+    "no-encontrada": "La solicitud para restablecer su contraseña no ha sido localizada",
+    "crear-invitacion": "Para crear una nueva solicitud utilice la opción restablecer contraseña",
+    "bienvenido": "Hola!,",
+    "completar-recuperacion": "Por favor llene los campos para restablecer su contraseña.",
+    "password": "Contraseña",
+    "password-conf": "Confirmar contraseña",
+    "password-hint": "Contraseña mínimo 6 caracteres debe contener al menos una mayúscula, una minúscula, un número y un caracter especial. Por ejemplo Ju4n$-MX.",
+    "btn-recuperar": "Establecer contraseñar",
+    "datos-incorrectos": "Los datos no son correctos",
+    "cuenta-activada-titulo": "Contraseña Restablecida",
+    "cuenta-activada": "Ahora puede ingresar con su nueva contraseña",
+    "error-activada": "Ocurrió un error al restablecer la contraseña, intente más tarde"
+  },
+  "solicitud":{
+    "solicitud-enviada": "Su solicitud ha sido enviada a su correo",
+    "solicitud-conflicto": "No se encontró el Email proporcionado"
   }
 }

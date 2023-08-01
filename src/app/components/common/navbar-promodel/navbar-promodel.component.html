@@ -16,7 +16,7 @@
                 <a class="navbar-brand" routerLink="/"><img [src]="cliente.webLogoBase64" alt="logo"></a>
 
                 <div class="collapse navbar-collapse mean-menu">
-                 
+
                     <ul class="navbar-nav">
                         <li *ngIf="autenticado && staff" class="nav-item"><a routerLink="/staff" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-staff' | translate }}</a></li>
                         <li *ngIf="autenticado && modelo" class="nav-item"><a routerLink="/model" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">{{ 'navbar.menu-modelo' | translate }}</a></li>
@@ -54,7 +54,7 @@
                     <div class="circle circle-three"></div>
                 </div>
             </div>
-            
+
             <div class="container">
                 <div class="option-inner">
                     <div class="others-option">
@@ -99,7 +99,6 @@
                             <div class="form-group">
                                 <input type="text" placeholder="{{ 'navbar.ingreso-email' | translate }}" class="form-control" formControlName="usuario">
                             </div>
-
                             <div class="input-group">
                                 <input [type]="showPass ? 'text' : 'password'"
                                     placeholder="{{ 'navbar.ingreso-password' | translate }}" class="form-control"
@@ -108,8 +107,10 @@
                                     <i [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"></i>
                                 </span>
                             </div>
-                            <button [disabled]="inCall" (click)="login()" type="submit">{{ 'navbar.login-btn' | translate }}</button>
-                        </form>
+                            <button class="" [disabled]="inCall" (click)="login()" type="submit">{{ 'navbar.login-btn' | translate }}</button>
+                            <button class="mt-1" [disabled]="inCall" (click)="solicitudPassword()" type="submit">{{ 'navbar.recuperar-password' | translate }}</button>
+                            <p *ngIf="existeEmail" class="alert alert-danger">{{'navbar.recuperar-passwordText' | translate}}</p>
+                          </form>
                         <span class="dont-account">{{ 'navbar.cuenta-inexistente' | translate }}  <a href="#">{{ 'navbar.registro' | translate }}</a></span>
                     </div>
                 </div>

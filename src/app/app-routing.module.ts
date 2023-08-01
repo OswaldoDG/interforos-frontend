@@ -47,6 +47,7 @@ import { VerticalListingsLeftSidebarComponent } from './components/pages/vertica
 import { VerticalListingsRightSidebarComponent } from './components/pages/vertical-listings-right-sidebar/vertical-listings-right-sidebar.component';
 import { UserGuard } from './services/guards/user-guard';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
+import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -58,6 +59,7 @@ const routes: Routes = [
   { path: 'perfil', component: PerfilPersonaComponent },
   { path: 'galeria', component: GaleriaModelComponent },
   { path: 'confirmacion/:id', component: ConfirmacionComponent },
+  { path: 'password/:id', component: RecuperarPasswordComponent },
   { path: 'index-2', component: HomeDemoTwoComponent },
   { path: 'about', component: AboutUsComponent },
   { path: 'how-it-works', component: HowItWorksPageComponent },

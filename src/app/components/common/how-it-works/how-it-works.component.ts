@@ -15,7 +15,7 @@ export class HowItWorksComponent implements OnInit {
     sectionTitle = [
         {
             title: '¿Cómo funciona?',
-            paragraph: 'Forma parte de nuestro talento y deja que Intereforos se socupe de encontrar un papel para ti.'
+            paragraph: 'Forma parte de nuestro talento y deja que Intereforos se ocupe de encontrar un papel para ti.'
         }
     ]
     howItWorksBox = [
