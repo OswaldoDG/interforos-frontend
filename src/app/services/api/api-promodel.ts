@@ -22,6 +22,20 @@ export interface IAccesoClient {
      */
     login(body: SolicitudAcceso | undefined): Observable<RespuestaLogin>;
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    passwordPost(body: string | undefined): Observable<Respuesta>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    id(id: string, body: string | undefined): Observable<void>;
+    /**
+     * @return Success
+     */
+    passwordGet(id: string): Observable<SolicitudSoporteUsuario>;
+    /**
      * @return Success
      */
     tokenRefresh(token: string): Observable<RespuestaLogin>;
@@ -100,6 +114,196 @@ export class AccesoClient implements IAccesoClient {
             }));
         }
         return _observableOf<RespuestaLogin>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    passwordPost(body: string | undefined, httpContext?: HttpContext): Observable<Respuesta> {
+        let url_ = this.baseUrl + "/acceso/password";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPasswordPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPasswordPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Respuesta>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Respuesta>;
+        }));
+    }
+
+    protected processPasswordPost(response: HttpResponseBase): Observable<Respuesta> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Respuesta;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Respuesta>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    id(id: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/acceso/password/id/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processId(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processId(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    passwordGet(id: string, httpContext?: HttpContext): Observable<SolicitudSoporteUsuario> {
+        let url_ = this.baseUrl + "/acceso/password/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPasswordGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPasswordGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SolicitudSoporteUsuario>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SolicitudSoporteUsuario>;
+        }));
+    }
+
+    protected processPasswordGet(response: HttpResponseBase): Observable<SolicitudSoporteUsuario> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SolicitudSoporteUsuario;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SolicitudSoporteUsuario>(null as any);
     }
 
     /**
@@ -925,6 +1129,12 @@ export class CastingClient implements ICastingClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1808,6 +2018,75 @@ export class ContenidoClient implements IContenidoClient {
             }));
         }
         return _observableOf<ElementoMediaCliente>(null as any);
+    }
+}
+
+export interface IDemoClient {
+    /**
+     * @return Success
+     */
+    demo(): Observable<void>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DemoClient implements IDemoClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    demo(httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/demo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDemo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDemo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDemo(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
     }
 }
 
@@ -2981,6 +3260,14 @@ export interface EventoCasting {
     coordenadas?: string | undefined;
 }
 
+export enum HttpCode {
+    None = "None",
+    Ok = "Ok",
+    BadRequest = "BadRequest",
+    NotFound = "NotFound",
+    Conflict = "Conflict",
+}
+
 export interface InformacionPerfil {
     nombreCompleto?: string | undefined;
     usuarioId?: string | undefined;
@@ -3111,6 +3398,12 @@ export interface RegistroUsuario {
     castingId?: string | undefined;
 }
 
+export interface Respuesta {
+    ok?: boolean;
+    error?: string | undefined;
+    httpCode?: HttpCode;
+}
+
 export interface RespuestaLogin {
     token?: string | undefined;
     refreshToken?: string | undefined;
@@ -3120,6 +3413,19 @@ export interface RespuestaLogin {
 export interface SolicitudAcceso {
     usuario: string;
     contrasena: string;
+}
+
+export interface SolicitudSoporteUsuario {
+    id?: string | undefined;
+    rev?: string | undefined;
+    readonly deleted?: boolean;
+    readonly conflicts?: string[] | undefined;
+    readonly attachments?: CouchAttachment[] | undefined;
+    usuarioId?: string | undefined;
+    tipo?: TipoServicio;
+    email?: string | undefined;
+    fechaEnvio?: Date;
+    fechaLimiteConfirmacion?: Date | undefined;
 }
 
 export enum TipoCuerpo {
@@ -3147,6 +3453,10 @@ export enum TipoRolCliente {
     Modelo = "Modelo",
     RevisorExterno = "RevisorExterno",
     Ninguno = "Ninguno",
+}
+
+export enum TipoServicio {
+    RecuperacionContrasena = "RecuperacionContrasena",
 }
 
 export interface FileParameter {

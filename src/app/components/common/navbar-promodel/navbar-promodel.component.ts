@@ -1,11 +1,11 @@
-import { PersistState } from '@datorama/akita';
+import { PersistState, isEmpty } from '@datorama/akita';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first, takeUntil } from 'rxjs/operators';
-import { AccesoClient, ClienteView, PersonaClient, RegistroClient, TipoRolCliente } from 'src/app/services/api/api-promodel';
+import { AccesoClient, ClienteView, HttpCode, PersonaClient, RegistroClient, TipoRolCliente } from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
 import { Router } from '@angular/router';
@@ -37,6 +37,8 @@ export class NavbarPromodelComponent implements OnInit {
   inCall: boolean = false;
   autenticado: boolean = false;
 
+  existeEmail : boolean = false;
+
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -66,6 +68,7 @@ export class NavbarPromodelComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
+    private ruta: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +77,8 @@ export class NavbarPromodelComponent implements OnInit {
         'navbar.registro-creado',
         'navbar.datos-incorrectos-login',
         'navbar.login-incorrecto',
+        'solicitud.solicitud-enviada',
+        'solicitud.solicitud-conflicto'
       ])
       .subscribe((trads) => {
         this.T = trads;
@@ -225,6 +230,26 @@ export class NavbarPromodelComponent implements OnInit {
           this.runLogin(false);
         }
       );
+  }
+
+  public solicitudPassword(){
+    if(this.loginForm.value.usuario != ''){
+      this.acceso.passwordPost(this.loginForm.value.usuario).subscribe((data)=>{
+        if(data.ok == true){
+          this.toastService.success(this.T['solicitud.solicitud-enviada'], {
+            position: 'bottom-center',
+          });
+        }else{
+          this.toastService.error(this.T['solicitud.solicitud-conflicto'], {
+            position: 'bottom-center',
+          });
+        }
+      });
+      this.loginForm.get('usuario').setValue('');
+      this.existeEmail = false;
+    }else{
+      this.existeEmail = true;
+    }
   }
 }
 
