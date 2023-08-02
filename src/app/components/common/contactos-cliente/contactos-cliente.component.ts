@@ -5,6 +5,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   Casting,
@@ -18,6 +19,7 @@ import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-contactos-cliente',
@@ -48,10 +50,16 @@ export class ContactosClienteComponent
   // Api para ccesdo a la tabla
   public gridApi!: GridApi<ContactoCasting>;
 
+  //Modal
+  @ViewChild( ModalConfirmacionComponent) componenteModal;
+
+  //variable para capturar el id del contacto seleccionado de la tabla a eliminar.
+  protected idSeleccinadoEliminar:any;
+
   constructor(
     private clientApi: CastingClient,
     private clientesClient: ClientesClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     this.formContactos = this.formBuilder.group({
       email: ['', Validators.required],
@@ -160,12 +168,12 @@ export class ContactosClienteComponent
   }
 
   public eliminaContacto(field : any){
-    var index = this.contactosCasting.findIndex(element => element.email == field);
-    if(index > -1){
-      this.contactosCasting.splice(index,1);
-      this.gridApi.setRowData(this.contactosCasting);
-    }
-    this.listaModificada = true;
+      var index = this.contactosCasting.findIndex(element => element.email == field);
+      if(index > -1){
+        this.contactosCasting.splice(index,1);
+        this.gridApi.setRowData(this.contactosCasting);
+      }
+      this.listaModificada = true;
   }
 
   onGridReady(params: GridReadyEvent<ContactoCasting>) {
@@ -173,6 +181,12 @@ export class ContactosClienteComponent
   }
 
   // Auxiliares UI
+  recibidoDelModal(r : string){
+    if(r == 'Y'){
+      this.eliminaContacto(this.idSeleccinadoEliminar);
+    }
+    this.idSeleccinadoEliminar = '';
+  }
 
   public defaultColDef: ColDef = {
     resizable: false,
@@ -196,7 +210,8 @@ export class ContactosClienteComponent
       cellRenderer: BtnCloseRenderer,
       cellRendererParams:{
         clicked: (field : any) => {
-          this.eliminaContacto(field);
+          this.componenteModal.openModal(this.componenteModal.myTemplate, 'el contacto');
+          this.idSeleccinadoEliminar = field;
         },
       },
     },

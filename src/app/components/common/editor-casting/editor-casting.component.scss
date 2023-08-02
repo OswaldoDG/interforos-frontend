@@ -14,6 +14,7 @@
   background-color: #f2f2f2;
   height: 600;
   width: 100%;
+  max-width: 230px;
   padding: 10px;
 
 }
@@ -21,12 +22,15 @@
 .img-space img {
   display: block;
   width: 100%;
+  max-width: 249px;
+  max-height: 230px;
   height: 100%;
   margin: auto;
   cursor: pointer;
 }
 .fileInputProfileWrap {
   width: 100%;
+  max-width: 249px;
   height: auto;
 }
 
@@ -34,6 +38,8 @@
   position: absolute;
   height: 100%;
   width: 100%;
+  max-width: 249px;
+  max-height: 230px;
   z-index: 99;
   opacity: 0;
 }

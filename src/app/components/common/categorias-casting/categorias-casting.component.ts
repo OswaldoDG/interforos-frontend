@@ -15,6 +15,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-categorias-casting',
@@ -36,6 +37,12 @@ export class CategoriasCastingComponent implements OnInit {
   //bandras
   listaModificada: boolean;
   editar: boolean = false;
+
+  //Modal
+  @ViewChild( ModalConfirmacionComponent) componenteModal;
+
+  //variable para capturar el id del contacto seleccionado a eliminar.
+  protected idSeleccinadoEliminar:any;
 
   constructor(
     private formBuilder: FormBuilder
@@ -97,6 +104,14 @@ export class CategoriasCastingComponent implements OnInit {
     this.gridApi = params.api;
   }
 
+  // Auxiliares UI
+  recibidoDelModal(r : string){
+    if(r == 'Y'){
+      this.eliminaCategoria(this.idSeleccinadoEliminar);
+    }
+    this.idSeleccinadoEliminar = '';
+  }
+
   //configuracion para columnas
   public defaultColDef: ColDef = {
     wrapHeaderText: false,
@@ -118,7 +133,8 @@ export class CategoriasCastingComponent implements OnInit {
       cellRenderer: BtnCloseRenderer,
       cellRendererParams: {
         clicked: (field: any) => {
-          this.eliminaCategoria(field);
+          this.componenteModal.openModal(this.componenteModal.myTemplate, 'la categoría');
+          this.idSeleccinadoEliminar = field;
         },
       },
     },

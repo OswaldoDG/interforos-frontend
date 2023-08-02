@@ -1,11 +1,12 @@
 import { formatDate } from '@angular/common';
-import { Component, Inject, Input, LOCALE_ID, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { Casting, CastingClient, EventoCasting } from 'src/app/services/api/api-promodel';
 import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 
 @Component({
@@ -35,6 +36,12 @@ export class EventosCastingComponent implements OnInit {
 
   //variable que almacena el evento que se va a modificar.
   protected eventoSeleccionado : any;
+
+  //Modal
+  @ViewChild( ModalConfirmacionComponent) componenteModal;
+
+  //variable para capturar el id del contacto seleccionado a eliminar.
+  protected idSeleccinadoEliminar:any;
 
   constructor(private formBuilder: FormBuilder,
               @Inject(LOCALE_ID) private locale: string,
@@ -176,6 +183,13 @@ export class EventosCastingComponent implements OnInit {
     this.gridApi = params.api;
   }
 
+  recibidoDelModal(r : string){
+    if(r == 'Y'){
+      this.eliminaEventoSeleccionado(this.idSeleccinadoEliminar);
+    }
+    this.idSeleccinadoEliminar = '';
+  }
+
 
   //AUXILIARES
   public defaultColDef: ColDef = {
@@ -199,7 +213,8 @@ export class EventosCastingComponent implements OnInit {
       cellRenderer: BtnCloseRenderer,
       cellRendererParams:{
         clicked: (field : any) => {
-          this.eliminaEventoSeleccionado(field);
+          this.componenteModal.openModal(this.componenteModal.myTemplate, 'el evento');
+          this.idSeleccinadoEliminar = field;
         },
       },
 
