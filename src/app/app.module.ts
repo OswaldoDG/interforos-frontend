@@ -132,6 +132,7 @@ import { BtnCloseRenderer } from './components/common/cells-render/btn-close-ren
 import { BtnEditRenderer } from './components/common/cells-render/btn-edit-renderer.component';
 import { EventosCastingComponent } from './components/common/eventos-casting/eventos-casting.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
+import { ModalConfirmacionComponent } from './components/common/modal-confirmacion/modal-confirmacion.component';
 
 defineLocale('es', esLocale);
 
@@ -234,6 +235,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BtnEditRenderer,
     EventosCastingComponent,
     RecuperarPasswordComponent,
+    ModalConfirmacionComponent,
   ],
   imports: [
     AlertModule,
