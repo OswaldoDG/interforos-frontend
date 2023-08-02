@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   CastingClient,
   CastingListElement,
@@ -13,7 +14,7 @@ export class HometwoEventsComponent implements OnInit {
   castingsActuales: CastingListElement[] = [];
   castingPrincipal = {} as CastingListElement;
   hayCasting = false;
-  constructor(private castingClient: CastingClient) {}
+  constructor(private castingClient: CastingClient, private ruta: Router) {}
 
   ngOnInit(): void {
     this.castingClient.actuales().subscribe((data) => {
@@ -32,4 +33,7 @@ export class HometwoEventsComponent implements OnInit {
         'lista de eventos que tenemos para tí, no olvides inscribirte vía nuestro portal, si tienes alguna duda contáctanos.',
     },
   ];
+  public irCasting(id: string) {
+    this.ruta.navigateByUrl('casting/' + id);
+  }
 }

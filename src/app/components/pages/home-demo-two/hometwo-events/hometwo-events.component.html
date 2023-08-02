@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <div class="events-box">
-          <img src="assets/img/events/events1x.jpg" alt="image" />
+          <img src="assets/img/events/events3x.jpg" alt="image" />
           <div class="content">
             <h3>{{ castingPrincipal.nombre }}</h3>
             <span class="meta"
@@ -20,7 +20,7 @@
               {{ castingPrincipal.fechaApertura | date : "yyyy-MM-dd" }}
             </span>
           </div>
-          <a [routerLink]="" class="link-btn"></a>
+          <a class="link-btn" (click)="irCasting(castingPrincipal.id)"></a>
         </div>
       </div>
 
@@ -42,12 +42,15 @@
 
               <div class="col-lg-8 col-md-8 p-0">
                 <div class="content">
+                  <h3>{{ casting.nombre }}</h3>
                   <span class="meta"
                     ><i class="flaticon-calendar"></i>
-                    {{ castingPrincipal.fechaApertura | date : "yyyy-MM-dd" }}
+                    {{ casting.fechaApertura | date : "yyyy-MM-dd" }}
                   </span>
                   <h3>
-                    <a [routerLink]="">{{ casting.nombre }}</a>
+                    <a class="link-btn" (click)="irCasting(casting.id)">
+                      Ver...
+                    </a>
                   </h3>
                 </div>
               </div>

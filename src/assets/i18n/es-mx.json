@@ -255,5 +255,20 @@
   "solicitud":{
     "solicitud-enviada": "Su solicitud ha sido enviada a su correo",
     "solicitud-conflicto": "No se encontró el Email proporcionado"
+  },
+  "casting": {
+    "nombre": "Nombre",
+    "inscribir": "Inscribir",
+    "cliente": "Cliente",
+    "fecha-apertura": "Apertura",
+    "fecha-cierre": "Cierre",
+    "descripcion": "Descripción",
+    "categorias": "Categorias",
+    "eventos": "Eventos",
+    "eventos-fecha-inicio": "Inicia",
+    "eventos-fecha-fin": "Termina",
+    "eventos-notas": "Notas",
+    "eventos-lugar": "Lugar",
+    "eventos-link": "Link"
   }
 }

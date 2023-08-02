@@ -47,6 +47,7 @@ import { VerticalListingsLeftSidebarComponent } from './components/pages/vertica
 import { VerticalListingsRightSidebarComponent } from './components/pages/vertical-listings-right-sidebar/vertical-listings-right-sidebar.component';
 import { UserGuard } from './services/guards/user-guard';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
+import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 
 const routes: Routes = [
@@ -78,6 +79,7 @@ const routes: Routes = [
   { path: 'user-profile', component: AuthorProfileComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'destinations', component: TopPlaceComponent },
+  { path: 'casting/:id', component: HomeCastingViewComponent },
   {
     path: 'vertical-listings-left-sidebar',
     component: VerticalListingsLeftSidebarComponent,
@@ -121,7 +123,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      relativeLinkResolution: 'legacy',
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+    }),
+  ],
+
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
