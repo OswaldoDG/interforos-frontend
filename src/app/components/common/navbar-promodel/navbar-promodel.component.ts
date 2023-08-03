@@ -245,7 +245,6 @@ export class NavbarPromodelComponent implements OnInit {
           });
         }
       });
-      this.loginForm.get('usuario').setValue('');
       this.existeEmail = false;
     }else{
       this.existeEmail = true;
