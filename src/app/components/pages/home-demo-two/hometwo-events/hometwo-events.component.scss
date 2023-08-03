@@ -73,13 +73,13 @@
         box-shadow: 3px 3px #eee8aa;
         border: 1px solid #f0e68c;
         display: inline-block;
-        width: 44px;
-        height: 44px;
+        width: 100px;
+        height: 100px;
         text-align: center;
         background-color: var(--whiteColor);
         border-radius: 50%;
         line-height: 44px;
-        font-size: 22px;
+        font-size: 50px;
         opacity: 0;
         visibility: hidden;
 
@@ -110,7 +110,7 @@
     background-color: var(--whiteColor);
 
     .image {
-        height: 90%;
+        height: 100%;
         border-radius: 5px;
         border-right: 1px solid #f0e68c;
         position: relative;
@@ -211,6 +211,7 @@
         border-radius: 5px;
         display: block;
         z-index: 3;
+        font-size: 30px;
     }
     .content {
         position: absolute;

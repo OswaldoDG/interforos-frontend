@@ -131,6 +131,7 @@ import { CategoriasCastingComponent } from './components/common/categorias-casti
 import { BtnCloseRenderer } from './components/common/cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from './components/common/cells-render/btn-edit-renderer.component';
 import { EventosCastingComponent } from './components/common/eventos-casting/eventos-casting.component';
+import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { ModalConfirmacionComponent } from './components/common/modal-confirmacion/modal-confirmacion.component';
 
@@ -234,6 +235,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BtnCloseRenderer,
     BtnEditRenderer,
     EventosCastingComponent,
+    HomeCastingViewComponent,
     RecuperarPasswordComponent,
     ModalConfirmacionComponent,
   ],
