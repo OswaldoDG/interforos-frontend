@@ -135,6 +135,7 @@ import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { ModalConfirmacionComponent } from './components/common/modal-confirmacion/modal-confirmacion.component';
 
+
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {

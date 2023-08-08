@@ -2,7 +2,6 @@
 
 <!-- Start Main Content Wrapper Area -->
 <div class="main-content d-flex flex-column">
-
   <app-navbar-staff></app-navbar-staff>
 
   <!-- Breadcrumb Area -->
@@ -18,29 +17,37 @@
 
   <!-- Start -->
   <div class="bookings-listings-box">
-    <h3>{{ 'staff-search.titulo' | translate }}</h3>
-<ngx-spinner name="buscar" [fullScreen]="true" type="ball-scale-multiple" size="medium">
-  <p class="loading">...</p>
-</ngx-spinner>
+    <h3>{{ "staff-search.titulo" | translate }}</h3>
+    <ngx-spinner
+      name="buscar"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+    >
+      <p class="loading">...</p>
+    </ngx-spinner>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
-      <app-buscar-persona (PersonasEncontradas)="PersonasEncontradas($event)"
-        (EstadoBusqueda)="EstadoBusqueda($event)"></app-buscar-persona>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
-      <app-paginado-personas [PaginadoPersonas]="PaginadoPersonas"></app-paginado-personas>
-    </div>
-  </div>
+    <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          &nbsp;
+        <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
+          <app-buscar-persona
+            (PersonasEncontradas)="PersonasEncontradas($event)"
+            (EstadoBusqueda)="EstadoBusqueda($event)"
+
+          ></app-buscar-persona>
         </div>
       </div>
-</div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
+          <app-paginado-personas
+            [PaginadoPersonas]="PaginadoPersonas"
+          ></app-paginado-personas>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">&nbsp;</div>
+      </div>
+    </div>
     <!-- <div class="table-responsive">
       <table class="table">
         <thead>
@@ -92,6 +99,5 @@
   <div class="flex-grow-1"></div>
 
   <app-copyrights></app-copyrights>
-
 </div>
 <!-- End Main Content Wrapper Area -->

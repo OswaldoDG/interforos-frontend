@@ -11,6 +11,7 @@ import {
   PersonaClient,
   PersonaResponsePaginado,
   RegistroClient,
+  SelectorCastingCategoria,
   TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
@@ -20,16 +21,18 @@ import { Subject } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
+import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 
 @Component({
   selector: 'app-promodel-staff',
   templateUrl: './promodel-staff.component.html',
   styleUrls: ['./promodel-staff.component.scss'],
+  providers: [CastingStaffServiceService],
 })
 export class PromodelStaffComponent implements OnInit {
   T: any[];
   PaginadoPersonas: PersonaResponsePaginado = undefined;
-
+  casting: SelectorCastingCategoria;
   PersonasEncontradas(p) {
     this.PaginadoPersonas = p;
   }
