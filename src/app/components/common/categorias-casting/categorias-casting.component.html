@@ -24,7 +24,9 @@
       ></textarea>
     </div>
 
-    <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+    <div
+      class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center"
+    >
       <div class="custom-file fileInputProfileWrap">
         <div class="img-space">
           <ng-container *ngIf="editar; else elseTemplate">
@@ -33,7 +35,11 @@
             </button>
           </ng-container>
           <ng-template #elseTemplate>
-            <button class="btn btn-primary m-4" (click)="agregarCategoria()" [disabled]="formCategorias.invalid">
+            <button
+              class="btn btn-primary m-4"
+              (click)="agregarCategoria()"
+              [disabled]="formCategorias.invalid"
+            >
               {{ "proyectos.form-agregar" | translate }}
             </button>
           </ng-template>
@@ -57,6 +63,9 @@
       >
       </ag-grid-angular>
     </div>
-    <app-modal-confirmacion #modalContactos (modalConfirm) = "recibidoDelModal($event)"></app-modal-confirmacion>
+    <app-modal-confirmacion
+      #modalContactos
+      (modalConfirm)="recibidoDelModal($event)"
+    ></app-modal-confirmacion>
   </div>
 </form>

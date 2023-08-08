@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { find } from '@datorama/akita';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,15 +16,20 @@ import { CatalogoTipoCuerpo } from 'src/app/modelos/entidades-vacias';
 import { CatalogosCliente } from 'src/app/modelos/locales/catalogos-cliente';
 import {
   BusquedaPersonasRequestPaginado,
+  CastingClient,
   ElementoCatalogo,
   Persona,
   PersonaClient,
   PersonaResponsePaginado,
+  SelectorCastingCategoria,
+  SelectorCategoria,
   TipoCuerpo,
 } from 'src/app/services/api/api-promodel';
+import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
+
 
 @Component({
   selector: 'app-buscar-persona',
@@ -34,7 +40,6 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   @Output() PersonasEncontradas: EventEmitter<PersonaResponsePaginado> =
     new EventEmitter();
   @Output() EstadoBusqueda: EventEmitter<boolean> = new EventEmitter();
-
   private personas: Persona[] = [];
   private destroy$ = new Subject();
   private catalogos: CatalogosCliente[] = [];
@@ -68,6 +73,16 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   dataTipoCuerpo: ElementoCatalogo[];
   selectedTipoCuerpo: ElementoCatalogo[] = [];
 
+  castings: SelectorCastingCategoria[] = [];
+  categorias: SelectorCategoria[] = [];
+
+  formBuscarCasting: FormGroup = this.fb.group({
+    casting: [null],
+    categorias: [null],
+  });
+
+  cateoriaId: string = null;
+  porCategorias: boolean = false;
   constructor(
     private personaApi: PersonaClient,
     private personaService: PersonaInfoService,
@@ -77,8 +92,17 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     private toastService: HotToastService,
     private fb: FormBuilder,
     private sessionService: SessionService,
-    private session: SessionQuery
-  ) {}
+    private session: SessionQuery,
+    private castingClient: CastingClient,
+    private formBuilder: FormBuilder,
+    private servicio: CastingStaffServiceService
+  ) {
+    this.formBuscarCasting = this.formBuilder.group({
+      casting: ['', Validators.required],
+      categorias: ['', Validators.required],
+      porCategorias: [this.porCategorias],
+    });
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -86,6 +110,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cargarCastings();
     this.CargaTraducciones();
   }
 
@@ -116,6 +141,19 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       });
   }
 
+  buscarModelos() {
+    this.EstadoBusqueda.emit(true);
+    const param = this.BusquedaDesdeFormaIds();
+    console.log(param);
+    this.personaApi
+      .id(param)
+      .pipe(first())
+      .subscribe((r) => {
+        this.PersonasEncontradas.emit(r);
+        this.EstadoBusqueda.emit(false);
+      });
+  }
+
   private BusquedaDesdeForma(): BusquedaPersonasRequestPaginado {
     return {
       request: {
@@ -130,6 +168,37 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         colorCabelloIds: this.GetIdsDeFormField('colorCabello'),
         idiomasIds: this.GetIdsDeFormField('idioma'),
         habilidadesIds: this.GetIdsDeFormField('habilidades'),
+      },
+      ordernarASC: true,
+      ordenarPor: 'nombre',
+      pagina: 1,
+      tamano: 50,
+    };
+  }
+
+  private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
+    let personas: string[] = [];
+    if (this.porCategorias) {
+      const categoria = this.categorias.find(
+        (_) => _.id == this.formBuscarCasting.get('categorias').value
+      );
+      if (categoria != undefined) {
+        categoria.modelos.forEach((id) => {
+          personas.push(id);
+        });
+      }
+    } else {
+      this.categorias.forEach((categoria) => {
+        categoria.modelos.forEach((m) => {
+          if (!personas.includes(m)) {
+            personas.push(m);
+          }
+        });
+      });
+    }
+    return {
+      request: {
+        ids: personas,
       },
       ordernarASC: true,
       ordenarPor: 'nombre',
@@ -259,5 +328,43 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
           }
         );
     });
+  }
+  ngOnChanges(): void {}
+
+  onChangeCasting(id: any) {
+    this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
+    this.cargarCategorias();
+    this.servicio.ActualizarCategoria(this.categorias[0].id);
+  }
+  onChangeCategoria(id: string) {
+    this.servicio.ActualizarCategoria(id);
+  }
+  onChangeCheckBox() {
+    this.porCategorias = !this.porCategorias;
+  }
+  cargarCategorias() {
+    this.categorias = this.servicio.CategoriasCastingActual();
+    this.servicio.ActualizarCategoria(this.categorias[0].id);
+  }
+  cargarCastings() {
+    const temp: SelectorCastingCategoria[] = [];
+    this.castingClient.castingGet(false).subscribe((data) => {
+      data.forEach((casting) => {
+        this.castingClient.selector(casting.id).subscribe((c) => {
+          if (c) {
+            temp.push(c);
+          }
+        });
+      });
+    });
+    this.castings = temp;
+  }
+  limpiarSelect() {
+    const miSelect = document.getElementById('categoriaSelect');
+    //Crea una opción en blanco y agrégala al select
+    // const opcionEnBlanco = document.createElement('option');
+    // opcionEnBlanco.value = null;
+    // opcionEnBlanco.textContent = 'Seleccionar...';
+    // miSelect.appendChild(opcionEnBlanco);
   }
 }

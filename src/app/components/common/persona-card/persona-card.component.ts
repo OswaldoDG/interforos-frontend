@@ -1,9 +1,17 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Persona } from 'src/app/services/api/api-promodel';
+import {
+  CastingClient,
+  Persona,
+  SelectorCastingCategoria,
+} from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
+import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { isFirstDayOfWeek } from 'ngx-bootstrap/chronos';
+import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-persona-card',
@@ -12,6 +20,7 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 })
 export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
+
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
   imagenes = [];
@@ -22,10 +31,16 @@ export class PersonaCardComponent implements OnInit {
     height: '250px',
     space: 1,
   };
-
+  enCasting: boolean = false;
+  T: any;
+  hayCategoria: boolean = false;
   constructor(
     private bks: BreakpointObserver,
-    private personaService: PersonaInfoService
+    private personaService: PersonaInfoService,
+    private servicio: CastingStaffServiceService,
+    private castingService: CastingClient,
+    private toastService: HotToastService,
+    private translate: TranslateService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,7 +48,6 @@ export class PersonaCardComponent implements OnInit {
       if (this.persona?.elementoMedioPrincipalId) {
         this.avatarUrl = `${environment.apiRoot}/contenido/${this.persona.usuarioId}/${this.persona.elementoMedioPrincipalId}/thumb`;
       }
-      console.log(this.persona.usuarioId);
       this.personaService
         .obtieneMediosPErsona(this.persona.usuarioId)
         .subscribe((m) => {
@@ -52,8 +66,8 @@ export class PersonaCardComponent implements OnInit {
               }
             }
           });
-          console.log(m);
         });
+      this.validarExiste();
     }
   }
 
@@ -67,5 +81,50 @@ export class PersonaCardComponent implements OnInit {
           this.mobile = true;
         }
       });
+
+    this.servicio.CategoriaSub().subscribe((e) => {
+      this.validarExiste();
+    });
+    this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
+      this.T = ts;
+    });
+    this.servicio.CategoriaSub().subscribe((r) => (this.hayCategoria = r));
+  }
+  validarExiste() {
+    this.enCasting =
+      this.servicio
+        .CastingsPersona(this.persona.usuarioId)
+        .indexOf(this.servicio.CategoriActual()) >= 0;
+  }
+
+  onChangeCheckBox(id: string) {
+    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
+      if (this.enCasting) {
+        this.castingService
+          .modeloPut(
+            this.servicio.CastingIdActual(),
+            id,
+            this.servicio.CategoriActual()
+          )
+          .subscribe((d) => {
+            this.servicio.agregarModelo(id, this.servicio.CategoriActual());
+          });
+      } else {
+        this.castingService
+          .modeloDelete(
+            this.servicio.CastingIdActual(),
+            id,
+            this.servicio.CategoriActual()
+          )
+          .subscribe((d) => {
+            this.servicio.removerModelo(id, this.servicio.CategoriActual());
+          });
+      }
+    } else {
+      this.validarExiste();
+      this.toastService.warning(this.T['buscar.categorias-error'], {
+        position: 'bottom-center',
+      });
+    }
   }
 }
