@@ -4,11 +4,31 @@ import {
   SelectorCategoria,
 } from './api/api-promodel';
 import { Observable, Subject } from 'rxjs';
+import { SessionQuery } from '../state/session.query';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class CastingStaffServiceService {
   private casting: SelectorCastingCategoria = null;
   private categoriaActual: string = null;
+  private userId: string = null;
+  private destroySubject: Subject<void> = new Subject();
+  
+  constructor(sessionQuery: SessionQuery) {
+    // Session query lee el id desde el token de JWT, tka until usa un subject para reemover la susbscripcion cuandoo el servicio se destruye
+    sessionQuery.userId$.pipe(takeUntil(this.destroySubject)).subscribe((id) => {
+      this.userId = id;
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroySubject.next();
+  }
+
+  // devuelve el is del usuario en sesión
+  public getUserId() {
+    return this.userId;
+  }
 
   private categoriaSub: Subject<boolean> = new Subject();
   public CategoriaSub(): Observable<boolean> {
@@ -41,8 +61,7 @@ export class CastingStaffServiceService {
   public CategoriasCastingActual(): SelectorCategoria[] {
     return this.casting.categorias;
   }
-  constructor() {}
-
+  
   public agregarModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
     this.casting.categorias[indexC].modelos.push(modeloId);

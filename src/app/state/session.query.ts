@@ -14,6 +14,7 @@ export class SessionQuery extends Query<SessionState> {
   
   autenticado$ = this.select(state => !!state.autenticado);
   perfil$ = this.select(state => state.perfil);
+  userId$ = this.select(state => state.userId);
   cliente$ = this.select(state => state.cliente);
   alias$ = this.select(state => state.perfil.alias);
 

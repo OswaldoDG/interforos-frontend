@@ -10,6 +10,7 @@ export interface SessionState {
    perfil: InformacionPerfil;
    lang: string;
    cliente: ClienteView;
+   userId: string;
 }
 
 export function createInitialState(): SessionState {
@@ -19,7 +20,8 @@ export function createInitialState(): SessionState {
     autenticado: false,
     perfil: null,
     lang: "es-MX",
-    cliente: null
+    cliente: null,
+    userId: null
   };
 }
 

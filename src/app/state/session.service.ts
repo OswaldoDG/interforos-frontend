@@ -6,12 +6,22 @@ import {
   RespuestaLogin,
 } from '../services/api/api-promodel';
 import { SessionStore } from './session.store';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   constructor(private sessionStore: SessionStore) {}
+
+  // Obtiene la decodificacion del token de JWT
+  decodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
+    }
+  }
 
   // Actualiza la configuración del cliente
   updateConfig(config: ConfiguracionApp) {
@@ -22,7 +32,11 @@ export class SessionService {
 
   // Establece los datos de sesión tras el login exitoso
   loginExitoso(r: RespuestaLogin) {
+    
+    const decoded: JwtPayload = this.decodedAccessToken(r.token)
     sessionStorage.setItem('token', r.token);
+    sessionStorage.setItem('userId', decoded.sub);
+
     this.sessionStore.update((state) => ({
       auth: r,
       autenticado: true,

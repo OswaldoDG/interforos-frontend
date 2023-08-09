@@ -31,6 +31,7 @@
     "bootstrap": "^5.2.0-beta1",
     "bootstrap-icons": "^1.10.5",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "magnific-popup": "^1.1.0",
     "ng-image-slider": "^6.1.0",
     "ng-multiselect-dropdown": "^0.3.9",
