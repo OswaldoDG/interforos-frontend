@@ -34,6 +34,7 @@
               "src/assets/css/animate.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
+              "src/assets/css/bootstrap-icons.min.css",
               "src/assets/css/flaticon.css",
               "src/assets/css/meanmenu.min.css",
               "src/assets/css/boxicons.min.css",

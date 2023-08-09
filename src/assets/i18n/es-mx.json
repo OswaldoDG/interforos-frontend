@@ -25,7 +25,12 @@
     "tipocuerpo-delgado": "Delgado",
     "tipocuerpo-normal": "Normal",
     "tipocuerpo-sobrepeso": "Sobrepeso",
-    "tipocuerpo-obeso": "Obeso"
+    "tipocuerpo-obeso": "Obeso",
+    "por-categoria":"Por Categorías",
+    "casting":"Casting",
+    "categorias":"Categorías",
+    "categorias-error":"Elija una categoria",
+    "categoria-selecionar":"Seleccionar.."
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",

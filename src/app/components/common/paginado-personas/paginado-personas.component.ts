@@ -18,6 +18,7 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 })
 export class PaginadoPersonasComponent implements OnInit, OnChanges {
   @Input() PaginadoPersonas: PersonaResponsePaginado = undefined;
+
   personasDesplegables = [];
   gridListings: number = 1;
   datosValidos: boolean = false;

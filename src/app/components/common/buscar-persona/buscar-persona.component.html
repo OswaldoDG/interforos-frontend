@@ -1,83 +1,222 @@
 <form [formGroup]="formBuscar">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-12">
-      <label>{{'buscar.genero' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;" formControlName="generosId"
-        id="generosId" [settings]="dropdownSettings" [data]="dataGeneros" [(ngModel)]="generosId">
+      <label>{{ "buscar.genero" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="generosId"
+        id="generosId"
+        [settings]="dropdownSettings"
+        [data]="dataGeneros"
+        [(ngModel)]="generosId"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
-      <label>{{'buscar.edad' | translate}}</label>
+      <label>{{ "buscar.edad" | translate }}</label>
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="input-group form-floating">
-            <input type="number" class="form-control" id="edadMinima" formControlName="edadMinima" placeholder="##">
-            <label for="edadMinima">{{'buscar.edad-min' | translate}}</label>
+            <input
+              type="number"
+              class="form-control"
+              id="edadMinima"
+              formControlName="edadMinima"
+              placeholder="##"
+            />
+            <label for="edadMinima">{{ "buscar.edad-min" | translate }}</label>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="input-group form-floating">
-            <input type="number" class="form-control" id="edadMaxima" formControlName="edadMaxima" placeholder="##">
-            <label for="edadMaxima">{{'buscar.edad-max' | translate}}</label>
+            <input
+              type="number"
+              class="form-control"
+              id="edadMaxima"
+              formControlName="edadMaxima"
+              placeholder="##"
+            />
+            <label for="edadMaxima">{{ "buscar.edad-max" | translate }}</label>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.tipocuerpo' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;" formControlName="tipoCuerpo"
-        id="tipoCuerpo" [settings]="dropdownSettings" [data]="dataTipoCuerpo" [(ngModel)]="selectedTipoCuerpo">
+      <label>{{ "buscar.tipocuerpo" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="tipoCuerpo"
+        id="tipoCuerpo"
+        [settings]="dropdownSettings"
+        [data]="dataTipoCuerpo"
+        [(ngModel)]="selectedTipoCuerpo"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.etnia' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;" formControlName="tipoEtnia"
-        id="tipoEtnia" [settings]="dropdownSettings" [data]="dataEtnia" [(ngModel)]="selectedEtnia">
+      <label>{{ "buscar.etnia" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="tipoEtnia"
+        id="tipoEtnia"
+        [settings]="dropdownSettings"
+        [data]="dataEtnia"
+        [(ngModel)]="selectedEtnia"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.ojos' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;" formControlName="tipoOjos"
-        id="tipoOjos" [settings]="dropdownSettings" [data]="dataOjos" [(ngModel)]="selectedOjos">
+      <label>{{ "buscar.ojos" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="tipoOjos"
+        id="tipoOjos"
+        [settings]="dropdownSettings"
+        [data]="dataOjos"
+        [(ngModel)]="selectedOjos"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.tipocabello' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
-        formControlName="tipoCabello" id="tipoCabello" [settings]="dropdownSettings" [data]="dataCabello"
-        [(ngModel)]="selectedCabello">
+      <label>{{ "buscar.tipocabello" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="tipoCabello"
+        id="tipoCabello"
+        [settings]="dropdownSettings"
+        [data]="dataCabello"
+        [(ngModel)]="selectedCabello"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.colorcabello' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
-        formControlName="colorCabello" id="colorCabello" [settings]="dropdownSettings" [data]="dataColorCabello"
-        [(ngModel)]="selectedColorCabello">
+      <label>{{ "buscar.colorcabello" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="colorCabello"
+        id="colorCabello"
+        [settings]="dropdownSettings"
+        [data]="dataColorCabello"
+        [(ngModel)]="selectedColorCabello"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.idiomas' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;" formControlName="idioma"
-        id="idioma" [settings]="dropdownSettings" [data]="dataIdiomas" [(ngModel)]="selectedIdiomas">
+      <label>{{ "buscar.idiomas" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="idioma"
+        id="idioma"
+        [settings]="dropdownSettings"
+        [data]="dataIdiomas"
+        [(ngModel)]="selectedIdiomas"
+      >
       </ng-multiselect-dropdown>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-      <label>{{'buscar.habilidades' | translate}}</label>
-      <ng-multiselect-dropdown placeholder="&nbsp;" noDataAvailablePlaceholderText="&nbsp;"
-        formControlName="habilidades" idioma="habilidades" [settings]="dropdownSettings" [data]="dataHabilidades"
-        [(ngModel)]="selectedHabilidades">
+      <label>{{ "buscar.habilidades" | translate }}</label>
+      <ng-multiselect-dropdown
+        placeholder="&nbsp;"
+        noDataAvailablePlaceholderText="&nbsp;"
+        formControlName="habilidades"
+        idioma="habilidades"
+        [settings]="dropdownSettings"
+        [data]="dataHabilidades"
+        [(ngModel)]="selectedHabilidades"
+      >
       </ng-multiselect-dropdown>
     </div>
-        <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
-          <label>{{'buscar.nombre' | translate}}</label>
-          <div class="input-group">
-            <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="">
-          </div>
-        </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
+      <label>{{ "buscar.nombre" | translate }}</label>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          formControlName="nombre"
+          placeholder=""
+        />
+      </div>
+    </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-4">
       <div class="text-center">
-        <button type="button" [disabled]="inCall" (click)="buscar()" class="btn btn-primary">
-          {{'buscar.btn-buscar' | translate}}</button>
+        <button
+          type="button"
+          [disabled]="inCall"
+          (click)="buscar()"
+          class="btn btn-primary"
+        >
+          {{ "buscar.btn-buscar" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<hr />
+<form [formGroup]="formBuscarCasting">
+  <div class="row justify-content-center">
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
+      <label>{{ "buscar.casting" | translate }}</label>
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        placeholder="&nbsp;"
+        formControlName="casting"
+        (change)="onChangeCasting($event.target.value)"
+      >
+        <option *ngFor="let casting of castings" [value]="casting.id">
+          {{ casting.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
+      <label>{{ "buscar.categorias" | translate }}</label>
+      <select
+        class="form-select"
+        id="categoriaSelect"
+        aria-label="Default select example"
+        formControlName="categorias"
+        (change)="onChangeCategoria($event.target.value)"
+      >
+        <ng-container *ngIf="categorias.length > 0">
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.nombre }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12 justify-center">
+      <div class="form-check p-5">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="porCategorias"
+          (change)="onChangeCheckBox()"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          {{ "buscar.por-categoria" | translate }}
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-3">
+      <div class="text-center">
+        <button
+          type="button"
+          [disabled]="inCall || formBuscarCasting.invalid"
+          (click)="buscarModelos()"
+          class="btn btn-primary"
+        >
+          {{ "buscar.btn-buscar" | translate }}
+        </button>
       </div>
     </div>
   </div>
