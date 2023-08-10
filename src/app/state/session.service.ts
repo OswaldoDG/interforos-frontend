@@ -16,6 +16,7 @@ export class SessionService {
 
   // Obtiene la decodificacion del token de JWT
   decodedAccessToken(token: string): any {
+    console.log(token);
     try {
       return jwt_decode(token);
     } catch(Error) {

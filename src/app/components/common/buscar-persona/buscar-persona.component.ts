@@ -349,13 +349,15 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   cargarCastings() {
     const temp: SelectorCastingCategoria[] = [];
     this.castingClient.castingGet(false).subscribe((data) => {
-      data.forEach((casting) => {
-        this.castingClient.selector(casting.id).subscribe((c) => {
-          if (c) {
-            temp.push(c);
-          }
+      if(data) {
+        data.forEach((casting) => {
+          this.castingClient.selector(casting.id).subscribe((c) => {
+            if (c) {
+              temp.push(c);
+            }
+          });
         });
-      });
+      }
     });
     this.castings = temp;
   }

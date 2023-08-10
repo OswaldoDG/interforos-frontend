@@ -15,10 +15,8 @@ export class CastingStaffServiceService {
   private destroySubject: Subject<void> = new Subject();
   
   constructor(sessionQuery: SessionQuery) {
-    // Session query lee el id desde el token de JWT, tka until usa un subject para reemover la susbscripcion cuandoo el servicio se destruye
-    sessionQuery.userId$.pipe(takeUntil(this.destroySubject)).subscribe((id) => {
-      this.userId = id;
-    });
+    this.userId = sessionQuery.UserId;
+    console.log(this.userId);
   }
 
   ngOnDestroy() {
