@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // apiRoot: 'https://promodel-api.eccordion.com',
+/*   apiRoot: 'https://promodel-api.eccordion.com', */
   apiRoot: 'https://localhost:7001',
 };
 
