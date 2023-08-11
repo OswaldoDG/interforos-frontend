@@ -1,16 +1,11 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import {
-  CastingClient,
-  Persona,
-  SelectorCastingCategoria,
-} from 'src/app/services/api/api-promodel';
+import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
-import { isFirstDayOfWeek } from 'ngx-bootstrap/chronos';
-import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
+import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -33,7 +28,7 @@ export class PersonaCardComponent implements OnInit {
   };
   enCasting: boolean = false;
   T: any;
-  hayCategoria: boolean = false;
+  enCategoria: boolean;
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -88,15 +83,18 @@ export class PersonaCardComponent implements OnInit {
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
-    this.servicio.CategoriaSub().subscribe((r) => (this.hayCategoria = r));
   }
   validarExiste() {
     this.enCasting =
       this.servicio
-        .CastingsPersona(this.persona.usuarioId)
+        .CastingsPersona(this.persona.id)
         .indexOf(this.servicio.CategoriActual()) >= 0;
+    if (this.servicio.personaEnCategoria(this.persona.id) >= 0) {
+      this.enCategoria = true;
+    } else {
+      this.enCategoria = false;
+    }
   }
-
   onChangeCheckBox(id: string) {
     if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
       if (this.enCasting) {
@@ -108,6 +106,7 @@ export class PersonaCardComponent implements OnInit {
           )
           .subscribe((d) => {
             this.servicio.agregarModelo(id, this.servicio.CategoriActual());
+            this.enCategoria = !this.enCategoria;
           });
       } else {
         this.castingService
@@ -118,6 +117,7 @@ export class PersonaCardComponent implements OnInit {
           )
           .subscribe((d) => {
             this.servicio.removerModelo(id, this.servicio.CategoriActual());
+            this.enCategoria = !this.enCategoria;
           });
       }
     } else {

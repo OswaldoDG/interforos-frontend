@@ -1,0 +1,26 @@
+.comentario-titulo
+{
+  font-size: .8em;
+}
+
+.comentario
+{
+  border: solid  .2px var(--mainColor); ;
+  border-radius: 5px;
+  padding-left: 3px;
+}
+
+button {
+  display: flex;
+  background-color: var(--mainColor);
+  color: var(--whiteColor);
+  border: none;
+  border-radius: 5px;
+  transition: var(--transition);
+
+  button:disabled
+  {
+    background-color: var(--mainColor);
+    color: var(--whiteColor);
+  }
+}
