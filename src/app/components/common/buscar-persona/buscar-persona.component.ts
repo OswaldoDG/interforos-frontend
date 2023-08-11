@@ -6,7 +6,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { find } from '@datorama/akita';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -29,7 +28,6 @@ import { CastingStaffServiceService } from 'src/app/services/casting-staff-servi
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
-
 
 @Component({
   selector: 'app-buscar-persona',
@@ -87,9 +85,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     private personaApi: PersonaClient,
     private personaService: PersonaInfoService,
     private spinner: NgxSpinnerService,
-    private apiPersona: PersonaClient,
     private translate: TranslateService,
-    private toastService: HotToastService,
     private fb: FormBuilder,
     private sessionService: SessionService,
     private session: SessionQuery,
@@ -349,7 +345,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   cargarCastings() {
     const temp: SelectorCastingCategoria[] = [];
     this.castingClient.castingGet(false).subscribe((data) => {
-      if(data) {
+      if (data) {
         data.forEach((casting) => {
           this.castingClient.selector(casting.id).subscribe((c) => {
             if (c) {
@@ -360,13 +356,5 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       }
     });
     this.castings = temp;
-  }
-  limpiarSelect() {
-    const miSelect = document.getElementById('categoriaSelect');
-    //Crea una opción en blanco y agrégala al select
-    // const opcionEnBlanco = document.createElement('option');
-    // opcionEnBlanco.value = null;
-    // opcionEnBlanco.textContent = 'Seleccionar...';
-    // miSelect.appendChild(opcionEnBlanco);
   }
 }

@@ -435,6 +435,24 @@ export interface ICastingClient {
      * @return Success
      */
     selector(castingId: string): Observable<SelectorCastingCategoria>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    comentariosPut(castingId: string, body: string | undefined): Observable<void>;
+    /**
+     * @return Success
+     */
+    comentariosDelete(castingId: string, comentarioId: string): Observable<void>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    comentarioPost(castingId: string, categoriaId: string, modeloId: string, body: string | undefined): Observable<ComentarioCategoriaModeloCasting>;
+    /**
+     * @return Success
+     */
+    comentarioDelete(castingId: string, categoriaId: string, modeloId: string, comentarioId: string): Observable<void>;
 }
 
 @Injectable({
@@ -1446,6 +1464,277 @@ export class CastingClient implements ICastingClient {
             }));
         }
         return _observableOf<SelectorCastingCategoria>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    comentariosPut(castingId: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/comentarios";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processComentariosPut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processComentariosPut(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processComentariosPut(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    comentariosDelete(castingId: string, comentarioId: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/comentarios/{comentarioId}";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (comentarioId === undefined || comentarioId === null)
+            throw new Error("The parameter 'comentarioId' must be defined.");
+        url_ = url_.replace("{comentarioId}", encodeURIComponent("" + comentarioId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processComentariosDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processComentariosDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processComentariosDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    comentarioPost(castingId: string, categoriaId: string, modeloId: string, body: string | undefined, httpContext?: HttpContext): Observable<ComentarioCategoriaModeloCasting> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/comentario";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (categoriaId === undefined || categoriaId === null)
+            throw new Error("The parameter 'categoriaId' must be defined.");
+        url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        if (modeloId === undefined || modeloId === null)
+            throw new Error("The parameter 'modeloId' must be defined.");
+        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processComentarioPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processComentarioPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ComentarioCategoriaModeloCasting>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ComentarioCategoriaModeloCasting>;
+        }));
+    }
+
+    protected processComentarioPost(response: HttpResponseBase): Observable<ComentarioCategoriaModeloCasting> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ComentarioCategoriaModeloCasting;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ComentarioCategoriaModeloCasting>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    comentarioDelete(castingId: string, categoriaId: string, modeloId: string, comentarioId: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/comentario/{comentarioId}";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (categoriaId === undefined || categoriaId === null)
+            throw new Error("The parameter 'categoriaId' must be defined.");
+        url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        if (modeloId === undefined || modeloId === null)
+            throw new Error("The parameter 'modeloId' must be defined.");
+        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
+        if (comentarioId === undefined || comentarioId === null)
+            throw new Error("The parameter 'comentarioId' must be defined.");
+        url_ = url_.replace("{comentarioId}", encodeURIComponent("" + comentarioId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processComentarioDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processComentarioDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processComentarioDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
     }
 }
 
@@ -3563,6 +3852,15 @@ export interface ComentarioCasting {
     comentario?: string | undefined;
 }
 
+export interface ComentarioCategoriaModeloCasting {
+    id?: string | undefined;
+    fecha?: Date;
+    usuarioId?: string | undefined;
+    comentario?: string | undefined;
+    categoriaId?: string | undefined;
+    personaId?: string | undefined;
+}
+
 export interface Contacto {
     direccion?: string | undefined;
     email?: string | undefined;
@@ -3679,6 +3977,11 @@ export interface InvitacionRegistro {
     emitida?: Date;
     limiteUso?: Date;
     registro?: RegistroUsuario;
+}
+
+export interface MapaUsuarioNombre {
+    id?: string | undefined;
+    nombre?: string | undefined;
 }
 
 export interface MediaCliente {
@@ -3806,12 +4109,14 @@ export interface SelectorCastingCategoria {
     id?: string | undefined;
     nombre?: string | undefined;
     categorias?: SelectorCategoria[] | undefined;
+    participantes?: MapaUsuarioNombre[] | undefined;
 }
 
 export interface SelectorCategoria {
     id?: string | undefined;
     nombre?: string | undefined;
     modelos?: string[] | undefined;
+    comentarios?: ComentarioCategoriaModeloCasting[] | undefined;
 }
 
 export interface SolicitudAcceso {

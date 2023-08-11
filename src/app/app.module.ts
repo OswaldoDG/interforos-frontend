@@ -134,6 +134,7 @@ import { EventosCastingComponent } from './components/common/eventos-casting/eve
 import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { ModalConfirmacionComponent } from './components/common/modal-confirmacion/modal-confirmacion.component';
+import { ComentarioPersonaCastingComponent } from './components/common/comentario-persona-casting/comentario-persona-casting.component';
 
 
 defineLocale('es', esLocale);
@@ -239,6 +240,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeCastingViewComponent,
     RecuperarPasswordComponent,
     ModalConfirmacionComponent,
+    ComentarioPersonaCastingComponent,
   ],
   imports: [
     AlertModule,

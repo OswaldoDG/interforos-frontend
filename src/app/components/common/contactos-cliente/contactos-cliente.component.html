@@ -18,30 +18,40 @@
 
       <div class="col-md- col-sm-6">
         <label for="roles">{{ "proyectos.form-roles" | translate }}</label>
-        <select class="form-control" formControlName = "rol">
-          <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
+        <select class="form-control" formControlName="rol">
+          <option *ngFor="let rol of roles" [value]="rol">{{ rol }}</option>
         </select>
       </div>
-      <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
-        <br>
-        <button class="btn btn-primary m-4" (click)="invitar()" [disabled]="formContactos.invalid">{{ "proyectos.form-invitar" | translate }}</button>
+      <div
+        class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center"
+      >
+        <br />
+        <button
+          class="btn btn-primary m-4"
+          (click)="invitar()"
+          [disabled]="formContactos.invalid"
+        >
+          {{ "proyectos.form-invitar" | translate }}
+        </button>
       </div>
       <div class="row align-items-center justify-content-center">
-      <div class="col-lg-8 col-md-8 col-sm-8 d-flex ag-2  ag-theme-alpine">
-        <ag-grid-angular
-        style="width: 100%; height: 300px"
-        class="ag-theme-alpine"
-        [columnDefs]="columnDefs"
-        [animateRows]="true"
-        [rowData]="contactosCasting"
-        (gridReady)="onGridReady($event)"
-        [rowSelection]="rowSelection"
-        [defaultColDef]="defaultColDef"
-        >
-        </ag-grid-angular>
+        <div class="col-lg-8 col-md-8 col-sm-8 d-flex ag-2 ag-theme-alpine">
+          <ag-grid-angular
+            style="width: 100%; height: 300px"
+            class="ag-theme-alpine"
+            [columnDefs]="columnDefs"
+            [animateRows]="true"
+            [rowData]="contactosCasting"
+            (gridReady)="onGridReady($event)"
+            [rowSelection]="rowSelection"
+            [defaultColDef]="defaultColDef"
+          >
+          </ag-grid-angular>
+        </div>
+        <app-modal-confirmacion
+          (modalConfirm)="recibidoDelModal($event)"
+        ></app-modal-confirmacion>
       </div>
-      <app-modal-confirmacion #modalContactos (modalConfirm) = "recibidoDelModal($event)"></app-modal-confirmacion>
-    </div>
     </div>
   </form>
 </div>

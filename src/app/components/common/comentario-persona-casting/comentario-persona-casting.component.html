@@ -1,0 +1,59 @@
+<app-modal-confirmacion
+  #modalComentarios
+  (modalConfirm)="recibidoDelModal($event)"
+></app-modal-confirmacion>
+<div class="card" style="width: 100%">
+  <h6 class="card-header">{{ "comentarios.titulo" | translate }}</h6>
+  <div class="card-body row">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let co of comentariosPersona">
+        <div class="row">
+          <div class="col-12">
+            <p class="comentario-titulo card-text">
+              <small class="text-body-secondary">
+                {{ co.comentario.fecha | date : "dd/MM/yy" }} &nbsp;
+                {{ co.emisor }}</small
+              >
+            </p>
+          </div>
+          <div class="col-11">
+            <div class="comentario">
+              <p class="card-text">
+                {{ co.comentario.comentario }}
+              </p>
+            </div>
+          </div>
+          <div class="col-1 align-self-sm-start me-auto" *ngIf="co.editable">
+            <i class="bi bi-x-lg" (click)="confirmar(co.comentario.id)"></i>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="formComentario" style="width: 100%">
+      <div class="row align-items-center">
+        <div class="col-lg-10 col-md-12 col-sm-12">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Escriba Comentario"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="texto"
+          />
+        </div>
+        <div class="col-lg-2 col-md-12 col-sm-12">
+          <button
+            type="button"
+            [disabled]="formComentario.invalid"
+            class="btn btn-primary"
+            (click)="agregarComentario()"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
