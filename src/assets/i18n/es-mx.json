@@ -274,7 +274,8 @@
     "eventos-fecha-fin": "Termina",
     "eventos-notas": "Notas",
     "eventos-lugar": "Lugar",
-    "eventos-link": "Link"
+    "eventos-link": "Link",
+    "sin-acceso":"Sin Acceso a Casting"
   },
   "comentarios": {
     "titulo": "Comentarios",

@@ -135,6 +135,7 @@ import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { ModalConfirmacionComponent } from './components/common/modal-confirmacion/modal-confirmacion.component';
 import { ComentarioPersonaCastingComponent } from './components/common/comentario-persona-casting/comentario-persona-casting.component';
+import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
 
 
 defineLocale('es', esLocale);
@@ -241,6 +242,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RecuperarPasswordComponent,
     ModalConfirmacionComponent,
     ComentarioPersonaCastingComponent,
+    CastigReviewComponent,
   ],
   imports: [
     AlertModule,

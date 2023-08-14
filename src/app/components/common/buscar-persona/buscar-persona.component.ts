@@ -106,6 +106,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.servicio.PutModoTrabajo(true);
     this.cargarCastings();
     this.CargaTraducciones();
   }
@@ -142,7 +143,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     const param = this.BusquedaDesdeFormaIds();
     console.log(param);
     this.personaApi
-      .id(param)
+      .idPost(param)
       .pipe(first())
       .subscribe((r) => {
         this.PersonasEncontradas.emit(r);

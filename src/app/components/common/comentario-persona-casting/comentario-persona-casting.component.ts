@@ -18,7 +18,7 @@ export class ComentarioPersonaCastingComponent implements OnInit {
   @Input() personaId: string = null;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
-
+  editar: boolean;
   formComentario: FormGroup;
   idSeleccinadoEliminar: string;
   constructor(
@@ -29,6 +29,7 @@ export class ComentarioPersonaCastingComponent implements OnInit {
     this.formComentario = this.fb.group({
       texto: ['', Validators.required],
     });
+    this.editar = this.servicio.GetModoTrabajo();
   }
 
   ngOnInit(): void {
