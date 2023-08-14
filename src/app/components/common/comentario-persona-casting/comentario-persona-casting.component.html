@@ -23,14 +23,17 @@
               </p>
             </div>
           </div>
-          <div class="col-1 align-self-sm-start me-auto" *ngIf="co.editable">
+          <div
+            class="col-1 align-self-sm-start me-auto"
+            *ngIf="co.editable && editar"
+          >
             <i class="bi bi-x-lg" (click)="confirmar(co.comentario.id)"></i>
           </div>
         </div>
       </li>
     </ul>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="editar">
     <form [formGroup]="formComentario" style="width: 100%">
       <div class="row align-items-center">
         <div class="col-lg-10 col-md-12 col-sm-12">

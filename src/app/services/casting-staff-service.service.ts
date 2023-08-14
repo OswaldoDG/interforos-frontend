@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   ComentarioCategoriaModeloCasting,
+  Persona,
+  PersonaClient,
   SelectorCastingCategoria,
   SelectorCategoria,
 } from './api/api-promodel';
@@ -13,8 +15,12 @@ export class CastingStaffServiceService {
   private categoriaActual: string = null;
   private userId: string = null;
   private destroySubject: Subject<void> = new Subject();
+  private editar: boolean;
 
-  constructor(sessionQuery: SessionQuery) {
+  constructor(
+    sessionQuery: SessionQuery,
+    private personaClient: PersonaClient
+  ) {
     this.userId = sessionQuery.UserId;
   }
 
@@ -139,5 +145,26 @@ export class CastingStaffServiceService {
       this.categoriaActual = categoria;
       this.categoriaSub.next(this.categoriaActual);
     }
+  }
+
+  public modelosCategoriaActual(): Persona[] {
+    const modelos: Persona[] = [];
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    this.casting.categorias[indexC].modelos.forEach((m) => {
+      this.personaClient.idGet(m).subscribe((p) => {
+        if (p) {
+          modelos.push(p);
+        }
+      });
+    });
+    return modelos;
+  }
+  public GetModoTrabajo() {
+    return this.editar;
+  }
+  public PutModoTrabajo(modo: boolean) {
+    this.editar = modo;
   }
 }

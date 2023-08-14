@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PersonaResponsePaginado } from 'src/app/services/api/api-promodel';
+import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 
 @Component({
@@ -12,9 +13,14 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 export class PaginaBusquedaModelosComponent implements OnInit {
   PaginadoPersonas: PersonaResponsePaginado = undefined;
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(
+    private spinner: NgxSpinnerService,
+    private servicio: CastingStaffServiceService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.servicio.PutModoTrabajo(true);
+  }
 
   PersonasEncontradas(p) {
     this.PaginadoPersonas = p;

@@ -36,7 +36,8 @@ export class PersonaCardComponent implements OnInit {
     private castingService: CastingClient,
     private toastService: HotToastService,
     private translate: TranslateService
-  ) {}
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {

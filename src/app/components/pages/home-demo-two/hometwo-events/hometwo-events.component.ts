@@ -34,6 +34,7 @@ export class HometwoEventsComponent implements OnInit {
     },
   ];
   public irCasting(id: string) {
-    this.ruta.navigateByUrl('casting/' + id);
+    this.ruta.navigateByUrl('casting/' + id + '/actual');
+    //this.ruta.navigateByUrl('casting/' + id);
   }
 }

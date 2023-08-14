@@ -1,0 +1,46 @@
+<app-navbar-promodel></app-navbar-promodel>
+
+<div class="row m-1 pt-5"></div>
+<div class="container text-center" *ngIf="casting != null; else elseTemplate">
+  <div class="row m-1 pt-5">
+    <div class="col-lg-6 col-md-12 col-sm-12 pt-4">
+      <h1>{{ casting.nombre }}</h1>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
+      <label>{{ "buscar.categorias" | translate }}</label>
+      <select
+        class="form-select"
+        id="categoriaSelect"
+        aria-label="Default select example"
+        (change)="onChangeCategoria($event.target.value)"
+      >
+        <ng-container *ngIf="casting.categorias.length > 0">
+          <option
+            *ngFor="let categoria of casting.categorias"
+            [value]="categoria.id"
+          >
+            {{ categoria.nombre }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
+  </div>
+  <div class="row pt-5" *ngIf="modelos.length > 0">
+    <div
+      class="col-lg-4 col-md-6 col-sm-12 pt-2"
+      *ngFor="let modelo of modelos"
+    >
+      <app-persona-card [persona]="modelo"></app-persona-card>
+    </div>
+  </div>
+</div>
+<ng-template #elseTemplate>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 col-md-12 col-sm-12 pt-5 justify-content-center">
+        <h1>{{ "casting.sin-acceso" | translate }}</h1>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<app-footer-style-one></app-footer-style-one>

@@ -49,6 +49,7 @@ import { UserGuard } from './services/guards/user-guard';
 import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-casting/pagina-editor-casting.component';
 import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
+import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -79,7 +80,8 @@ const routes: Routes = [
   { path: 'user-profile', component: AuthorProfileComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'destinations', component: TopPlaceComponent },
-  { path: 'casting/:id', component: HomeCastingViewComponent },
+  { path: 'casting/:id/actual', component: HomeCastingViewComponent },
+  { path: 'casting/:id', component: CastigReviewComponent },
   {
     path: 'vertical-listings-left-sidebar',
     component: VerticalListingsLeftSidebarComponent,
