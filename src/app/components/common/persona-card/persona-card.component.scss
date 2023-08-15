@@ -158,9 +158,10 @@
   }
 }
 
+
 .star-checkbox {
-  position: relative;
-  display: inline-block;
+  position:static;
+  display: flex;
   width: 30px;
   height: 30px;
 }
@@ -170,7 +171,7 @@
 }
 
 .star-checkbox .star {
-  position: absolute;
+  display: flex;
   top: 0;
   left: 0;
   width: 100%;
@@ -196,6 +197,3 @@
   height: 300px;
   overflow:auto;
 }
-
-
-

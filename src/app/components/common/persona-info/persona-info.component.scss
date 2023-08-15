@@ -1,10 +1,12 @@
 .user-profile {
     img {
-        width: 110px;
-        height: 110px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
         box-shadow: 0 9px 26px rgba(58, 87, 135, .2);
         border: 5px solid var(--whiteColor);
+        object-fit: cover;
+        object-position: center;
     }
     .title {
         margin-left: 20px;
