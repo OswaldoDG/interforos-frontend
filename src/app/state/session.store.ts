@@ -11,6 +11,7 @@ export interface SessionState {
    lang: string;
    cliente: ClienteView;
    userId: string;
+   rolesUsuario:string[];
 }
 
 export function createInitialState(): SessionState {
@@ -21,12 +22,10 @@ export function createInitialState(): SessionState {
     perfil: null,
     lang: "es-MX",
     cliente: null,
-    userId: null
+    userId: null,
+    rolesUsuario:[]
   };
 }
-
-
-
 export const sessionPersistStorage = persistState({
   include: ['session'],
   key: 'sessionStore',
