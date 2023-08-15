@@ -50,16 +50,37 @@ import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-c
 import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
+import { StaffGuard } from './services/guards/staff-guard';
+import { AdminGuard } from './services/guards/admin-guard';
+import { RevisorGuard } from './services/guards/revisor-guard';
+import { ModeloGuard } from './services/guards/modelo-guard';
+import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
-  { path: 'staff', component: PromodelStaffComponent },
-  { path: 'proyectos', component: PaginaAdminProyectosComponent },
+  {
+    path: 'staff',
+    component: PromodelStaffComponent,
+    canActivate: [StaffGuard],
+  },
+  {
+    path: 'proyectos',
+    component: PaginaAdminProyectosComponent,
+    canActivate: [StaffGuard],
+  },
   { path: 'proyectos/casting/:id', component: PaginaEditorCastingComponent },
   { path: 'proyectos/casting', component: PaginaEditorCastingComponent },
-  { path: 'model', component: ModelComponent },
-  { path: 'perfil', component: PerfilPersonaComponent },
-  { path: 'galeria', component: GaleriaModelComponent },
+  { path: 'model', component: ModelComponent, canActivate: [ModeloGuard] },
+  {
+    path: 'perfil',
+    component: PerfilPersonaComponent,
+    canActivate: [ModeloGuard],
+  },
+  {
+    path: 'galeria',
+    component: GaleriaModelComponent,
+    canActivate: [ModeloGuard],
+  },
   { path: 'confirmacion/:id', component: ConfirmacionComponent },
   { path: 'password/:id', component: RecuperarPasswordComponent },
   { path: 'index-2', component: HomeDemoTwoComponent },
@@ -74,14 +95,22 @@ const routes: Routes = [
   { path: 'blog-right-sidebar', component: BlogRightSidebarComponent },
   { path: 'blog-details', component: BlogDetailsComponent },
   { path: 'products-list', component: ProductsListComponent },
-  { path: 'cart', component: CartComponent },
+  { path: 'cart', component: CartComponent, canActivate: [AdminGuard] },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'single-products', component: ProductsDetailsComponent },
   { path: 'user-profile', component: AuthorProfileComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'destinations', component: TopPlaceComponent },
   { path: 'casting/:id/actual', component: HomeCastingViewComponent },
-  { path: 'casting/:id', component: CastigReviewComponent },
+  {
+    path: 'casting/:id',
+    component: CastigReviewComponent,
+    canActivate: [RevisorGuard, StaffGuard],
+  },
+  {
+    path: '401',
+    component: SinAccesoComponent,
+  },
   {
     path: 'vertical-listings-left-sidebar',
     component: VerticalListingsLeftSidebarComponent,
