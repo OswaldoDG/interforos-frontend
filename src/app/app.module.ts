@@ -138,6 +138,8 @@ import { ComentarioPersonaCastingComponent } from './components/common/comentari
 import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 
+import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
+
 
 defineLocale('es', esLocale);
 
@@ -245,6 +247,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ComentarioPersonaCastingComponent,
     CastigReviewComponent,
     SinAccesoComponent,
+    VotoModeloComponentComponent,
   ],
   imports: [
     AlertModule,
