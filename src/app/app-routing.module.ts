@@ -50,6 +50,7 @@ import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-c
 import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
+import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -119,6 +120,7 @@ const routes: Routes = [
   { path: 'dashboard-add-listings', component: DashboardAddListingsComponent },
   { path: 'dashboard-bookmarks', component: DashboardBookmarksComponent },
   { path: 'dashboard-my-listings', component: DashboardMyListingsComponent },
+  { path: 'voto-modelo-component', component: VotoModeloComponentComponent },
   // Here add new pages component
 
   { path: '**', component: NotFoundComponent }, // This line will remain down from the whole pages component list
