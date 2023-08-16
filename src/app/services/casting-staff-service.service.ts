@@ -5,9 +5,19 @@ import {
   PersonaClient,
   SelectorCastingCategoria,
   SelectorCategoria,
+  VotoModeloCategoria,
+  VotoModeloMapeo,
 } from './api/api-promodel';
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
+
+export interface MapeoVoto{
+  usuarioId?: string | undefined;
+  No?: string | undefined;
+  Nose?: string | undefined;
+  Si?: string | undefined;
+  Mucho? : string | undefined;
+}
 
 @Injectable()
 export class CastingStaffServiceService {
@@ -16,7 +26,7 @@ export class CastingStaffServiceService {
   private userId: string = null;
   private destroySubject: Subject<void> = new Subject();
   private editar: boolean;
-
+  private votos: VotoModeloMapeo[] = [];
   constructor(
     sessionQuery: SessionQuery,
     private personaClient: PersonaClient
@@ -36,6 +46,40 @@ export class CastingStaffServiceService {
   private categoriaSub: Subject<string> = new Subject();
   public CategoriaSub(): Observable<string> {
     return this.categoriaSub.asObservable();
+  }
+
+  //Trae los votos, del modelo.
+  public traerVotosModelo(modeloId: string):VotoModeloMapeo[]{
+    this.votos = [];
+    var indexC = this.casting.categorias.findIndex((c) => c.id == this.categoriaActual);
+    this.casting.categorias[indexC].votos.forEach(m=> {
+      if(m.personaId == modeloId){
+        this.votos.push(m);
+      }
+    })
+    return this.votos;
+  }
+  //Agrega el voto del revisor externo
+  agregarVoto(votoRevisor: VotoModeloCategoria, modelo: string){
+    var indexC = this.casting.categorias.findIndex((c) => c.id == this.categoriaActual);
+    var indexV = this.casting.categorias[indexC].votos.findIndex((v) => v.usuarioId == this.userId);
+
+    if(indexV >= 0){
+      var voto = this.casting.categorias[indexC].votos[indexV];
+      voto.nivelLike = votoRevisor.nivelLike;
+      this.categoriaSub.next(this.casting.categorias[indexC].id);
+    }else{
+      const votoMapeado = {
+        personaId : modelo,
+        usuarioId : votoRevisor.usuarioId,
+        nivelLike : votoRevisor.nivelLike
+
+      }
+      this.votos.push(votoMapeado);
+      this.casting.categorias[indexC].votos = this.votos;
+
+      this.categoriaSub.next(this.casting.categorias[indexC].id);
+    }
   }
 
   //devulve los comentarios en una categoria de un modelo ordenadosde manera decendente
@@ -64,13 +108,14 @@ export class CastingStaffServiceService {
 
   //devuelve el nombre de un usuarioId
   public nombreUsuarioId(id: string): string {
-    var participante = this.casting.participantes.find((_) => _.id == id);
+    var participante = this.casting.participantes.find((_) => _.id === id);
     if (participante) {
       return participante.nombre;
     } else {
       return '???';
     }
   }
+
   //vefirica si una persona esta en el casting actual
   public personaEnCategoria(idPersona: string): number {
     var indexC = this.casting.categorias.findIndex(

@@ -460,7 +460,7 @@ export interface ICastingClient {
     /**
      * @return Success
      */
-    like(castingId: string, categoriaId: string, modeloId: string, nivel: string): Observable<VotoModeloCategoria>;
+    like(modeloId: string, castingId: string, categoriaId: string, nivel: string): Observable<void>;
 }
 
 @Injectable({
@@ -1832,17 +1832,17 @@ export class CastingClient implements ICastingClient {
     /**
      * @return Success
      */
-    like(castingId: string, categoriaId: string, modeloId: string, nivel: string, httpContext?: HttpContext): Observable<VotoModeloCategoria> {
-        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/like/{nivel}";
+    like(modeloId: string, castingId: string, categoriaId: string, nivel: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{CastingId}/categoria/{categoriaid}/modelo/{modeloId}/like/{nivel}";
+        if (modeloId === undefined || modeloId === null)
+            throw new Error("The parameter 'modeloId' must be defined.");
+        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
         if (categoriaId === undefined || categoriaId === null)
             throw new Error("The parameter 'categoriaId' must be defined.");
         url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
-        if (modeloId === undefined || modeloId === null)
-            throw new Error("The parameter 'modeloId' must be defined.");
-        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
         if (nivel === undefined || nivel === null)
             throw new Error("The parameter 'nivel' must be defined.");
         url_ = url_.replace("{nivel}", encodeURIComponent("" + nivel));
@@ -1853,7 +1853,6 @@ export class CastingClient implements ICastingClient {
             responseType: "blob",
             context: httpContext,
             headers: new HttpHeaders({
-                "Accept": "text/plain"
             })
         };
 
@@ -1864,14 +1863,14 @@ export class CastingClient implements ICastingClient {
                 try {
                     return this.processLike(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<VotoModeloCategoria>;
+                    return _observableThrow(e) as any as Observable<void>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<VotoModeloCategoria>;
+                return _observableThrow(response_) as any as Observable<void>;
         }));
     }
 
-    protected processLike(response: HttpResponseBase): Observable<VotoModeloCategoria> {
+    protected processLike(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1880,9 +1879,7 @@ export class CastingClient implements ICastingClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as VotoModeloCategoria;
-            return _observableOf(result200);
+            return _observableOf<void>(null as any);
             }));
         } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1895,7 +1892,7 @@ export class CastingClient implements ICastingClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<VotoModeloCategoria>(null as any);
+        return _observableOf<void>(null as any);
     }
 }
 

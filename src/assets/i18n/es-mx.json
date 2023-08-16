@@ -281,5 +281,8 @@
     "titulo": "Comentarios",
     "escriba":"Escriba Comentario"
 
+  },
+  "votos":{
+    "titulo": "Votos"
   }
 }

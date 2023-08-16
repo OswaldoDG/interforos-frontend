@@ -1,0 +1,13 @@
+<div class="row align-items-center justify-content-center">
+      <ag-grid-angular
+      style="width: 100%; height: 200px"
+      class = "ag-theme-alpine"
+      [columnDefs]="columnDefs"
+      [animateRows]="true"
+      [rowData]="mapeoVotos"
+      (gridReady)="onGridReady($event)"
+      [rowSelection]="rowSelection"
+      columnSize="responsiveSizeToFit"
+      [defaultColDef]="defaultColDef">
+      </ag-grid-angular>
+</div>

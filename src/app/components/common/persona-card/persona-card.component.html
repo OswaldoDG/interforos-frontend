@@ -1,4 +1,8 @@
-<app-voto-modelo-component></app-voto-modelo-component>
+<div class="row">
+  <app-voto-modelo-component
+  [personaId]="persona.id">
+  </app-voto-modelo-component>
+</div>
 <div class="card" style="width: 100%">
   <div class="card-header">
     <div class="row justify-content-center">
@@ -253,6 +257,11 @@
       </div>
     </div>
     <br />
+    <div class="row">
+      <app-resumen-voto-modelo
+      [personaId]="persona.id">
+      </app-resumen-voto-modelo>
+    </div>
     <div class="row" *ngIf="enCategoria">
       <app-comentario-persona-casting
         [personaId]="persona.id"

@@ -1,23 +1,27 @@
 
-<div class="row">
-    <div class="col-lg-3">
-        <button>
-            <i class="bi bi-emoji-frown"></i>
+<div class="div col-12 d-flex align-items-center justify-content-center">
+    <span>
+        <button class="no-outline botones btn btn-light btn-sm">
+          <i class="bi bi-emoji-frown-fill" [ngClass]="{'red':activoNo, 'gray':!activoNo}" (click)="noMeGusto()"></i>
         </button>
-    </div>
-    <div class="col-lg-3">
-        <button>
-            <i class="bi bi-emoji-neutral"></i>
+    </span>
+
+    <span>
+        <button class="no-outline botones btn btn-light btn-sm">
+            <i class="bi bi-emoji-neutral-fill" [ngClass]="{'orange':activoNoSe, 'gray':!activoNoSe}" (click)="noSe()"></i>
         </button>
-    </div>
-    <div class="col-lg-3">
-        <button>
-            <i class="bi bi-emoji-smile"></i>
+    </span>
+
+    <span>
+        <button class="no-outline botones btn btn-light btn-sm">
+            <i class="bi bi-emoji-smile-fill" [ngClass]="{'yellow':activoSi, 'gray':!activoSi}" (click)="siMeGusto()"></i>
         </button>
-    </div>
-    <div class="col-lg-3">
-        <button>
-            <i class="bi bi-emoji-heart-eyes"></i>
+    </span>
+
+    <span>
+        <button class="no-outline botones btn btn-light btn-sm">
+            <i class="bi bi-emoji-heart-eyes-fill" [ngClass]="{'green':activoMucho, 'gray':!activoMucho}" (click)="meGustoMucho()"></i>
         </button>
-    </div>
+    </span>
 </div>
+
