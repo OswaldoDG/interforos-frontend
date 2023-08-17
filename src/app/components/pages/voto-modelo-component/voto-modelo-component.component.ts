@@ -27,18 +27,24 @@ export class VotoModeloComponentComponent implements OnInit {
     this.voto()
     this.servicio.CategoriaSub().subscribe((v) => {
       if(v){
-        console.log(v);
         this.voto();
       }
     });
   }
 
   voto(){
-    this.votoMap = this.servicio.traerVotosModelo(this.personaId);
-    var indexP = this.votoMap.findIndex((c) => c.usuarioId == this.servicio.getUserId());
-    if(indexP >= 0){
-      var nivelLike= this.votoMap[indexP].nivelLike;
-      this.pintarVoto(nivelLike);
+    if(this.servicio.personaEnCategoria(this.personaId)>=0){
+      this.votoMap = this.servicio.traerVotosModelo(this.personaId);
+      var indexP = this.votoMap.findIndex((c) => c.usuarioId == this.servicio.getUserId());
+      if(indexP >= 0){
+        var nivelLike= this.votoMap[indexP].nivelLike;
+        this.pintarVoto(nivelLike);
+      }
+    }else{
+      this.activoNo  = false;
+      this.activoNoSe  = false;
+      this.activoSi = false;
+      this.activoMucho  = false;
     }
   }
 

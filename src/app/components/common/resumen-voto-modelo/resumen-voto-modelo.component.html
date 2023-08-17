@@ -1,13 +1,22 @@
-<div class="row align-items-center justify-content-center">
-      <ag-grid-angular
-      style="width: 100%; height: 200px"
-      class = "ag-theme-alpine"
-      [columnDefs]="columnDefs"
-      [animateRows]="true"
-      [rowData]="mapeoVotos"
-      (gridReady)="onGridReady($event)"
-      [rowSelection]="rowSelection"
-      columnSize="responsiveSizeToFit"
-      [defaultColDef]="defaultColDef">
-      </ag-grid-angular>
+<div class="card">
+  <table class="abc">
+    <thead class="card-header">
+      <tr>
+        <th class="abc2" scope = "col">Revisor</th>
+        <th scope = "col">No</th>
+        <th scope = "col">No sé</th>
+        <th scope = "col">Si</th>
+        <th scope = "col">Mucho</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dato of mapeoVotos">
+        <td class="abc2">{{dato.usuarioId}}</td>
+        <td>{{dato.No}}</td>
+        <td>{{dato.Nose}}</td>
+        <td>{{dato.Si}}</td>
+        <td>{{dato.Mucho}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
