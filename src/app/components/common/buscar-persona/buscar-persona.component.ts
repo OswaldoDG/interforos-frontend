@@ -329,6 +329,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   ngOnChanges(): void {}
 
   onChangeCasting(id: any) {
+    console.log('Se actualiza');
     this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
     this.cargarCategorias();
     this.servicio.ActualizarCategoria(this.categorias[0].id);

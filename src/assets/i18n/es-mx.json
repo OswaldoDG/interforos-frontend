@@ -281,5 +281,15 @@
     "titulo": "Comentarios",
     "escriba":"Escriba Comentario"
 
+  },
+  "votos":{
+    "titulo": "Votos"
+  },
+  "tabla":{
+    "revisor": "Revisor",
+    "no": "No",
+    "nose": "No sé",
+    "si": "Si",
+    "mucho": "Mucho"
   }
 }

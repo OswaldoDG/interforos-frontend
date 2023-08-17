@@ -55,6 +55,7 @@ import { AdminGuard } from './services/guards/admin-guard';
 import { RevisorGuard } from './services/guards/revisor-guard';
 import { ModeloGuard } from './services/guards/modelo-guard';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
+import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -148,6 +149,7 @@ const routes: Routes = [
   { path: 'dashboard-add-listings', component: DashboardAddListingsComponent },
   { path: 'dashboard-bookmarks', component: DashboardBookmarksComponent },
   { path: 'dashboard-my-listings', component: DashboardMyListingsComponent },
+  { path: 'voto-modelo-component', component: VotoModeloComponentComponent },
   // Here add new pages component
 
   { path: '**', component: NotFoundComponent }, // This line will remain down from the whole pages component list

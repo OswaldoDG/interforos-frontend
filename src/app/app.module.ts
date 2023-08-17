@@ -137,6 +137,8 @@ import { ModalConfirmacionComponent } from './components/common/modal-confirmaci
 import { ComentarioPersonaCastingComponent } from './components/common/comentario-persona-casting/comentario-persona-casting.component';
 import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
+import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
+import { ResumenVotoModeloComponent } from './components/common/resumen-voto-modelo/resumen-voto-modelo.component';
 
 
 defineLocale('es', esLocale);
@@ -245,6 +247,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ComentarioPersonaCastingComponent,
     CastigReviewComponent,
     SinAccesoComponent,
+    VotoModeloComponentComponent,
+    ResumenVotoModeloComponent,
   ],
   imports: [
     AlertModule,

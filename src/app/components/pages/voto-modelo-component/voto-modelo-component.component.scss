@@ -1,0 +1,45 @@
+button {
+    font-size: 30px;
+    background-color: transparent !important;
+    color: transparent !important;
+
+}
+
+button:hover,
+button:focus,
+button:active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+i{
+  box-shadow: black;
+}
+
+.divss
+{
+    width:100%;
+}
+
+.green {
+  color: rgb(0, 182, 0);
+}
+.red{
+  color:red;
+}
+.orange{
+  color: orange;
+}
+.yellow{
+  color: rgba(168, 171, 3, 0.652);
+}
+
+.gray{
+  color:gray;
+}
+
+.no-outline {
+  border: none; /* Elimina el borde */
+  box-shadow: none; /* Elimina cualquier sombra */
+  outline: none !important; /* Elimina el contorno cuando el botón recibe foco */
+}
