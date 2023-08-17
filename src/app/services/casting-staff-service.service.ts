@@ -112,7 +112,7 @@ export class CastingStaffServiceService {
     if (participante) {
       return participante.nombre;
     } else {
-      return '???';
+      return '-';
     }
   }
 
