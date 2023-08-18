@@ -96,7 +96,11 @@ import { ConfirmacionComponent } from './components/pages/confirmacion/confirmac
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BearerInterceptor } from './services/interceptors/bearer-interceptor';
 import { PerfilPersonaComponent } from './components/pages/perfil-persona/perfil-persona.component';
-import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import {
+  OWL_DATE_TIME_LOCALE,
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+} from 'ng-pick-datetime';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ModelComponent } from './components/pages/model/model.component';
 import { NavbarPromodelComponent } from './components/common/navbar-promodel/navbar-promodel.component';
@@ -139,7 +143,6 @@ import { CastigReviewComponent } from './components/pages/castig-review/castig-r
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { ResumenVotoModeloComponent } from './components/common/resumen-voto-modelo/resumen-voto-modelo.component';
-
 
 defineLocale('es', esLocale);
 
@@ -287,7 +290,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     { provide: API_BASE_URL, useValue: environment.apiRoot },
     { provide: HTTP_INTERCEPTORS, useClass: BearerInterceptor, multi: true },
-    {provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX'},
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX' },
     UserGuard,
     BsModalService,
     AppConfigService,

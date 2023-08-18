@@ -181,7 +181,7 @@
     "d-vestuario": "Especifique la talla para la ropa y las unidades de medida.",
     "t-habilidades": "Habilidades",
     "d-habilidades": "Seleccione las habilidades que sea capaz de realiar de la lista",
-    "alias": "Nombre artístico",
+    "nombreArtistico": "Nombre artístico",
     "nombre": "Nombres(s)",
     "apellido1": "Primer apellido",
     "apellido2": "Segundo apellido",
@@ -196,11 +196,13 @@
     "ingles": "Pies/Libras",
     "unidades": "Medidas en",
     "altura": "Estatura, por ejemplo 1.62",
+    "alturaCampo": "Estatura",
     "pantalon": "Pantalón/Falda",
     "playera": "Playera/Blusa",
     "calzado": "Calzado",
     "tipoTallaId": "Unidades talla",
     "peso": "Peso, por ejemplo 52.5",
+    "pesoCampo": "Peso",
     "colorOjosId": "Color de ojos",
     "colorCabelloId": "Color de cabello",
     "tipoCabelloId": "Tipo de cabello",
@@ -240,7 +242,8 @@
     "otroGrupoRacial": "Otro grupo racial",
     "otroHabilidad": "Otra habilidad",
     "ok-envio-documento": "El documento ha sido almacenado",
-    "error-envio-documento": "El documento no pudo ser enviado"
+    "error-envio-documento": "El documento no pudo ser enviado",
+    "campos-faltantes":"Los siguientes campos son requeridos:"
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",
