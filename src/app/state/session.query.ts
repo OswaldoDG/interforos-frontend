@@ -2,12 +2,19 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { SessionState, SessionStore } from './session.store';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { AccesoClient } from '../services/api/api-promodel';
+import { SessionService } from './session.service';
+import { Subscription, interval, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionQuery extends Query<SessionState> {
-  constructor(protected store: SessionStore) {
+  timerSubscription: Subscription;
+  constructor(
+    protected store: SessionStore,
+  ) {
     super(store);
   }
 
@@ -45,6 +52,9 @@ export class SessionQuery extends Query<SessionState> {
 
   get autenticado() {
     return !!this.getValue().autenticado;
+  }
+  get token() {
+    return !!this.getValue().auth.token;
   }
   get GetRoles() {
     if (this.getValue().auth?.token) {
