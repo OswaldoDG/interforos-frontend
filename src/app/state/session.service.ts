@@ -8,17 +8,19 @@ import {
 import { SessionStore } from './session.store';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import jwtDecode from 'jwt-decode';
+import { Subscription, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   protected decodedToken: { [key: string]: string };
+  timerSubscription: Subscription;
   constructor(private sessionStore: SessionStore) {}
 
   // Obtiene la decodificacion del token de JWT
   decodedAccessToken(token: string): any {
-    console.log(token);
     try {
       return jwt_decode(token);
     } catch (Error) {
