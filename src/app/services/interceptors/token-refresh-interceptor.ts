@@ -29,11 +29,12 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<Object>> {
     let authReq = req;
-    const token = this.sessionQuery.getValue().auth.token;
-    if (token != null) {
+    
+    const token = this.sessionQuery.getValue().auth?.token;
+
+    if (token != null && token != undefined) {
       authReq = this.addTokenHeader(req, token);
     }
-
     return next.handle(authReq).pipe(
       catchError((error) => {
         if (
