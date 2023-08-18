@@ -112,6 +112,23 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
         'perfil.datos-ok',
         'perfil.datos-error',
         'perfil.documentos-incompletos',
+        'perfil.campos-faltantes',
+        'perfil.nombre',
+        'perfil.apellido1',
+        'perfil.apellido2',
+        'perfil.fechaNacimiento',
+        'perfil.paisOrigenId',
+        'perfil.paisActualId',
+        'perfil.generoId',
+        'perfil.extranjero',
+        'perfil.permisoTrabajo',
+        'perfil.nombreArtistico',
+        'perfil.pesoCampo',
+        'perfil.alturaCampo',
+        'perfil.pantalon',
+        'perfil.playera',
+        'perfil.calzado',
+        'perfil.tipoTallaId',
       ])
       .subscribe((ts) => {
         this.T = ts;
@@ -637,9 +654,11 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
       !this.formFisicas.valid ||
       !this.formVestuario.valid
     ) {
+      this.validarCampos();
       this.toastService.warning(this.T['perfil.datos-incorrectos'], {
         position: 'bottom-center',
       });
+
       return;
     }
 
@@ -684,6 +703,36 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
             });
           }
         );
+    }
+  }
+
+  validarCampos() {
+    if (!this.formGenerales.valid) {
+      for (const field in this.formGenerales.controls) {
+        if (!this.formGenerales.controls[field].valid) {
+          this.toastService.warning(this.T['perfil.' + field], {
+            position: 'bottom-center',
+          });
+        }
+      }
+    }
+    if (!this.formFisicas.valid) {
+      for (const field in this.formFisicas.controls) {
+        if (!this.formFisicas.controls[field].valid) {
+          this.toastService.warning(this.T['perfil.' + field + 'Campo'], {
+            position: 'bottom-center',
+          });
+        }
+      }
+    }
+    if (!this.formVestuario.valid) {
+      for (const field in this.formVestuario.controls) {
+        if (!this.formVestuario.controls[field].valid) {
+          this.toastService.warning(this.T['perfil.' + field], {
+            position: 'bottom-center',
+          });
+        }
+      }
     }
   }
 
