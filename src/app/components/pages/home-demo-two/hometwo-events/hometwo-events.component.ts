@@ -4,6 +4,7 @@ import {
   CastingClient,
   CastingListElement,
 } from 'src/app/services/api/api-promodel';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-hometwo-events',

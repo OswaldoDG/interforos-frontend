@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CastigReviewComponent } from '../castig-review/castig-review.component';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { CastingClient, VotoModeloMapeo } from 'src/app/services/api/api-promodel';
-import { VotoModeloCategoria } from 'src/app/services/api-promodel';
 
 
 @Component({

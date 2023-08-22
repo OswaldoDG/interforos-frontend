@@ -109,7 +109,7 @@ export class EditorCastingComponent implements OnInit {
             this.componenteEventos.gridApi.setRowData(a);
             this.componenteEventos.listaEventos = [...a];
             this.clientApi
-              .categorias(this.CastingId, b)
+              .categoriasPut(this.CastingId, b)
               .subscribe((data2) => {
                 this.CastingActual = data1;
                 this.CastingId = data1.id;
@@ -160,7 +160,7 @@ export class EditorCastingComponent implements OnInit {
                 this.componenteEventos.gridApi.setRowData(a);
                 this.componenteEventos.listaEventos = [...a];
                 this.clientApi
-                  .categorias(this.CastingId, b)
+                  .categoriasPut(this.CastingId, b)
                   .subscribe((data2) => {
                     this.componenteCategorias.gridApi.setRowData(b);
                     this.componenteCategorias.categoriasCasting = [...b];

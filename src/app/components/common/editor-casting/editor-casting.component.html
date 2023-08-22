@@ -77,10 +77,7 @@
       <div class="col-md-12">
         <label>{{ "proyectos.form-descripcion" | translate }}</label>
         <quill-editor
-          #txtDescripcion
-          id="txtDescripcion"
           [modules]="modulesQuill"
-          (onEditorChanged)="onChangedEditor($event)"
           formControlName="descripcion"
         ></quill-editor>
       </div>
