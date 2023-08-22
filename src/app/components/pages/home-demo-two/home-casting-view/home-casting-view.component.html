@@ -3,7 +3,7 @@
 <br />
 <div class="container mt-1" *ngIf="casting != null">
   <div class="row justify-content-center mt-5">
-    <div class="col col-1">
+    <div class="col col-12">
       <img
         src="./../../assets/img/casting/return.svg"
         alt="Volver"
@@ -12,7 +12,7 @@
       />
     </div>
 
-    <div class="col-11">
+    <div class="col-12">
       <div class="row">
         <div
           class="col col-lg-4 col-md-12 col-sm-12 offset-md-3 offset-sm-3 offset-lg-0"
@@ -30,7 +30,7 @@
           </div>
         </div>
         <div
-          class="titulo col-lg-2 col-md-3 col-sm-3 justify-content-start p-3"
+          class="titulo col-lg-3 col-md-3 col-sm-3 justify-content-start p-3"
         >
           <p>{{ "casting.nombre" | translate }} :</p>
           <p>{{ "casting.cliente" | translate }}:</p>
@@ -39,7 +39,7 @@
         </div>
 
         <div
-          class="titulo col-lg-6 col-md-9 col-sm-9 justify-content-start p-3"
+          class="titulo col-lg-3 col-md-3 col-sm-3 justify-content-start p-3"
         >
           <p>
             <strong>{{ casting.nombre }}</strong>
@@ -53,6 +53,16 @@
           <p>
             <strong>{{ casting.fechaCierre | date : "yyyy-MM-dd" }}</strong>
           </p>
+        </div>
+        <div class="titulo col-lg-2 col-md-9 col-sm-9 justify-content-start p-3"  *ngIf="!enSesion">
+          <button
+          type="button"
+          class="btn btn-primary"
+          style="width: 100%"
+           (click)="login()"
+        >
+          {{ "navbar.registro-btn-registrar" | translate }}
+        </button>
         </div>
       </div>
       <hr />
@@ -85,11 +95,33 @@
               aria-current="true"
               *ngFor="let categoria of casting.categorias"
             >
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">{{ categoria.nombre }}</h6>
-              </div>
-              <div class="ms-2 me-auto">
-                <p class="mb-1">{{ categoria.descripcion }}</p>
+              <div class="d-flex align-items-center justify-content-center">
+                <div *ngIf="!esModelo">
+                  <button
+                  *ngIf="inscritoCategoria(categoria.id)"
+                  type="button"
+                  class="btn btn-primary m-4"
+                  style="max-width: 120px"
+                  (click)="Abandonar(categoria.id)"
+                  >
+                  {{ "casting.abandonar" | translate }}
+                  </button>
+                  <button
+                  *ngIf="!inscritoCategoria(categoria.id)"
+                  type="button"
+                  class="btn btn-primary m-4"
+                  style="max-width: 120px"
+                  (click)="Inscribir(categoria.id)"
+                  >
+                  {{ "casting.inscribir" | translate }}
+                  </button>
+                </div>
+                <div class="m-4">
+                  <h6 class="mb-1">{{ categoria.nombre }}</h6>
+                </div>
+                <div class="ms-2 me-auto">
+                  <p class="mb-1" [innerHTML]="categoria.descripcion"></p>
+                </div>
               </div>
             </a>
           </div>

@@ -278,7 +278,13 @@
     "eventos-notas": "Notas",
     "eventos-lugar": "Lugar",
     "eventos-link": "Link",
-    "sin-acceso":"Sin Acceso a Casting"
+    "sin-acceso":"Sin Acceso a Casting.",
+    "abandonar": "Abandonar",
+    "mensaje-inscripcion" : "Inscripción exitosa a la categoría.",
+    "mensaje-abandonar" : "Usted ha abandonado la categoría.",
+    "mensaje-inscripcion-error" : "Ha ocurrido un error al inscribirse a la categoría, intente más tarde.",
+    "mensaje-abandonar-error" : "Ha ocurrido un error al abandonar la categoría, intente más tarde."
+
   },
   "comentarios": {
     "titulo": "Comentarios",

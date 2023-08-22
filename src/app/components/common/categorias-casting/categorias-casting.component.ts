@@ -184,4 +184,17 @@ export class CategoriasCastingComponent implements OnInit {
     this.gridApi.setRowData(this.categoriasCasting);
     this.limpiar();
   }
+
+
+  //AUXILIARES
+  public modulesQuill = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ color: [] }, { background: [] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ align: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['clean'],
+    ],
+  };
 }

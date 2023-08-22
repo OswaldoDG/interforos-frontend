@@ -16,12 +16,10 @@
       <label class="form-label">{{
         "proyectos.form-descripcionCategoria" | translate
       }}</label>
-      <textarea
-        formControlName="descripcion"
-        style="height: 100px"
-        class="form-control"
-        aria-label="With textarea"
-      ></textarea>
+      <quill-editor
+      [modules]="modulesQuill"
+      formControlName="descripcion"
+    ></quill-editor>
     </div>
 
     <div
