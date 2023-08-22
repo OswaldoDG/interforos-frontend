@@ -96,6 +96,10 @@
     "acceso": "Ingresar",
     "ingreso-titulo": "Ingrese ahora",
     "ingreso-password": "Contraseña",
+    "ingreso-password-actual": "Contraseña Actual",
+    "ingreso-password-nuevo": "Contraseña Nueva",
+    "ingreso-password-confirmar":"Confirmar Contraseña",
+    "ingreso-password-confirmar-error":"La Contraseña no coincide",
     "ingreso-email": "E-mail",
     "registro-titulo": "Regístrese ahora",
     "registro-nombre": "Nombre",
@@ -112,6 +116,8 @@
     "menu-admin": "Inicio Administradores",
     "menu-logout": "Cerrar sesión",
     "menu-chpass": "Cambiar contraseña",
+    "menu-chpass-no": "No",
+    "menu-chpass-cambiar": "Cambiar",
     "menu-perfil": "Mis datos",
     "menu-fotos": "Mi galería",
     "menu-sesion": "Sesión",
@@ -262,7 +268,9 @@
   },
   "solicitud":{
     "solicitud-enviada": "Su solicitud ha sido enviada a su correo",
-    "solicitud-conflicto": "No se encontró el Email proporcionado"
+    "solicitud-conflicto": "No se encontró el Email proporcionado",
+    "solicitud-cambio-contrasenia":"Se ha Cambiado la contraseña con exito",
+    "solicitud-cambio-contrasenia-error":"Contraseña Actual incorrecta "
   },
   "casting": {
     "nombre": "Nombre",
