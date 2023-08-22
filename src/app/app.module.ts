@@ -144,6 +144,7 @@ import { CastigReviewComponent } from './components/pages/castig-review/castig-r
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { ResumenVotoModeloComponent } from './components/common/resumen-voto-modelo/resumen-voto-modelo.component';
+import { ModalCambiarPasswordComponent } from './components/common/modal-cambiar-password/modal-cambiar-password.component';
 
 defineLocale('es', esLocale);
 
@@ -253,6 +254,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SinAccesoComponent,
     VotoModeloComponentComponent,
     ResumenVotoModeloComponent,
+    ModalCambiarPasswordComponent,
   ],
   imports: [
     AlertModule,

@@ -5,24 +5,33 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first, takeUntil } from 'rxjs/operators';
-import { AccesoClient, ClienteView, HttpCode, PersonaClient, RegistroClient, TipoRolCliente } from 'src/app/services/api/api-promodel';
+import {
+  AccesoClient,
+  ClienteView,
+  HttpCode,
+  PersonaClient,
+  RegistroClient,
+  TipoRolCliente,
+} from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import {Title} from "@angular/platform-browser";
+import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
-
+import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-navbar-promodel',
   templateUrl: './navbar-promodel.component.html',
-  styleUrls: ['./navbar-promodel.component.scss']
+  styleUrls: ['./navbar-promodel.component.scss'],
 })
 export class NavbarPromodelComponent implements OnInit {
   @ViewChild('closemodal') closemodal;
-
+  //Modal
+  @ViewChild(ModalCambiarPasswordComponent) componenteModal;
   private destroy$ = new Subject();
   cliente: ClienteView = ClienteViewVacio();
 
@@ -37,7 +46,7 @@ export class NavbarPromodelComponent implements OnInit {
   inCall: boolean = false;
   autenticado: boolean = false;
 
-  existeEmail : boolean = false;
+  existeEmail: boolean = false;
 
   swapShowPass() {
     this.showPass = !this.showPass;
@@ -56,7 +65,7 @@ export class NavbarPromodelComponent implements OnInit {
 
   constructor(
     @Inject('persistStorage') private persistStorage: PersistState[],
-    private titleService:Title,
+    private titleService: Title,
     private bks: BreakpointObserver,
     private router: Router,
     private query: SessionQuery,
@@ -78,46 +87,44 @@ export class NavbarPromodelComponent implements OnInit {
         'navbar.datos-incorrectos-login',
         'navbar.login-incorrecto',
         'solicitud.solicitud-enviada',
-        'solicitud.solicitud-conflicto'
+        'solicitud.solicitud-conflicto',
+        'solicitud.solicitud-cambio-contrasenia',
+        'solicitud.solicitud-cambio-contrasenia-error',
       ])
       .subscribe((trads) => {
         this.T = trads;
       });
 
-      this.bks
-        .observe(['(min-width: 500px)'])
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((state: BreakpointState) => {
-          if (state.matches) {
-            this.mobile = false;
-          } else {
-            this.mobile = true;
-          }
-        });
+    this.bks
+      .observe(['(min-width: 500px)'])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.mobile = false;
+        } else {
+          this.mobile = true;
+        }
+      });
 
-    this.query.autenticado$.pipe(takeUntil(this.destroy$))
-    .subscribe((u) => {
+    this.query.autenticado$.pipe(takeUntil(this.destroy$)).subscribe((u) => {
       this.autenticado = u;
     });
 
-    this.query.cliente$.pipe(takeUntil(this.destroy$))
-    .subscribe((cl) => {
+    this.query.cliente$.pipe(takeUntil(this.destroy$)).subscribe((cl) => {
       this.titleService.setTitle(cl.nombre);
       this.cliente = cl;
     });
 
-    this.query.perfil$.pipe(takeUntil(this.destroy$))
-    .subscribe(p=> {
-      if(p != null && p != undefined){
-        if(p.roles) {
-          this.admin =  (p.roles.indexOf(TipoRolCliente.Administrador) >= 0);
-          this.staff =  (p.roles.indexOf(TipoRolCliente.Staff ) >= 0);
-          this.modelo =  (p.roles.indexOf(TipoRolCliente.Modelo) >= 0);
+    this.query.perfil$.pipe(takeUntil(this.destroy$)).subscribe((p) => {
+      if (p != null && p != undefined) {
+        if (p.roles) {
+          this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
+          this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
+          this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
         }
         this.userName = p.alias;
       }
     });
-
   }
 
   ngOnDestroy() {
@@ -154,7 +161,9 @@ export class NavbarPromodelComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (r) => {
-          this.toastService.info(this.T['navbar.registro-creado'], { position: 'bottom-center'});
+          this.toastService.info(this.T['navbar.registro-creado'], {
+            position: 'bottom-center',
+          });
           this.runRegistro(false);
           this.closemodal.nativeElement.click();
         },
@@ -176,7 +185,9 @@ export class NavbarPromodelComponent implements OnInit {
 
   login() {
     if (!this.loginForm.valid) {
-      this.toastService.warning(this.T['navbar.datos-incorrectos-login'], { position: 'bottom-center'});
+      this.toastService.warning(this.T['navbar.datos-incorrectos-login'], {
+        position: 'bottom-center',
+      });
       return;
     }
     this.runLogin(true);
@@ -199,8 +210,8 @@ export class NavbarPromodelComponent implements OnInit {
                 this.session.establecePerfil(u);
                 this.runLogin(false);
 
-                if(u.requirePerfil) {
-                  if(u.tienePerfil) {
+                if (u.requirePerfil) {
+                  if (u.tienePerfil) {
                     if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
                       this.router.navigateByUrl('/staff');
                     } else {
@@ -216,7 +227,6 @@ export class NavbarPromodelComponent implements OnInit {
                     this.router.navigateByUrl('/model');
                   }
                 }
-
               },
               (err) => {
                 this.userName = this.loginForm.get('usuario').getRawValue();
@@ -226,29 +236,57 @@ export class NavbarPromodelComponent implements OnInit {
         },
         (err) => {
           console.log(err);
-          this.toastService.warning(this.T['navbar.login-incorrecto'], { position: 'bottom-center'});
+          this.toastService.warning(this.T['navbar.login-incorrecto'], {
+            position: 'bottom-center',
+          });
           this.runLogin(false);
         }
       );
   }
 
-  public solicitudPassword(){
-    if(this.loginForm.value.usuario != ''){
-      this.acceso.passwordPost(this.loginForm.value.usuario).subscribe((data)=>{
-        if(data.ok == true){
-          this.toastService.success(this.T['solicitud.solicitud-enviada'], {
-            position: 'bottom-center',
-          });
-        }else{
-          this.toastService.error(this.T['solicitud.solicitud-conflicto'], {
-            position: 'bottom-center',
-          });
-        }
-      });
+  public solicitudPassword() {
+    if (this.loginForm.value.usuario != '') {
+      this.acceso
+        .passwordPost(this.loginForm.value.usuario)
+        .subscribe((data) => {
+          if (data.ok == true) {
+            this.toastService.success(this.T['solicitud.solicitud-enviada'], {
+              position: 'bottom-center',
+            });
+          } else {
+            this.toastService.error(this.T['solicitud.solicitud-conflicto'], {
+              position: 'bottom-center',
+            });
+          }
+        });
       this.existeEmail = false;
-    }else{
+    } else {
       this.existeEmail = true;
     }
   }
-}
 
+  //confirma  el remover un comentario
+  confirmar() {
+    this.componenteModal.openModal(this.componenteModal.myTemplate);
+  }
+  // Auxiliares UI
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.toastService.success(
+        this.T['solicitud.solicitud-cambio-contrasenia'],
+        {
+          position: 'bottom-center',
+        }
+      );
+    } else {
+      if (r == 'E0') {
+        this.toastService.error(
+          this.T['solicitud.solicitud-cambio-contrasenia-error'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      }
+    }
+  }
+}

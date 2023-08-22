@@ -19,12 +19,14 @@ import { Subject } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
+import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
 @Component({
   selector: 'app-navbar-staff',
   templateUrl: './navbar-staff.component.html',
   styleUrls: ['./navbar-staff.component.scss'],
 })
 export class NavbarStaffComponent implements OnInit {
+  @ViewChild(ModalCambiarPasswordComponent) componenteModal;
   private destroy$ = new Subject();
   mobile: boolean = false;
   cliente: ClienteView = ClienteViewVacio();
@@ -68,6 +70,8 @@ export class NavbarStaffComponent implements OnInit {
         'navbar-staff.mi-cuenta',
         'navbar-staff.salir',
         'navbar-staff.inicio',
+        'solicitud.solicitud-cambio-contrasenia',
+        'solicitud.solicitud-cambio-contrasenia-error',
       ])
       .subscribe((trads) => {
         this.T = trads;
@@ -81,8 +85,8 @@ export class NavbarStaffComponent implements OnInit {
     });
 
     this.query.perfil$.pipe(takeUntil(this.destroy$)).subscribe((p) => {
-/*       console.log(p);
- */      if (p != null && p != undefined) {
+      /*       console.log(p);
+       */ if (p != null && p != undefined) {
         if (p.roles) {
           this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
@@ -91,5 +95,29 @@ export class NavbarStaffComponent implements OnInit {
         this.userName = p.alias;
       }
     });
+  }
+  //confirma  el remover un comentario
+  confirmar() {
+    this.componenteModal.openModal(this.componenteModal.myTemplate);
+  }
+  // Auxiliares UI
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.toastService.success(
+        this.T['solicitud.solicitud-cambio-contrasenia'],
+        {
+          position: 'bottom-center',
+        }
+      );
+    } else {
+      if (r == 'E0') {
+        this.toastService.error(
+          this.T['solicitud.solicitud-cambio-contrasenia-error'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      }
+    }
   }
 }
