@@ -87,7 +87,7 @@ export class HomeCastingViewComponent implements OnInit {
         this.listCategorias = [...temp];
       }
       this.toastService.info(this.T['casting.mensaje-abandonar'], { position: 'bottom-center'});
-    }, (err) => { console.log(err); this.toastService.error(this.T['casting.mensaje-abandonar-error'], { position: 'bottom-center'}); });
+    }, (err) => {this.toastService.error(this.T['casting.mensaje-abandonar-error'], { position: 'bottom-center'}); });
   }
 
   Inscribir(idCategoria: string){
@@ -95,7 +95,7 @@ export class HomeCastingViewComponent implements OnInit {
     .subscribe((data) =>{
       this.listCategorias.push(idCategoria);
       this.toastService.success(this.T['casting.mensaje-inscripcion'], { position: 'bottom-center'});
-    }, (err) => { console.log(err); this.toastService.error(this.T['casting.mensaje-inscripcion-error'], { position: 'bottom-center'}); });
+    }, (err) => {this.toastService.error(this.T['casting.mensaje-inscripcion-error'], { position: 'bottom-center'}); });
   }
 
 }
