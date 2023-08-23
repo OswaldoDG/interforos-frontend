@@ -106,7 +106,7 @@ const routes: Routes = [
   {
     path: 'casting/:id',
     component: CastigReviewComponent,
-    canActivate: [RevisorGuard, StaffGuard],
+    canActivate: [RevisorGuard,StaffGuard],
   },
   {
     path: '401',
