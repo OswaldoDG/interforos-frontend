@@ -80,7 +80,6 @@ export class ContactosClienteComponent
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('Ejecutando ngonchanges')
     this.RefrescaCasting();
   }
 

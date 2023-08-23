@@ -85,8 +85,7 @@ export class NavbarStaffComponent implements OnInit {
     });
 
     this.query.perfil$.pipe(takeUntil(this.destroy$)).subscribe((p) => {
-      /*       console.log(p);
-       */ if (p != null && p != undefined) {
+      if (p != null && p != undefined) {
         if (p.roles) {
           this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;

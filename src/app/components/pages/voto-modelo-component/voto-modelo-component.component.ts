@@ -24,14 +24,18 @@ export class VotoModeloComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.voto()
-    this.servicio.CategoriaSub().subscribe((v) => {
-      if(v){
+    this.servicio.CategoriaSub().subscribe((c) => {
+      if (c) {
         this.voto();
       }
     });
   }
 
   voto(){
+    this.activoNo  = false;
+    this.activoNoSe  = false;
+    this.activoSi = false;
+    this.activoMucho  = false;
     if(this.servicio.personaEnCategoria(this.personaId)>=0){
       this.votoMap = this.servicio.traerVotosModelo(this.personaId);
       var indexP = this.votoMap.findIndex((c) => c.usuarioId == this.servicio.getUserId());
@@ -39,86 +43,34 @@ export class VotoModeloComponentComponent implements OnInit {
         var nivelLike= this.votoMap[indexP].nivelLike;
         this.pintarVoto(nivelLike);
       }
-    }else{
-      this.activoNo  = false;
-      this.activoNoSe  = false;
-      this.activoSi = false;
-      this.activoMucho  = false;
     }
   }
 
   agregarVoto(nivelLike : string){
     if(this.servicio.personaEnCategoria(this.personaId)>=0){
-      this.castingService.like(this.servicio.CastingIdActual(),
-      this.servicio.CategoriActual(),this.personaId,nivelLike).subscribe((v)=>{
+      const casting = this.servicio.CastingIdActual();
+      const categoria = this.servicio.CategoriActual();
+      const persona = this.personaId;
+      this.castingService.like(casting,
+      categoria,persona,nivelLike).subscribe((v)=>{
         this.servicio.agregarVoto(v, this.personaId);
+        this.voto();
       });
     }
   }
 
   pintarVoto(nivelLike: number){
-    switch(nivelLike){
-      case 0:
-        this.activoNo = true;
-        break;
-      case 1:
-        this.activoNoSe = true;
-        break;
-      case 2:
-        this.activoSi = true;
-        break;
-      case 3:
-        this.activoMucho = true;
-        break;
+    if(this.servicio.personaEnCategoria(this.personaId) >= 0){
+          this.activoNo = nivelLike == 0;
+          this.activoNoSe  = nivelLike == 1;
+          this.activoSi = nivelLike == 2;
+          this.activoMucho  = nivelLike == 3;
     }
   }
 
-  noMeGusto(){
-    this.likeRevisor = null;
-    this.activoNoSe = false;
-    this.activoSi = false;
-    this.activoMucho = false;
-    if(!this.activoNo){
-      this.activoNo = true;
-      this.likeRevisor = "0";
-      this.agregarVoto(this.likeRevisor);
-    }
-  }
-
-  noSe(){
-    this.likeRevisor = null;
-    this.activoNo = false;
-    this.activoSi = false;
-    this.activoMucho = false;
-    if(!this.activoNoSe){
-      this.activoNoSe = true;
-      this.likeRevisor = "1";
-      this.agregarVoto(this.likeRevisor);
-    }
-  }
-
-  siMeGusto(){
-    this.likeRevisor = null;
-    this.activoNo = false;
-    this.activoNoSe = false;
-    this.activoMucho = false;
-    if(!this.activoSi){
-      this.activoSi = true;
-      this.likeRevisor = "2";
-      this.agregarVoto(this.likeRevisor);
-    }
-  }
-
-  meGustoMucho(){
-    this.likeRevisor = null;
-    this.activoNo = false;
-    this.activoNoSe = false;
-    this.activoSi = false;
-    if(!this.activoMucho){
-      this.activoMucho = true;
-      this.likeRevisor = "3";
-      this.agregarVoto(this.likeRevisor);
-    }
+  votar(nivel : number){
+    this.pintarVoto(nivel);
+    this.agregarVoto(nivel.toString());
   }
 
 
