@@ -11,12 +11,12 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
 
-export interface MapeoVoto{
+export interface MapeoVoto {
   usuarioId?: string | undefined;
   No?: string | undefined;
   Nose?: string | undefined;
   Si?: string | undefined;
-  Mucho? : string | undefined;
+  Mucho?: string | undefined;
 }
 
 @Injectable()
@@ -49,32 +49,37 @@ export class CastingStaffServiceService {
   }
 
   //Trae los votos, del modelo.
-  public traerVotosModelo(modeloId: string):VotoModeloMapeo[]{
+  public traerVotosModelo(modeloId: string): VotoModeloMapeo[] {
     this.votos = [];
-    var indexC = this.casting.categorias.findIndex((c) => c.id == this.categoriaActual);
-    this.casting.categorias[indexC].votos.forEach(m=> {
-      if(m.personaId == modeloId){
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    this.casting.categorias[indexC].votos.forEach((m) => {
+      if (m.personaId == modeloId) {
         this.votos.push(m);
       }
-    })
+    });
     return this.votos;
   }
   //Agrega el voto del revisor externo
-  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string){
-    var indexC = this.casting.categorias.findIndex((c) => c.id == this.categoriaActual);
-    var indexV = this.casting.categorias[indexC].votos.findIndex((v) => v.personaId == modeloId);
+  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string) {
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    var indexV = this.casting.categorias[indexC].votos.findIndex(
+      (v) => v.personaId == modeloId
+    );
 
-    if(indexV >= 0){
-
+    if (indexV >= 0) {
       var voto = this.casting.categorias[indexC].votos[indexV];
       voto.nivelLike = votoRevisor.nivelLike;
       this.categoriaSub.next(this.categoriaActual);
-    }else{
+    } else {
       const votoMapeado = {
-        personaId : modeloId,
-        usuarioId : votoRevisor.usuarioId,
-        nivelLike : votoRevisor.nivelLike
-      }
+        personaId: modeloId,
+        usuarioId: votoRevisor.usuarioId,
+        nivelLike: votoRevisor.nivelLike,
+      };
       this.votos.push(votoMapeado);
       this.casting.categorias[indexC].votos = this.votos;
       this.categoriaSub.next(this.categoriaActual);
@@ -111,7 +116,11 @@ export class CastingStaffServiceService {
     if (participante) {
       return participante.nombre;
     } else {
-      return '-';
+      if (participante.email) {
+        return participante.email;
+      } else {
+        return '-';
+      }
     }
   }
 

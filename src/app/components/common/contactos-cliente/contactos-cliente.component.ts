@@ -51,15 +51,15 @@ export class ContactosClienteComponent
   public gridApi!: GridApi<ContactoCasting>;
 
   //Modal
-  @ViewChild( ModalConfirmacionComponent) componenteModal;
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
 
   //variable para capturar el id del contacto seleccionado de la tabla a eliminar.
-  protected idSeleccinadoEliminar:any;
+  protected idSeleccinadoEliminar: any;
 
   constructor(
     private clientApi: CastingClient,
     private clientesClient: ClientesClient,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.formContactos = this.formBuilder.group({
       email: ['', Validators.required],
@@ -96,14 +96,14 @@ export class ContactosClienteComponent
   }
 
   //Retonar la lista de contactos convertida a contactos usuarios.
-  public listaContactoUsuario(){
+  public listaContactoUsuario() {
     const payload: ContactoUsuario[] = [];
     this.contactosCasting.forEach((c) => {
       if (c.usuarioId != null) {
         payload.push({
           id: c.usuarioId,
           email: c.email,
-          nombreCompleto: null,
+          nombreUsuario: c.nombreUsuario,
           rol: c.rol,
           localizado: c.confirmado,
         });
@@ -120,7 +120,7 @@ export class ContactosClienteComponent
     let existeEnLista = this.contactosCasting.find(
       (c) => c.email == this.selected
     );
-    let existeEnDB = this.contactosCliente.find(
+    let existeEnDB: ContactoCasting = this.contactosCliente.find(
       (c) => c.email == this.selected
     );
     if (existeEnLista == undefined) {
@@ -128,7 +128,7 @@ export class ContactosClienteComponent
         const contacto: ContactoUsuario = {
           id: null,
           email: this.selected,
-          nombreCompleto: null,
+          nombreUsuario: this.selected,
           rol: this.formContactos.value.rol,
           localizado: false,
         };
@@ -150,11 +150,9 @@ export class ContactosClienteComponent
     this.listaModificada = true;
   }
 
-  public mostrarContactoSeleccionado(field : any) {
+  public mostrarContactoSeleccionado(field: any) {
     if (field != null) {
-      let contacto = this.contactosCasting.find(
-        (c) => c.email == field
-      );
+      let contacto = this.contactosCasting.find((c) => c.email == field);
       if (contacto != undefined) {
         this.formContactos.get('email').setValue(contacto.email);
         this.formContactos.get('rol').setValue(contacto.rol);
@@ -167,13 +165,15 @@ export class ContactosClienteComponent
     this.formContactos.get('rol').setValue('');
   }
 
-  public eliminaContacto(field : any){
-      var index = this.contactosCasting.findIndex(element => element.email == field);
-      if(index > -1){
-        this.contactosCasting.splice(index,1);
-        this.gridApi.setRowData(this.contactosCasting);
-      }
-      this.listaModificada = true;
+  public eliminaContacto(field: any) {
+    var index = this.contactosCasting.findIndex(
+      (element) => element.email == field
+    );
+    if (index > -1) {
+      this.contactosCasting.splice(index, 1);
+      this.gridApi.setRowData(this.contactosCasting);
+    }
+    this.listaModificada = true;
   }
 
   onGridReady(params: GridReadyEvent<ContactoCasting>) {
@@ -181,8 +181,8 @@ export class ContactosClienteComponent
   }
 
   // Auxiliares UI
-  recibidoDelModal(r : string){
-    if(r == 'Y'){
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
       this.eliminaContacto(this.idSeleccinadoEliminar);
     }
     this.idSeleccinadoEliminar = '';
@@ -206,43 +206,49 @@ export class ContactosClienteComponent
     {
       headerName: '',
       field: 'email',
-      width:10,
+      width: 10,
       cellRenderer: BtnCloseRenderer,
-      cellRendererParams:{
-        clicked: (field : any) => {
-          this.componenteModal.openModal(this.componenteModal.myTemplate, 'el contacto');
+      cellRendererParams: {
+        clicked: (field: any) => {
+          this.componenteModal.openModal(
+            this.componenteModal.myTemplate,
+            'el contacto'
+          );
           this.idSeleccinadoEliminar = field;
         },
       },
     },
     {
+      headerName: 'Usuario',
+      field: 'nombreUsuario',
+      minWidth: 150,
+    },
+    {
       headerName: 'Email',
       field: 'email',
-      minWidth:260,
+      minWidth: 260,
     },
     {
       headerName: 'Rol',
       field: 'rol',
       minWidth: 90,
-
-
     },
     {
       headerName: 'Activo',
-      minWidth:20,
+      width: 90,
       field: 'confirmado',
       cellRenderer: 'agCheckboxCellRenderer',
-       cellRendererParams: {
-          disabled: true,
-        },
+      cellRendererParams: {
+        disabled: true,
+      },
     },
     {
       headerName: '',
       field: 'email',
-      width:82,
+      width: 90,
       cellRenderer: BtnEditRenderer,
-      cellRendererParams:{
-        clicked: (field : any) => {
+      cellRendererParams: {
+        clicked: (field: any) => {
           this.mostrarContactoSeleccionado(field);
         },
       },

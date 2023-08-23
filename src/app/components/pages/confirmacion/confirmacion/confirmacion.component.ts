@@ -48,6 +48,7 @@ export class ConfirmacionComponent implements OnInit {
       ],
       confcontrasena: ['', Validators.compose([Validators.required])],
       email: [''],
+      nombreUsuario: ['', Validators.required],
     },
     {
       // check whether our password and confirm password match
@@ -120,6 +121,7 @@ export class ConfirmacionComponent implements OnInit {
     const data = {
       email: this.invitacion.registro.email,
       contrasena: this.registroForm.get('contrasena').getRawValue(),
+      nombreUsuario: this.registroForm.get('nombreUsuario').getRawValue(),
     };
 
     this.registro

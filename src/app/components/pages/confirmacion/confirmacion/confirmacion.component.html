@@ -44,6 +44,13 @@
         <p>{{ 'confirmacion.completar-registro' | translate}}</p>
         <form [formGroup]="registroForm">
             <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="input-group">
+                    <input [type]="text"
+                        placeholder="{{ 'confirmacion.nombre-usuario' | translate }}" class="form-control"
+                        formControlName="nombreUsuario">
+                </div>
+            </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="input-group">
                         <input [type]="showPass ? 'text' : 'password'"

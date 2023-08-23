@@ -169,7 +169,8 @@
     "datos-incorrectos": "Los datos de registro no son correctos",
     "cuenta-activada-titulo": "Felicitaciones",
     "cuenta-activada": "Su cuenta ha sido activada puede utilizarla para ingresar con la contraseña definida",
-    "error-activada": "Ocurrió un error al realizar la activación, intente más tarde"
+    "error-activada": "Ocurrió un error al realizar la activación, intente más tarde",
+    "nombre-usuario":"Nombre Usuario"
   },
   "perfil": {
     "t-doctype": ", añada solo documentos PDF o fotos.",

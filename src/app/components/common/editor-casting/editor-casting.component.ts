@@ -4,7 +4,8 @@ import { CategoriasCastingComponent } from '../categorias-casting/categorias-cas
 import {
   Casting,
   CastingClient,
-  ContactoUsuario
+  ContactoCasting,
+  ContactoUsuario,
 } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
@@ -45,7 +46,7 @@ export class EditorCastingComponent implements OnInit {
   constructor(
     private clientApi: CastingClient,
     private formBuilder: FormBuilder,
-    private dateTimeAdapter: DateTimeAdapter<any>,
+    private dateTimeAdapter: DateTimeAdapter<any>
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -101,30 +102,27 @@ export class EditorCastingComponent implements OnInit {
         var a = this.componenteEventos.listaEventos;
         var b = this.componenteCategorias.categoriasCasting;
         var c = this.componenteContactos.listaContactoUsuario();
-        this.clientApi
-          .eventos(this.CastingId,a)
-          .subscribe((data2)=>{
+        this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
+          this.CastingActual = data1;
+          this.CastingId = data1.id;
+          this.componenteEventos.gridApi.setRowData(a);
+          this.componenteEventos.listaEventos = [...a];
+          this.clientApi.categoriasPut(this.CastingId, b).subscribe((data2) => {
             this.CastingActual = data1;
             this.CastingId = data1.id;
-            this.componenteEventos.gridApi.setRowData(a);
-            this.componenteEventos.listaEventos = [...a];
-            this.clientApi
-              .categoriasPut(this.CastingId, b)
-              .subscribe((data2) => {
-                this.CastingActual = data1;
-                this.CastingId = data1.id;
-                this.componenteCategorias.gridApi.setRowData(b);
-                this.componenteCategorias.categoriasCasting = [...b];
-                  this.clientApi
-                    .contactos(this.CastingId, c)
-                    .subscribe((data3) => {
-                    this.componenteContactos.contactosCasting = [...data3];
-                    this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
-                    this.CastingActual = data1;
-                    this.CastingId = data1.id;
-              });
+            this.componenteCategorias.gridApi.setRowData(b);
+            this.componenteCategorias.categoriasCasting = [...b];
+            this.clientApi.contactos(this.CastingId, c).subscribe((data3) => {
+              this.componenteContactos.contactosCasting =
+                this.mapeoContactoCasting(data3);
+              this.componenteContactos.gridApi.setRowData(
+                this.componenteContactos.contactosCasting
+              );
+              this.CastingActual = data1;
+              this.CastingId = data1.id;
             });
           });
+        });
       }
     });
   }
@@ -153,26 +151,26 @@ export class EditorCastingComponent implements OnInit {
           ) {
             var a = this.componenteEventos.listaEventos;
             var b = this.componenteCategorias.categoriasCasting;
-            var c = this.componenteContactos.listaContactoUsuario()
-            this.clientApi
-              .eventos(this.CastingId,a)
-              .subscribe((data2)=>{
-                this.componenteEventos.gridApi.setRowData(a);
-                this.componenteEventos.listaEventos = [...a];
-                this.clientApi
-                  .categoriasPut(this.CastingId, b)
-                  .subscribe((data2) => {
-                    this.componenteCategorias.gridApi.setRowData(b);
-                    this.componenteCategorias.categoriasCasting = [...b];
-                      this.clientApi
-                        .contactos(this.CastingId, c)
-                        .subscribe((data3) => {
-                        this.componenteContactos.contactosCasting = [...data3];
-                        this.componenteContactos.gridApi.setRowData(this.componenteContactos.contactosCasting);
-                        this.actualizarLogo(this.CastingActual.id);
-                  });
+            var c = this.componenteContactos.listaContactoUsuario();
+            this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
+              this.componenteEventos.gridApi.setRowData(a);
+              this.componenteEventos.listaEventos = [...a];
+              this.clientApi
+                .categoriasPut(this.CastingId, b)
+                .subscribe((data2) => {
+                  this.componenteCategorias.gridApi.setRowData(b);
+                  this.componenteCategorias.categoriasCasting = [...b];
+                  this.clientApi
+                    .contactos(this.CastingId, c)
+                    .subscribe((data3) => {
+                      this.componenteContactos.contactosCasting = [...data3];
+                      this.componenteContactos.gridApi.setRowData(
+                        this.componenteContactos.contactosCasting
+                      );
+                      this.actualizarLogo(this.CastingActual.id);
+                    });
                 });
-              });
+            });
           }
         });
   }
@@ -238,5 +236,22 @@ export class EditorCastingComponent implements OnInit {
       this.esLogoNuevo = true;
       this.isImageLoading = true;
     };
+  }
+  mapeoContactoCasting(
+    contactosUsuarios: ContactoUsuario[]
+  ): ContactoCasting[] {
+    const contactos: ContactoCasting[] = [];
+
+    contactosUsuarios.forEach((contactoUsuario) => {
+      const contacto: ContactoCasting = {
+        usuarioId: contactoUsuario.id,
+        nombreUsuario: contactoUsuario.nombreUsuario,
+        email: contactoUsuario.email,
+        confirmado: contactoUsuario.localizado,
+        rol: contactoUsuario.rol,
+      };
+      contactos.push(contacto);
+    });
+    return contactos;
   }
 }
