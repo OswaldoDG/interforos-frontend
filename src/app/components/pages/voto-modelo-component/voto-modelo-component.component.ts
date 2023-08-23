@@ -61,32 +61,10 @@ export class VotoModeloComponentComponent implements OnInit {
 
   pintarVoto(nivelLike: number){
     if(this.servicio.personaEnCategoria(this.personaId) >= 0){
-      switch(nivelLike){
-        case 0:
-          this.activoNo = true;
-          this.activoNoSe  = false;
-          this.activoSi = false;
-          this.activoMucho  = false;
-          break;
-        case 1:
-          this.activoNoSe = true;
-          this.activoNo  = false;
-          this.activoSi = false;
-          this.activoMucho  = false;
-          break;
-        case 2:
-          this.activoSi = true;
-          this.activoNo  = false;
-          this.activoNoSe  = false;
-          this.activoMucho  = false;
-          break;
-        case 3:
-          this.activoMucho = true;
-          this.activoNo  = false;
-          this.activoNoSe  = false;
-          this.activoSi = false;
-          break;
-      }
+          this.activoNo = nivelLike == 0;
+          this.activoNoSe  = nivelLike == 1;
+          this.activoSi = nivelLike == 2;
+          this.activoMucho  = nivelLike == 3;
     }
   }
 

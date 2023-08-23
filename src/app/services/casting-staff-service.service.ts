@@ -60,9 +60,9 @@ export class CastingStaffServiceService {
     return this.votos;
   }
   //Agrega el voto del revisor externo
-  agregarVoto(votoRevisor: VotoModeloCategoria, modelo: string){
+  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string){
     var indexC = this.casting.categorias.findIndex((c) => c.id == this.categoriaActual);
-    var indexV = this.casting.categorias[indexC].votos.findIndex((v) => v.personaId == modelo);
+    var indexV = this.casting.categorias[indexC].votos.findIndex((v) => v.personaId == modeloId);
 
     if(indexV >= 0){
 
@@ -71,7 +71,7 @@ export class CastingStaffServiceService {
       this.categoriaSub.next(this.categoriaActual);
     }else{
       const votoMapeado = {
-        personaId : modelo,
+        personaId : modeloId,
         usuarioId : votoRevisor.usuarioId,
         nivelLike : votoRevisor.nivelLike
       }
