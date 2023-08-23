@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { SelectorCategoria, VotoModeloMapeo } from 'src/app/services/api/api-promodel';
+import {VotoModeloMapeo } from 'src/app/services/api/api-promodel';
 import { CastingStaffServiceService, MapeoVoto } from 'src/app/services/casting-staff-service.service';
 
 

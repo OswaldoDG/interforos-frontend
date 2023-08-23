@@ -26,7 +26,6 @@ export class PaginadoPersonasComponent implements OnInit, OnChanges {
   constructor(private personaService: PersonaInfoService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     this.procesaPersonas();
   }
 

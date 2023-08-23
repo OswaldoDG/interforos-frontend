@@ -128,7 +128,6 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   buscar() {
     this.EstadoBusqueda.emit(true);
     const param = this.BusquedaDesdeForma();
-    console.log(param);
     this.personaApi
       .buscar(param)
       .pipe(first())
@@ -141,7 +140,6 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   buscarModelos() {
     this.EstadoBusqueda.emit(true);
     const param = this.BusquedaDesdeFormaIds();
-    console.log(param);
     this.personaApi
       .idPost(param)
       .pipe(first())
@@ -329,7 +327,6 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   ngOnChanges(): void {}
 
   onChangeCasting(id: any) {
-    console.log('Se actualiza');
     this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
     this.cargarCategorias();
     this.servicio.ActualizarCategoria(this.categorias[0].id);
