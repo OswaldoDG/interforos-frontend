@@ -116,9 +116,7 @@ export class CastingStaffServiceService {
     if (participante) {
       return participante.nombre;
     } else {
-      if (participante.email) {
-        return participante.email;
-      } else {
+       {
         return '-';
       }
     }

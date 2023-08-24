@@ -16,8 +16,23 @@
 <!-- End Page Title Area -->
 
 <!-- Start Gallery Area -->
+
+
+
+
+
 <section class="gallery-area bg-f9f9f9 pt-4 pb-70">
   <div class="container">
+
+
+    <div>
+      <h4>Titulo</h4>
+      <form [formGroup]="datosimagen"  #formDir="ngForm">
+        <input type="text" class="form-control" formControlName="titulo">
+        </form>
+      </div>
+      
+
     <div class="row pb-4">
       <ngx-spinner name="spupload" [fullScreen]="false" type="ball-scale-multiple" size="medium">
         <p class="loading">...</p>
@@ -59,6 +74,7 @@
     <div class="row">
 
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos;">
+        <h5>{{l.titulo}}</h5>
         <div class="single-gallery-item">
           <img [src]="l.url | secureimg | async" alt="image">
           <a *ngIf="!l.video" [routerLink]="" (click)="bntPrincipal(l.id)" class="principal-bnt"
