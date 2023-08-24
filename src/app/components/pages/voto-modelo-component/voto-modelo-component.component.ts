@@ -47,6 +47,7 @@ export class VotoModeloComponentComponent implements OnInit {
   }
 
   agregarVoto(nivelLike : string){
+    console.log(this.personaId);
     if(this.servicio.personaEnCategoria(this.personaId)>=0){
       const casting = this.servicio.CastingIdActual();
       const categoria = this.servicio.CategoriActual();

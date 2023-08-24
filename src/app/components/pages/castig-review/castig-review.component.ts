@@ -35,6 +35,8 @@ export class CastigReviewComponent implements OnInit {
   }
   onChangeCategoria(id: string) {
     this.servicio.ActualizarCategoria(id);
+    console.log(this.modelos);
     this.modelos = this.servicio.modelosCategoriaActual();
+    console.log(this.servicio.modelosCategoriaActual());
   }
 }
