@@ -25,10 +25,10 @@
       </select>
     </div>
   </div>
-  <div class="row d-block pt-5" *ngIf="modelos.length > 0">
+  <div class="row d-block pt-5" *ngIf="personasDesplegables.length > 0">
     <div
       class="col-lg-12 col-md-12 col-sm-12 pt-2"
-      *ngFor="let modelo of modelos"
+      *ngFor="let modelo of personasDesplegables"
     >
           <div class="d-flex card-body m-4" style="height: 400px;">
             <app-persona-card class="col-lg-4 col-md-4 col-sm-4 m-1" [persona]="modelo"></app-persona-card>
