@@ -198,6 +198,7 @@ export class CastingStaffServiceService {
     );
     this.casting.categorias[indexC].modelos.forEach((m) => {
       this.personaClient.idGet(m).subscribe((p) => {
+        console.log(p);
         if (p) {
           modelos.push(p);
         }

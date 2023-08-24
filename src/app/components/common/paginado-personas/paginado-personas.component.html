@@ -14,7 +14,23 @@
           | paginate : { itemsPerPage: 12, currentPage: gridListings }
       "
     >
+    <div class="row">
+      <app-voto-modelo-component
+      [personaId]="persona.id">
+      </app-voto-modelo-component>
+    </div>
       <app-persona-card [persona]="persona"></app-persona-card>
+      <br />
+      <div class="row">
+        <app-resumen-voto-modelo
+        [personaId]="persona.id">
+        </app-resumen-voto-modelo>
+      </div>
+      <div class="row">
+        <app-comentario-persona-casting
+          [personaId]="persona.id"
+        ></app-comentario-persona-casting>
+      </div>
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
       <div class="pagination-area text-center">

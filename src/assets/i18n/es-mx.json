@@ -308,5 +308,9 @@
     "nose": "No sé",
     "si": "Si",
     "mucho": "Mucho"
+  },
+  "despliegue-revisor":{
+    "votos": "Votos",
+    "comentarios": "Comentarios"
   }
 }
