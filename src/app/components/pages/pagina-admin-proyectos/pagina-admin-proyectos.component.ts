@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
-import { BsModalRef,} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import {
   CastingClient,
@@ -135,13 +135,13 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   creaProyecto() {
-    this.ruta.navigateByUrl('proyectos/casting');
+    this.ruta.navigateByUrl('castings/');
   }
 
   columSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
-    this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
+    this.ruta.navigateByUrl('castings/' + this.idSeleccionado);
   }
 
   public resetear() {
@@ -168,6 +168,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   editarDobleClick() {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
-    this.ruta.navigateByUrl('proyectos/casting/' + this.idSeleccionado);
+    this.ruta.navigateByUrl('castings/' + this.idSeleccionado);
   }
 }

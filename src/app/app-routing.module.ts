@@ -65,12 +65,12 @@ const routes: Routes = [
     canActivate: [StaffGuard],
   },
   {
-    path: 'proyectos',
+    path: 'castings',
     component: PaginaAdminProyectosComponent,
     canActivate: [StaffGuard],
   },
-  { path: 'proyectos/casting/:id', component: PaginaEditorCastingComponent },
-  { path: 'proyectos/casting', component: PaginaEditorCastingComponent },
+  { path: 'castings/:id', component: PaginaEditorCastingComponent },
+  { path: 'castings/', component: PaginaEditorCastingComponent },
   { path: 'model', component: ModelComponent, canActivate: [ModeloGuard] },
   {
     path: 'perfil',

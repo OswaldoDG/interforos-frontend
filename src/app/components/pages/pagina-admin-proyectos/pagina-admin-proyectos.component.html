@@ -3,10 +3,10 @@
 <!-- Start Main Content Wrapper Area -->
 <div class="main-content d-flex flex-column">
   <app-navbar-staff></app-navbar-staff>
+
   <!-- Start -->
   <div class="bookings-listings-box">
     <h3>{{ "proyectos.header" | translate }}</h3>
-
     <ngx-spinner
       name="buscar"
       [fullScreen]="true"
@@ -15,7 +15,6 @@
     >
       <p class="loading">...</p>
     </ngx-spinner>
-
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -26,7 +25,9 @@
           >
             {{ "proyectos.crear" | translate }}
           </button>
-          <button class="ms-3 btn btn-primary" (click)="columSelected()">{{ "proyectos.edita" | translate }}</button>
+          <button class="ms-3 btn btn-primary" (click)="columSelected()">
+            {{ "proyectos.edita" | translate }}
+          </button>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 mb-4 mt-4 me-3">
           <input
@@ -62,11 +63,11 @@
         </div>
       </div>
     </div>
-    <!-- End -->
-
-    <div class="flex-grow-1"></div>
-
-    <app-copyrights></app-copyrights>
   </div>
-  <!-- End Main Content Wrapper Area -->
+  <!-- End -->
+
+  <div class="flex-grow-1"></div>
+
+  <app-copyrights></app-copyrights>
 </div>
+<!-- End Main Content Wrapper Area -->

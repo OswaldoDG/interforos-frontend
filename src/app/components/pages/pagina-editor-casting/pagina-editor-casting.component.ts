@@ -20,7 +20,7 @@ export class PaginaEditorCastingComponent implements OnInit {
     }
   }
   regresar() {
-    this.ruta.navigateByUrl('/proyectos');
+    this.ruta.navigateByUrl('/castings');
   }
 
   ngOnInit(): void {}
