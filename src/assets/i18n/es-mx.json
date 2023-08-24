@@ -88,7 +88,8 @@
     "form-modificarEvento": "Modificar Evento",
     "form-eliminarEvento": "Eliminar Evento",
     "form-email": "Email",
-    "form-salvar": "Salvar"
+    "form-salvar": "Salvar",
+    "refrescar":"Actualizar Lista"
   },
   "navbar": {
     "salir": "Salir",
