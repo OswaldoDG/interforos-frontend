@@ -245,7 +245,7 @@ export class EditorCastingComponent implements OnInit {
     contactosUsuarios.forEach((contactoUsuario) => {
       const contacto: ContactoCasting = {
         usuarioId: contactoUsuario.id,
-        nombreUsuario: contactoUsuario.nombreUsuario,
+       // nombreUsuario: contactoUsuario.nombreUsuario,
         email: contactoUsuario.email,
         confirmado: contactoUsuario.localizado,
         rol: contactoUsuario.rol,

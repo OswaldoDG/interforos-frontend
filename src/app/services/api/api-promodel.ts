@@ -2405,15 +2405,17 @@ export interface IContenidoClient {
     /**
      * @param id (optional) 
      * @param formFile (optional) 
+     * @param titulo (optional) 
      * @return Success
      */
-    documentacion(id: string | undefined, formFile: FileParameter | undefined): Observable<ElementoMediaCliente>;
+    documentacion(id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined): Observable<ElementoMediaCliente>;
     /**
      * @param id (optional) 
      * @param formFile (optional) 
+     * @param titulo (optional) 
      * @return Success
      */
-    carga(id: string | undefined, formFile: FileParameter | undefined): Observable<ElementoMediaCliente>;
+    carga(id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined): Observable<ElementoMediaCliente>;
 }
 
 @Injectable({
@@ -2897,9 +2899,10 @@ export class ContenidoClient implements IContenidoClient {
     /**
      * @param id (optional) 
      * @param formFile (optional) 
+     * @param titulo (optional) 
      * @return Success
      */
-    documentacion(id: string | undefined, formFile: FileParameter | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
+    documentacion(id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
         let url_ = this.baseUrl + "/contenido/documentacion";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2912,6 +2915,10 @@ export class ContenidoClient implements IContenidoClient {
             throw new Error("The parameter 'formFile' cannot be null.");
         else
             content_.append("formFile", formFile.data, formFile.fileName ? formFile.fileName : "formFile");
+        if (titulo === null || titulo === undefined)
+            throw new Error("The parameter 'titulo' cannot be null.");
+        else
+            content_.append("Titulo", titulo.toString());
 
         let options_ : any = {
             body: content_,
@@ -2977,9 +2984,10 @@ export class ContenidoClient implements IContenidoClient {
     /**
      * @param id (optional) 
      * @param formFile (optional) 
+     * @param titulo (optional) 
      * @return Success
      */
-    carga(id: string | undefined, formFile: FileParameter | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
+    carga(id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
         let url_ = this.baseUrl + "/contenido/carga";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2992,6 +3000,10 @@ export class ContenidoClient implements IContenidoClient {
             throw new Error("The parameter 'formFile' cannot be null.");
         else
             content_.append("formFile", formFile.data, formFile.fileName ? formFile.fileName : "formFile");
+        if (titulo === null || titulo === undefined)
+            throw new Error("The parameter 'titulo' cannot be null.");
+        else
+            content_.append("Titulo", titulo.toString());
 
         let options_ : any = {
             body: content_,
@@ -4391,7 +4403,6 @@ export interface Contacto {
 
 export interface ContactoCasting {
     usuarioId?: string | undefined;
-    nombreUsuario?: string | undefined;
     email?: string | undefined;
     confirmado?: boolean;
     rol?: TipoRolCliente;
@@ -4401,7 +4412,7 @@ export interface ContactoCasting {
 export interface ContactoUsuario {
     id?: string | undefined;
     email?: string | undefined;
-    nombreUsuario?: string | undefined;
+    nombreCompleto?: string | undefined;
     rol?: TipoRolCliente;
     localizado?: boolean;
 }
@@ -4419,7 +4430,6 @@ export interface CouchAttachment {
 export interface CreacionUsuario {
     email: string;
     contrasena: string;
-    nombreUsuario: string;
 }
 
 export interface Documento {
@@ -4452,6 +4462,7 @@ export interface ElementoMediaCliente {
     landscape?: boolean;
     tipo?: TipoMedio;
     frameVideoId?: string | undefined;
+    titulo?: string | undefined;
 }
 
 export interface EstablecerContrasena {
@@ -4500,7 +4511,6 @@ export interface InvitacionRegistro {
 export interface MapaUsuarioNombre {
     id?: string | undefined;
     nombre?: string | undefined;
-    email?: string | undefined;
 }
 
 export interface MediaCliente {

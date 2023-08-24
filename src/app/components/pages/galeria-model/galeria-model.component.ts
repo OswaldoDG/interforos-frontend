@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { ElementoMediaView } from 'src/app/modelos/locales/elemento-media-view';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import {FormControl, FormGroup} from '@angular/forms';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -33,15 +34,37 @@ export class GaleriaModelComponent implements OnInit {
   fotos: ElementoMediaView[] = [];
   imageObject: Array<object> = [];
 
+  datosimagen:FormGroup;
+
+  contenido = {
+    titulo : ""
+  };
+
+
   constructor(
     private servicioPersona: PersonaInfoService,
     private apiContenido: ContenidoClient,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private toastService: HotToastService
-  ) {}
+  ) {
+
+    
+  }
+
+  get titulo() {return this.datosimagen.get('titulo')!}
 
   ngOnInit(): void {
+
+
+    this.datosimagen = new FormGroup(
+      {
+        titulo : new FormControl(
+          this.contenido.titulo
+        )
+      }
+    );
+
     this.cargaTraducciones();
     this.spinner.show('spupload');
     this.apiContenido
@@ -63,6 +86,8 @@ export class GaleriaModelComponent implements OnInit {
       );
   }
 
+ 
+
   toLink(e: ElementoMediaCliente): ElementoMediaView {
     const elementoId = e.video ? e.frameVideoId : e.id;
     return {
@@ -76,6 +101,7 @@ export class GaleriaModelComponent implements OnInit {
       landscape: e.landscape,
       url: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
       urlFull: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
+      titulo:e.titulo
     };
   }
 
@@ -251,7 +277,7 @@ export class GaleriaModelComponent implements OnInit {
       data: this.uploadFile,
     };
     this.apiContenido
-      .carga('galeria', formData)
+      .carga('galeria', formData,this.datosimagen.value.titulo)
       .pipe(first())
       .subscribe(
         (e) => {
@@ -277,7 +303,10 @@ export class GaleriaModelComponent implements OnInit {
           console.error(err);
         }
       );
+    
   }
+
+
 
   pageTitleContent = [
     {
@@ -285,4 +314,6 @@ export class GaleriaModelComponent implements OnInit {
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
+
+  
 }

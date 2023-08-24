@@ -103,7 +103,7 @@ export class ContactosClienteComponent
         payload.push({
           id: c.usuarioId,
           email: c.email,
-          nombreUsuario: c.nombreUsuario,
+         // nombreUsuario: c.nombreUsuario,
           rol: c.rol,
           localizado: c.confirmado,
         });
@@ -128,7 +128,7 @@ export class ContactosClienteComponent
         const contacto: ContactoUsuario = {
           id: null,
           email: this.selected,
-          nombreUsuario: this.selected,
+         // nombreUsuario: this.selected,
           rol: this.formContactos.value.rol,
           localizado: false,
         };

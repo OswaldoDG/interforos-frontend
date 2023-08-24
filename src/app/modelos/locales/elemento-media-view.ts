@@ -9,4 +9,5 @@ export interface ElementoMediaView {
     permanente?: boolean;
     url?:string;
     urlFull?:string;
+    titulo?:string;
 }
