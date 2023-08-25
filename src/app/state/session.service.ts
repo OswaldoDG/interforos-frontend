@@ -49,9 +49,7 @@ export class SessionService {
   }
   // Establece cierra sesion
   logOut() {
-    console.log('Cerrando sesion');
     sessionStorage.clear();
-    this.sessionStore.reset();
     this.sessionStore.update((state) => ({
       auth: null,
       autenticado: false,

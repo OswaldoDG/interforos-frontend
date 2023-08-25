@@ -1,5 +1,5 @@
 import { HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpHandler,
@@ -11,6 +11,7 @@ import { SessionQuery } from 'src/app/state/session.query';
 import { AccesoClient, RespuestaLogin } from '../api/api-promodel';
 import { SessionService } from 'src/app/state/session.service';
 import { Router } from '@angular/router';
+import { PersistState } from '@datorama/akita';
 
 @Injectable()
 export class TokenRefreshInterceptor implements HttpInterceptor {
@@ -23,7 +24,8 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
     private sessionQuery: SessionQuery,
     private accesoClient: AccesoClient,
     private login: SessionService,
-    private ruta: Router
+    private ruta: Router,
+    @Inject('persistStorage') private persistStorage: PersistState[]
   ) {}
 
   intercept(
@@ -61,9 +63,10 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
 
   private CerrarSesion() {
     this.login.logOut();
-    this.ruta.navigateByUrl('/');
+    this.ruta.navigateByUrl('/').then(() => {
+      window.location.reload();
+    });
   }
-
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
