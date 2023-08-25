@@ -176,4 +176,11 @@ export class PaginaAdminProyectosComponent implements OnInit {
       this.gridApi.refreshCells();
     });
   }
+
+  refrescar() {
+    this.castingClient.castingGet(true).subscribe((data) => {
+      this.gridApi.setRowData(data);
+      this.gridApi.refreshCells();
+    });
+  }
 }
