@@ -129,6 +129,7 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
         'perfil.playera',
         'perfil.calzado',
         'perfil.tipoTallaId',
+        'perfil.agenciasIds',
       ])
       .subscribe((ts) => {
         this.T = ts;
@@ -166,7 +167,7 @@ export class PerfilPersonaComponent implements OnInit, OnDestroy {
     zonaHorariaId: [null],
     offsetHorario: [null],
     idiomasIds: [null],
-    agenciasIds: [null],
+    agenciasIds: [null, Validators.required],
   });
 
   formContacto: FormGroup = this.fb.group({
