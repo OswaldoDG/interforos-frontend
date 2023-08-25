@@ -63,6 +63,20 @@ export class PaginaAdminProyectosComponent implements OnInit {
       }
     },
     {
+      headerName: 'Estado',
+      field: 'status',
+      width: 150,
+      editable: false,
+      sortable: true,
+      valueFormatter: function(params) {
+        if (params.value === "EnEdicion") {
+          return "En Edición";
+        } else {
+          return params.value;
+        }
+      }
+    },
+    {
       headerName: 'Apertura',
       field: 'fechaApertura',
       editable: false,
