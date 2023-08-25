@@ -117,7 +117,6 @@ export class ContactosClienteComponent
 
   //Se añaden los contactos a la lista de seleccionados.
   public invitar() {
-    console.log('ENTRÍ');
     let existeEnLista = this.contactosCasting.find(
       (c) => c.email == this.selected
     );
@@ -125,9 +124,7 @@ export class ContactosClienteComponent
       (c) => c.email == this.selected
     );
     if (existeEnLista == undefined) {
-      console.log('Entró aquí');
       if (existeEnDB == undefined) {
-        console.log('Entró aquí');
         const contacto: ContactoUsuario = {
           id: null,
           email: this.selected,
@@ -136,7 +133,6 @@ export class ContactosClienteComponent
           localizado: false,
         };
         this.contactosCasting.push(contacto);
-        console.log(this.contactosCasting);
       } else {
         existeEnDB.rol = this.formContactos.value.rol;
         this.contactosCasting.push(existeEnDB);
