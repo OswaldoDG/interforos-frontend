@@ -35,7 +35,6 @@ export class GaleriaModelComponent implements OnInit {
   imageObject: Array<object> = [];
 
   datosimagen:FormGroup;
-
   contenido = {
     titulo : ""
   };
@@ -290,6 +289,7 @@ export class GaleriaModelComponent implements OnInit {
           this.uploadProgress = 0;
           this.working = false;
           this.addElementoView(this.toLink(e));
+          this.datosimagen.reset();
         },
         (err) => {
           this.toastService.error(this.T['fotos.foto-error'], {
@@ -303,10 +303,7 @@ export class GaleriaModelComponent implements OnInit {
           console.error(err);
         }
       );
-    
   }
-
-
 
   pageTitleContent = [
     {
@@ -314,6 +311,4 @@ export class GaleriaModelComponent implements OnInit {
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
-
-  
 }
