@@ -10,6 +10,7 @@ import {
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
 import { DateTimeAdapter } from 'ng-pick-datetime';
+import { isEmpty } from '@datorama/akita';
 
 @Component({
   selector: 'app-editor-casting',
@@ -59,15 +60,11 @@ export class EditorCastingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.esUpdate = this.CastingId != null;
-    if (this.esUpdate) {
+    if(this.CastingId.length == 0 || this.CastingId == null || this.CastingId == undefined ){
+      this.esUpdate = false;
+    }else{
+      this.esUpdate = true;
       this.obtenerCasting();
-    }
-  }
-
-  onChangedEditor(event: any): void {
-    if (event.html) {
-      this.formProyecto.get('descripcion').setValue(event.html);
     }
   }
 

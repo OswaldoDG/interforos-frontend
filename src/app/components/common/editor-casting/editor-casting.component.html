@@ -74,14 +74,19 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <label>{{ "proyectos.form-descripcion" | translate }}</label>
-        <quill-editor
-          [modules]="modulesQuill"
-          formControlName="descripcion"
-        ></quill-editor>
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <label>{{ "proyectos.form-descripcion" | translate }}</label>
+          <quill-editor
+            [modules]="modulesQuill"
+            formControlName="descripcion"
+            style="height:500px"
+          ></quill-editor>
+        </div>
+        <br>
       </div>
-      <div class="row mt-4">
+      <br>
+      <div class="row mt-5">
         <strong class="abc ">{{ "proyectos.form-contactos" | translate }}</strong>
         <hr>
       </div>
