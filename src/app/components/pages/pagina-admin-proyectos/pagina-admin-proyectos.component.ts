@@ -20,6 +20,7 @@ import {
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { identifierName } from '@angular/compiler';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-pagina-admin-proyectos',
   templateUrl: './pagina-admin-proyectos.component.html',
@@ -35,14 +36,14 @@ export class PaginaAdminProyectosComponent implements OnInit {
     {
       headerName: 'Nombre',
       field: 'nombre',
-      width: 150,
+      width: 180,
       editable: false,
       sortable: true,
     },
     {
       headerName: 'Cliente',
       field: 'nombreCliente',
-      width: 150,
+      width: 180,
       editable: false,
       sortable: true,
     },
@@ -50,7 +51,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       headerName: 'Apertura',
       field: 'fechaApertura',
       editable: false,
-      width: 150,
+      width: 170,
       sortable: true,
       cellRenderer: (data) => {
         return formatDate(data.value, 'MM-dd-YYYY', this.locale);
@@ -60,7 +61,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       headerName: 'Cierre',
       field: 'fechaCierre',
       editable: false,
-      width: 150,
+      width: 170,
       sortable: true,
       cellRenderer: (data) => {
         return formatDate(data.value, 'dd-MM-YYYY', this.locale);
@@ -73,7 +74,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       cellRendererParams: {
         disabled: true,
       },
-      width: 80,
+      width: 100,
       editable: false,
       sortable: true,
     },
@@ -84,7 +85,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       cellRendererParams: {
         disabled: true,
       },
-      width: 80,
+      width: 100,
       editable: false,
       sortable: true,
     },
@@ -95,7 +96,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       cellRendererParams: {
         disabled: true,
       },
-      width: 80,
+      width: 100,
       editable: false,
       sortable: true,
     },
@@ -106,7 +107,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       cellRendererParams: {
         disabled: true,
       },
-      width: 80,
+      width: 100,
       editable: false,
       sortable: true,
     },
@@ -114,12 +115,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
   data: Casting;
   public defaultColDef: ColDef = {
     resizable: true,
-    initialWidth: 200,
     wrapHeaderText: true,
     autoHeaderHeight: true,
     sortable: true,
     filter: true,
-    minWidth: 100,
   };
 
   constructor(
@@ -169,5 +168,12 @@ export class PaginaAdminProyectosComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     this.idSeleccionado = selectedData[0].id;
     this.ruta.navigateByUrl('castings/' + this.idSeleccionado);
+  }
+
+  refrescar() {
+    this.castingClient.castingGet(true).subscribe((data) => {
+      this.gridApi.setRowData(data);
+      this.gridApi.refreshCells();
+    });
   }
 }
