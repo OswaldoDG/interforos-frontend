@@ -249,23 +249,14 @@ export class EditorCastingComponent implements OnInit {
     this.esLogoNuevo = false;
   }
 
-  onChangeCheckBox1(){
+  onChangeInscripcionAutomatica(){
     this.inscripcionAutomatica = !this.inscripcionAutomatica;
-    console.log(this.inscripcionAutomatica);
-    console.log(this.cierreAuto);
-    console.log(this.aperturaAuto);
   }
-  onChangeCheckBox2(){
+  onChangeCierreAutomatico(){
     this.cierreAuto = !this.cierreAuto;
-    console.log(this.cierreAuto);
-    console.log(this.aperturaAuto);
-    console.log(this.inscripcionAutomatica);
   }
-  onChangeCheckBox3(){
+  onChangeAperturaAutomatica(){
     this.aperturaAuto = !this.aperturaAuto;
-    console.log(this.aperturaAuto);
-    console.log(this.cierreAuto);
-    console.log(this.inscripcionAutomatica);
   }
 
   //evento de input para cargar la imagen
