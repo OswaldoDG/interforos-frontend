@@ -1,0 +1,211 @@
+<app-promodel-sidemenu></app-promodel-sidemenu>
+
+<!-- Start Main Content Wrapper Area -->
+<div class="main-content d-flex flex-column">
+  <app-navbar-staff></app-navbar-staff>
+
+  <!-- Breadcrumb Area -->
+  <!-- <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+    <h1>{{Content.title}}</h1>
+    <ol class="breadcrumb">
+      <li class="item"><a routerLink="/">Home</a></li>
+      <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li>
+      <li class="item">{{Content.title}}</li>
+    </ol>
+  </div> -->
+  <!-- End Breadcrumb Area -->
+  <div class="container">
+    <!-- Start -->
+    <div class="bookings-listings-box">
+      <h3>{{ "staff-search.titulo" | translate }}</h3>
+      <ngx-spinner
+        name="buscar"
+        [fullScreen]="true"
+        type="ball-scale-multiple"
+        size="medium"
+      >
+        <p class="loading">...</p>
+      </ngx-spinner>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12">
+          <div class="my-profile-box">
+            <h3>{{ "perfil.colaborador-datos" | translate }}</h3>
+
+            <form [formGroup]="formPerfil">
+              <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group profile-box">
+                    <img
+                      [src]="avatar"
+                      [style.border]="avatar ? '1px solid black' : 'none'"
+                    />
+                    <div class="file-upload">
+                      <input
+                        #file
+                        name="file"
+                        id="file"
+                        type="file"
+                        (change)="onFileChange($event)"
+                        accept=".jpg"
+                        class="d-none inputfile"
+                      />
+                      <label for="file"
+                        ><i class="bx bx-upload"></i>
+                        {{ "perfil.colaborador-avatar" | translate }}</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <label>{{ "perfil.colaborador-nombre" | translate }}</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="nombre"
+                    />
+                  </div>
+                </div>
+
+                <!-- <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    value="hello@andysmith.com"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="+88 (123) 123456"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="Wonder Street, USA, New York"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Website</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="EnvyTheme.com"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Bio</label>
+                  <textarea
+                    cols="30"
+                    rows="6"
+                    placeholder="Short description about you..."
+                    class="form-control"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Facebook URL</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="https://www.facebook.com/"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Twitter URL</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="https://twitter.com/"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Linkedin URL</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="https://www.linkedin.com/"
+                  />
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Instagram URL</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="https://instagram.com/"
+                  />
+                </div>
+              </div> -->
+
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <button (click)="guardar()" type="submit">
+                      {{ "perfil.colaborador-guardar" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col align-self-center">
+          <div class="my-profile-box">
+            <div class="container">
+              <image-cropper
+                [imageChangedEvent]="imgChangeEvt"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 4"
+                [resizeToWidth]="256"
+                format="jpg"
+                (imageCropped)="cropImg($event)"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()"
+              >
+              </image-cropper>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End -->
+
+    <div class="flex-grow-1">
+      <app-copyrights></app-copyrights>
+    </div>
+  </div>
+</div>
+<!-- End Main Content Wrapper Area -->

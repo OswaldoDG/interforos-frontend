@@ -254,7 +254,11 @@
     "otroHabilidad": "Otra habilidad",
     "ok-envio-documento": "El documento ha sido almacenado",
     "error-envio-documento": "El documento no pudo ser enviado",
-    "campos-faltantes":"Los siguientes campos son requeridos:"
+    "campos-faltantes":"Los siguientes campos son requeridos:",
+    "colaborador-datos":"Detalles Perfil",
+    "colaborador-nombre":"Nombre",
+    "colaborador-avatar":"Subir Foto",
+    "colaborador-guardar":"Guardar Datos"
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",

@@ -12,9 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class SessionQuery extends Query<SessionState> {
   timerSubscription: Subscription;
-  constructor(
-    protected store: SessionStore,
-  ) {
+  constructor(protected store: SessionStore) {
     super(store);
   }
 
@@ -55,6 +53,9 @@ export class SessionQuery extends Query<SessionState> {
   }
   get token() {
     return !!this.getValue().auth.token;
+  }
+  get UserName() {
+    return !!this.getValue().perfil.nombreCompleto;
   }
   get GetRoles() {
     if (this.getValue().auth?.token) {
