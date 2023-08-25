@@ -10,6 +10,7 @@ import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { SessionQuery } from 'src/app/state/session.query';
 import { AccesoClient, RespuestaLogin } from '../api/api-promodel';
 import { SessionService } from 'src/app/state/session.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenRefreshInterceptor implements HttpInterceptor {
@@ -21,7 +22,8 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
   constructor(
     private sessionQuery: SessionQuery,
     private accesoClient: AccesoClient,
-    private login: SessionService
+    private login: SessionService,
+    private ruta: Router
   ) {}
 
   intercept(
@@ -29,7 +31,7 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<Object>> {
     let authReq = req;
-    
+
     const token = this.sessionQuery.getValue().auth?.token;
 
     if (token != null && token != undefined) {
@@ -44,10 +46,22 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
         ) {
           return this.handle401Error(authReq, next);
         }
+        if (
+          error instanceof HttpErrorResponse &&
+          authReq.url.includes('acceso/token-refresh') &&
+          error.status === 401
+        ) {
+          this.CerrarSesion();
+        }
 
         return throwError(error);
       })
     );
+  }
+
+  private CerrarSesion() {
+    this.login.logOut();
+    this.ruta.navigateByUrl('/');
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
