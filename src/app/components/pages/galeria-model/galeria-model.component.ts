@@ -303,7 +303,10 @@ export class GaleriaModelComponent implements OnInit {
           console.error(err);
         }
       );
+    
   }
+
+
 
   pageTitleContent = [
     {
@@ -311,4 +314,6 @@ export class GaleriaModelComponent implements OnInit {
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
+
+  
 }
