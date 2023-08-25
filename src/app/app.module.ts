@@ -145,6 +145,8 @@ import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.com
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { ResumenVotoModeloComponent } from './components/common/resumen-voto-modelo/resumen-voto-modelo.component';
 import { ModalCambiarPasswordComponent } from './components/common/modal-cambiar-password/modal-cambiar-password.component';
+import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 defineLocale('es', esLocale);
 
@@ -255,8 +257,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     VotoModeloComponentComponent,
     ResumenVotoModeloComponent,
     ModalCambiarPasswordComponent,
+    PerfilColaboradorComponent,
   ],
   imports: [
+    ImageCropperModule,
     AlertModule,
     TypeaheadModule.forRoot(),
     AgGridModule,

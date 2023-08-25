@@ -42,6 +42,7 @@ export class SessionService {
     sessionStorage.setItem('token', r.token);
     sessionStorage.setItem('userId', decoded.sub);
     sessionStorage.setItem('rolesUsuario', this.decodedToken.role);
+    sessionStorage.setItem('rolesUsuario', this.decodedToken.role);
     this.sessionStore.update((state) => ({
       auth: r,
       autenticado: true,
