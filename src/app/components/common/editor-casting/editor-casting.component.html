@@ -19,6 +19,42 @@
           <label>{{ "proyectos.form-cierre" | translate }}</label>
           <input class="form-control"  formControlName="fechaCierre" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"/>
           <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
+
+          <div class="d-block">
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="aceptaAutoInscripcionModelos"
+              (change)="onChangeCheckBox1()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                {{ "proyectos.form-acepta-autoinscripcion" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="cierreAutomatico"
+              (change)="onChangeCheckBox2()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                {{ "proyectos.form-cierre-automatico" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="aperturaAutomatica"
+              (change)="onChangeCheckBox3()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                {{ "proyectos.form-apertura-automatica" | translate }}
+              </label>
+            </div>
+          </div>
         </div>
         <div class="col-md-6 col-sm-6 d-flex align-items-center justify-content-center">
           <div class="row m-3">
