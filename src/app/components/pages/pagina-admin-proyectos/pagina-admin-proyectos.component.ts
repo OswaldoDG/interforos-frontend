@@ -15,6 +15,7 @@ import {
   GridReadyEvent,
   RowSelectedEvent,
   SortDirection,
+  ValueFormatterParams,
 } from 'ag-grid-community';
 
 import { formatDate } from '@angular/common';
@@ -46,6 +47,20 @@ export class PaginaAdminProyectosComponent implements OnInit {
       width: 180,
       editable: false,
       sortable: true,
+    },
+    {
+      headerName: 'Estado',
+      field: 'status',
+      width: 150,
+      editable: false,
+      sortable: true,
+      valueFormatter: function(params) {
+        if (params.value === "EnEdicion") {
+          return "En Edición";
+        } else {
+          return params.value;
+        }
+      }
     },
     {
       headerName: 'Apertura',

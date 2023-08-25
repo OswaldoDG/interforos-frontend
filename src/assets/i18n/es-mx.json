@@ -89,7 +89,10 @@
     "form-eliminarEvento": "Eliminar Evento",
     "form-email": "Email",
     "form-salvar": "Salvar",
-    "refrescar":"Actualizar Lista"
+    "refrescar":"Actualizar Lista",
+    "form-acepta-autoinscripcion": "Los modelos pueden inscribirse",
+    "form-cierre-automatico": "El casting se cierra automáticamente en la fecha",
+    "form-apertura-automatica": "El casting se abre automáticamente en la fecha"
   },
   "navbar": {
     "salir": "Salir",

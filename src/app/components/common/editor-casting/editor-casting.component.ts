@@ -11,6 +11,7 @@ import { ContactosClienteComponent } from '../contactos-cliente/contactos-client
 import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { isEmpty } from '@datorama/akita';
+import { OnChange } from 'ngx-bootstrap/utils';
 
 @Component({
   selector: 'app-editor-casting',
@@ -43,6 +44,9 @@ export class EditorCastingComponent implements OnInit {
   nameImg: string;
   isImageLoading: boolean = false;
   logoDefault = './../../assets/img/casting/camera-icon.png';
+  inscripcionAutomatica: boolean = false;
+  cierreAuto : boolean = false;
+  aperturaAuto : boolean = false;
 
   constructor(
     private clientApi: CastingClient,
@@ -55,6 +59,9 @@ export class EditorCastingComponent implements OnInit {
       fechaApertura: [null],
       fechaCierre: [null],
       descripcion: [null],
+      aceptaAutoInscripcionModelos: [this.inscripcionAutomatica],
+      cierreAutomatico: [this.cierreAuto],
+      aperturaAutomatica: [this.aperturaAuto]
     });
     this.dateTimeAdapter.setLocale('es-ES');
   }
@@ -88,6 +95,9 @@ export class EditorCastingComponent implements OnInit {
       fechaApertura: this.formProyecto.value.fechaApertura,
       fechaCierre: this.formProyecto.value.fechaCierre,
       descripcion: this.formProyecto.value.descripcion,
+      aceptaAutoInscripcion: this.formProyecto.value.aceptaAutoInscripcionModelos,
+      cierreAutomatico : this.formProyecto.value.cierreAutomatico,
+      aperturaAutomatica: this.formProyecto.value.aperturaAutomatica
     };
 
     this.clientApi.castingPost(datos).subscribe((data1) => {
@@ -129,8 +139,11 @@ export class EditorCastingComponent implements OnInit {
     if (!this.CastingId) {
       return;
     }
+    console.log(this.formProyecto.value.aceptaAutoInscripcionModelos);
 
-    this.CastingActual.id = this.CastingId;
+    console.log(this.formProyecto.value.cierreAutomatico);
+
+    console.log(this.formProyecto.value.aperturaAutomatica);
     (this.CastingActual.nombre = this.formProyecto.value.nombre),
       (this.CastingActual.nombreCliente =
         this.formProyecto.value.nombreCliente),
@@ -138,6 +151,10 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.fechaApertura),
       (this.CastingActual.fechaCierre = this.formProyecto.value.fechaCierre),
       (this.CastingActual.descripcion = this.formProyecto.value.descripcion),
+      (this.CastingActual.aceptaAutoInscripcion = this.formProyecto.value.aceptaAutoInscripcionModelos),
+      (this.CastingActual.cierreAutomatico = this.formProyecto.value.cierreAutomatico),
+      (this.CastingActual.aperturaAutomatica = this.formProyecto.value.aperturaAutomatica),
+      console.log(this.CastingActual);
       this.clientApi
         .castingPut(this.CastingId, this.CastingActual)
         .subscribe((data) => {
@@ -188,8 +205,17 @@ export class EditorCastingComponent implements OnInit {
           .get('fechaCierre')
           .setValue(this.CastingActual.fechaCierre);
         this.formProyecto
-          .get('descripcion')
-          .setValue(this.CastingActual.descripcion);
+        .get('descripcion')
+        .setValue(this.CastingActual.descripcion);
+        this.formProyecto
+        .get('aceptaAutoInscripcionModelos')
+        .setValue(this.CastingActual.aceptaAutoInscripcion);
+        this.formProyecto
+        .get('cierreAutomatico')
+        .setValue(this.CastingActual.cierreAutomatico);
+        this.formProyecto
+        .get('aperturaAutomatica')
+        .setValue(this.CastingActual.aperturaAutomatica);
 
         //Obtine el logo Relacionado al casting
         this.clientApi.logoGet(this.CastingActual.id).subscribe((data) => {
@@ -222,6 +248,26 @@ export class EditorCastingComponent implements OnInit {
     }
     this.esLogoNuevo = false;
   }
+
+  onChangeCheckBox1(){
+    this.inscripcionAutomatica = !this.inscripcionAutomatica;
+    console.log(this.inscripcionAutomatica);
+    console.log(this.cierreAuto);
+    console.log(this.aperturaAuto);
+  }
+  onChangeCheckBox2(){
+    this.cierreAuto = !this.cierreAuto;
+    console.log(this.cierreAuto);
+    console.log(this.aperturaAuto);
+    console.log(this.inscripcionAutomatica);
+  }
+  onChangeCheckBox3(){
+    this.aperturaAuto = !this.aperturaAuto;
+    console.log(this.aperturaAuto);
+    console.log(this.cierreAuto);
+    console.log(this.inscripcionAutomatica);
+  }
+
   //evento de input para cargar la imagen
   handleUpload(event) {
     const file = event.target.files[0];
