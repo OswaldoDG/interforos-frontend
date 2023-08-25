@@ -87,7 +87,6 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private fb: FormBuilder,
-    private sessionService: SessionService,
     private session: SessionQuery,
     private castingClient: CastingClient,
     private formBuilder: FormBuilder,

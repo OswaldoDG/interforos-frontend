@@ -47,7 +47,14 @@ export class SessionService {
       autenticado: true,
     }));
   }
-
+  // Establece cierra sesion
+  logOut() {
+    sessionStorage.clear();
+    this.sessionStore.update((state) => ({
+      auth: null,
+      autenticado: false,
+    }));
+  }
   establecePerfil(p: InformacionPerfil) {
     this.sessionStore.update((state) => ({
       perfil: p,
