@@ -1,0 +1,95 @@
+<app-promodel-sidemenu></app-promodel-sidemenu>
+
+<!-- Start Main Content Wrapper Area -->
+<div class="main-content d-flex flex-column">
+  <app-navbar-staff></app-navbar-staff>
+
+  <!-- Start -->
+  <div class="bookings-listings-box">
+    <ngx-spinner
+      name="buscar"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+    >
+      <p class="loading">...</p>
+    </ngx-spinner>
+    <div class="containe55">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12">
+          <div class="my-profile-box">
+            <h3>{{ "perfil.colaborador-datos" | translate }}</h3>
+
+            <form [formGroup]="formPerfil">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 offset-4">
+                  <div class="form-group profile-box">
+                    <img
+                      [src]="avatar"
+                      [style.border]="avatar ? '1px solid black' : 'none'"
+                    />
+                    <div class="file-upload">
+                      <input
+                        #file
+                        name="file"
+                        id="file"
+                        type="file"
+                        (change)="onFileChange($event)"
+                        accept=".jpg"
+                        class="d-none inputfile"
+                      />
+                      <label for="file"
+                        ><i class="bx bx-upload"></i>
+                        {{ "perfil.colaborador-avatar" | translate }}</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <label>{{ "perfil.colaborador-nombre" | translate }}</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="nombre"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <button (click)="guardar()" type="submit">
+                      {{ "perfil.colaborador-guardar" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-5 col-md-10" *ngIf="isImageLoading">
+          <div class="profile-box">
+            <image-cropper
+              [imageChangedEvent]="imgChangeEvt"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 4"
+              [resizeToWidth]="256"
+              format="jpg"
+              (imageCropped)="cropImg($event)"
+            >
+            </image-cropper>
+            <button (click)="cancel()" class="buttonform">
+              {{ "perfil.colaborador-cancelar" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End -->
+
+  <div class="flex-grow-1"></div>
+
+  <app-copyrights></app-copyrights>
+</div>
+<!-- End Main Content Wrapper Area -->

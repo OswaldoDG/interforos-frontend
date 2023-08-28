@@ -56,6 +56,7 @@ import { RevisorGuard } from './services/guards/revisor-guard';
 import { ModeloGuard } from './services/guards/modelo-guard';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
+import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -107,6 +108,18 @@ const routes: Routes = [
     path: 'casting/:id',
     component: CastigReviewComponent,
     canActivate: [RevisorGuard,StaffGuard],
+  },
+  {
+    path: 'staff/perfil',
+    component: PerfilColaboradorComponent,
+  },
+  {
+    path: 'revisor/perfil',
+    component: PerfilColaboradorComponent,
+  },
+  {
+    path: 'admin/perfil',
+    component: PerfilColaboradorComponent,
   },
   {
     path: '401',
