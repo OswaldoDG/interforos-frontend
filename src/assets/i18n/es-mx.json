@@ -257,8 +257,11 @@
     "campos-faltantes":"Los siguientes campos son requeridos:",
     "colaborador-datos":"Detalles Perfil",
     "colaborador-nombre":"Nombre",
-    "colaborador-avatar":"Subir Foto",
-    "colaborador-guardar":"Guardar Datos"
+    "colaborador-avatar":"Subir",
+    "colaborador-guardar":"Guardar Datos",
+    "colaborador-datos-no-guardados":"No se pudo guardar la Información",
+    "colaborador-datos-guardados":"La información se guardo",
+    "colaborador-cancelar":"Cancelar"
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",

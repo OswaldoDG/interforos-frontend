@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { HotToastService } from '@ngneat/hot-toast';
+import { TranslateService } from '@ngx-translate/core';
 import {
-  Dimensions,
   ImageCroppedEvent,
-  ImageTransform,
-  LoadedImage,
-  base64ToFile,
 } from 'ngx-image-cropper';
-import { PersonaClient } from 'src/app/services/api/api-promodel';
+import {
+  PerfilPublicoUsuario,
+  PersonaClient,
+} from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
@@ -17,17 +17,19 @@ import { SessionQuery } from 'src/app/state/session.query';
   styleUrls: ['./perfil-colaborador.component.scss'],
 })
 export class PerfilColaboradorComponent implements OnInit {
-  avatar: any = '';
-  avatar2: string;
-  nameImg: any;
-  ditry: boolean = false;
+  perfilPublico: PerfilPublicoUsuario;
   isImageLoading: boolean = false;
+  avatar: string;
   formPerfil: FormGroup;
+  T: any[];
+  imgChangeEvt: any = '';
+
   constructor(
     private sesion: SessionQuery,
     private personaClient: PersonaClient,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    private translate: TranslateService,
+    private toastService: HotToastService
   ) {
     this.formPerfil = this.fb.group({
       nombre: ['', Validators.required],
@@ -35,75 +37,71 @@ export class PerfilColaboradorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.traerAvatar();
+    this.translate
+      .get([
+        'perfil.colaborador-datos-no-guardados',
+        'perfil.colaborador-datos-guardados',
+      ])
+      .subscribe((trads) => {
+        this.T = trads;
+      });
+    this.traerPerfil();
   }
-
-  //evento de input para cargar la imagen
-  handleUpload(event) {
-    const file = event.target.files[0];
-    this.nameImg = event.target.files[0].name;
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.avatar = reader.result.toString();
-      this.ditry = true;
-      this.isImageLoading = true;
-    };
+  //trae los datos del usuario ne sesion
+  traerPerfil() {
+    this.personaClient
+      .perfilpublicoGet(this.sesion.UserId)
+      .subscribe((data) => {
+        if (data != null) {
+          this.perfilPublico = data;
+          this.avatar = data.avatar;
+          this.formPerfil.get('nombre').setValue(this.perfilPublico.nombre);
+        } else {
+        }
+      });
   }
-
-  //agregar o actuliza el imagen
-  actualizarDatos() {
-    if (this.formPerfil.dirty) {
-      console.log('actualizando datos');
-    }
-  }
-
-  actualizarAvatar() {
-    console.log(this.avatar2);
-    if (this.ditry) {
-      this.personaClient.avatarPost(this.avatar2).subscribe();
-    }
-    this.ditry = false;
-  }
-
-  traerAvatar() {
-    this.personaClient.avatarGet(this.sesion.UserId).subscribe((data) => {
-      if (data != null) {
-        this.avatar = data;
-        this.isImageLoading = true;
-      } else {
-        this.isImageLoading = false;
-      }
-    });
-  }
+  //actualiza los datos del usuario en sesion
   guardar() {
-    this.actualizarAvatar();
+    if (this.isImageLoading || this.formPerfil.dirty) {
+      this.perfilPublico.nombre = this.formPerfil.get('nombre').value;
+      this.perfilPublico.avatar = this.avatar;
+      this.personaClient.perfilpublicoPost(this.perfilPublico).subscribe(
+        (data) => {
+          this.toastService.warning(
+            this.T['perfil.colaborador-datos-guardados'],
+            {
+              position: 'bottom-center',
+            }
+          );
+          this.isImageLoading = false;
+        },
+        (error) => {
+          this.toastService.warning(
+            this.T['perfil.colaborador-datos-no-guardados'],
+            {
+              position: 'bottom-center',
+            }
+          );
+        }
+      );
+    }
   }
 
-  imgChangeEvt: any = '';
+  cancel() {
+    this.avatar = this.perfilPublico.avatar;
+    this.isImageLoading = false;
+  }
+
   onFileChange(event: any): void {
-    this.imgChangeEvt = event;
-    this.ditry = true;
     this.isImageLoading = true;
+    this.imgChangeEvt = event;
   }
   cropImg(e: ImageCroppedEvent) {
     const reader = new FileReader();
     reader.readAsDataURL(e.blob);
     reader.onload = () => {
-      this.avatar2 = reader.result.toString();
-      this.ditry = true;
+      this.avatar = reader.result.toString();
       this.isImageLoading = true;
     };
-    this.avatar = this.sanitizer.bypassSecurityTrustUrl(e.objectUrl);
-  }
-  imgLoad() {
-    // display cropper tool
-  }
-  initCropper() {
-    // init cropper
-  }
-
-  imgFailed() {
-    // error msg
   }
 }
