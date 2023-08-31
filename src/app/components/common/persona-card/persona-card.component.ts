@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
@@ -15,6 +22,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
+  @Output() personaEditar: EventEmitter<string> = new EventEmitter();
+  @Output() personaRemover: EventEmitter<string> = new EventEmitter();
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
@@ -36,8 +45,7 @@ export class PersonaCardComponent implements OnInit {
     private castingService: CastingClient,
     private toastService: HotToastService,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
@@ -126,6 +134,17 @@ export class PersonaCardComponent implements OnInit {
       this.toastService.warning(this.T['buscar.categorias-error'], {
         position: 'bottom-center',
       });
+    }
+  }
+
+  editarPersona() {
+    if (this.persona) {
+      this.personaEditar.emit(this.persona.id);
+    }
+  }
+  removerPersona() {
+    if (this.persona) {
+      this.personaRemover.emit(this.persona.id);
     }
   }
 }

@@ -25,7 +25,7 @@ export class CastingStaffServiceService {
   private categoriaActual: string = null;
   private userId: string = null;
   private destroySubject: Subject<void> = new Subject();
-  private editar: boolean;
+  private editar: boolean = false;
   private votos: VotoModeloMapeo[] = [];
   constructor(
     sessionQuery: SessionQuery,
@@ -116,7 +116,7 @@ export class CastingStaffServiceService {
     if (participante) {
       return participante.nombre;
     } else {
-       {
+      {
         return '-';
       }
     }
@@ -124,11 +124,15 @@ export class CastingStaffServiceService {
 
   //vefirica si una persona esta en el casting actual
   public personaEnCategoria(idPersona: string): number {
-    var indexC = this.casting.categorias.findIndex(
-      (c) => c.id == this.categoriaActual
-    );
+    if (this.casting) {
+      var indexC = this.casting.categorias.findIndex(
+        (c) => c.id == this.categoriaActual
+      );
 
-    return this.casting.categorias[indexC].modelos.indexOf(idPersona);
+      return this.casting.categorias[indexC].modelos.indexOf(idPersona);
+    } else {
+      return -1;
+    }
   }
 
   // Devuelve una lista de categorias en las que participa el modelo

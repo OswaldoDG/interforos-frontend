@@ -57,6 +57,7 @@ import { ModeloGuard } from './services/guards/modelo-guard';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
+import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -107,7 +108,7 @@ const routes: Routes = [
   {
     path: 'casting/:id',
     component: CastigReviewComponent,
-    canActivate: [RevisorGuard,StaffGuard],
+    canActivate: [RevisorGuard, StaffGuard],
   },
   {
     path: 'staff/perfil',
@@ -124,6 +125,10 @@ const routes: Routes = [
   {
     path: '401',
     component: SinAccesoComponent,
+  },
+  {
+    path: 'mismodelos',
+    component: RegistroPersonasComponent,
   },
   {
     path: 'vertical-listings-left-sidebar',
