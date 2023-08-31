@@ -3209,6 +3209,10 @@ export interface IPersonaClient {
     /**
      * @return Success
      */
+    newPerfil(): Observable<Persona>;
+    /**
+     * @return Success
+     */
     mi(): Observable<Persona>;
     /**
      * @param body (optional) 
@@ -3263,6 +3267,18 @@ export interface IPersonaClient {
      * @return Success
      */
     perfilpublicoGet(usuarioId: string): Observable<PerfilPublicoUsuario>;
+    /**
+     * @return Success
+     */
+    porusuarioPost(personaid: string): Observable<PersonasUsuario>;
+    /**
+     * @return Success
+     */
+    porusuarioDelete(personaid: string): Observable<void>;
+    /**
+     * @return Success
+     */
+    porusuarioGet(): Observable<string[]>;
 }
 
 @Injectable({
@@ -3276,6 +3292,69 @@ export class PersonaClient implements IPersonaClient {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    newPerfil(httpContext?: HttpContext): Observable<Persona> {
+        let url_ = this.baseUrl + "/persona/NewPerfil";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processNewPerfil(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processNewPerfil(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Persona>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Persona>;
+        }));
+    }
+
+    protected processNewPerfil(response: HttpResponseBase): Observable<Persona> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Persona;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Persona>(null as any);
     }
 
     /**
@@ -4148,6 +4227,198 @@ export class PersonaClient implements IPersonaClient {
         }
         return _observableOf<PerfilPublicoUsuario>(null as any);
     }
+
+    /**
+     * @return Success
+     */
+    porusuarioPost(personaid: string, httpContext?: HttpContext): Observable<PersonasUsuario> {
+        let url_ = this.baseUrl + "/persona/porusuario/{personaid}";
+        if (personaid === undefined || personaid === null)
+            throw new Error("The parameter 'personaid' must be defined.");
+        url_ = url_.replace("{personaid}", encodeURIComponent("" + personaid));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPorusuarioPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPorusuarioPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PersonasUsuario>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PersonasUsuario>;
+        }));
+    }
+
+    protected processPorusuarioPost(response: HttpResponseBase): Observable<PersonasUsuario> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PersonasUsuario;
+            return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PersonasUsuario>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    porusuarioDelete(personaid: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/persona/porusuario/{personaid}";
+        if (personaid === undefined || personaid === null)
+            throw new Error("The parameter 'personaid' must be defined.");
+        url_ = url_.replace("{personaid}", encodeURIComponent("" + personaid));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPorusuarioDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPorusuarioDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processPorusuarioDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    porusuarioGet(httpContext?: HttpContext): Observable<string[]> {
+        let url_ = this.baseUrl + "/persona/porusuario";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPorusuarioGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPorusuarioGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string[]>;
+        }));
+    }
+
+    protected processPorusuarioGet(response: HttpResponseBase): Observable<string[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string[];
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string[]>(null as any);
+    }
 }
 
 export interface IRegistroClient {
@@ -4701,8 +4972,8 @@ export interface Persona {
     avatarBase64?: string | undefined;
     exclusivo: boolean;
     usuarioId?: string | undefined;
-    nombre: string;
-    nombreArtistico: string;
+    nombre?: string | undefined;
+    nombreArtistico?: string | undefined;
     nombreBusqueda?: string | undefined;
     apellido1?: string | undefined;
     apellido2?: string | undefined;
@@ -4743,6 +5014,18 @@ export interface PersonaResponsePaginado {
     total?: number;
     pagina?: number;
     tamano?: number;
+}
+
+export interface PersonasUsuario {
+    id?: string | undefined;
+    rev?: string | undefined;
+    readonly deleted?: boolean;
+    readonly conflicts?: string[] | undefined;
+    readonly attachments?: CouchAttachment[] | undefined;
+    usuarioId?: string | undefined;
+    clienteId?: string | undefined;
+    agenciaId?: string | undefined;
+    idPersonas?: string[] | undefined;
 }
 
 export interface ProblemDetails {

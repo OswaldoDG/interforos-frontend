@@ -147,6 +147,8 @@ import { ResumenVotoModeloComponent } from './components/common/resumen-voto-mod
 import { ModalCambiarPasswordComponent } from './components/common/modal-cambiar-password/modal-cambiar-password.component';
 import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
+import { DatosPersonaComponent } from './components/common/datos-persona/datos-persona.component';
 
 defineLocale('es', esLocale);
 
@@ -258,6 +260,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ResumenVotoModeloComponent,
     ModalCambiarPasswordComponent,
     PerfilColaboradorComponent,
+    RegistroPersonasComponent,
+    DatosPersonaComponent,
   ],
   imports: [
     ImageCropperModule,

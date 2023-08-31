@@ -228,6 +228,7 @@
     "select-search": "Buscar",
     "select-nodata": "No se encuetra el tipo",
     "btn-save": "Guardar datos",
+    "btn-cancel":"Cancelar",
     "datos-incorrectos": "Todos los campos son obligatorios, complete la información faltante.",
     "documentos-incompletos": "No ha cargado todos los documentos obligatorios",
     "datos-ok": "Los datos del perfil han sido almacenados",
@@ -320,5 +321,9 @@
     "nose": "No sé",
     "si": "Si",
     "mucho": "Mucho"
+  },
+  "persona":
+  {
+    "crear":"crear"
   }
 }

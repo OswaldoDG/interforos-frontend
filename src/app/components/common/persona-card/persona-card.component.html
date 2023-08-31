@@ -1,6 +1,5 @@
 <div class="row">
-  <app-voto-modelo-component
-  [personaId]="persona.id">
+  <app-voto-modelo-component [personaId]="persona.id">
   </app-voto-modelo-component>
 </div>
 <div class="card" style="width: 100%">
@@ -32,11 +31,23 @@
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm12">
-            <div class="user-profile">
-              <div class="d-flex align-items-center">
-                <img [src]="avatarUrl" alt="image" />
+            <div class="row">
+              <div class="col-lg-5 col-md-5 col-sm-5">
+                <i class="bi bi-pencil-fill" (click)="editarPersona()"></i>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2">
+                <i class="bi bi-person-x-fill" (click)="removerPersona()"></i>
               </div>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="user-profile">
+                <div class="d-flex align-items-center">
+                  <img [src]="avatarUrl" alt="image" />
+                </div>
+              </div>
+            </div>
+
+            <div></div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm12">
             <div class="user-profile">
@@ -258,8 +269,7 @@
     </div>
     <br />
     <div class="row" *ngIf="enCategoria">
-      <app-resumen-voto-modelo
-      [personaId]="persona.id">
+      <app-resumen-voto-modelo [personaId]="persona.id">
       </app-resumen-voto-modelo>
     </div>
     <div class="row" *ngIf="enCategoria">
