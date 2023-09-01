@@ -2,12 +2,19 @@ import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import {FormControl, FormGroup} from '@angular/forms';
+
+import { HotToastService } from '@ngneat/hot-toast';
+import { TranslateService } from '@ngx-translate/core';
+
+
 
 import {
   CastingClient,
   CastingListElement,
   ClientesClient,
   Casting,
+  EstadoCasting,
 } from 'src/app/services/api/api-promodel';
 import {
   ColDef,
@@ -22,6 +29,7 @@ import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { identifierName } from '@angular/compiler';
 import { first } from 'rxjs/operators';
+
 @Component({
   selector: 'app-pagina-admin-proyectos',
   templateUrl: './pagina-admin-proyectos.component.html',
@@ -32,6 +40,18 @@ export class PaginaAdminProyectosComponent implements OnInit {
   idSeleccionado: string = '';
   casting: CastingListElement[] = [];
   private gridApi!: GridApi<CastingListElement>;
+  T: any;
+  valoresdisponibles:number;
+  v:string='x';
+
+
+  estado: Array<EstadoCasting> = [
+    EstadoCasting.EnEdicion,
+    EstadoCasting.Abierto,
+    EstadoCasting.Cerrado,
+    EstadoCasting.Cancelado
+  ]
+  
 
   columnDefs: ColDef[] = [
     {
@@ -47,20 +67,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
       width: 180,
       editable: false,
       sortable: true,
-    },
-    {
-      headerName: 'Estado',
-      field: 'status',
-      width: 150,
-      editable: false,
-      sortable: true,
-      valueFormatter: function(params) {
-        if (params.value === "EnEdicion") {
-          return "En Edición";
-        } else {
-          return params.value;
-        }
-      }
     },
     {
       headerName: 'Estado',
@@ -153,10 +159,28 @@ export class PaginaAdminProyectosComponent implements OnInit {
   constructor(
     private castingClient: CastingClient,
     @Inject(LOCALE_ID) private locale: string,
-    private ruta: Router
-  ) {}
+    private ruta: Router, private translate: TranslateService,
+    private toastService: HotToastService
+  ) {
 
-  ngOnInit(): void {}
+    this.valoresdisponibles;
+    this.estado;
+    this.v;
+  }
+
+
+  ngOnInit(): void {
+
+    this.translate
+    .get([
+      'proyectos.casting-estado-ok',
+      'proyectos.casting-estado-error'
+    ]).subscribe((ts) => {
+      this.T = ts;
+    });
+
+
+  }
 
   doQuery(query: BuscarProyectoDTO) {
     console.log(query);
@@ -204,5 +228,24 @@ export class PaginaAdminProyectosComponent implements OnInit {
       this.gridApi.setRowData(data);
       this.gridApi.refreshCells();
     });
+  }
+
+ 
+  
+  Seleccion()
+  {
+    const selectedData = this.gridApi.getSelectedRows();
+    this.idSeleccionado = selectedData[0].id;
+    this.castingClient.estadocasting(selectedData[0].id,this.estado[this.valoresdisponibles])
+    .subscribe((data)=>
+    {
+      this.toastService.success(this.T['proyectos.casting-estado-ok'], {
+        position: 'bottom-center',
+      });
+      this.refrescar();
+      
+    },(error)=> this.toastService.error(this.T['proyectos.casting-estado-error'], {
+      position: 'bottom-center',
+    }));
   }
 }
