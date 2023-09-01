@@ -20,7 +20,6 @@ i{
 {
     width:100%;
 }
-
 .green {
   color: rgb(0, 182, 0);
 }
@@ -36,6 +35,13 @@ i{
 
 .gray{
   color:gray;
+}
+
+.votos{
+  color:gray;
+}
+.votos:hover{
+  color:black;
 }
 
 .no-outline {

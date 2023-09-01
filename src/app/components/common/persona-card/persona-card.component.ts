@@ -24,6 +24,20 @@ export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
+  //Determina si el despliegue debe ser vertial
+  @Input() direccionVertical : boolean = true;
+  //Determina si la tarjeta se encuentra en una pantalla de búsqueda o en la resivión de modelos
+  @Input() tipoBusqueda : boolean = false;
+  //Determina si el avatar con la imagen principal del usuario debe mostrarse
+  @Input() mostrarAvatar : boolean = true;
+  //Determina si la lista de habilidades debe ser mostrada
+  @Input() mostrarHabilidades : boolean = true;
+  //Determina si los datos de contacto deben mostrase
+  @Input() mostrarContacto : boolean = true;
+  //Determina si los datos generales deben mostrarse
+  @Input() mostrarGenerales : boolean = true;
+  //Determina si la galeria debe mostrarse
+  @Input() mostrarGaleria : boolean = true;
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
@@ -92,6 +106,8 @@ export class PersonaCardComponent implements OnInit {
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
+    const nombreModelo = this.persona.nombre + " " + this.persona.apellido1  + " " + this.persona.apellido2;
+    this.servicio.setNombreModelo(nombreModelo);
   }
   validarExiste() {
     this.enCasting =

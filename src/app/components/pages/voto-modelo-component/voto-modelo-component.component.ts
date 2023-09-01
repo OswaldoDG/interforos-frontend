@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { CastigReviewComponent } from '../castig-review/castig-review.component';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { CastingClient, VotoModeloMapeo } from 'src/app/services/api/api-promodel';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -19,10 +20,18 @@ export class VotoModeloComponentComponent implements OnInit {
   public votoMap : VotoModeloMapeo[] = [];
   //Variable que almacenará el like
   public likeRevisor : string = null;
+
+  modalRef?: BsModalRef;
+
+  nombreModelo : string;
   constructor(private servicio: CastingStaffServiceService,
-              private castingService : CastingClient) { }
+              private castingService : CastingClient,
+              private modalService : BsModalService) { }
 
   ngOnInit(): void {
+    console.log(this.personaId);
+    this.nombreModelo= this.servicio.getNombreModelo();
+    console.log(this.nombreModelo);
     this.voto()
     this.servicio.CategoriaSub().subscribe((c) => {
       if (c) {
@@ -32,6 +41,7 @@ export class VotoModeloComponentComponent implements OnInit {
   }
 
   voto(){
+    console.log(this.personaId);
     this.activoNo  = false;
     this.activoNoSe  = false;
     this.activoSi = false;
@@ -73,5 +83,7 @@ export class VotoModeloComponentComponent implements OnInit {
     this.agregarVoto(nivel.toString());
   }
 
-
+  modalResumenVotos(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template)
+  }
 }
