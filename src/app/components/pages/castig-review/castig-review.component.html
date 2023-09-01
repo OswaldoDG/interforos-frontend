@@ -25,13 +25,31 @@
       </select>
     </div>
   </div>
-  <div class="row pt-5" *ngIf="modelos.length > 0">
-    <div
-      class="col-lg-4 col-md-6 col-sm-12 pt-2"
-      *ngFor="let modelo of modelos"
-    >
-      <app-persona-card [persona]="modelo"></app-persona-card>
+  <div *ngIf="personasDesplegables.length > 0">
+    <div  *ngIf="dVertical == true && tBusqueda == false; else modoHorizontal">
+      <div class="row">
+        <div
+
+        class="col-lg-4 col-md-6 col-sm-12 pt-2"
+      *ngFor="let modelo of personasDesplegables"
+        >
+        <app-persona-card [direccionVertical] = true [tipoBusqueda] = false [persona]="modelo"></app-persona-card>
+     </div>
     </div>
+    </div>
+    <ng-template #modoHorizontal>
+      <div class="row">
+        <div class="d-block">
+          <div
+
+          class="col-lg-4 col-md-6 col-sm-12 pt-2"
+        *ngFor="let modelo of personasDesplegables"
+      >
+        <app-persona-card [direccionVertical] = false [tipoBusqueda] = false [persona]="modelo"></app-persona-card>
+      </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 <ng-template #elseTemplate>

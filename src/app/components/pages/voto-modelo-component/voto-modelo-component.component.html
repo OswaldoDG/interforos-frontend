@@ -1,5 +1,5 @@
 
-<div class="div col-12 d-flex align-items-center justify-content-center">
+<div class="col-12 d-flex align-items-center justify-content-center">
     <span>
         <button class="no-outline botones btn btn-light btn-sm">
           <i class="bi bi-emoji-frown-fill" [ngClass]="activoNo == true ? 'red' : 'gray'" (click)="votar(0)"></i>
@@ -23,5 +23,26 @@
             <i class="bi bi-emoji-heart-eyes-fill" [ngClass]="activoMucho == true ? 'green' : 'gray'"  (click)="votar(3)"></i>
         </button>
     </span>
+    <span>
+      <button class="no-outline botones btn btn-light btn-sm" (click)="modalResumenVotos(templateResumenVotos)">
+        <i class="bi bi-arrow-up-right-circle" [ngClass]="'votos'" ></i>
+      </button>
+    </span>
+
+    <ng-template #templateResumenVotos>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{"tabla.persona-voto" | translate}} {{nombreModelo}}</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 300px;">
+        <div class="row">
+          <app-resumen-voto-modelo
+          [personaId]="personaId">
+          </app-resumen-voto-modelo>
+        </div>
+      </div>
+    </ng-template>
 </div>
 

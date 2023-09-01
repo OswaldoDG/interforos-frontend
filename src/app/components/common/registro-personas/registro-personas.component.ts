@@ -22,6 +22,8 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   personaId: string = null;
   validarDocumentos: boolean = false;
   personaIdEliminar: string = null;
+  dVertical : boolean = true;
+  tBusqueda : boolean = true;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(private servicioPersonas: ServicioRegistroPersonasService) {}

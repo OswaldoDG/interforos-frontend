@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
+  CatalogoBase,
+  ClienteView,
   ComentarioCategoriaModeloCasting,
   Persona,
   PersonaClient,
@@ -10,6 +12,7 @@ import {
 } from './api/api-promodel';
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
+import { CatalogosCliente } from '../modelos/locales/catalogos-cliente';
 
 export interface MapeoVoto {
   usuarioId?: string | undefined;
@@ -27,11 +30,24 @@ export class CastingStaffServiceService {
   private destroySubject: Subject<void> = new Subject();
   private editar: boolean = false;
   private votos: VotoModeloMapeo[] = [];
+  private personasView: Persona[] = [];
+  private personaNombre : string;
+  public catalogos: CatalogosCliente[] = [];
+  public cliente: ClienteView;
+
   constructor(
     sessionQuery: SessionQuery,
     private personaClient: PersonaClient
   ) {
     this.userId = sessionQuery.UserId;
+    const cs = sessionStorage.getItem('catalogos');
+    if (cs != null) {
+      sessionStorage.removeItem('catalogos');
+    }
+
+    sessionQuery.cliente$.subscribe((c) => {
+      this.cliente = c;
+    });
   }
 
   ngOnDestroy() {
@@ -113,13 +129,23 @@ export class CastingStaffServiceService {
   //devuelve el nombre de un usuarioId
   public nombreUsuarioId(id: string): string {
     var participante = this.casting.participantes.find((_) => _.id === id);
-    if (participante) {
-      return participante.nombre;
-    } else {
-      {
-        return '-';
+    console.log(this.casting);
+    console.log(participante);
+    if (participante != null) {
+      if (participante.nombre != null && participante.nombre != undefined && participante.nombre.length > 0) {
+        console.log(participante.nombre);
+        return participante.nombre;
+      } else {
+        return participante.email;
       }
     }
+  }
+  public setNombreModelo(nombrePersona: string){
+    this.personaNombre = nombrePersona;
+  }
+
+  public getNombreModelo(): string{
+    return this.personaNombre;
   }
 
   //vefirica si una persona esta en el casting actual
@@ -202,24 +228,145 @@ export class CastingStaffServiceService {
     }
   }
 
-  public modelosCategoriaActual(): Persona[] {
-    const modelos: Persona[] = [];
-    var indexC = this.casting.categorias.findIndex(
-      (c) => c.id == this.categoriaActual
-    );
-    this.casting.categorias[indexC].modelos.forEach((m) => {
-      this.personaClient.idGet(m).subscribe((p) => {
-        if (p) {
-          modelos.push(p);
-        }
-      });
-    });
-    return modelos;
-  }
   public GetModoTrabajo() {
     return this.editar;
   }
   public PutModoTrabajo(modo: boolean) {
     this.editar = modo;
+  }
+
+
+  obtieneCatalogoCliente(): Observable<boolean> {
+    return new Observable((subscriber) => {
+      if (this.catalogos.findIndex((c) => c.url == this.cliente.url) >= 0) {
+        subscriber.next(true);
+        subscriber.complete();
+      } else {
+        this.personaClient.perfil().subscribe(
+          (c) => {
+            this.catalogos.push({
+              url: this.cliente.url,
+              fecha: new Date(),
+              catalogos: c,
+            });
+            sessionStorage.setItem('catalogos', JSON.stringify(this.catalogos));
+            subscriber.next(true);
+            subscriber.complete();
+          },
+          (error) => {
+            subscriber.error();
+          }
+        );
+      }
+    });
+  }
+
+ PersonaDesplegable(persona: Persona): Persona {
+    console.log(persona);
+    const pv = this.personasView.find((p) => p.usuarioId == persona.usuarioId);
+    if (pv != undefined) {
+      return pv;
+    }
+
+    var p = { ...persona };
+    const cs = this.catalogos.find((c) => c.url == this.cliente.url);
+
+    p.actividadesIds = this.ADespliegueArray(
+      p.actividadesIds,
+      cs.catalogos.find((c) => c.tipoPropiedad == 'actividades')
+    );
+    p.idiomasIds = this.ADespliegueArray(
+      p.idiomasIds,
+      cs.catalogos.find((c) => c.tipoPropiedad == 'idiomas')
+    );
+
+    if (p.generoId != undefined) {
+      p.generoId = this.ADespliegue(
+        p.generoId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'genero')
+      );
+    }
+
+    if (p.paisOrigenId != undefined) {
+      p.paisOrigenId = this.ADespliegue(
+        p.paisOrigenId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'pais')
+      );
+    }
+
+    // Debe realizarse el cambio del elemento hijo antes del padre
+    if (p.paisActualId != undefined) {
+      if (p.estadoPaisId != undefined) {
+        p.estadoPaisId = this.ADespliegue(
+          p.estadoPaisId,
+          cs.catalogos.find(
+            (c) => c.tipoPropiedad == `estado${p.paisActualId.toLowerCase()}`
+          )
+        );
+      }
+      p.paisActualId = this.ADespliegue(
+        p.paisActualId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'pais')
+      );
+    }
+
+    if (p.propiedadesFisicas?.colorCabelloId != undefined) {
+      p.propiedadesFisicas.colorCabelloId = this.ADespliegue(
+        p.propiedadesFisicas?.colorCabelloId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'colorcabello')
+      );
+    }
+
+    if (p.propiedadesFisicas?.colorOjosId != undefined) {
+      p.propiedadesFisicas.colorOjosId = this.ADespliegue(
+        p.propiedadesFisicas?.colorOjosId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'colorojos')
+      );
+    }
+
+    if (p.propiedadesFisicas?.etniaId != undefined) {
+      p.propiedadesFisicas.etniaId = this.ADespliegue(
+        p.propiedadesFisicas?.etniaId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'etnia')
+      );
+    }
+
+    if (p.propiedadesVestuario?.tipoTallaId != undefined) {
+      p.propiedadesVestuario.tipoTallaId = this.ADespliegue(
+        p.propiedadesVestuario.tipoTallaId,
+        cs.catalogos.find((c) => c.tipoPropiedad == 'tallasvestuario')
+      );
+    }
+
+    this.personasView.push({ ...p });
+    return p;
+  }
+
+  private ADespliegue(id: string, catalogo: CatalogoBase) {
+    if (catalogo == undefined) {
+      return id;
+    }
+    var el = id;
+    const t = catalogo.elementos.find((e) => e.clave == id);
+    if (t != undefined) {
+      el = t.texto;
+    }
+    return el;
+  }
+
+  private ADespliegueArray(ids: string[], catalogo: CatalogoBase) {
+    if (catalogo == undefined) {
+      return ids;
+    }
+    var elementos: string[] = [];
+    ids.forEach((a) => {
+      const t = catalogo.elementos.find((e) => e.clave == a);
+      if (t != undefined) {
+        elementos.push(t.texto);
+      } else {
+        elementos.push(a);
+      }
+    });
+    return elementos;
   }
 }

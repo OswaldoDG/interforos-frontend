@@ -320,10 +320,19 @@
     "no": "No",
     "nose": "No sé",
     "si": "Si",
-    "mucho": "Mucho"
+    "mucho": "Mucho",
+    "persona-voto": "Votos de"
   },
   "persona":
   {
     "crear":"crear"
+  },
+  "revisor-casting":{
+    "perfil": "Modelo",
+    "galeria": "Galería",
+    "contacto": "Contacto",
+    "habilidades": "Habilidades",
+    "generales": "Generales",
+    "comentarios": "Comentarios"
   }
 }
