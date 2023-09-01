@@ -92,7 +92,9 @@
     "refrescar":"Actualizar Lista",
     "form-acepta-autoinscripcion": "Los modelos pueden inscribirse",
     "form-cierre-automatico": "El casting se cierra automáticamente en la fecha",
-    "form-apertura-automatica": "El casting se abre automáticamente en la fecha"
+    "form-apertura-automatica": "El casting se abre automáticamente en la fecha",
+    "casting-estado-ok": "El casting ha sido actualziado",
+    "casting-estado-error":"El usuario no tiene acceso al casting"
   },
   "navbar": {
     "salir": "Salir",

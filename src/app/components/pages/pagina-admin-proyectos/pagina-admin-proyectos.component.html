@@ -5,7 +5,10 @@
   <app-navbar-staff></app-navbar-staff>
 
   <!-- Start -->
-  <div class="bookings-listings-box">
+
+
+
+ <!-- ngfor enum  lista-->
     <h3>{{ "proyectos.header" | translate }}</h3>
     <ngx-spinner
       name="buscar"
@@ -18,9 +21,16 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12 col-sm-12 p-3">
+          <select    class="ms-3 btn btn-primary" [(ngModel)]="valoresdisponibles">
+            <option  class="deplegable" value="0">En Edicion</option>
+            <option  class="deplegable" Value="1">Abierto</option>
+            <option  class="deplegable" Value="2">Cerrado</option>
+            <option  class="deplegable" Value="3">Cancelado</option>
+          </select>
+          <button type="button" class="ms-3 btn btn-primary" (click)="Seleccion()">Cambiar</button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="ms-3 btn btn-primary"
             (click)="creaProyecto()"
           >
             {{ "proyectos.crear" | translate }}
@@ -42,6 +52,11 @@
           />
         </div>
       </div>
+
+
+
+
+      <div class="bookings-listings-box">
     </div>
     <div class="container">
       <div class="row">
@@ -70,7 +85,8 @@
   <!-- End -->
 
   <div class="flex-grow-1"></div>
-
   <app-copyrights></app-copyrights>
 </div>
 <!-- End Main Content Wrapper Area -->
+
+
