@@ -8,6 +8,8 @@ import {
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { ServicioRegistroPersonasService } from 'src/app/services/servicio-registro-personas.service';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
+import { first } from 'rxjs/operators';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-registro-personas',
@@ -22,11 +24,16 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   personaId: string = null;
   validarDocumentos: boolean = false;
   personaIdEliminar: string = null;
-  dVertical : boolean = true;
-  tBusqueda : boolean = true;
+  dVertical: boolean = true;
+  tBusqueda: boolean = true;
+  agenciaId = null;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
-  constructor(private servicioPersonas: ServicioRegistroPersonasService) {}
+  constructor(
+    private servicioPersonas: ServicioRegistroPersonasService,
+    private personaApi: PersonaClient,
+    private session: SessionQuery
+  ) {}
   ngAfterViewInit(): void {
     this.servicioPersonas.getPersonasApi();
   }
@@ -35,6 +42,12 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
     this.servicioPersonas.personaSub().subscribe((p) => {
       this.personas = p;
     });
+    this.personaApi
+      .perfilpublicoGet(this.session.UserId)
+      .pipe(first())
+      .subscribe((data) => {
+        this.agenciaId = data.agenciaId;
+      });
   }
   agregarPersona() {
     this.Editando = !this.Editando;
@@ -44,9 +57,8 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
       this.servicioPersonas.agregaPersona(p);
     }
     {
-      this.personaId=null;
+      this.personaId = null;
       this.servicioPersonas.getPersonasApi();
-
     }
 
     this.Editando = !this.Editando;

@@ -15,6 +15,7 @@
       <app-datos-persona
         [miPerfil]="miPerfil"
         [personaId]="personaId"
+        [agenciaId]="agenciaId"
         [validarDocumentos]="validarDocumentos"
         (PersonaCreada)="personaCreada($event)"
       ></app-datos-persona>
@@ -42,8 +43,8 @@
           [persona]="persona"
           (personaEditar)="editar($event)"
           (personaRemover)="confirmar($event)"
-          [direccionVertical] = "dVertical"
-          [tipoBusqueda] = "tBusqueda"
+          [direccionVertical]="dVertical"
+          [tipoBusqueda]="tBusqueda"
         ></app-persona-card>
       </div>
     </div>

@@ -31,6 +31,7 @@ export class DatosPersonaComponent implements OnInit {
   @Input() miPerfil: boolean = true;
   @Input() personaId: string = null;
   @Input() validarDocumentos: boolean = true;
+  @Input() agenciaId: string = null;
   @Output() PersonaCreada: EventEmitter<string> = new EventEmitter();
   @Output() PersonaActualizada: EventEmitter<string> = new EventEmitter();
   private destroy$ = new Subject();
@@ -441,14 +442,21 @@ export class DatosPersonaComponent implements OnInit {
       .elementos.sort(compare);
 
     const agencias: ElementoCatalogo[] = [];
-
-    if (this.persona.agenciasIds) {
+ 
+    if (this.persona.agenciasIds && !this.agenciaId) {
       this.persona.agenciasIds.forEach((i) => {
         const item = this.dropdownListAgencias.find((x) => x.clave == i);
         if (item) {
           agencias.push(item);
         }
       });
+    } else {
+      const item = this.dropdownListAgencias.find(
+        (x) => x.clave == this.agenciaId
+      );
+      if (item) {
+        agencias.push(item);
+      }
     }
     this.selectedItemsAgencias = agencias;
     this.dropdownSettingsAgencias = {
@@ -798,7 +806,7 @@ export class DatosPersonaComponent implements OnInit {
           }
         );
     }
-    this.personaId=null;
+    this.personaId = null;
   }
 
   validarCampos() {
@@ -868,7 +876,7 @@ export class DatosPersonaComponent implements OnInit {
         });
     }
     {
-      this.personaId=null;
+      this.personaId = null;
       this.PersonaCreada.emit(null);
     }
   }
