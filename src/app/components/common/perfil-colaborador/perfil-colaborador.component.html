@@ -35,6 +35,7 @@
                         id="file"
                         type="file"
                         (change)="onFileChange($event)"
+                        (click)="$event.target.value = null"
                         accept=".jpg"
                         class="d-none inputfile"
                       />
