@@ -6,6 +6,9 @@ export const environment = {
   production: false,
   // apiRoot: 'https://promodel-api.eccordion.com',
   apiRoot: 'https://localhost:7001',
+  recaptcha: {
+    siteKey: '6LeGwyolAAAAAJ7lafqVP4auFcx7TM5NoJyETq0J',
+  },
 };
 
 /*

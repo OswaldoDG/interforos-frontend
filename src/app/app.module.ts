@@ -268,6 +268,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvitarModeloComponent,
   ],
   imports: [
+    AppRoutingModule,
     ImageCropperModule,
     AlertModule,
     TypeaheadModule.forRoot(),

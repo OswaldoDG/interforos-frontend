@@ -767,3 +767,8 @@
 
 /* Min width 1550px */
 @media only screen and (min-width: 1550px) {}
+
+re-captcha.is-invalid > div {
+  border: 1px solid #dc3545 !important;
+  border-radius: 0.2rem;
+}
