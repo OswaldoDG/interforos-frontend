@@ -150,6 +150,12 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
 import { DatosPersonaComponent } from './components/common/datos-persona/datos-persona.component';
 import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
+import {
+  RECAPTCHA_SETTINGS,
+  RecaptchaFormsModule,
+  RecaptchaModule,
+  RecaptchaSettings,
+} from 'ng-recaptcha';
 
 defineLocale('es', esLocale);
 
@@ -266,6 +272,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvitarAgenteComponent,
   ],
   imports: [
+    AppRoutingModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     ImageCropperModule,
     AlertModule,
     TypeaheadModule.forRoot(),
@@ -318,6 +327,12 @@ export function HttpLoaderFactory(http: HttpClient) {
         myInitService.load(),
       deps: [AppConfigService, SessionService],
       multi: true,
+    },
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
     },
   ],
   bootstrap: [AppComponent],

@@ -1,6 +1,6 @@
 import { PersistState, isEmpty } from '@datorama/akita';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,6 +22,7 @@ import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
+import { RecaptchaErrorParameters } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-navbar-promodel',
@@ -34,7 +35,7 @@ export class NavbarPromodelComponent implements OnInit {
   @ViewChild(ModalCambiarPasswordComponent) componenteModal;
   private destroy$ = new Subject();
   cliente: ClienteView = ClienteViewVacio();
-
+  token: string|undefined;
   auntenticado: boolean = false;
   modelo: boolean = false;
   admin: boolean = false;
@@ -55,6 +56,7 @@ export class NavbarPromodelComponent implements OnInit {
   registroForm: FormGroup = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
     nombre: ['', [Validators.required, Validators.minLength(2)]],
+    recaptchaReactive: new FormControl(null, Validators.required),
     rol: ['Modelo'],
   });
 
@@ -78,7 +80,7 @@ export class NavbarPromodelComponent implements OnInit {
     private translate: TranslateService,
     private toastService: HotToastService,
     private ruta: Router
-  ) {}
+  ) {this.token = undefined;}
 
   ngOnInit(): void {
     this.translate
@@ -288,5 +290,15 @@ export class NavbarPromodelComponent implements OnInit {
         );
       }
     }
+  }
+  public send(form: NgForm): void {
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+
+    console.debug(`Token [${this.token}] generated`);
   }
 }
