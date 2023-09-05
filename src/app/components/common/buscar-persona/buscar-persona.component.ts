@@ -35,7 +35,7 @@ import { SessionService } from 'src/app/state/session.service';
   styleUrls: ['./buscar-persona.component.scss'],
 })
 export class BuscarPersonaComponent implements OnInit, OnDestroy {
-  @Output() PersonasEncontradas: EventEmitter<PersonaResponsePaginado> =
+  @Output() personasBuscar: EventEmitter<BusquedaPersonasRequestPaginado> =
     new EventEmitter();
   @Output() EstadoBusqueda: EventEmitter<boolean> = new EventEmitter();
   private personas: Persona[] = [];
@@ -81,6 +81,8 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
 
   cateoriaId: string = null;
   porCategorias: boolean = false;
+  orden = 'consecutivo';
+  ordenModelos = ['consecutivo', 'nombre', 'nombreArtistico', 'edad'];
   constructor(
     private personaApi: PersonaClient,
     private personaService: PersonaInfoService,
@@ -126,26 +128,27 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
 
   buscar() {
     this.EstadoBusqueda.emit(true);
-    const param = this.BusquedaDesdeForma();
-    this.personaApi
-      .buscar(param)
-      .pipe(first())
-      .subscribe((r) => {
-        this.PersonasEncontradas.emit(r);
-        this.EstadoBusqueda.emit(false);
-      });
+    this.personasBuscar.emit(this.BusquedaDesdeForma());
+    // const param = this.BusquedaDesdeForma();
+    // this.personaApi
+    //   .buscar(param)
+    //   .pipe(first())
+    //   .subscribe((r) => {
+    //     this.PersonasEncontradas.emit(r);
+    //     this.EstadoBusqueda.emit(false);
+    //   });
   }
 
   buscarModelos() {
-    this.EstadoBusqueda.emit(true);
-    const param = this.BusquedaDesdeFormaIds();
-    this.personaApi
-      .idPost(param)
-      .pipe(first())
-      .subscribe((r) => {
-        this.PersonasEncontradas.emit(r);
-        this.EstadoBusqueda.emit(false);
-      });
+    // this.EstadoBusqueda.emit(true);
+    // const param = this.BusquedaDesdeFormaIds();
+    // this.personaApi
+    //   .idPost(param)
+    //   .pipe(first())
+    //   .subscribe((r) => {
+    //     this.PersonasEncontradas.emit(r);
+    //     this.EstadoBusqueda.emit(false);
+    //   });
   }
 
   private BusquedaDesdeForma(): BusquedaPersonasRequestPaginado {
@@ -164,12 +167,14 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         habilidadesIds: this.GetIdsDeFormField('habilidades'),
       },
       ordernarASC: true,
-      ordenarPor: 'nombre',
+      ordenarPor: this.orden,
       pagina: 1,
-      tamano: 50,
+      tamano: 20,
     };
   }
-
+  ordenChange(event) {
+    this.orden = event;
+  }
   private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
     let personas: string[] = [];
     if (this.porCategorias) {
@@ -195,7 +200,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         ids: personas,
       },
       ordernarASC: true,
-      ordenarPor: 'nombre',
+      ordenarPor: this.orden,
       pagina: 1,
       tamano: 50,
     };

@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { first, takeUntil } from 'rxjs/operators';
 import {
   AccesoClient,
+  BusquedaPersonasRequestPaginado,
   ClienteView,
   PersonaClient,
   PersonaResponsePaginado,
@@ -31,10 +32,10 @@ import { CastingStaffServiceService } from 'src/app/services/casting-staff-servi
 })
 export class PromodelStaffComponent implements OnInit {
   T: any[];
-  PaginadoPersonas: PersonaResponsePaginado = undefined;
+  personasBuscar: BusquedaPersonasRequestPaginado = undefined;
   casting: SelectorCastingCategoria;
-  PersonasEncontradas(p) {
-    this.PaginadoPersonas = p;
+  PersonasBuscar(p) {
+    this.personasBuscar = p;
   }
 
   EstadoBusqueda(buscando: boolean) {

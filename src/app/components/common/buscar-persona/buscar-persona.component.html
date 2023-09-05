@@ -145,6 +145,16 @@
         />
       </div>
     </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 pt-2">
+      <label>{{ "buscar.ordenar" | translate }}</label>
+      <div class="input-group">
+        <select class="form-select" id="ordenarPor" [(value)]="orden" (change)="ordenChange($event.target.value)">
+          <option *ngFor="let item of ordenModelos" [value]="item">
+            {{ "buscar.ordenar-" + item | translate }}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="col-lg-3 col-md-4 col-sm-12 pt-4">
       <div class="text-center">
         <button
