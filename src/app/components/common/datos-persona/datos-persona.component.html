@@ -258,6 +258,7 @@
               [(ngModel)]="selectedItemsAgencias"
               (onSelect)="onSelectAgencias($event)"
               (onSelectAll)="onSelectAllAgencias($event)"
+              [disabled]="agenciaId"
             >
             </ng-multiselect-dropdown>
           </div>

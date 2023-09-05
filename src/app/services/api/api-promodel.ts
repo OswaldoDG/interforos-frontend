@@ -5023,6 +5023,7 @@ export enum OrigenInscripcion {
 export interface PerfilPublicoUsuario {
     id?: string | undefined;
     nombre?: string | undefined;
+    agenciaId?: string | undefined;
     avatar?: string | undefined;
 }
 
@@ -5059,6 +5060,8 @@ export interface Persona {
     documentos?: Documento[] | undefined;
     documentacionCompleta?: boolean | undefined;
     actividadesIds?: string[] | undefined;
+    usuarioRegistroId?: string | undefined;
+    fechaRegistro?: number | undefined;
     propiedadesFisicas?: PropiedadesFisicas;
     propiedadesVestuario?: PropiedadesVestuario;
     otroIdioma?: string | undefined;
@@ -5127,6 +5130,7 @@ export interface RegistroUsuario {
     clienteId?: string | undefined;
     rol?: TipoRolCliente;
     castingId?: string | undefined;
+    agenciaId?: string | undefined;
 }
 
 export interface Respuesta {
@@ -5198,6 +5202,7 @@ export enum TipoRolCliente {
     Staff = "Staff",
     Modelo = "Modelo",
     RevisorExterno = "RevisorExterno",
+    Agencia = "Agencia",
     Ninguno = "Ninguno",
 }
 
