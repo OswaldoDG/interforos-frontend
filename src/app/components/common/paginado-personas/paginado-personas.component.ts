@@ -14,6 +14,7 @@ import {
   PersonaClient,
   PersonaResponsePaginado,
 } from 'src/app/services/api/api-promodel';
+import { BusquedaPersonasService } from 'src/app/services/busqueda-personas.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 
 @Component({
@@ -21,55 +22,51 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
   templateUrl: './paginado-personas.component.html',
   styleUrls: ['./paginado-personas.component.scss'],
 })
-export class PaginadoPersonasComponent implements OnInit, OnChanges {
+export class PaginadoPersonasComponent implements OnInit {
   @Input() personasBuscar: BusquedaPersonasRequestPaginado = undefined;
   @Output() EstadoBusqueda: EventEmitter<boolean> = new EventEmitter();
+  personas: PersonaResponsePaginado = undefined;
   personasDesplegables = [];
   gridListings: number = 1;
   datosValidos: boolean = false;
   paginaTamano: number = 20;
   total: number = 1;
+  t: string = 'hola';
   constructor(
     private personaService: PersonaInfoService,
-    private personaApi: PersonaClient
+    private servicioBusqueda: BusquedaPersonasService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.gridListings = 1;
-    this.procesaPersonas();
-  }
-
   procesaPersonas() {
-    if (this.personasBuscar) {
-      this.personaApi
-        .buscar(this.personasBuscar)
-        .pipe(first())
-        .subscribe((personasEncontradas) => {
-          this.paginaTamano = personasEncontradas.tamano;
-          this.total = personasEncontradas.total;
-          this.personaService.obtieneCatalogoCliente().subscribe((done) => {
-            if (personasEncontradas?.elementos) {
-              const tmp: Persona[] = [];
-              personasEncontradas.elementos.forEach((p) => {
-                tmp.push(this.personaService.PersonaDesplegable(p));
-              });
-              this.personasDesplegables = tmp;
-              if (this.personasDesplegables.length > 0) {
-                this.datosValidos = true;
-              }
-            }
-            this.EstadoBusqueda.emit(false);
+    if (this.personas) {
+      this.paginaTamano = this.personas.tamano;
+      this.total = this.personas.total;
+      this.gridListings = this.personas.pagina;
+      this.personaService.obtieneCatalogoCliente().subscribe((done) => {
+        if (this.personas?.elementos) {
+          const tmp: Persona[] = [];
+          this.personas.elementos.forEach((p) => {
+            tmp.push(this.personaService.PersonaDesplegable(p));
           });
-        });
+          this.personasDesplegables = null;
+          this.personasDesplegables = tmp;
+          if (this.personasDesplegables.length > 0) {
+            this.datosValidos = true;
+          }
+        }
+        this.EstadoBusqueda.emit(false);
+      });
     }
   }
 
   nexPage(p) {
     this.gridListings = p;
-    this.personasBuscar.pagina = p;
-    this.procesaPersonas();
+    this.servicioBusqueda.nextPage(p);
   }
   ngOnInit(): void {
-    this.procesaPersonas();
+    this.servicioBusqueda.personaSub().subscribe((data) => {
+      this.personas = data;
+      this.procesaPersonas();
+    });
   }
 }

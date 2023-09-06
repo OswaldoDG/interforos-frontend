@@ -4,6 +4,8 @@
       <div class="pagination-area text-center">
         <pagination-controls
           (pageChange)="nexPage($event)"
+          previousLabel="{{ 'buscar.before' | translate }}"
+          nextLabel="{{ 'buscar.next' | translate }}"
         ></pagination-controls>
       </div>
     </div>
@@ -11,7 +13,12 @@
       class="col-lg-4 col-md-6 col-sm-12 pt-2"
       *ngFor="
         let persona of personasDesplegables
-          | paginate : { itemsPerPage: paginaTamano, currentPage: gridListings , totalItems: total}
+          | paginate
+            : {
+                itemsPerPage: paginaTamano,
+                currentPage: gridListings,
+                totalItems: total
+              }
       "
     >
       <app-persona-card
@@ -24,6 +31,8 @@
       <div class="pagination-area text-center">
         <pagination-controls
           (pageChange)="gridListings = $event"
+          previousLabel="{{ 'buscar.before' | translate }}"
+          nextLabel="{{ 'buscar.next' | translate }}"
         ></pagination-controls>
       </div>
     </div>
