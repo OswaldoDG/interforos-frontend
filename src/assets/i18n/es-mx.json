@@ -142,7 +142,8 @@
     "mi-cuenta": "Mi cuenta",
     "perfil": "Perfil",
     "salir": "Salir",
-    "proyectos": "Castings"
+    "proyectos": "Castings",
+    "agencia": "Agencia"
   },
   "staff-search": {
     "titulo": "Buscar talento"
@@ -336,5 +337,15 @@
     "habilidades": "Habilidades",
     "generales": "Generales",
     "comentarios": "Comentarios"
+  },
+  "invitar-agente":{
+    "invitar-agente-invitaciones" :"Crear Invitaciones",
+    "invitar-agente-agencias" :"Agencias",
+    "invitar-agente-modelo" :"Enviar Invitaciones",
+    "invitar-agente-correo" :"Emails:",
+    "invitar-correos-enviados" : "Invitaciones Enviadas",
+    "invitar-correos-novalidos": "Ocurrió un problema, verifique los emails proporcionados",
+    "invitar-correos-error": "Ocurrió un problema, intentelo más tarde",
+    "invitar-correos-requiere" : "Se requiere la selección de alguna agencia."
   }
 }

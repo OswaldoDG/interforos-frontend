@@ -58,6 +58,7 @@ import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.com
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
 import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
+import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -168,6 +169,7 @@ const routes: Routes = [
   { path: 'dashboard-bookmarks', component: DashboardBookmarksComponent },
   { path: 'dashboard-my-listings', component: DashboardMyListingsComponent },
   { path: 'voto-modelo-component', component: VotoModeloComponentComponent },
+  { path: 'staff/invitaragente', component: InvitarAgenteComponent },
   // Here add new pages component
 
   { path: '**', component: NotFoundComponent }, // This line will remain down from the whole pages component list
