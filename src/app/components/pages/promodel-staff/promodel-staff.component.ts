@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { first, takeUntil } from 'rxjs/operators';
 import {
   AccesoClient,
+  BusquedaPersonasRequestPaginado,
   ClienteView,
   PersonaClient,
   PersonaResponsePaginado,
@@ -22,20 +23,17 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { BusquedaPersonasService } from 'src/app/services/busqueda-personas.service';
 
 @Component({
   selector: 'app-promodel-staff',
   templateUrl: './promodel-staff.component.html',
   styleUrls: ['./promodel-staff.component.scss'],
-  providers: [CastingStaffServiceService],
+  providers: [CastingStaffServiceService,BusquedaPersonasService],
 })
 export class PromodelStaffComponent implements OnInit {
   T: any[];
-  PaginadoPersonas: PersonaResponsePaginado = undefined;
   casting: SelectorCastingCategoria;
-  PersonasEncontradas(p) {
-    this.PaginadoPersonas = p;
-  }
 
   EstadoBusqueda(buscando: boolean) {
     if (buscando) {

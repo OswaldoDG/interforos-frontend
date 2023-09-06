@@ -45,8 +45,8 @@ export class EditorCastingComponent implements OnInit {
   isImageLoading: boolean = false;
   logoDefault = './../../assets/img/casting/camera-icon.png';
   inscripcionAutomatica: boolean = false;
-  cierreAuto : boolean = false;
-  aperturaAuto : boolean = false;
+  cierreAuto: boolean = false;
+  aperturaAuto: boolean = false;
 
   constructor(
     private clientApi: CastingClient,
@@ -61,15 +61,19 @@ export class EditorCastingComponent implements OnInit {
       descripcion: [null],
       aceptaAutoInscripcionModelos: [this.inscripcionAutomatica],
       cierreAutomatico: [this.cierreAuto],
-      aperturaAutomatica: [this.aperturaAuto]
+      aperturaAutomatica: [this.aperturaAuto],
     });
     this.dateTimeAdapter.setLocale('es-ES');
   }
 
   ngOnInit() {
-    if(this.CastingId.length == 0 || this.CastingId == null || this.CastingId == undefined ){
+    if (
+      this.CastingId.length == 0 ||
+      this.CastingId == null ||
+      this.CastingId == undefined
+    ) {
       this.esUpdate = false;
-    }else{
+    } else {
       this.esUpdate = true;
       this.obtenerCasting();
     }
@@ -95,9 +99,10 @@ export class EditorCastingComponent implements OnInit {
       fechaApertura: this.formProyecto.value.fechaApertura,
       fechaCierre: this.formProyecto.value.fechaCierre,
       descripcion: this.formProyecto.value.descripcion,
-      aceptaAutoInscripcion: this.formProyecto.value.aceptaAutoInscripcionModelos,
-      cierreAutomatico : this.formProyecto.value.cierreAutomatico,
-      aperturaAutomatica: this.formProyecto.value.aperturaAutomatica
+      aceptaAutoInscripcion:
+        this.formProyecto.value.aceptaAutoInscripcionModelos,
+      cierreAutomatico: this.formProyecto.value.cierreAutomatico,
+      aperturaAutomatica: this.formProyecto.value.aperturaAutomatica,
     };
 
     this.clientApi.castingPost(datos).subscribe((data1) => {
@@ -120,8 +125,7 @@ export class EditorCastingComponent implements OnInit {
             this.componenteCategorias.gridApi.setRowData(b);
             this.componenteCategorias.categoriasCasting = [...b];
             this.clientApi.contactos(this.CastingId, c).subscribe((data3) => {
-              this.componenteContactos.contactosCasting =
-                this.mapeoContactoCasting(data3);
+              this.componenteContactos.contactosCasting = [...data3];
               this.componenteContactos.gridApi.setRowData(
                 this.componenteContactos.contactosCasting
               );
@@ -151,42 +155,45 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.fechaApertura),
       (this.CastingActual.fechaCierre = this.formProyecto.value.fechaCierre),
       (this.CastingActual.descripcion = this.formProyecto.value.descripcion),
-      (this.CastingActual.aceptaAutoInscripcion = this.formProyecto.value.aceptaAutoInscripcionModelos),
-      (this.CastingActual.cierreAutomatico = this.formProyecto.value.cierreAutomatico),
-      (this.CastingActual.aperturaAutomatica = this.formProyecto.value.aperturaAutomatica),
+      (this.CastingActual.aceptaAutoInscripcion =
+        this.formProyecto.value.aceptaAutoInscripcionModelos),
+      (this.CastingActual.cierreAutomatico =
+        this.formProyecto.value.cierreAutomatico),
+      (this.CastingActual.aperturaAutomatica =
+        this.formProyecto.value.aperturaAutomatica),
       console.log(this.CastingActual);
-      this.clientApi
-        .castingPut(this.CastingId, this.CastingActual)
-        .subscribe((data) => {
-          if (
-            this.componenteContactos.Casting != null &&
-            this.componenteCategorias.Casting != null &&
-            this.componenteEventos.Casting != null
-          ) {
-            var a = this.componenteEventos.listaEventos;
-            var b = this.componenteCategorias.categoriasCasting;
-            var c = this.componenteContactos.listaContactoUsuario();
-            this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
-              this.componenteEventos.gridApi.setRowData(a);
-              this.componenteEventos.listaEventos = [...a];
-              this.clientApi
-                .categoriasPut(this.CastingId, b)
-                .subscribe((data2) => {
-                  this.componenteCategorias.gridApi.setRowData(b);
-                  this.componenteCategorias.categoriasCasting = [...b];
-                  this.clientApi
-                    .contactos(this.CastingId, c)
-                    .subscribe((data3) => {
-                      this.componenteContactos.contactosCasting = [...data3];
-                      this.componenteContactos.gridApi.setRowData(
-                        this.componenteContactos.contactosCasting
-                      );
-                      this.actualizarLogo(this.CastingActual.id);
-                    });
-                });
-            });
-          }
-        });
+    this.clientApi
+      .castingPut(this.CastingId, this.CastingActual)
+      .subscribe((data) => {
+        if (
+          this.componenteContactos.Casting != null &&
+          this.componenteCategorias.Casting != null &&
+          this.componenteEventos.Casting != null
+        ) {
+          var a = this.componenteEventos.listaEventos;
+          var b = this.componenteCategorias.categoriasCasting;
+          var c = this.componenteContactos.listaContactoUsuario();
+          this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
+            this.componenteEventos.gridApi.setRowData(a);
+            this.componenteEventos.listaEventos = [...a];
+            this.clientApi
+              .categoriasPut(this.CastingId, b)
+              .subscribe((data2) => {
+                this.componenteCategorias.gridApi.setRowData(b);
+                this.componenteCategorias.categoriasCasting = [...b];
+                this.clientApi
+                  .contactos(this.CastingId, c)
+                  .subscribe((data3) => {
+                    this.componenteContactos.contactosCasting = [...data3];
+                    this.componenteContactos.gridApi.setRowData(
+                      this.componenteContactos.contactosCasting
+                    );
+                    this.actualizarLogo(this.CastingActual.id);
+                  });
+              });
+          });
+        }
+      });
   }
 
   // Obitne el casting y asigna los valores del form
@@ -205,17 +212,17 @@ export class EditorCastingComponent implements OnInit {
           .get('fechaCierre')
           .setValue(this.CastingActual.fechaCierre);
         this.formProyecto
-        .get('descripcion')
-        .setValue(this.CastingActual.descripcion);
+          .get('descripcion')
+          .setValue(this.CastingActual.descripcion);
         this.formProyecto
-        .get('aceptaAutoInscripcionModelos')
-        .setValue(this.CastingActual.aceptaAutoInscripcion);
+          .get('aceptaAutoInscripcionModelos')
+          .setValue(this.CastingActual.aceptaAutoInscripcion);
         this.formProyecto
-        .get('cierreAutomatico')
-        .setValue(this.CastingActual.cierreAutomatico);
+          .get('cierreAutomatico')
+          .setValue(this.CastingActual.cierreAutomatico);
         this.formProyecto
-        .get('aperturaAutomatica')
-        .setValue(this.CastingActual.aperturaAutomatica);
+          .get('aperturaAutomatica')
+          .setValue(this.CastingActual.aperturaAutomatica);
 
         //Obtine el logo Relacionado al casting
         this.clientApi.logoGet(this.CastingActual.id).subscribe((data) => {
@@ -249,13 +256,13 @@ export class EditorCastingComponent implements OnInit {
     this.esLogoNuevo = false;
   }
 
-  onChangeInscripcionAutomatica(){
+  onChangeInscripcionAutomatica() {
     this.inscripcionAutomatica = !this.inscripcionAutomatica;
   }
-  onChangeCierreAutomatico(){
+  onChangeCierreAutomatico() {
     this.cierreAuto = !this.cierreAuto;
   }
-  onChangeAperturaAutomatica(){
+  onChangeAperturaAutomatica() {
     this.aperturaAuto = !this.aperturaAuto;
   }
 
@@ -270,22 +277,5 @@ export class EditorCastingComponent implements OnInit {
       this.esLogoNuevo = true;
       this.isImageLoading = true;
     };
-  }
-  mapeoContactoCasting(
-    contactosUsuarios: ContactoUsuario[]
-  ): ContactoCasting[] {
-    const contactos: ContactoCasting[] = [];
-
-    contactosUsuarios.forEach((contactoUsuario) => {
-      const contacto: ContactoCasting = {
-        usuarioId: contactoUsuario.id,
-       // nombreUsuario: contactoUsuario.nombreUsuario,
-        email: contactoUsuario.email,
-        confirmado: contactoUsuario.localizado,
-        rol: contactoUsuario.rol,
-      };
-      contactos.push(contacto);
-    });
-    return contactos;
   }
 }

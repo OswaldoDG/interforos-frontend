@@ -24,6 +24,7 @@ import {
   SelectorCategoria,
   TipoCuerpo,
 } from 'src/app/services/api/api-promodel';
+import { BusquedaPersonasService } from 'src/app/services/busqueda-personas.service';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { SessionQuery } from 'src/app/state/session.query';
@@ -35,8 +36,6 @@ import { SessionService } from 'src/app/state/session.service';
   styleUrls: ['./buscar-persona.component.scss'],
 })
 export class BuscarPersonaComponent implements OnInit, OnDestroy {
-  @Output() PersonasEncontradas: EventEmitter<PersonaResponsePaginado> =
-    new EventEmitter();
   @Output() EstadoBusqueda: EventEmitter<boolean> = new EventEmitter();
   private personas: Persona[] = [];
   private destroy$ = new Subject();
@@ -81,6 +80,9 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
 
   cateoriaId: string = null;
   porCategorias: boolean = false;
+  orden = 'consecutivo';
+  ordenModelos = ['consecutivo', 'nombre', 'nombreArtistico', 'edad'];
+  ordenASC: boolean = true;
   constructor(
     private personaApi: PersonaClient,
     private personaService: PersonaInfoService,
@@ -90,7 +92,8 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     private session: SessionQuery,
     private castingClient: CastingClient,
     private formBuilder: FormBuilder,
-    private servicio: CastingStaffServiceService
+    private servicio: CastingStaffServiceService,
+    private servicioBusqueda: BusquedaPersonasService
   ) {
     this.formBuscarCasting = this.formBuilder.group({
       casting: ['', Validators.required],
@@ -126,26 +129,14 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
 
   buscar() {
     this.EstadoBusqueda.emit(true);
-    const param = this.BusquedaDesdeForma();
-    this.personaApi
-      .buscar(param)
-      .pipe(first())
-      .subscribe((r) => {
-        this.PersonasEncontradas.emit(r);
-        this.EstadoBusqueda.emit(false);
-      });
+    this.servicioBusqueda.solicitudBusquedaPersonas(this.BusquedaDesdeForma());
   }
 
   buscarModelos() {
     this.EstadoBusqueda.emit(true);
-    const param = this.BusquedaDesdeFormaIds();
-    this.personaApi
-      .idPost(param)
-      .pipe(first())
-      .subscribe((r) => {
-        this.PersonasEncontradas.emit(r);
-        this.EstadoBusqueda.emit(false);
-      });
+    this.servicioBusqueda.solicitudBusquedaPersonasId(
+      this.BusquedaDesdeFormaIds()
+    );
   }
 
   private BusquedaDesdeForma(): BusquedaPersonasRequestPaginado {
@@ -163,13 +154,15 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         idiomasIds: this.GetIdsDeFormField('idioma'),
         habilidadesIds: this.GetIdsDeFormField('habilidades'),
       },
-      ordernarASC: true,
-      ordenarPor: 'nombre',
+      ordernarASC: this.ordenASC,
+      ordenarPor: this.orden,
       pagina: 1,
-      tamano: 50,
+      tamano: 20,
     };
   }
-
+  ordenChange(event) {
+    this.orden = event;
+  }
   private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
     let personas: string[] = [];
     if (this.porCategorias) {
@@ -194,10 +187,10 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       request: {
         ids: personas,
       },
-      ordernarASC: true,
-      ordenarPor: 'nombre',
+      ordernarASC: this.ordenASC,
+      ordenarPor: this.orden,
       pagina: 1,
-      tamano: 50,
+      tamano: 20,
     };
   }
 
@@ -335,6 +328,9 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
   onChangeCheckBox() {
     this.porCategorias = !this.porCategorias;
+  }
+  onChangeOrden() {
+    this.ordenASC = !this.ordenASC;
   }
   cargarCategorias() {
     this.categorias = this.servicio.CategoriasCastingActual();

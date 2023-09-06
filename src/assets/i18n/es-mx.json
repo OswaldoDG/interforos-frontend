@@ -27,10 +27,18 @@
     "tipocuerpo-sobrepeso": "Sobrepeso",
     "tipocuerpo-obeso": "Obeso",
     "por-categoria":"Por Categorías",
+    "orden-decendente":"Ordenar Decendente",
     "casting":"Casting",
     "categorias":"Categorías",
     "categorias-error":"Elija una categoria",
-    "categoria-selecionar":"Seleccionar.."
+    "categoria-selecionar":"Seleccionar..",
+    "ordenar":"Ordenar Por",
+    "ordenar-consecutivo":"Id",
+    "ordenar-nombre":"Nombre",
+    "ordenar-nombreArtistico":"Nombre Artistico",
+    "ordenar-edad":"Edad",
+    "next":"Siguiente",
+    "before":"Anterior"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
