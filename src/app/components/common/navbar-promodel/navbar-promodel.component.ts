@@ -1,6 +1,18 @@
 import { PersistState, isEmpty } from '@datorama/akita';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  Component,
+  Inject,
+  InjectionToken,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,8 +34,8 @@ import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
-import { RecaptchaErrorParameters } from 'ng-recaptcha';
-
+import { ReCaptchaV3Service, RecaptchaErrorParameters } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-navbar-promodel',
   templateUrl: './navbar-promodel.component.html',
@@ -35,7 +47,7 @@ export class NavbarPromodelComponent implements OnInit {
   @ViewChild(ModalCambiarPasswordComponent) componenteModal;
   private destroy$ = new Subject();
   cliente: ClienteView = ClienteViewVacio();
-  token: string|undefined;
+  token: string | undefined;
   auntenticado: boolean = false;
   modelo: boolean = false;
   admin: boolean = false;
@@ -79,8 +91,11 @@ export class NavbarPromodelComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private ruta: Router
-  ) {this.token = undefined;}
+    private ruta: Router,
+    private recaptchaV3Service: ReCaptchaV3Service
+  ) {
+    this.token = undefined;
+  }
 
   ngOnInit(): void {
     this.translate
@@ -156,6 +171,20 @@ export class NavbarPromodelComponent implements OnInit {
     }
   }
 
+  public send() {
+    this.recaptchaV3Service.execute('myAction').subscribe(
+      (token) => {
+        if (token) {
+          this.creaRegistro();
+        }
+      },
+      (error) => {
+        this.toastService.error('ERROR reCAPTCHA', {
+          position: 'bottom-center',
+        });
+      }
+    );
+  }
   creaRegistro() {
     this.runRegistro(true);
     this.registro
@@ -290,15 +319,5 @@ export class NavbarPromodelComponent implements OnInit {
         );
       }
     }
-  }
-  public send(form: NgForm): void {
-    if (form.invalid) {
-      for (const control of Object.keys(form.controls)) {
-        form.controls[control].markAsTouched();
-      }
-      return;
-    }
-
-    console.debug(`Token [${this.token}] generated`);
   }
 }

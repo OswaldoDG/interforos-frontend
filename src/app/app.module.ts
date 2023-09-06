@@ -149,12 +149,7 @@ import { PerfilColaboradorComponent } from './components/common/perfil-colaborad
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
 import { DatosPersonaComponent } from './components/common/datos-persona/datos-persona.component';
-import {
-  RECAPTCHA_SETTINGS,
-  RecaptchaFormsModule,
-  RecaptchaModule,
-  RecaptchaSettings,
-} from 'ng-recaptcha';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 
 defineLocale('es', esLocale);
 
@@ -271,8 +266,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     AppRoutingModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
+    RecaptchaV3Module,
     ImageCropperModule,
     AlertModule,
     TypeaheadModule.forRoot(),
@@ -326,12 +320,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       deps: [AppConfigService, SessionService],
       multi: true,
     },
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: environment.recaptcha.siteKey,
-      } as RecaptchaSettings,
-    },
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey },
   ],
   bootstrap: [AppComponent],
 })
