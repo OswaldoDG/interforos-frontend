@@ -5131,6 +5131,8 @@ export interface RegistroUsuario {
     rol?: TipoRolCliente;
     castingId?: string | undefined;
     agenciaId?: string | undefined;
+    mensaje?: string | undefined;
+    mensajeDe?: string | undefined;
 }
 
 export interface Respuesta {

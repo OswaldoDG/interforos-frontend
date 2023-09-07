@@ -150,6 +150,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
 import { DatosPersonaComponent } from './components/common/datos-persona/datos-persona.component';
 import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
+import { InvitarModeloComponent } from './components/common/invitar-modelo/invitar-modelo.component';
 
 defineLocale('es', esLocale);
 
@@ -264,6 +265,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RegistroPersonasComponent,
     DatosPersonaComponent,
     InvitarAgenteComponent,
+    InvitarModeloComponent,
   ],
   imports: [
     ImageCropperModule,
