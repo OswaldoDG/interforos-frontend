@@ -355,5 +355,15 @@
     "invitar-correos-novalidos": "Ocurrió un problema, verifique los emails proporcionados",
     "invitar-correos-error": "Ocurrió un problema, intentelo más tarde",
     "invitar-correos-requiere" : "Se requiere la selección de alguna agencia."
-  }
+},
+"invitar-modelo":{
+  "titulo": "Invitar Modelos",
+  "enviar": "Enviar invitaciones",
+  "correos": "Emails:",
+  "confirmacion-enviadas": "Las invitaciones fueron enviadas.",
+  "error-envio":"Ocurrio un problema, intente más tarde.",
+  "invalido-correos": "Hubo un error con los correos, corrobore la información.",
+  "mensaje": "Te invito a Interforos",
+  "titulo-mensaje": "Escribir mensaje:"
+}
 }

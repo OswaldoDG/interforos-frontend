@@ -1,0 +1,31 @@
+<!-- Start Main Content Wrapper Area -->
+<div class="container">
+  <div class="row">
+    <form [formGroup]="formModelos">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="container col-lg-12 col-md-12 col-sm-12 align-items-center justify-content-center">
+          <h4 for="correos">{{ "invitar-modelo.titulo" | translate }}</h4>
+          <div class="col-lg-12">
+            <div class="col-md-12 col-sm-12">
+              <h5 for="agencias">{{ "invitar-modelo.correos" | translate }}</h5>
+              <textarea type="text" class="btn btn-light" formControlName="correos" rows="5" cols="50"
+              placeholder="Escriba aquí los correos separados por comas"></textarea>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-md-12 col-sm-12">
+              <h5 for="mensaje">{{ "invitar-modelo.titulo-mensaje" | translate }}</h5>
+              <textarea id="mensaje" name="mensaje" rows="5" cols="50" formControlName = "mensaje" class="btn btn-light"></textarea>
+            </div>
+          </div>
+          <br>
+          <div class="d-block col-lg-12 col-md-12 col-sm-12 text-center ">
+            <div class="col-md-3 col-sm-3 m-1">
+              <button class="btn btn-dark w-100" [disabled]="!formModelos.valid" (click)="enviarInvitaciones()">{{ "invitar-modelo.enviar" | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
