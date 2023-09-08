@@ -33,9 +33,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
-import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 import { ReCaptchaV3Service, RecaptchaErrorParameters } from 'ng-recaptcha';
-import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-navbar-promodel',
   templateUrl: './navbar-promodel.component.html',
@@ -147,6 +145,9 @@ export class NavbarPromodelComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    let element = document.getElementsByClassName('grecaptcha-badge');
+    element[0].setAttribute('id', 'grecaptcha_badge');
+    document.getElementById('grecaptcha_badge').style.display = 'none';
   }
 
   runRegistro(running: boolean) {
