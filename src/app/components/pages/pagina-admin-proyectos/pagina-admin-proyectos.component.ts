@@ -51,7 +51,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
     EstadoCasting.Cerrado,
     EstadoCasting.Cancelado
   ]
-  
+
 
   columnDefs: ColDef[] = [
     {
@@ -74,12 +74,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
       width: 150,
       editable: false,
       sortable: true,
-      valueFormatter: function(params) {
-        if (params.value === "EnEdicion") {
-          return "En Edición";
-        } else {
-          return params.value;
-        }
+      cellRenderer: (params) => {
+        const valor = params.value;
+        const traduccion = this.T[`proyectos.estado-${valor}`] || valor;
+        return traduccion;
       }
     },
     {
@@ -174,7 +172,11 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.translate
     .get([
       'proyectos.casting-estado-ok',
-      'proyectos.casting-estado-error'
+      'proyectos.casting-estado-error',
+      'proyectos.estado-EnEdicion',
+      'proyectos.estado-Abierto',
+      'proyectos.estado-Cerrado',
+      'proyectos.estado-Cancelado'
     ]).subscribe((ts) => {
       this.T = ts;
     });
@@ -230,8 +232,8 @@ export class PaginaAdminProyectosComponent implements OnInit {
     });
   }
 
- 
-  
+
+
   Seleccion()
   {
     const selectedData = this.gridApi.getSelectedRows();
@@ -243,7 +245,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
         position: 'bottom-center',
       });
       this.refrescar();
-      
+
     },(error)=> this.toastService.error(this.T['proyectos.casting-estado-error'], {
       position: 'bottom-center',
     }));

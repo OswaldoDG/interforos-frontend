@@ -102,7 +102,11 @@
     "form-cierre-automatico": "El casting se cierra automáticamente en la fecha",
     "form-apertura-automatica": "El casting se abre automáticamente en la fecha",
     "casting-estado-ok": "El casting ha sido actualziado",
-    "casting-estado-error":"El usuario no tiene acceso al casting"
+    "casting-estado-error":"El usuario no tiene acceso al casting",
+    "estado-EnEdicion":"En Edición",
+    "estado-Abierto":"Abierto",
+    "estado-Cerrado":"Cerrado",
+    "estado-Cancelado":"Cancelado"
   },
   "navbar": {
     "salir": "Salir",

@@ -22,10 +22,10 @@
       <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12 col-sm-12 p-3">
           <select    class="ms-3 btn btn-primary" [(ngModel)]="valoresdisponibles">
-            <option  class="deplegable" value="0">En Edicion</option>
-            <option  class="deplegable" Value="1">Abierto</option>
-            <option  class="deplegable" Value="2">Cerrado</option>
-            <option  class="deplegable" Value="3">Cancelado</option>
+            <option  class="deplegable" value="0">{{'proyectos.estado-EnEdicion' | translate}}</option>
+            <option  class="deplegable" Value="1">{{'proyectos.estado-Abierto' | translate}}</option>
+            <option  class="deplegable" Value="2">{{'proyectos.estado-Cerrado' | translate}}</option>
+            <option  class="deplegable" Value="3">{{'proyectos.estado-Cancelado' | translate}}</option>
           </select>
           <button type="button" class="ms-3 btn btn-primary" (click)="Seleccion()">Cambiar</button>
           <button

@@ -3343,6 +3343,10 @@ export interface IPersonaClient {
      * @return Success
      */
     porusuarioGet(): Observable<string[]>;
+    /**
+     * @return Success
+     */
+    consentimiento(consentimientoId: string): Observable<AceptacionConsentimiento>;
 }
 
 @Injectable({
@@ -4483,6 +4487,72 @@ export class PersonaClient implements IPersonaClient {
         }
         return _observableOf<string[]>(null as any);
     }
+
+    /**
+     * @return Success
+     */
+    consentimiento(consentimientoId: string, httpContext?: HttpContext): Observable<AceptacionConsentimiento> {
+        let url_ = this.baseUrl + "/persona/consentimiento/{consentimientoId}";
+        if (consentimientoId === undefined || consentimientoId === null)
+            throw new Error("The parameter 'consentimientoId' must be defined.");
+        url_ = url_.replace("{consentimientoId}", encodeURIComponent("" + consentimientoId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConsentimiento(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConsentimiento(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AceptacionConsentimiento>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AceptacionConsentimiento>;
+        }));
+    }
+
+    protected processConsentimiento(response: HttpResponseBase): Observable<AceptacionConsentimiento> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AceptacionConsentimiento;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AceptacionConsentimiento>(null as any);
+    }
 }
 
 export interface IRegistroClient {
@@ -4720,6 +4790,11 @@ export interface AccesoInformacion {
     amigos?: boolean;
 }
 
+export interface AceptacionConsentimiento {
+    id?: string | undefined;
+    fechaAceptacion?: Date;
+}
+
 export interface BusquedaPersonas {
     clienteId?: string | undefined;
     generosId?: string[] | undefined;
@@ -4833,6 +4908,7 @@ export interface Cliente {
     paisDefault?: string | undefined;
     contacto?: Contacto;
     documentacion?: DocumentoModelo[] | undefined;
+    readonly consentimientos?: Consentimiento[] | undefined;
 }
 
 export interface ClienteView {
@@ -4843,6 +4919,7 @@ export interface ClienteView {
     mailLogoURL?: string | undefined;
     contacto?: Contacto;
     documentacion?: DocumentoModelo[] | undefined;
+    consentimientos?: Consentimiento[] | undefined;
 }
 
 export interface ComentarioCasting {
@@ -4859,6 +4936,14 @@ export interface ComentarioCategoriaModeloCasting {
     comentario?: string | undefined;
     categoriaId?: string | undefined;
     personaId?: string | undefined;
+}
+
+export interface Consentimiento {
+    id?: string | undefined;
+    idioma?: string | undefined;
+    idiomaDefault?: boolean;
+    titulo?: string | undefined;
+    contenidoHTML?: string | undefined;
 }
 
 export interface Contacto {
@@ -4982,6 +5067,7 @@ export interface InformacionPerfil {
     requirePerfil?: boolean;
     tienePerfil?: boolean;
     roles?: TipoRolCliente[] | undefined;
+    cosentimientosAceptados?: AceptacionConsentimiento[] | undefined;
 }
 
 export interface InvitacionRegistro {
