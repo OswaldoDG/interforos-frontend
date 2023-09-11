@@ -48,7 +48,7 @@ export class GaleriaModelComponent implements OnInit {
     private toastService: HotToastService
   ) {
 
-    
+
   }
 
   get titulo() {return this.datosimagen.get('titulo')!}
@@ -85,7 +85,7 @@ export class GaleriaModelComponent implements OnInit {
       );
   }
 
- 
+
 
   toLink(e: ElementoMediaCliente): ElementoMediaView {
     const elementoId = e.video ? e.frameVideoId : e.id;
@@ -276,7 +276,7 @@ export class GaleriaModelComponent implements OnInit {
       data: this.uploadFile,
     };
     this.apiContenido
-      .carga('galeria', formData,this.datosimagen.value.titulo)
+      .carga('galeria', formData,this.datosimagen.value.titulo,"")
       .pipe(first())
       .subscribe(
         (e) => {
@@ -303,7 +303,7 @@ export class GaleriaModelComponent implements OnInit {
           console.error(err);
         }
       );
-    
+
   }
 
 
@@ -315,5 +315,5 @@ export class GaleriaModelComponent implements OnInit {
     },
   ];
 
-  
+
 }

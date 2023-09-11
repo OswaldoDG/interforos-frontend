@@ -365,5 +365,9 @@
   "invalido-correos": "Hubo un error con los correos, corrobore la información.",
   "mensaje": "Te invito a Interforos",
   "titulo-mensaje": "Escribir mensaje:"
+},
+"consentimiento":
+{
+  "aceptar":"Aceptar"
 }
 }

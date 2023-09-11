@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConfiguracionApp } from '../modelos/locales/configuracion-app';
 import {
+  AceptacionConsentimiento,
   ClienteView,
   InformacionPerfil,
   RespuestaLogin,
@@ -42,7 +43,6 @@ export class SessionService {
     sessionStorage.setItem('token', r.token);
     sessionStorage.setItem('userId', decoded.sub);
     sessionStorage.setItem('rolesUsuario', this.decodedToken.role);
-    sessionStorage.setItem('rolesUsuario', this.decodedToken.role);
     this.sessionStore.update((state) => ({
       auth: r,
       autenticado: true,
@@ -71,5 +71,14 @@ export class SessionService {
     const p = { ...this.sessionStore.getValue().perfil };
     p.alias = alias;
     this.sessionStore.update({ perfil: p });
+  }
+  adicionaConsentimiento(aceptacion: AceptacionConsentimiento) {
+    if (aceptacion) {
+      const p = { ...this.sessionStore.getValue().perfil };
+      var cons: AceptacionConsentimiento[] = [...p.cosentimientosAceptados];
+      cons.push(aceptacion);
+      p.cosentimientosAceptados = cons;
+      this.sessionStore.update({ perfil: p });
+    }
   }
 }

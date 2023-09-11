@@ -152,7 +152,7 @@ import { DatosPersonaComponent } from './components/common/datos-persona/datos-p
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
 import { InvitarModeloComponent } from './components/common/invitar-modelo/invitar-modelo.component';
-
+import { AceptacionConsentimientoComponent } from './components/common/aceptacion-consentimiento/aceptacion-consentimiento.component';
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -267,6 +267,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DatosPersonaComponent,
     InvitarAgenteComponent,
     InvitarModeloComponent,
+    AceptacionConsentimientoComponent,
   ],
   imports: [
     AppRoutingModule,
