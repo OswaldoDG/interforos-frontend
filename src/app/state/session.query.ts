@@ -65,4 +65,28 @@ export class SessionQuery extends Query<SessionState> {
       return [];
     }
   }
+  get ConsentimientoAltaModeloAceptado() {
+    return this.getValue().perfil.cosentimientosAceptados.findIndex(
+      (_) => _.id == 'c-altamodelos'
+    );
+  }
+
+  get GetConsentimientoAltaModelo() {
+    return this.getValue().cliente.consentimientos.find(
+      (_) => _.id == 'c-altamodelos'
+    );
+  }
+  get GetConsentimientoModelo() {
+    return this.getValue().cliente.consentimientos.find(
+      (_) => _.id == 'c-modelo'
+    );
+  }
+  get GetConsentimientoAgencia() {
+    return this.getValue().cliente.consentimientos.find(
+      (_) => _.id == 'c-agencia'
+    );
+  }
+  get ShowConsentimientos() {
+    return this.getValue().cliente.mostrarConsentimientos;
+  }
 }

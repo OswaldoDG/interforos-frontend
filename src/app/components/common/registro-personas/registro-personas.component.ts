@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
+  Consentimiento,
   Persona,
   PersonaClient,
   PersonaResponsePaginado,
@@ -27,13 +28,21 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   dVertical: boolean = true;
   tBusqueda: boolean = true;
   agenciaId = null;
+  LlamarBackend: boolean = true;
+  consentimiento: Consentimiento;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
     private servicioPersonas: ServicioRegistroPersonasService,
     private personaApi: PersonaClient,
     private session: SessionQuery
-  ) {}
+  ) {
+    if (this.session.ConsentimientoAltaModeloAceptado < 0) {
+      this.consentimiento = this.session.GetConsentimientoAltaModelo;
+    } else {
+      this.LlamarBackend = false;
+    }
+  }
   ngAfterViewInit(): void {
     this.servicioPersonas.getPersonasApi();
   }

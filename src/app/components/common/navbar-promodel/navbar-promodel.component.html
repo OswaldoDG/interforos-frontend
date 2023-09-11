@@ -262,7 +262,7 @@
             <span class="sub-title"
               ><span>{{ "navbar.registro-titulo" | translate }}</span></span
             >
-            <form [formGroup]="registroForm">
+            <form [formGroup]="registroForm" #form="ngForm">
               <div class="form-group">
                 <input
                   type="text"
@@ -279,11 +279,7 @@
                   formControlName="email"
                 />
               </div>
-              <button
-                [disabled]="inCall"
-                (click)="creaRegistro()"
-                type="submit"
-              >
+              <button [disabled]="inCall" (click)="send()" type="submit">
                 {{ "navbar.registro-btn-registrar" | translate }}
               </button>
             </form>

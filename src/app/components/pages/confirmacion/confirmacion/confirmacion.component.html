@@ -1,82 +1,121 @@
 <app-navbar-promodel></app-navbar-promodel>
 
 <!-- Start Page Title Area -->
-<div class="page-title-area" *ngFor="let Content of pageTitleContent;"
-    style="background-image: url({{Content.backgroundImage}});">
-    <div class="container">
-        <div class="page-title-content">
-            <h2>{{ Content.title | translate}}</h2>
-            <ul>
-                <li><a routerLink="/">Home</a></li>
-                <li>{{Content.title | translate}}</li>
-            </ul>
-        </div>
+<div
+  class="page-title-area"
+  *ngFor="let Content of pageTitleContent"
+  style="background-image: url({{ Content.backgroundImage }});"
+>
+  <div class="container">
+    <div class="page-title-content">
+      <h2>{{ Content.title | translate }}</h2>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li>{{ Content.title | translate }}</li>
+      </ul>
     </div>
+  </div>
 </div>
 <!-- End Page Title Area -->
 
 <!-- Start Confirmations Area -->
 <section class="error-area bg-f9f9f9 ptb-100">
-    <ngx-spinner name="spregistro" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+  <app-aceptacion-consentimiento
+    [LlamarBackend]="LlamarBackend"
+    [consentimiento]="consentimiento"
+  >
+    <div>
+      <ngx-spinner
+        name="spregistro"
+        [fullScreen]="false"
+        type="ball-scale-multiple"
+        size="medium"
+      >
         <p class="loading">...</p>
-    </ngx-spinner>
+      </ngx-spinner>
 
-    <div *ngIf="activada" class="container">
-        <div class="error-content" *ngFor="let Content of errorContent;">
-            <!-- <img [src]="Content.img" alt="image"> -->
-            <h3>{{ 'confirmacion.cuenta-activada-titulo' | translate }}&nbsp;{{ invitacion.registro.nombre }}</h3>
-            <p>{{ 'confirmacion.cuenta-activada' | translate }}</p>
-            <!-- <a routerLink="/" class="default-btn">Back to Homepage</a> -->
+      <div *ngIf="activada" class="container">
+        <div class="error-content" *ngFor="let Content of errorContent">
+          <!-- <img [src]="Content.img" alt="image"> -->
+          <h3>
+            {{ "confirmacion.cuenta-activada-titulo" | translate }}&nbsp;{{
+              invitacion.registro.nombre
+            }}
+          </h3>
+          <p>{{ "confirmacion.cuenta-activada" | translate }}</p>
+          <!-- <a routerLink="/" class="default-btn">Back to Homepage</a> -->
         </div>
-    </div>
+      </div>
 
-    <div *ngIf="!confirmacionValida && !confirmando && !activada" class="container">
-        <div class="error-content" *ngFor="let Content of errorContent;">
-            <!-- <img [src]="Content.img" alt="image"> -->
-            <h3>{{Content.title}}</h3>
-            <p>{{Content.paragraph}}</p>
-            <!-- <a routerLink="/" class="default-btn">Back to Homepage</a> -->
+      <div
+        *ngIf="!confirmacionValida && !confirmando && !activada"
+        class="container"
+      >
+        <div class="error-content" *ngFor="let Content of errorContent">
+          <!-- <img [src]="Content.img" alt="image"> -->
+          <h3>{{ Content.title }}</h3>
+          <p>{{ Content.paragraph }}</p>
+          <!-- <a routerLink="/" class="default-btn">Back to Homepage</a> -->
         </div>
-    </div>
+      </div>
 
-    <div *ngIf="confirmacionValida && !confirmando  && !activada" class="container">
-        <h3>{{ 'confirmacion.bienvenido' | translate}}&nbsp;{{ invitacion.registro.nombre }}</h3>
-        <p>{{ 'confirmacion.completar-registro' | translate}}</p>
+      <div
+        *ngIf="confirmacionValida && !confirmando && !activada"
+        class="container"
+      >
+        <h3>
+          {{ "confirmacion.bienvenido" | translate }}&nbsp;{{
+            invitacion.registro.nombre
+          }}
+        </h3>
+        <p>{{ "confirmacion.completar-registro" | translate }}</p>
         <form [formGroup]="registroForm">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="input-group">
-                    <input [type]="text"
-                        placeholder="{{ 'confirmacion.nombre-usuario' | translate }}" class="form-control"
-                        formControlName="nombreUsuario">
-                </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="input-group">
+                <input
+                  [type]="text"
+                  placeholder="{{ 'confirmacion.nombre-usuario' | translate }}"
+                  class="form-control"
+                  formControlName="nombreUsuario"
+                />
+              </div>
             </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="input-group">
-                        <input [type]="showPass ? 'text' : 'password'"
-                            placeholder="{{ 'confirmacion.password' | translate }}" class="form-control"
-                            formControlName="contrasena">
-                        <span class="input-group-text" (click)="swapShowPass()">
-                            <i [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="input-group">
-                        <input [type]="showPass ? 'text' : 'password'"
-                            placeholder="{{ 'confirmacion.password-conf' | translate }}" class="form-control"
-                            formControlName="confcontrasena">
-                    </div>
-                </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="input-group">
+                <input
+                  [type]="showPass ? 'text' : 'password'"
+                  placeholder="{{ 'confirmacion.password' | translate }}"
+                  class="form-control"
+                  formControlName="contrasena"
+                />
+                <span class="input-group-text" (click)="swapShowPass()">
+                  <i
+                    [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"
+                  ></i>
+                </span>
+              </div>
             </div>
-            <p>{{ 'confirmacion.password-hint' | translate }}</p>
-            <button [disabled]="inCall" (click)="creaRegistro()" type="submit">{{ 'confirmacion.btn-registrar' |
-                translate }}</button>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="input-group">
+                <input
+                  [type]="showPass ? 'text' : 'password'"
+                  placeholder="{{ 'confirmacion.password-conf' | translate }}"
+                  class="form-control"
+                  formControlName="confcontrasena"
+                />
+              </div>
+            </div>
+          </div>
+          <p>{{ "confirmacion.password-hint" | translate }}</p>
+          <button [disabled]="inCall" (click)="creaRegistro()" type="submit">
+            {{ "confirmacion.btn-registrar" | translate }}
+          </button>
         </form>
+      </div>
     </div>
+  </app-aceptacion-consentimiento>
 </section>
 <!-- End Confirmations Error Area -->
-
-
 
 <app-footer-style-one></app-footer-style-one>

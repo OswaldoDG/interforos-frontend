@@ -6,10 +6,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import {
+  Consentimiento,
   InvitacionRegistro,
   RegistroClient,
+  TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
 import { CustomValidators } from 'src/app/services/custom-validators';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-confirmacion',
@@ -23,10 +26,10 @@ export class ConfirmacionComponent implements OnInit {
   id: string;
   T: any;
   invitacion: InvitacionRegistro = { registro: { nombre: '', email: '' } };
-
+  LlamarBackend = true;
   inCall: boolean = false;
   showPass: boolean = false;
-
+  consentimiento: Consentimiento;
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -82,7 +85,8 @@ export class ConfirmacionComponent implements OnInit {
     private registro: RegistroClient,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private sesion: SessionQuery
   ) {}
 
   ngOnInit(): void {
@@ -155,6 +159,11 @@ export class ConfirmacionComponent implements OnInit {
         (r) => {
           // this.registroForm.get('email').setValue(r.registro.email);
           this.invitacion = r;
+          if (r && r.registro.rol == TipoRolCliente.Modelo) {
+            this.consentimiento = this.sesion.GetConsentimientoModelo;
+          } else {
+            this.consentimiento = this.sesion.GetConsentimientoAgencia;
+          }
           this.confirmacionValida = true;
           this.confirmando = false;
           this.spinner.hide('spregistro');
