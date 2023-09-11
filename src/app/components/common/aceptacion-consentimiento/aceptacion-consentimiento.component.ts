@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import {
   Consentimiento,
