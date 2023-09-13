@@ -8,7 +8,7 @@
 
 
 
- <!-- ngfor enum  lista-->
+
     <h3>{{ "proyectos.header" | translate }}</h3>
     <ngx-spinner
       name="buscar"
@@ -21,22 +21,12 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12 col-sm-12 p-3">
-          <select    class="ms-3 btn btn-primary" [(ngModel)]="valoresdisponibles">
-            <option  class="deplegable" value="0">En Edicion</option>
-            <option  class="deplegable" Value="1">Abierto</option>
-            <option  class="deplegable" Value="2">Cerrado</option>
-            <option  class="deplegable" Value="3">Cancelado</option>
-          </select>
-          <button type="button" class="ms-3 btn btn-primary" (click)="Seleccion()">Cambiar</button>
           <button
             type="button"
             class="ms-3 btn btn-primary"
             (click)="creaProyecto()"
           >
             {{ "proyectos.crear" | translate }}
-          </button>
-          <button class="ms-3 btn btn-primary" (click)="columSelected()">
-            {{ "proyectos.edita" | translate }}
           </button>
           <button class="ms-3 btn btn-primary" (click)="refrescar()">
             {{ "proyectos.refrescar" | translate }}
@@ -56,33 +46,15 @@
 
 
 
-      <div class="bookings-listings-box">
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-11 col-md-11 col-sm-11">
-          <ag-grid-angular
-            style="width: 100%; height: 600px"
-            class="ag-theme-alpine"
-            [defaultColDef]="defaultColDef"
-            [rowData]="casting"
-            [columnDefs]="columnDefs"
-            [pagination]="true"
-            [paginationPageSize]="paginationPageSize"
-            [animateRows]="true"
-            [sortingOrder]="sortingOrder"
-            [rowSelection]="rowSelection"
-            [postSortRows]="resetear()"
-            (paginationChanged)="resetear()"
-            (rowDoubleClicked)="editarDobleClick()"
-            (gridReady)="onGridReady($event)"
-          >
-          </ag-grid-angular>
-        </div>
+    <div class="bookings-listings-box">
+  </div>
+    <div class="row">
+      <div class="d-block col-lg-4 col-md-6 col-sm-12 pt-2" *ngFor=" let cast of casting ">
+        <app-casting-card-component (refrescarCast)="recibidoDelModal($event)" [Casting]="cast" ></app-casting-card-component>
       </div>
     </div>
   </div>
-  <!-- End -->
+  <!-- End
 
   <div class="flex-grow-1"></div>
   <app-copyrights></app-copyrights>
