@@ -82,7 +82,7 @@ export class CastingCardComponentComponent implements OnInit {
           this.toastService.success(this.T['proyectos.succes-mensaje-eliminacion'], {
             position: 'bottom-center',
           });
-        });
+        },(err) => {this.toastService.error(this.T['proyectos.error-mensaje-eliminacion'], { position: 'bottom-center'}); });
       }
     }
 

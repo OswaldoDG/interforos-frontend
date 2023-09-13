@@ -2439,9 +2439,10 @@ export class ClientesClient implements IClientesClient {
 
 export interface IContenidoClient {
     /**
+     * @param body (optional) 
      * @return Success
      */
-    mi(): Observable<MediaCliente>;
+    mi(body: string | undefined): Observable<MediaCliente>;
     /**
      * @return Success
      */
@@ -2498,22 +2499,27 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
+     * @param body (optional) 
      * @return Success
      */
-    mi(httpContext?: HttpContext): Observable<MediaCliente> {
+    mi(body: string | undefined, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/mi";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             context: httpContext,
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processMi(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3323,10 +3329,9 @@ export interface IPersonaClient {
      */
     personaDelete(id: string): Observable<void>;
     /**
-     * @param id (optional) 
      * @return Success
      */
-    activos(id: string | undefined): Observable<CastingPersona[]>;
+    activos(): Observable<CastingPersonaCompleto[]>;
     /**
      * @return Success
      */
@@ -3979,15 +3984,10 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param id (optional) 
      * @return Success
      */
-    activos(id: string | undefined, httpContext?: HttpContext): Observable<CastingPersona[]> {
-        let url_ = this.baseUrl + "/persona/castings/activos?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+    activos(httpContext?: HttpContext): Observable<CastingPersonaCompleto[]> {
+        let url_ = this.baseUrl + "/persona/castings/activos";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4006,14 +4006,14 @@ export class PersonaClient implements IPersonaClient {
                 try {
                     return this.processActivos(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<CastingPersona[]>;
+                    return _observableThrow(e) as any as Observable<CastingPersonaCompleto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<CastingPersona[]>;
+                return _observableThrow(response_) as any as Observable<CastingPersonaCompleto[]>;
         }));
     }
 
-    protected processActivos(response: HttpResponseBase): Observable<CastingPersona[]> {
+    protected processActivos(response: HttpResponseBase): Observable<CastingPersonaCompleto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -4023,7 +4023,7 @@ export class PersonaClient implements IPersonaClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CastingPersona[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CastingPersonaCompleto[];
             return _observableOf(result200);
             }));
         } else if (status === 401) {
@@ -4037,7 +4037,7 @@ export class PersonaClient implements IPersonaClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<CastingPersona[]>(null as any);
+        return _observableOf<CastingPersonaCompleto[]>(null as any);
     }
 
     /**
@@ -4963,6 +4963,15 @@ export interface CastingPersona {
     folderId?: string | undefined;
 }
 
+export interface CastingPersonaCompleto {
+    clienteId?: string | undefined;
+    castingId?: string | undefined;
+    declinado?: boolean;
+    fechaAdicion?: Date;
+    folderId?: string | undefined;
+    nombre?: string | undefined;
+}
+
 export interface CatalogoBase {
     id?: string | undefined;
     rev?: string | undefined;
@@ -4996,7 +5005,8 @@ export interface Cliente {
     paisDefault?: string | undefined;
     contacto?: Contacto;
     documentacion?: DocumentoModelo[] | undefined;
-    readonly consentimientos?: Consentimiento[] | undefined;
+    mostrarConsentimientos?: boolean;
+    consentimientos?: Consentimiento[] | undefined;
 }
 
 export interface ClienteView {
@@ -5007,6 +5017,7 @@ export interface ClienteView {
     mailLogoURL?: string | undefined;
     contacto?: Contacto;
     documentacion?: DocumentoModelo[] | undefined;
+    mostrarConsentimientos?: boolean;
     consentimientos?: Consentimiento[] | undefined;
 }
 
