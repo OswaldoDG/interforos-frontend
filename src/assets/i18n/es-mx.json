@@ -169,7 +169,9 @@
     "del-lbl": "Elimina la foto seleccionada",
     "prin-lbl": "Establece la foto como principal del perfil",
     "pin-lbl": "Marca la foto como permanente, las no permanentes son eliminadas después de un tiempo",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "origen-general":"Perfil General",
+    "origen":"Añadir a"
   },
   "confirmacion": {
     "titulo": "Confirmación",

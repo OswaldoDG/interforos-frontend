@@ -4,6 +4,8 @@ import {
   FileParameter,
   ContenidoClient,
   ElementoMediaCliente,
+  PersonaClient,
+  CastingPersonaCompleto,
 } from 'src/app/services/api/api-promodel';
 import { first } from 'rxjs/operators';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -13,7 +15,7 @@ import { environment } from 'src/environments/environment';
 import { ElementoMediaView } from 'src/app/modelos/locales/elemento-media-view';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -34,58 +36,40 @@ export class GaleriaModelComponent implements OnInit {
   fotos: ElementoMediaView[] = [];
   imageObject: Array<object> = [];
 
-  datosimagen:FormGroup;
+  datosimagen: FormGroup;
   contenido = {
-    titulo : ""
+    titulo: '',
   };
-
-
+  castingsActuales: CastingPersonaCompleto[] = [];
+  castingId: string = '';
   constructor(
     private servicioPersona: PersonaInfoService,
     private apiContenido: ContenidoClient,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private toastService: HotToastService
-  ) {
+    private toastService: HotToastService,
+    private personaApi: PersonaClient
+  ) {}
 
-
+  get titulo() {
+    return this.datosimagen.get('titulo')!;
   }
 
-  get titulo() {return this.datosimagen.get('titulo')!}
-
   ngOnInit(): void {
-
-
-    this.datosimagen = new FormGroup(
-      {
-        titulo : new FormControl(
-          this.contenido.titulo
-        )
-      }
-    );
+    this.personaApi
+      .activos()
+      .pipe(first())
+      .subscribe((data) => {
+        this.castingsActuales = data;
+      });
+    this.datosimagen = new FormGroup({
+      titulo: new FormControl(this.contenido.titulo),
+    });
 
     this.cargaTraducciones();
     this.spinner.show('spupload');
-    this.apiContenido
-      .mi()
-      .pipe(first())
-      .subscribe(
-        (media) => {
-          console.log(media);
-          this.usuarioId = media.usuarioId;
-          media.elementos.forEach((e) => {
-            this.addElementoView(this.toLink(e));
-          });
-          this.spinner.hide('spupload');
-        },
-        (err) => {
-          this.spinner.hide('spupload');
-          console.error(err);
-        }
-      );
+    this.traerMedios();
   }
-
-
 
   toLink(e: ElementoMediaCliente): ElementoMediaView {
     const elementoId = e.video ? e.frameVideoId : e.id;
@@ -100,7 +84,7 @@ export class GaleriaModelComponent implements OnInit {
       landscape: e.landscape,
       url: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
       urlFull: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
-      titulo:e.titulo
+      titulo: e.titulo,
     };
   }
 
@@ -232,7 +216,6 @@ export class GaleriaModelComponent implements OnInit {
       });
     }
     this.fotos = ordenados;
-    console.log(ordenados);
   }
 
   cargaTraducciones() {
@@ -276,7 +259,7 @@ export class GaleriaModelComponent implements OnInit {
       data: this.uploadFile,
     };
     this.apiContenido
-      .carga('galeria', formData,this.datosimagen.value.titulo,"")
+      .carga('galeria', formData, this.datosimagen.value.titulo, this.castingId)
       .pipe(first())
       .subscribe(
         (e) => {
@@ -303,17 +286,36 @@ export class GaleriaModelComponent implements OnInit {
           console.error(err);
         }
       );
-
   }
 
+  onChangeCategoria(id: string) {
+    this.castingId = id;
+    this.traerMedios();
+  }
 
-
+  traerMedios() {
+    this.apiContenido
+      .mi(this.castingId)
+      .pipe(first())
+      .subscribe(
+        (media) => {
+          this.fotos = [];
+          this.usuarioId = media.usuarioId;
+          media.elementos.forEach((e) => {
+            this.addElementoView(this.toLink(e));
+          });
+          this.spinner.hide('spupload');
+        },
+        (err) => {
+          this.spinner.hide('spupload');
+          console.error(err);
+        }
+      );
+  }
   pageTitleContent = [
     {
       title: 'Mis fotos',
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
-
-
 }
