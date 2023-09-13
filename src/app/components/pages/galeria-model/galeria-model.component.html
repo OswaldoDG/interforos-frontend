@@ -1,11 +1,14 @@
 <app-navbar-promodel></app-navbar-promodel>
 
 <!-- Start Page Title Area -->
-<div class="page-title-area" *ngFor="let Content of pageTitleContent;"
-  style="background-image: url({{Content.backgroundImage}});">
+<div
+  class="page-title-area"
+  *ngFor="let Content of pageTitleContent"
+  style="background-image: url({{ Content.backgroundImage }});"
+>
   <div class="container">
     <div class="page-title-content">
-      <h2>{{Content.title}}</h2>
+      <h2>{{ Content.title }}</h2>
       <ul>
         <!-- <li><a routerLink="/">Home</a></li>
                 <li>{{Content.title}}</li> -->
@@ -17,52 +20,101 @@
 
 <!-- Start Gallery Area -->
 
-
-
-
-
 <section class="gallery-area bg-f9f9f9 pt-4 pb-70">
   <div class="container">
-
-
     <div>
       <h4>Titulo</h4>
-      <form [formGroup]="datosimagen"  #formDir="ngForm">
-        <input type="text" class="form-control" formControlName="titulo">
-        </form>
-      </div>
-      
+      <form [formGroup]="datosimagen" #formDir="ngForm">
+        <input type="text" class="form-control" formControlName="titulo" />
+      </form>
+    </div>
 
     <div class="row pb-4">
-      <ngx-spinner name="spupload" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+      <ngx-spinner
+        name="spupload"
+        [fullScreen]="false"
+        type="ball-scale-multiple"
+        size="medium"
+      >
         <p class="loading">...</p>
       </ngx-spinner>
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <h6>{{ 'fotos.t-upload' | translate}}</h6>
+      <div class="col-lg-12 col-md-12 col-sm-12 pt-5">
+        <h6>{{ "fotos.t-upload" | translate }}</h6>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm12">
-        <input class="form-control" type="file" id="customFile" (change)="handleFileInput($any($event.target).files)"
-          [disabled]="working">
+      <div class="col-lg-4 col-md-6 col-sm12 pt-3">
+        <input
+          class="form-control"
+          type="file"
+          id="customFile"
+          (change)="handleFileInput($any($event.target).files)"
+          [disabled]="working"
+        />
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 mb-4 pt-4">
+        <button
+          type="button"
+          class="btn btn-primary"
+          ngbTooltip="Upload"
+          (click)="upload()"
+          [disabled]="working"
+        >
+          {{ "fotos.enviar" | translate }}
+        </button>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-12 mb-4">
-        <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="working">{{
-          'fotos.enviar' | translate }}</button>
+        <label>{{ "fotos.origen" | translate }}</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          (change)="onChangeCategoria($event.target.value)"
+        >
+          <option selected value="">
+            {{ "fotos.origen-general" | translate }}
+          </option>
+
+          <option
+            *ngFor="let casting of castingsActuales"
+            [value]="casting.castingId"
+          >
+            {{ casting.nombre }}
+          </option>
+        </select>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 mb-4" style="display: none;">
+      <div class="col-lg-6 col-md-4 col-sm-12 mb-4" style="display: none">
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                aria-expanded="false" aria-controls="collapseOne">
-                {{ 'fotos.help' | translate }}
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="false"
+                aria-controls="collapseOne"
+              >
+                {{ "fotos.help" | translate }}
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample">
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
               <div class="accordion-body">
-                <p><i class='bx bxs-heart'></i>&nbsp;{{ 'fotos.prin-lbl' | translate }}</p>
-                <p><i class='bx bxs-lock-alt'></i>&nbsp;{{ 'fotos.pin-lbl' | translate }}</p>
-                <p><i class='bx bx-x'></i>&nbsp;{{ 'fotos.del-lbl' | translate }}</p>
+                <p>
+                  <i class="bx bxs-heart"></i>&nbsp;{{
+                    "fotos.prin-lbl" | translate
+                  }}
+                </p>
+                <p>
+                  <i class="bx bxs-lock-alt"></i>&nbsp;{{
+                    "fotos.pin-lbl" | translate
+                  }}
+                </p>
+                <p>
+                  <i class="bx bx-x"></i>&nbsp;{{ "fotos.del-lbl" | translate }}
+                </p>
               </div>
             </div>
           </div>
@@ -70,18 +122,29 @@
       </div>
     </div>
 
-
     <div class="row">
-
-      <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos;">
-        <h5>{{l.titulo}}</h5>
+      <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos">
+        <h5>{{ l.titulo }}</h5>
         <div class="single-gallery-item">
-          <img [src]="l.url | secureimg | async" alt="image">
-          <a *ngIf="!l.video" [routerLink]="" (click)="bntPrincipal(l.id)" class="principal-bnt"
-            [ngClass]="{'checked' : l.principal == true}"><i class='bx bxs-heart'></i></a>
-          <a [routerLink]="" (click)="bntEliminar(l.id)" class="eliminar-btn"><i class='bx bx-x'></i></a>
-          <a [routerLink]="" (click)="bntPin(l.id)" class="pin-btn" [ngClass]="{'checked' : l.permanente == true}"><i
-              class='bx bxs-lock-alt'></i></a>
+          <img [src]="l.url | secureimg | async" alt="image" />
+          <a
+            *ngIf="!l.video"
+            [routerLink]=""
+            (click)="bntPrincipal(l.id)"
+            class="principal-bnt"
+            [ngClass]="{ checked: l.principal == true }"
+            ><i class="bx bxs-heart"></i
+          ></a>
+          <a [routerLink]="" (click)="bntEliminar(l.id)" class="eliminar-btn"
+            ><i class="bx bx-x"></i
+          ></a>
+          <a
+            [routerLink]=""
+            (click)="bntPin(l.id)"
+            class="pin-btn"
+            [ngClass]="{ checked: l.permanente == true }"
+            ><i class="bx bxs-lock-alt"></i
+          ></a>
         </div>
       </div>
     </div>
