@@ -153,6 +153,9 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
 import { InvitarModeloComponent } from './components/common/invitar-modelo/invitar-modelo.component';
 import { AceptacionConsentimientoComponent } from './components/common/aceptacion-consentimiento/aceptacion-consentimiento.component';
+import { CastingCardComponentComponent } from './components/common/casting-card-component/casting-card-component.component';
+import { ModalEliminarCastingComponent } from './components/common/modal-eliminar-casting/modal-eliminar-casting.component';
+
 defineLocale('es', esLocale);
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -268,6 +271,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvitarAgenteComponent,
     InvitarModeloComponent,
     AceptacionConsentimientoComponent,
+    CastingCardComponentComponent,
+    ModalEliminarCastingComponent,
   ],
   imports: [
     AppRoutingModule,
