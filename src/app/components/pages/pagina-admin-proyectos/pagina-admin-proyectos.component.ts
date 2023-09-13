@@ -44,132 +44,19 @@ export class PaginaAdminProyectosComponent implements OnInit {
   valoresdisponibles:number;
   v:string='x';
 
-
-  estado: Array<EstadoCasting> = [
-    EstadoCasting.EnEdicion,
-    EstadoCasting.Abierto,
-    EstadoCasting.Cerrado,
-    EstadoCasting.Cancelado
-  ]
-  
-
-  columnDefs: ColDef[] = [
-    {
-      headerName: 'Nombre',
-      field: 'nombre',
-      width: 180,
-      editable: false,
-      sortable: true,
-    },
-    {
-      headerName: 'Cliente',
-      field: 'nombreCliente',
-      width: 180,
-      editable: false,
-      sortable: true,
-    },
-    {
-      headerName: 'Estado',
-      field: 'status',
-      width: 150,
-      editable: false,
-      sortable: true,
-      valueFormatter: function(params) {
-        if (params.value === "EnEdicion") {
-          return "En Edición";
-        } else {
-          return params.value;
-        }
-      }
-    },
-    {
-      headerName: 'Apertura',
-      field: 'fechaApertura',
-      editable: false,
-      width: 170,
-      sortable: true,
-      cellRenderer: (data) => {
-        return formatDate(data.value, 'MM-dd-YYYY', this.locale);
-      },
-    },
-    {
-      headerName: 'Cierre',
-      field: 'fechaCierre',
-      editable: false,
-      width: 170,
-      sortable: true,
-      cellRenderer: (data) => {
-        return formatDate(data.value, 'dd-MM-YYYY', this.locale);
-      },
-    },
-    {
-      headerName: 'Acepta AutoInscripcion',
-      field: 'aceptaAutoInscripcion',
-      cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },
-      width: 100,
-      editable: false,
-      sortable: true,
-    },
-    {
-      headerName: 'Activo',
-      field: 'activo',
-      cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },
-      width: 100,
-      editable: false,
-      sortable: true,
-    },
-    {
-      headerName: 'Apertura Automatica',
-      field: 'aperturaAutomatica',
-      cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },
-      width: 100,
-      editable: false,
-      sortable: true,
-    },
-    {
-      headerName: 'Cierre Automatico',
-      field: 'cierreAutomatico',
-      cellRenderer: 'agCheckboxCellRenderer',
-      cellRendererParams: {
-        disabled: true,
-      },
-      width: 100,
-      editable: false,
-      sortable: true,
-    },
-  ];
-  data: Casting;
-  public defaultColDef: ColDef = {
-    resizable: true,
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    sortable: true,
-    filter: true,
-  };
-
   constructor(
     private castingClient: CastingClient,
     @Inject(LOCALE_ID) private locale: string,
     private ruta: Router, private translate: TranslateService,
     private toastService: HotToastService
   ) {
-
-    this.valoresdisponibles;
-    this.estado;
-    this.v;
   }
 
 
   ngOnInit(): void {
+    this.castingClient.castingGet(true).subscribe((data) => {
+      this.casting = data;
+    });
 
     this.translate
     .get([
@@ -190,62 +77,23 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.ruta.navigateByUrl('castings/');
   }
 
-  columSelected() {
-    const selectedData = this.gridApi.getSelectedRows();
-    this.idSeleccionado = selectedData[0].id;
-    this.ruta.navigateByUrl('castings/' + this.idSeleccionado);
-  }
-
-  public resetear() {
-    this.idSeleccionado = null;
-  }
-
-  public rowSelection: 'single' | 'multiple' = 'single';
-  public paginationPageSize = 20;
-  public sortingOrder: SortDirection[] = ['desc', 'asc', null];
-
-  onGridReady(params: GridReadyEvent<CastingListElement>) {
-    this.gridApi = params.api;
+  refrescar(){
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
     });
+  }
+
+  recibidoDelModal(r : string){
+    if(r == 'Y'){
+      this.castingClient.castingGet(true).subscribe((data) => {
+        this.casting = data;
+      });
+    }
   }
 
   onFilterTextBoxChanged() {
     this.gridApi.setQuickFilter(
       (document.getElementById('filter-text-box') as HTMLInputElement).value
     );
-  }
-
-  editarDobleClick() {
-    const selectedData = this.gridApi.getSelectedRows();
-    this.idSeleccionado = selectedData[0].id;
-    this.ruta.navigateByUrl('castings/' + this.idSeleccionado);
-  }
-
-  refrescar() {
-    this.castingClient.castingGet(true).subscribe((data) => {
-      this.gridApi.setRowData(data);
-      this.gridApi.refreshCells();
-    });
-  }
-
- 
-  
-  Seleccion()
-  {
-    const selectedData = this.gridApi.getSelectedRows();
-    this.idSeleccionado = selectedData[0].id;
-    this.castingClient.estadocasting(selectedData[0].id,this.estado[this.valoresdisponibles])
-    .subscribe((data)=>
-    {
-      this.toastService.success(this.T['proyectos.casting-estado-ok'], {
-        position: 'bottom-center',
-      });
-      this.refrescar();
-      
-    },(error)=> this.toastService.error(this.T['proyectos.casting-estado-error'], {
-      position: 'bottom-center',
-    }));
   }
 }
