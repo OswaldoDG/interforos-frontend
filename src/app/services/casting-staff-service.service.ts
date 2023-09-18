@@ -31,7 +31,7 @@ export class CastingStaffServiceService {
   private editar: boolean = false;
   private votos: VotoModeloMapeo[] = [];
   private personasView: Persona[] = [];
-  private personaNombre : string;
+  private personaNombre: string;
   public catalogos: CatalogosCliente[] = [];
   public cliente: ClienteView;
 
@@ -129,22 +129,23 @@ export class CastingStaffServiceService {
   //devuelve el nombre de un usuarioId
   public nombreUsuarioId(id: string): string {
     var participante = this.casting.participantes.find((_) => _.id === id);
-    console.log(this.casting);
-    console.log(participante);
     if (participante != null) {
-      if (participante.nombre != null && participante.nombre != undefined && participante.nombre.length > 0) {
-        console.log(participante.nombre);
+      if (
+        participante.nombre != null &&
+        participante.nombre != undefined &&
+        participante.nombre.length > 0
+      ) {
         return participante.nombre;
       } else {
         return participante.email;
       }
     }
   }
-  public setNombreModelo(nombrePersona: string){
+  public setNombreModelo(nombrePersona: string) {
     this.personaNombre = nombrePersona;
   }
 
-  public getNombreModelo(): string{
+  public getNombreModelo(): string {
     return this.personaNombre;
   }
 
@@ -235,7 +236,6 @@ export class CastingStaffServiceService {
     this.editar = modo;
   }
 
-
   obtieneCatalogoCliente(): Observable<boolean> {
     return new Observable((subscriber) => {
       if (this.catalogos.findIndex((c) => c.url == this.cliente.url) >= 0) {
@@ -261,12 +261,11 @@ export class CastingStaffServiceService {
     });
   }
 
- PersonaDesplegable(persona: Persona): Persona {
-    console.log(persona);
-    const pv = this.personasView.find((p) => p.usuarioId == persona.usuarioId);
-    if (pv != undefined) {
-      return pv;
-    }
+  PersonaDesplegable(persona: Persona): Persona {
+    // const pv = this.personasView.find((p) => p.usuarioId == persona.usuarioId);
+    // if (pv != undefined) {
+    //   return pv;
+    // }
 
     var p = { ...persona };
     const cs = this.catalogos.find((c) => c.url == this.cliente.url);
