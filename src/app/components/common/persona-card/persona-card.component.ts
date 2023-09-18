@@ -25,33 +25,35 @@ export class PersonaCardComponent implements OnInit {
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
   //Determina si el despliegue debe ser vertial
-  @Input() direccionVertical : boolean = true;
+  @Input() direccionVertical: boolean = true;
   //Determina si la tarjeta se encuentra en una pantalla de búsqueda o en la resivión de modelos
-  @Input() tipoBusqueda : boolean = false;
+  @Input() tipoBusqueda: boolean = false;
   //Determina si el avatar con la imagen principal del usuario debe mostrarse
-  @Input() mostrarAvatar : boolean = true;
+  @Input() mostrarAvatar: boolean = true;
   //Determina si la lista de habilidades debe ser mostrada
-  @Input() mostrarHabilidades : boolean = true;
+  @Input() mostrarHabilidades: boolean = true;
   //Determina si los datos de contacto deben mostrase
-  @Input() mostrarContacto : boolean = true;
+  @Input() mostrarContacto: boolean = true;
   //Determina si los datos generales deben mostrarse
-  @Input() mostrarGenerales : boolean = true;
+  @Input() mostrarGenerales: boolean = true;
   //Determina si la galeria debe mostrarse
-  @Input() mostrarGaleria : boolean = true;
+  @Input() mostrarGaleria: boolean = true;
+  //Determina si se muestran los controles de Mismodelos
+  @Input() mostarControlesMisModelos: boolean = true;
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
   imagenes = [];
   tabHome = '';
   tabHomeBtn = '';
-
+  mostrarBandera: boolean = false;
   configCarousel = {
     height: '250px',
     space: 1,
   };
-  enCasting: boolean = false;
+  enCasting: boolean = null;
   T: any;
-  enCategoria: boolean;
+  enCategoria: boolean = null;
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -106,10 +108,18 @@ export class PersonaCardComponent implements OnInit {
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
-    const nombreModelo = this.persona.nombre + " " + this.persona.apellido1  + " " + this.persona.apellido2;
+    const nombreModelo =
+      this.persona.nombre +
+      ' ' +
+      this.persona.apellido1 +
+      ' ' +
+      this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
   }
   validarExiste() {
+    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
+      this.mostrarBandera = true;
+    }
     this.enCasting =
       this.servicio
         .CastingsPersona(this.persona.id)
@@ -146,7 +156,8 @@ export class PersonaCardComponent implements OnInit {
           });
       }
     } else {
-      this.validarExiste();
+      this.enCasting = !this.enCasting;
+      this.enCategoria = !this.enCategoria;
       this.toastService.warning(this.T['buscar.categorias-error'], {
         position: 'bottom-center',
       });
