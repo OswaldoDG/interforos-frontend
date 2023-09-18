@@ -49,7 +49,11 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.servicioPersonas.personaSub().subscribe((p) => {
-      this.personas = p;
+      if (p.length > 0) {
+        this.personas = p;
+      } else {
+        this.personas = [];
+      }
     });
     this.personaApi
       .perfilpublicoGet(this.session.UserId)
