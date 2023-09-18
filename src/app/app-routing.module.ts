@@ -50,40 +50,48 @@ import { PaginaEditorCastingComponent } from './components/pages/pagina-editor-c
 import { HomeCastingViewComponent } from './components/pages/home-demo-two/home-casting-view/home-casting-view.component';
 import { RecuperarPasswordComponent } from './components/pages/recuperar-password/recuperar-password.component';
 import { CastigReviewComponent } from './components/pages/castig-review/castig-review.component';
-import { StaffGuard } from './services/guards/staff-guard';
 import { AdminGuard } from './services/guards/admin-guard';
-import { RevisorGuard } from './services/guards/revisor-guard';
-import { ModeloGuard } from './services/guards/modelo-guard';
 import { SinAccesoComponent } from './components/pages/sin-acceso/sin-acceso.component';
 import { VotoModeloComponentComponent } from './components/pages/voto-modelo-component/voto-modelo-component.component';
 import { PerfilColaboradorComponent } from './components/common/perfil-colaborador/perfil-colaborador.component';
 import { RegistroPersonasComponent } from './components/common/registro-personas/registro-personas.component';
 import { InvitarAgenteComponent } from './components/common/invitar-agente/invitar-agente.component';
+import { PagesModeloGuard } from './services/guards/pagesModelo-guard';
+import { PagesStaffGuard } from './services/guards/pagesStaff-guard';
+import { PagesRevisorGuard } from './services/guards/pagesRevisor-guard';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
   {
     path: 'staff',
     component: PromodelStaffComponent,
-    canActivate: [StaffGuard],
+    canActivate: [PagesStaffGuard],
   },
   {
     path: 'castings',
     component: PaginaAdminProyectosComponent,
-    canActivate: [StaffGuard],
+    canActivate: [PagesStaffGuard],
   },
-  { path: 'castings/:id', component: PaginaEditorCastingComponent },
-  { path: 'castings/', component: PaginaEditorCastingComponent },
-  { path: 'model', component: ModelComponent, canActivate: [ModeloGuard] },
+  {
+    path: 'castings/:id',
+    component: PaginaEditorCastingComponent,
+    canActivate: [PagesStaffGuard],
+  },
+  {
+    path: 'castings/',
+    component: PaginaEditorCastingComponent,
+    canActivate: [PagesStaffGuard],
+  },
+  { path: 'model', component: ModelComponent, canActivate: [PagesModeloGuard] },
   {
     path: 'perfil',
     component: PerfilPersonaComponent,
-    canActivate: [ModeloGuard],
+    canActivate: [PagesModeloGuard],
   },
   {
     path: 'galeria',
     component: GaleriaModelComponent,
-    canActivate: [ModeloGuard],
+    canActivate: [PagesModeloGuard],
   },
   { path: 'confirmacion/:id', component: ConfirmacionComponent },
   { path: 'password/:id', component: RecuperarPasswordComponent },
@@ -109,7 +117,7 @@ const routes: Routes = [
   {
     path: 'casting/:id',
     component: CastigReviewComponent,
-    canActivate: [RevisorGuard, StaffGuard],
+    canActivate: [PagesRevisorGuard],
   },
   {
     path: 'staff/perfil',

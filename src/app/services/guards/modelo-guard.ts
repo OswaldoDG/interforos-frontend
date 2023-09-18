@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate } from '@angular/router';
 import { SessionQuery } from 'src/app/state/session.query';
 import { TipoRolCliente } from '../api/api-promodel';
 
@@ -9,7 +8,7 @@ import { TipoRolCliente } from '../api/api-promodel';
 })
 export class ModeloGuard implements CanActivate {
   roles: string[];
-  constructor(sessionQuery: SessionQuery, private router: Router) {
+  constructor(sessionQuery: SessionQuery) {
     this.roles = sessionQuery.GetRoles;
   }
 
@@ -17,7 +16,6 @@ export class ModeloGuard implements CanActivate {
     if (this.roles.indexOf(TipoRolCliente.Modelo.toLowerCase()) >= 0) {
       return true;
     } else {
-      this.router.navigate(['/401']);
       return false;
     }
   }
