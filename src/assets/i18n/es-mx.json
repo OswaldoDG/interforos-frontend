@@ -147,6 +147,7 @@
     "datos-incorrectos-login": "Los datos de acceso no son correctos",
     "login-incorrecto": "Usuario o contraseña incorectos",
     "menu-modelo": "Perfil Público",
+    "menu-mismodelos":"Mis Modelos",
     "menu-staff": "Inicio Staff",
     "menu-admin": "Inicio Administradores",
     "menu-logout": "Cerrar sesión",

@@ -55,6 +55,15 @@
                 >{{ "navbar.menu-fotos" | translate }}</a
               >
             </li>
+            <li *ngIf="autenticado && modelo" class="nav-item">
+              <a
+                routerLink="/mismodelos"
+                class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "navbar.menu-mismodelos" | translate }}</a
+              >
+            </li>
             <li *ngIf="autenticado && !mobile" class="nav-item">
               <a href="javascript:void(0)" class="dropdown-toggle nav-link">{{
                 "navbar.menu-sesion" | translate
