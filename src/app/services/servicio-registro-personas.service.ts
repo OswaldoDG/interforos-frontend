@@ -32,6 +32,9 @@ export class ServicioRegistroPersonasService {
         this.personaClient.idPost(busqueda).subscribe((r) => {
           this.personasSub.next(r.elementos);
         });
+      }else
+      {
+        this.personasSub.next([]);
       }
     });
   }
