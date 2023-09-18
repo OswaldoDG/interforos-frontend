@@ -12,6 +12,8 @@ import { EventosCastingComponent } from '../eventos-casting/eventos-casting.comp
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { isEmpty } from '@datorama/akita';
 import { OnChange } from 'ngx-bootstrap/utils';
+import { TranslateService } from '@ngx-translate/core';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-editor-casting',
@@ -47,11 +49,13 @@ export class EditorCastingComponent implements OnInit {
   inscripcionAutomatica: boolean = false;
   cierreAuto: boolean = false;
   aperturaAuto: boolean = false;
-
+  private T: any;
   constructor(
     private clientApi: CastingClient,
     private formBuilder: FormBuilder,
-    private dateTimeAdapter: DateTimeAdapter<any>
+    private dateTimeAdapter: DateTimeAdapter<any>,
+    private translate: TranslateService,
+    private toastService: HotToastService
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -64,6 +68,9 @@ export class EditorCastingComponent implements OnInit {
       aperturaAutomatica: [this.aperturaAuto],
     });
     this.dateTimeAdapter.setLocale('es-ES');
+    this.translate.get(['casting.guardar']).subscribe((ts) => {
+      this.T = ts;
+    });
   }
 
   ngOnInit() {
@@ -89,6 +96,9 @@ export class EditorCastingComponent implements OnInit {
         this.esLogoNuevo = false;
       }
     }
+    this.toastService.success(this.T['casting.guardar'], {
+      position: 'bottom-center',
+    });
   }
 
   // Crea un casting y establece la variable para realizar actualización si la savaguarda es exitosa
