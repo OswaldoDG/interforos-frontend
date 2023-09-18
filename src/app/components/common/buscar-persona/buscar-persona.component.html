@@ -185,6 +185,7 @@
         aria-label="Default select example"
         formControlName="categorias"
         (change)="onChangeCategoria($event.target.value)"
+        [ngModel]="categoriaId"
       >
         <ng-container *ngIf="categorias.length > 0">
           <option *ngFor="let categoria of categorias" [value]="categoria.id">
