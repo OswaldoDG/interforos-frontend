@@ -19,7 +19,7 @@
 
         <div class="collapse navbar-collapse mean-menu">
           <ul class="navbar-nav">
-            <li *ngIf="autenticado && staff" class="nav-item">
+            <li *ngIf="autenticado && (staff ||admin)" class="nav-item">
               <a
                 routerLink="/staff"
                 class="nav-link"
@@ -28,7 +28,7 @@
                 >{{ "navbar.menu-staff" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && modelo" class="nav-item">
+            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
               <a
                 routerLink="/model"
                 class="nav-link"
@@ -37,7 +37,7 @@
                 >{{ "navbar.menu-modelo" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && modelo" class="nav-item">
+            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
               <a
                 routerLink="/perfil"
                 class="nav-link"
@@ -46,7 +46,7 @@
                 >{{ "navbar.menu-perfil" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && modelo" class="nav-item">
+            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
               <a
                 routerLink="/galeria"
                 class="nav-link"
@@ -55,7 +55,7 @@
                 >{{ "navbar.menu-fotos" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && modelo" class="nav-item">
+            <li *ngIf="autenticado && (modelo ||admin)" class="nav-item">
               <a
                 routerLink="/mismodelos"
                 class="nav-link"
