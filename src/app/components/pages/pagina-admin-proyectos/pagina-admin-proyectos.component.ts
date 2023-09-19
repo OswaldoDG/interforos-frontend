@@ -1,34 +1,16 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import {FormControl, FormGroup} from '@angular/forms';
-
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
-
-
-
 import {
   CastingClient,
   CastingListElement,
-  ClientesClient,
-  Casting,
-  EstadoCasting,
+  TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
-import {
-  ColDef,
-  GridApi,
-  GridReadyEvent,
-  RowSelectedEvent,
-  SortDirection,
-  ValueFormatterParams,
-} from 'ag-grid-community';
-
-import { formatDate } from '@angular/common';
+import {GridApi,} from 'ag-grid-community';
 import { Router } from '@angular/router';
-import { identifierName } from '@angular/compiler';
-import { first } from 'rxjs/operators';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-pagina-admin-proyectos',
@@ -43,17 +25,20 @@ export class PaginaAdminProyectosComponent implements OnInit {
   T: any;
   valoresdisponibles:number;
   v:string='x';
-
+staff :boolean=false;
+admin :boolean=false;
   constructor(
     private castingClient: CastingClient,
-    @Inject(LOCALE_ID) private locale: string,
     private ruta: Router, private translate: TranslateService,
-    private toastService: HotToastService
+    private session:SessionQuery
   ) {
   }
 
 
   ngOnInit(): void {
+    var  roles: string[] = this.session.GetRoles
+    this.staff=roles.indexOf(TipoRolCliente.Staff.toLocaleLowerCase())>=0;
+    this.admin=roles.indexOf(TipoRolCliente.Administrador.toLocaleLowerCase())>=0;
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
     });

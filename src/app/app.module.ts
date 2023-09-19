@@ -155,6 +155,7 @@ import { InvitarModeloComponent } from './components/common/invitar-modelo/invit
 import { AceptacionConsentimientoComponent } from './components/common/aceptacion-consentimiento/aceptacion-consentimiento.component';
 import { CastingCardComponentComponent } from './components/common/casting-card-component/casting-card-component.component';
 import { ModalEliminarCastingComponent } from './components/common/modal-eliminar-casting/modal-eliminar-casting.component';
+import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
 
 defineLocale('es', esLocale);
 
@@ -273,6 +274,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AceptacionConsentimientoComponent,
     CastingCardComponentComponent,
     ModalEliminarCastingComponent,
+    PromodelRevisorComponent,
   ],
   imports: [
     AppRoutingModule,

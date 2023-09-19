@@ -43,6 +43,7 @@ export class NavbarPromodelComponent implements OnInit {
   modelo: boolean = false;
   admin: boolean = false;
   staff: boolean = false;
+  revisor: boolean = false;
   mobile: boolean = false;
   userName: string = '';
   showPass: boolean = false;
@@ -129,6 +130,7 @@ export class NavbarPromodelComponent implements OnInit {
           this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
           this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
+          this.revisor = p.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0;
         }
         this.userName = p.alias;
       }
@@ -236,6 +238,9 @@ export class NavbarPromodelComponent implements OnInit {
                 this.runLogin(false);
 
                 if (u.requirePerfil) {
+                  if (u.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0) {
+
+                    this.router.navigateByUrl('/staff');
                   if (u.tienePerfil) {
                     if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
                       this.router.navigateByUrl('/staff');
@@ -246,11 +251,17 @@ export class NavbarPromodelComponent implements OnInit {
                     this.router.navigateByUrl('/perfil');
                   }
                 } else {
-                  if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
+                  if (u.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0) {
+
                     this.router.navigateByUrl('/staff');
+
+                  }
+                  if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
+                    this.router.navigateByUrl('/revisor');
                   } else {
                     this.router.navigateByUrl('/model');
                   }
+                 }
                 }
               },
               (err) => {

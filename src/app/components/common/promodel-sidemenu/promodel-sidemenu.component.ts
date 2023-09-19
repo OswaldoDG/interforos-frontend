@@ -33,6 +33,7 @@ export class PromodelSidemenuComponent implements OnInit {
   modelo: boolean = false;
   admin: boolean = false;
   staff: boolean = false;
+  revisor: boolean = false;
   userName: string = '';
   T: any[];
 
@@ -88,6 +89,7 @@ export class PromodelSidemenuComponent implements OnInit {
           this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
           this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
+          this.revisor = p.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0;
         }
         this.userName = p.alias;
       }

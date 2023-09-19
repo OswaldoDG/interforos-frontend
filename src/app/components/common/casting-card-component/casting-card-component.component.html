@@ -97,7 +97,7 @@
   <div class="textResponsive card-header text-center">
     <h6>{{'proyectos.tabla-cambiar-estado' | translate}} {{estadoCasting}}</h6>
   </div>
-  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
+  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12" *ngIf="esStaff || esAdmin">
     <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="!esRevisor">
       <div class="m-1">
         <select    class="btn btn-primary" [(ngModel)]="valoresdisponibles">
