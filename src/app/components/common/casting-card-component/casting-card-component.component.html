@@ -98,7 +98,7 @@
     <h6>{{'proyectos.tabla-cambiar-estado' | translate}} {{estadoCasting}}</h6>
   </div>
   <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
-    <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="!esRevisor">
+    <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="esRevisor == false">
       <div class="m-1">
         <select    class="btn btn-primary" [(ngModel)]="valoresdisponibles">
           <option  class="deplegable" value="{{'proyectos.casting-estado-EnEdicion' | translate}}">{{'proyectos.casting-estado-EnEdicion' | translate}}</option>
@@ -113,7 +113,7 @@
     </div>
   </div>
 
-  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
+  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12" *ngIf="esRevisor == true">
     <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
       <div class="m-1">
         <button type="button" class="btn btn-primary" (click)="colaborar()">{{'proyectos.tabla-colaborar' | translate}} <i class="bi bi-chevron-compact-right"></i></button>

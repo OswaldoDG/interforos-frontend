@@ -68,6 +68,7 @@ export class CastingCardComponentComponent implements OnInit {
       this.esAdmin = true;
       this.esRevisor = false;
     }else if(usuario.rol == TipoRolCliente.RevisorExterno){
+      console.log('Hola');
       this.esRevisor = true;
       this.esStaff = false;
       this.esAdmin = false;
@@ -139,5 +140,7 @@ export class CastingCardComponentComponent implements OnInit {
     this.ruta.navigateByUrl('castings/' + this.Casting.id);
   }
 
-  colaborar(){}
+  colaborar(){
+    this.ruta.navigateByUrl('casting/' + this.Casting.id)
+  }
 }
