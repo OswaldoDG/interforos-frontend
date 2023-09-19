@@ -78,7 +78,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     categorias: [null],
   });
 
-  cateoriaId: string = null;
+  categoriaId: string = null;
   porCategorias: boolean = false;
   orden = 'consecutivo';
   ordenModelos = ['consecutivo', 'nombre', 'nombreArtistico', 'edad'];
@@ -335,6 +335,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   cargarCategorias() {
     this.categorias = this.servicio.CategoriasCastingActual();
     this.servicio.ActualizarCategoria(this.categorias[0].id);
+    this.categoriaId = this.categorias[0].id;
   }
   cargarCastings() {
     const temp: SelectorCastingCategoria[] = [];
