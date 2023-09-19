@@ -30,6 +30,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   agenciaId = null;
   LlamarBackend: boolean = true;
   consentimiento: Consentimiento;
+  mostarControlesMisModelos: boolean = true;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
