@@ -277,8 +277,8 @@ export class DatosPersonaComponent implements OnInit {
       return;
     }
 
-    if (this.persona.paisOrigenId != undefined) {
-      this.onChangePais(this.persona.paisOrigenId);
+    if (this.persona.paisOrigenId) {
+      this.onChangePais(this.persona.paisActualId);
     }
 
     if (this.persona.contacto.accesoDireccion) {
@@ -442,7 +442,7 @@ export class DatosPersonaComponent implements OnInit {
       .elementos.sort(compare);
 
     const agencias: ElementoCatalogo[] = [];
- 
+
     if (this.persona.agenciasIds && !this.agenciaId) {
       this.persona.agenciasIds.forEach((i) => {
         const item = this.dropdownListAgencias.find((x) => x.clave == i);
@@ -503,7 +503,6 @@ export class DatosPersonaComponent implements OnInit {
   }
 
   onChangePais(clave: string) {
-    this.formGenerales.get('estadoPaisId').setValue(null);
     const c = this.catalogos.find(
       (x) => x.tipoPropiedad == `estado${clave.toLowerCase()}`
     );
@@ -512,6 +511,7 @@ export class DatosPersonaComponent implements OnInit {
     } else {
       this.estados = [];
     }
+    this.formGenerales.get('estadoPaisId').setValue(this.persona.estadoPaisId);
   }
 
   private OntieneCatalogos() {
