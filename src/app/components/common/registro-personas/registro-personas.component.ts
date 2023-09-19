@@ -35,7 +35,8 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   constructor(
     private servicioPersonas: ServicioRegistroPersonasService,
     private personaApi: PersonaClient,
-    private session: SessionQuery
+    private session: SessionQuery,
+    private servicio: CastingStaffServiceService
   ) {
     if (this.session.ConsentimientoAltaModeloAceptado < 0) {
       this.consentimiento = this.session.GetConsentimientoAltaModelo;
@@ -49,7 +50,11 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.servicioPersonas.personaSub().subscribe((p) => {
-      this.personas = p;
+      if (p.length > 0) {
+        this.procesaPersonas(p);
+      } else {
+        this.personas = [];
+      }
     });
     this.personaApi
       .perfilpublicoGet(this.session.UserId)
@@ -64,8 +69,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   personaCreada(p) {
     if (p) {
       this.servicioPersonas.agregaPersona(p);
-    }
-    {
+    } else {
       this.personaId = null;
       this.servicioPersonas.getPersonasApi();
     }
@@ -92,5 +96,17 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
       this.servicioPersonas.remover(this.personaIdEliminar);
     }
     this.personaIdEliminar = null;
+  }
+
+  procesaPersonas(personas: any) {
+    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
+      if (personas != null) {
+        const tmp: Persona[] = [];
+        personas.forEach((p) => {
+          tmp.push(this.servicio.PersonaDesplegable(p));
+        });
+        this.personas = tmp;
+      }
+    });
   }
 }

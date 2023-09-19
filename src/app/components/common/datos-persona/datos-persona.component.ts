@@ -730,11 +730,6 @@ export class DatosPersonaComponent implements OnInit {
   }
 
   salvaPersona() {
-    // console.log(this.datosListaValidos());
-    // console.log(this.formGenerales.valid);
-    // console.log(this.formFisicas.valid);
-    //console.log(this.formVestuario.valid);
-
     if (!this.docsOK()) {
       this.toastService.warning(this.T['perfil.documentos-incompletos'], {
         position: 'bottom-center',
@@ -766,8 +761,10 @@ export class DatosPersonaComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (r) => {
-            if (!this.miPerfil) {
+            if (!this.miPerfil && this.personaId == null) {
               this.PersonaCreada.emit(p.id);
+            } else {
+              this.PersonaCreada.emit(null);
             }
             this.personaService.eliminaPersonaCachePurUID(p.usuarioId);
             this.toastService.success(this.T['perfil.datos-ok'], {
@@ -806,7 +803,6 @@ export class DatosPersonaComponent implements OnInit {
           }
         );
     }
-    this.personaId = null;
   }
 
   validarCampos() {
