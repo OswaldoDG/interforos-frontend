@@ -90,7 +90,6 @@ export class ConfirmacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('hola');
     this.spinner.show('spregistro');
     this.translate
       .get([
