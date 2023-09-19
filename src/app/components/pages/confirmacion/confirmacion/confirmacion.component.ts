@@ -90,6 +90,7 @@ export class ConfirmacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('hola');
     this.spinner.show('spregistro');
     this.translate
       .get([
@@ -159,7 +160,7 @@ export class ConfirmacionComponent implements OnInit {
         (r) => {
           // this.registroForm.get('email').setValue(r.registro.email);
           this.invitacion = r;
-          if (r && r.registro.rol == TipoRolCliente.Modelo) {
+          if (r.registro.rol == TipoRolCliente.Modelo) {
             this.consentimiento = this.sesion.GetConsentimientoModelo;
           } else {
             this.consentimiento = this.sesion.GetConsentimientoAgencia;

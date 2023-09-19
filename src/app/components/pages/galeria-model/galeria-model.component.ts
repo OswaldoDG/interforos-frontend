@@ -6,6 +6,7 @@ import {
   ElementoMediaCliente,
   PersonaClient,
   CastingPersonaCompleto,
+  MediaCliente,
 } from 'src/app/services/api/api-promodel';
 import { first } from 'rxjs/operators';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -35,7 +36,7 @@ export class GaleriaModelComponent implements OnInit {
   T: any;
   fotos: ElementoMediaView[] = [];
   imageObject: Array<object> = [];
-
+  mediaCliente : MediaCliente;
   datosimagen: FormGroup;
   contenido = {
     titulo: '',
@@ -73,19 +74,37 @@ export class GaleriaModelComponent implements OnInit {
 
   toLink(e: ElementoMediaCliente): ElementoMediaView {
     const elementoId = e.video ? e.frameVideoId : e.id;
-    return {
-      id: e.id,
-      extension: e.extension,
-      mimeType: e.mimeType,
-      imagen: e.imagen,
-      video: e.video,
-      permanente: e.permanente,
-      principal: e.principal,
-      landscape: e.landscape,
-      url: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
-      urlFull: `${environment.apiRoot}/contenido/${this.usuarioId}/${elementoId}/card`,
-      titulo: e.titulo,
-    };
+    if(e.imagen){
+      return {
+        id: e.id,
+        extension: e.extension,
+        mimeType: e.mimeType,
+        imagen: e.imagen,
+        video: e.video,
+        permanente: e.permanente,
+        principal: e.principal,
+        landscape: e.landscape,
+        titulo: e.titulo,
+        url: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/full`,
+        urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/card`,
+      };
+    }else{
+      if(e.video){
+        return{
+          id: e.id,
+          extension: e.extension,
+          mimeType: e.mimeType,
+          imagen: e.imagen,
+          video: e.video,
+          permanente: e.permanente,
+          principal: e.principal,
+          landscape: e.landscape,
+          titulo: e.titulo,
+          url: `${environment.apiRoot}/videos/${this.mediaCliente.usuarioId}/${e.id}-full.mp4`,
+          urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/card`,
+        };
+      }
+    }
   }
 
   setPrincipal(id: string) {
@@ -302,6 +321,7 @@ export class GaleriaModelComponent implements OnInit {
           this.fotos = [];
           this.usuarioId = media.usuarioId;
           media.elementos.forEach((e) => {
+            this.mediaCliente = media;
             this.addElementoView(this.toLink(e));
           });
           this.spinner.hide('spupload');
@@ -312,6 +332,10 @@ export class GaleriaModelComponent implements OnInit {
         }
       );
   }
+
+
+
+
   pageTitleContent = [
     {
       title: 'Mis fotos',
