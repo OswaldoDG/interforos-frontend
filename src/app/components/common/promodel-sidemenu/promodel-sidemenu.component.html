@@ -15,7 +15,7 @@
       <li class="nav-item-title">
         {{ "side-menu-staff.opciones" | translate }}
       </li>
-      <li class="nav-item" routerLinkActive="active mm-active">
+      <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin">
         <a routerLink="/staff" class="nav-link">
           <span class="icon"><i class="bx bx-search-alt"></i></span>
           <span class="menu-title">{{
@@ -106,7 +106,7 @@
       <li class="nav-item-title">
         {{ "side-menu-staff.mi-cuenta" | translate }}
       </li>
-      <li class="nav-item" routerLinkActive="active mm-active">
+      <li class="nav-item" routerLinkActive="active mm-active"*ngIf="staff || admin">
         <a routerLink="/staff/invitaragente" class="nav-link">
           <span class="icon"><i class="bi bi-folder-fill"></i></span>
           <span class="menu-title">{{
