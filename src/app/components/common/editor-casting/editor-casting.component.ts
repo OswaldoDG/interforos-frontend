@@ -57,7 +57,6 @@ export class EditorCastingComponent implements OnInit {
     private dateTimeAdapter: DateTimeAdapter<any>,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private servicio : SessionQuery
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
