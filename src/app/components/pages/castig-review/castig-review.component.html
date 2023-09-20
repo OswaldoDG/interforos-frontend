@@ -26,27 +26,33 @@
     </div>
   </div>
   <div *ngIf="personasDesplegables.length > 0">
-    <div  *ngIf="dVertical == true && tBusqueda == false; else modoHorizontal">
+    <div *ngIf="dVertical == true && tBusqueda == false; else modoHorizontal">
       <div class="row">
         <div
-
-        class="col-lg-4 col-md-6 col-sm-12 pt-2"
-      *ngFor="let modelo of personasDesplegables"
+          class="col-lg-4 col-md-6 col-sm-12 pt-2"
+          *ngFor="let modelo of personasDesplegables"
         >
-        <app-persona-card [direccionVertical] = true [tipoBusqueda] = false [persona]="modelo"></app-persona-card>
-     </div>
-    </div>
+          <app-persona-card
+            [direccionVertical]="true"
+            [tipoBusqueda]="false"
+            [persona]="modelo"
+          ></app-persona-card>
+        </div>
+      </div>
     </div>
     <ng-template #modoHorizontal>
       <div class="row">
         <div class="d-block">
           <div
-
-          class="col-lg-4 col-md-6 col-sm-12 pt-2"
-        *ngFor="let modelo of personasDesplegables"
-      >
-        <app-persona-card [direccionVertical] = false [tipoBusqueda] = false [persona]="modelo"></app-persona-card>
-      </div>
+            class="col-lg-4 col-md-6 col-sm-12 pt-2"
+            *ngFor="let modelo of personasDesplegables"
+          >
+            <app-persona-card
+              [direccionVertical]="false"
+              [tipoBusqueda]="false"
+              [persona]="modelo"
+            ></app-persona-card>
+          </div>
         </div>
       </div>
     </ng-template>
