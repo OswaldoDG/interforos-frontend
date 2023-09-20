@@ -23,7 +23,7 @@ export class CastingCardComponentComponent implements OnInit {
   esStaff : boolean;
   esRevisor : boolean;
   esAdmin: boolean;
-
+ disable:boolean=true;
   //Modal
   @ViewChild( ModalEliminarCastingComponent) componenteModal;
   constructor(private clientApi: CastingClient,
@@ -137,6 +137,10 @@ export class CastingCardComponentComponent implements OnInit {
 
   editarCasting(){
     this.ruta.navigateByUrl('castings/' + this.Casting.id);
+  }
+  btnActivar()
+  {
+    this.disable=false;
   }
 
   colaborar(){}

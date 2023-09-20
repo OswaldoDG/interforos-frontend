@@ -100,7 +100,7 @@
   <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
     <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="!esRevisor">
       <div class="m-1">
-        <select    class="btn btn-primary" [(ngModel)]="valoresdisponibles">
+        <select    class="btn btn-primary" [(ngModel)]="valoresdisponibles" (change)="btnActivar()">
           <option  class="deplegable" value="{{'proyectos.casting-estado-EnEdicion' | translate}}">{{'proyectos.casting-estado-EnEdicion' | translate}}</option>
           <option  class="deplegable" value="{{'proyectos.casting-estado-Abierto' | translate}}">{{'proyectos.casting-estado-Abierto' | translate}}</option>
           <option  class="deplegable" value="{{'proyectos.casting-estado-Cerrado' | translate}}">{{'proyectos.casting-estado-Cerrado' | translate}}</option>
@@ -108,7 +108,7 @@
         </select>
       </div>
       <div class="m-1">
-        <button type="button" class="btn btn-primary" (click)="cambiarEstado()">{{'proyectos.tabla-cambiar' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="cambiarEstado()" [disabled]="disable">{{'proyectos.tabla-cambiar' | translate}}</button>
       </div>
     </div>
   </div>
