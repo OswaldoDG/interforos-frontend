@@ -5,14 +5,14 @@
         class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
         *ngIf="!esRevisor"
       >
-        <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="esStaff || esAdmin">
+        <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="esStaff  || esAdmin">
           <div class="m-1">
             <button class="btn btn-light btn-sm" (click)="confirmar()">
               {{ "proyectos.eliminar" | translate }}
             </button>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 6 col-sm-6" *ngIf="esStaff || esAdmin">
+        <div class="col-lg-6 col-md-6 6 col-sm-6" *ngIf="esStaff  || esAdmin">
           <div class="m-1">
             <button class="btn btn-light btn-sm" (click)="editarCasting()">
               {{ "proyectos.edita" | translate }}
@@ -120,7 +120,7 @@
   >
     <div
       class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
-      *ngIf="!esRevisor"
+      *ngIf="esStaff || esAdmin"
     >
       <div class="m-1">
         <select
@@ -169,7 +169,7 @@
 
   <div
     class="d-block card-body col-lg-12 col-md-12 col-sm-12"
-    *ngIf="esRevisor == true"
+    *ngIf="esRevisor"
   >
     <div
       class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"

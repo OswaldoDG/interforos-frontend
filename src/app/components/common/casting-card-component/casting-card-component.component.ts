@@ -33,9 +33,9 @@ export class CastingCardComponentComponent implements OnInit {
   T: any;
   estadoCasting: any;
   nuevoEstado: any;
-  esStaff: boolean;
-  esRevisor: boolean;
-  esAdmin: boolean;
+  esStaff: boolean = false;
+  esRevisor: boolean = false;
+  esAdmin: boolean = false;
   disable: boolean = true;
   //Modal
   @ViewChild(ModalEliminarCastingComponent) componenteModal;
@@ -68,14 +68,18 @@ export class CastingCardComponentComponent implements OnInit {
     this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
       this.urlImage = data;
     });
-    this.validarRol();
+    this.clientApi.id(this.Casting.id).subscribe((data) => {
+      var buscarUsuario = data.contactos.find(e => e.usuarioId == this.servicio.UserId);
+      if(buscarUsuario != undefined){
+        this.validarRol(buscarUsuario.rol);
+      }
+    });
   }
 
-  validarRol() {
-    const rol: string = this.servicio.GetRoles;
+  validarRol(rol : any) {
     if (
-      rol == TipoRolCliente.Staff.toLocaleLowerCase() ||
-      rol == TipoRolCliente.Administrador.toLocaleLowerCase()
+      rol.toLocaleLowerCase() == TipoRolCliente.Staff.toLocaleLowerCase() ||
+      rol.toLocaleLowerCase() == TipoRolCliente.Administrador.toLocaleLowerCase()
     ) {
       this.esStaff = true;
       this.esAdmin = true;
