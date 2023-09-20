@@ -14,6 +14,7 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-persona-card',
@@ -40,6 +41,10 @@ export class PersonaCardComponent implements OnInit {
   @Input() mostrarGaleria: boolean = true;
   //Determina si se muestran los controles de Mismodelos
   @Input() mostarControlesMisModelos: boolean = false;
+  //vista para staff
+  @Input() modoStaff: boolean = false;
+  //Vista Para revisor
+  @Input() modoRevisor: boolean = false;
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
@@ -60,7 +65,8 @@ export class PersonaCardComponent implements OnInit {
     private servicio: CastingStaffServiceService,
     private castingService: CastingClient,
     private toastService: HotToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private session: SessionQuery
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -1,9 +1,4 @@
-button {
-    font-size: 30px;
-    background-color: transparent !important;
-    color: transparent !important;
 
-}
 
 button:hover,
 button:focus,
@@ -48,4 +43,14 @@ i{
   border: none; /* Elimina el borde */
   box-shadow: none; /* Elimina cualquier sombra */
   outline: none !important; /* Elimina el contorno cuando el botón recibe foco */
+}
+
+.bi
+{
+font-size: 2em;
+}
+
+.badge
+{
+  font-size: .6em;
 }
