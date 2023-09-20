@@ -20,6 +20,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BtnCloseRenderer } from '../cells-render/btn-close-renderer.component';
 import { BtnEditRenderer } from '../cells-render/btn-edit-renderer.component';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-contactos-cliente',
@@ -59,7 +60,8 @@ export class ContactosClienteComponent
   constructor(
     private clientApi: CastingClient,
     private clientesClient: ClientesClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private servicio: SessionQuery
   ) {
     this.formContactos = this.formBuilder.group({
       email: ['', Validators.required],
@@ -74,6 +76,18 @@ export class ContactosClienteComponent
 
     this.clientesClient.contactos().subscribe((data) => {
       this.contactosCliente = data;
+      let existeStaffenDB: ContactoCasting = this.contactosCliente.find(
+        (c) => c.id == this.servicio.UserId
+      );
+      if(existeStaffenDB != undefined){
+        let existeEnLista = this.contactosCasting.find(
+          (c) => c.email == existeStaffenDB.email
+        );
+        if(existeEnLista == undefined){
+          this.contactosCasting.push(existeStaffenDB);
+          this.gridApi.setRowData(this.contactosCasting);
+        }
+      }
     });
   }
 
@@ -115,16 +129,24 @@ export class ContactosClienteComponent
     return payload;
   }
 
-  //Se añaden los contactos a la lista de seleccionados.
-  public invitar() {
+  existeEnLista():ContactoCasting{
     let existeEnLista = this.contactosCasting.find(
       (c) => c.email == this.selected
     );
+    return existeEnLista;
+  }
+
+  existeEnDB():ContactoCasting{
     let existeEnDB: ContactoCasting = this.contactosCliente.find(
       (c) => c.email == this.selected
     );
-    if (existeEnLista == undefined) {
-      if (existeEnDB == undefined) {
+    return existeEnDB;
+  }
+
+  //Se añaden los contactos a la lista de seleccionados.
+  public invitar() {
+    if (this.existeEnLista() == undefined) {
+      if (this.existeEnDB() == undefined) {
         const contacto: ContactoUsuario = {
           id: null,
           email: this.selected,
@@ -134,13 +156,13 @@ export class ContactosClienteComponent
         };
         this.contactosCasting.push(contacto);
       } else {
-        existeEnDB.rol = this.formContactos.value.rol;
-        this.contactosCasting.push(existeEnDB);
+        this.existeEnDB().rol = this.formContactos.value.rol;
+        this.contactosCasting.push(this.existeEnDB());
       }
     } else {
-      if (existeEnLista.rol != this.formContactos.value.rol) {
+      if (this.existeEnLista().rol != this.formContactos.value.rol) {
         this.contactosCasting.forEach((c) => {
-          if (c.email == existeEnLista.email) {
+          if (c.email == this.existeEnLista().email) {
             c.rol = this.formContactos.value.rol;
           }
         });
