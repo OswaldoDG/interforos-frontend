@@ -13,7 +13,6 @@
         id="categoriaSelect"
         aria-label="Default select example"
         (change)="onChangeCategoria($event.target.value)"
-        [value]="categoriaId"
       >
         <ng-container *ngIf="casting.categorias.length > 0">
           <option

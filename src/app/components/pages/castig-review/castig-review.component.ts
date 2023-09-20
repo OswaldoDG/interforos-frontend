@@ -23,7 +23,6 @@ export class CastigReviewComponent implements OnInit {
   categorias: SelectorCategoria[] = [];
   dVertical: boolean = false;
   tBusqueda: boolean = false;
-  categoriaId: string = '';
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -40,7 +39,7 @@ export class CastigReviewComponent implements OnInit {
       this.casting = c;
       this.servicio.ActualizarCasting(c);
       if (c.categorias.length > 0) {
-        this.onChangeCategoria(c.categorias[0].id)
+        this.onChangeCategoria(c.categorias[0].id);
       }
     });
   }
