@@ -262,10 +262,10 @@ export class CastingStaffServiceService {
   }
 
   PersonaDesplegable(persona: Persona): Persona {
-    // const pv = this.personasView.find((p) => p.usuarioId == persona.usuarioId);
-    // if (pv != undefined) {
-    //   return pv;
-    // }
+    const pv = this.personasView.find((p) => p.id == persona.id);
+    if (pv != undefined) {
+      return pv;
+    }
 
     var p = { ...persona };
     const cs = this.catalogos.find((c) => c.url == this.cliente.url);

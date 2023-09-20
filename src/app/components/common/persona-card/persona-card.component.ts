@@ -39,7 +39,7 @@ export class PersonaCardComponent implements OnInit {
   //Determina si la galeria debe mostrarse
   @Input() mostrarGaleria: boolean = true;
   //Determina si se muestran los controles de Mismodelos
-  @Input() mostarControlesMisModelos: boolean = true;
+  @Input() mostarControlesMisModelos: boolean = false;
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';

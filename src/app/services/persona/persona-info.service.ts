@@ -116,7 +116,7 @@ export class PersonaInfoService {
 
   // Cambia los IDs de las propiedades al texto disponible en el catálogo
   PersonaDesplegable(persona: Persona): Persona {
-    const pv = this.personasView.find((p) => p.usuarioId == persona.usuarioId);
+    const pv = this.personasView.find((p) => p.id == persona.id);
     if (pv != undefined) {
       return pv;
     }
