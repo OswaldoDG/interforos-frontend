@@ -21,9 +21,9 @@ export class CastigReviewComponent implements OnInit {
   modelos: Persona[] = [];
   personasDesplegables = [];
   categorias: SelectorCategoria[] = [];
-  dVertical : boolean = false;
-  tBusqueda : boolean = false;
-
+  dVertical: boolean = false;
+  tBusqueda: boolean = false;
+  categoriaId: string = '';
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -39,6 +39,9 @@ export class CastigReviewComponent implements OnInit {
     this.castingClient.revisor(this.castingId).subscribe((c) => {
       this.casting = c;
       this.servicio.ActualizarCasting(c);
+      if (c.categorias.length > 0) {
+        this.onChangeCategoria(c.categorias[0].id)
+      }
     });
   }
   onChangeCategoria(id: string) {
@@ -46,20 +49,12 @@ export class CastigReviewComponent implements OnInit {
     this.modelosCategoriaActual(id);
   }
 
-
-  public modelosCategoriaActual(id : string){
+  public modelosCategoriaActual(id: string) {
     const modelos: Persona[] = [];
-    var indexC = this.casting.categorias.findIndex(
-      (c) => c.id == id
-    );
-    console.log(indexC);
-    console.log(this.casting.categorias[indexC].modelos);
+    var indexC = this.casting.categorias.findIndex((c) => c.id == id);
     this.casting.categorias[indexC].modelos.forEach((m) => {
-      console.log(m);
       this.personaClient.idGet(m).subscribe((p) => {
-        console.log(p);
         if (p) {
-          console.log(p);
           modelos.push(p);
         }
         this.procesaPersonas(modelos);
@@ -67,7 +62,7 @@ export class CastigReviewComponent implements OnInit {
     });
   }
 
-  procesaPersonas(personas : any) {
+  procesaPersonas(personas: any) {
     this.servicio.obtieneCatalogoCliente().subscribe((done) => {
       if (personas != null) {
         const tmp: Persona[] = [];
@@ -75,9 +70,7 @@ export class CastigReviewComponent implements OnInit {
           tmp.push(this.servicio.PersonaDesplegable(p));
         });
         this.personasDesplegables = tmp;
-        console.log(personas);
       }
     });
   }
-
 }
