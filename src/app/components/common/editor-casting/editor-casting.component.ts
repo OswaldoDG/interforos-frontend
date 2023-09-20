@@ -14,6 +14,7 @@ import { isEmpty } from '@datorama/akita';
 import { OnChange } from 'ngx-bootstrap/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { HotToastService } from '@ngneat/hot-toast';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-editor-casting',
@@ -55,7 +56,8 @@ export class EditorCastingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dateTimeAdapter: DateTimeAdapter<any>,
     private translate: TranslateService,
-    private toastService: HotToastService
+    private toastService: HotToastService,
+    private servicio : SessionQuery
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -153,11 +155,6 @@ export class EditorCastingComponent implements OnInit {
     if (!this.CastingId) {
       return;
     }
-    console.log(this.formProyecto.value.aceptaAutoInscripcionModelos);
-
-    console.log(this.formProyecto.value.cierreAutomatico);
-
-    console.log(this.formProyecto.value.aperturaAutomatica);
     (this.CastingActual.nombre = this.formProyecto.value.nombre),
       (this.CastingActual.nombreCliente =
         this.formProyecto.value.nombreCliente),
@@ -171,7 +168,6 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.cierreAutomatico),
       (this.CastingActual.aperturaAutomatica =
         this.formProyecto.value.aperturaAutomatica),
-      console.log(this.CastingActual);
     this.clientApi
       .castingPut(this.CastingId, this.CastingActual)
       .subscribe((data) => {
@@ -183,6 +179,7 @@ export class EditorCastingComponent implements OnInit {
           var a = this.componenteEventos.listaEventos;
           var b = this.componenteCategorias.categoriasCasting;
           var c = this.componenteContactos.listaContactoUsuario();
+
           this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
             this.componenteEventos.gridApi.setRowData(a);
             this.componenteEventos.listaEventos = [...a];
