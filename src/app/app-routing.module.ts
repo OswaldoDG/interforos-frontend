@@ -59,6 +59,7 @@ import { InvitarAgenteComponent } from './components/common/invitar-agente/invit
 import { PagesModeloGuard } from './services/guards/pagesModelo-guard';
 import { PagesStaffGuard } from './services/guards/pagesStaff-guard';
 import { PagesRevisorGuard } from './services/guards/pagesRevisor-guard';
+import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -66,6 +67,11 @@ const routes: Routes = [
     path: 'staff',
     component: PromodelStaffComponent,
     canActivate: [PagesStaffGuard],
+  },
+  {
+    path: 'revisor',
+    component: PromodelRevisorComponent,
+    canActivate: [PagesRevisorGuard],
   },
   {
     path: 'castings',

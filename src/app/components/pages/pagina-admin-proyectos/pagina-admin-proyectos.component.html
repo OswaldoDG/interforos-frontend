@@ -19,6 +19,7 @@
       <p class="loading">...</p>
     </ngx-spinner>
     <div class="container">
+      <div *ngIf="staff || admin">
       <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12 col-sm-12 p-3">
           <button
@@ -42,7 +43,7 @@
           />
         </div>
       </div>
-
+    </div>
 
 
 

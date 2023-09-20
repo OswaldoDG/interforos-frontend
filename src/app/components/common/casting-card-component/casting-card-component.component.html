@@ -1,15 +1,22 @@
 <div class="card">
   <div class="card-header">
     <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
-      <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="!esRevisor">
+      <div
+        class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+        *ngIf="!esRevisor"
+      >
         <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="esStaff || esAdmin">
           <div class="m-1">
-            <button class="btn btn-light btn-sm" (click)="confirmar()">{{'proyectos.eliminar' | translate}}</button>
+            <button class="btn btn-light btn-sm" (click)="confirmar()">
+              {{ "proyectos.eliminar" | translate }}
+            </button>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6  6 col-sm-6" *ngIf="esStaff || esAdmin">
+        <div class="col-lg-6 col-md-6 6 col-sm-6" *ngIf="esStaff || esAdmin">
           <div class="m-1">
-            <button class="btn btn-light btn-sm" (click)="editarCasting()">{{'proyectos.edita' | translate }}</button>
+            <button class="btn btn-light btn-sm" (click)="editarCasting()">
+              {{ "proyectos.edita" | translate }}
+            </button>
           </div>
         </div>
       </div>
@@ -17,76 +24,84 @@
   </div>
 
   <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
-    <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
-      <div
-        class="responsive"
-      >
-        <img [src]="urlImage" class="responsive"/>
+    <div
+      class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+    >
+      <div class="responsive">
+        <img [src]="urlImage" class="responsive" />
       </div>
     </div>
   </div>
 
   <div class="card-header text-center">
-    <h6>{{'proyectos.form-nombreCategoria' | translate}} {{Casting.nombre}}</h6>
+    <h6>
+      {{ "proyectos.form-nombreCategoria" | translate }} {{ Casting.nombre }}
+    </h6>
   </div>
 
   <div class="card-body text-center">
     <div class="hideScroll">
       <table class="table">
-        <tbody >
+        <tbody>
           <tr>
-            <th scope="row">{{'proyectos.tabla-Cliente'|translate}}</th>
-            <td>{{Casting.nombreCliente}}</td>
+            <th scope="row">{{ "proyectos.tabla-Cliente" | translate }}</th>
+            <td>{{ Casting.nombreCliente }}</td>
           </tr>
           <tr>
-            <th scope="row">{{'proyectos.tabla-Apertura'|translate}}</th>
-            <td>{{Casting.fechaApertura}}</td>
+            <th scope="row">{{ "proyectos.tabla-Apertura" | translate }}</th>
+            <td>{{ Casting.fechaApertura }}</td>
           </tr>
           <tr>
-            <th scope="row">{{'proyectos.tabla-Cierre'|translate}}</th>
-            <td>{{Casting.fechaCierre}}</td>
+            <th scope="row">{{ "proyectos.tabla-Cierre" | translate }}</th>
+            <td>{{ Casting.fechaCierre }}</td>
           </tr>
           <tr>
-            <th scope="row">{{'proyectos.tabla-AceptaAutoInscripcion'|translate}}</th>
+            <th scope="row">
+              {{ "proyectos.tabla-AceptaAutoInscripcion" | translate }}
+            </th>
             <td>
               <ng-container *ngIf="Casting.aceptaAutoInscripcion; else otro">
-                <i class="bi bi-check-lg" style="font-size: 20px;"></i>
+                <i class="bi bi-check-lg" style="font-size: 20px"></i>
               </ng-container>
               <ng-template #otro>
-                <i class="bi bi-x" style="font-size: 30px;"></i>
+                <i class="bi bi-x" style="font-size: 30px"></i>
               </ng-template>
             </td>
           </tr>
           <tr>
-            <th scope="row">{{'proyectos.tabla-Activo'|translate}}</th>
+            <th scope="row">{{ "proyectos.tabla-Activo" | translate }}</th>
             <td>
               <ng-container *ngIf="Casting.activo; else otro">
-                <i class="bi bi-check-lg" style="font-size: 20px;"></i>
+                <i class="bi bi-check-lg" style="font-size: 20px"></i>
               </ng-container>
               <ng-template #otro>
-                <i class="bi bi-x" style="font-size: 30px;"></i>
+                <i class="bi bi-x" style="font-size: 30px"></i>
               </ng-template>
             </td>
           </tr>
           <tr>
-            <th scope="row">{{'proyectos.tabla-AperturaAutomatica'|translate}}</th>
+            <th scope="row">
+              {{ "proyectos.tabla-AperturaAutomatica" | translate }}
+            </th>
             <td>
               <ng-container *ngIf="Casting.aperturaAutomatica; else otro">
-                <i class="bi bi-check-lg" style="font-size: 20px;"></i>
+                <i class="bi bi-check-lg" style="font-size: 20px"></i>
               </ng-container>
               <ng-template #otro>
-                <i class="bi bi-x" style="font-size: 30px;"></i>
+                <i class="bi bi-x" style="font-size: 30px"></i>
               </ng-template>
             </td>
           </tr>
           <tr>
-            <th scope="col">{{'proyectos.tabla-CierreAutomatico'|translate}}</th>
+            <th scope="col">
+              {{ "proyectos.tabla-CierreAutomatico" | translate }}
+            </th>
             <td>
               <ng-container *ngIf="Casting.cierreAutomatico; else otro">
-                <i class="bi bi-check-lg" style="font-size: 20px;"></i>
+                <i class="bi bi-check-lg" style="font-size: 20px"></i>
               </ng-container>
               <ng-template #otro>
-                <i class="bi bi-x" style="font-size: 30px;"></i>
+                <i class="bi bi-x" style="font-size: 30px"></i>
               </ng-template>
             </td>
           </tr>
@@ -95,33 +110,80 @@
     </div>
   </div>
   <div class="textResponsive card-header text-center">
-    <h6>{{'proyectos.tabla-cambiar-estado' | translate}} {{estadoCasting}}</h6>
+    <h6>
+      {{ "proyectos.tabla-cambiar-estado" | translate }} {{ estadoCasting }}
+    </h6>
   </div>
-  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
-    <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex" *ngIf="esRevisor == false">
+  <div
+    class="d-block card-body col-lg-12 col-md-12 col-sm-12"
+    *ngIf="esStaff || esAdmin"
+  >
+    <div
+      class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+      *ngIf="!esRevisor"
+    >
       <div class="m-1">
-        <select    class="btn btn-primary" [(ngModel)]="valoresdisponibles" (change)="btnActivar()">
-          <option  class="deplegable" value="{{'proyectos.casting-estado-EnEdicion' | translate}}">{{'proyectos.casting-estado-EnEdicion' | translate}}</option>
-          <option  class="deplegable" value="{{'proyectos.casting-estado-Abierto' | translate}}">{{'proyectos.casting-estado-Abierto' | translate}}</option>
-          <option  class="deplegable" value="{{'proyectos.casting-estado-Cerrado' | translate}}">{{'proyectos.casting-estado-Cerrado' | translate}}</option>
-          <option  class="deplegable" value="{{'proyectos.casting-estado-Cancelado' | translate}}">{{'proyectos.casting-estado-Cancelado' | translate}}</option>
+        <select
+          class="btn btn-primary"
+          [(ngModel)]="valoresdisponibles"
+          (change)="btnActivar()"
+        >
+          <option
+            class="deplegable"
+            value="{{ 'proyectos.casting-estado-EnEdicion' | translate }}"
+          >
+            {{ "proyectos.casting-estado-EnEdicion" | translate }}
+          </option>
+          <option
+            class="deplegable"
+            value="{{ 'proyectos.casting-estado-Abierto' | translate }}"
+          >
+            {{ "proyectos.casting-estado-Abierto" | translate }}
+          </option>
+          <option
+            class="deplegable"
+            value="{{ 'proyectos.casting-estado-Cerrado' | translate }}"
+          >
+            {{ "proyectos.casting-estado-Cerrado" | translate }}
+          </option>
+          <option
+            class="deplegable"
+            value="{{ 'proyectos.casting-estado-Cancelado' | translate }}"
+          >
+            {{ "proyectos.casting-estado-Cancelado" | translate }}
+          </option>
         </select>
       </div>
       <div class="m-1">
-        <button type="button" class="btn btn-primary" (click)="cambiarEstado()" [disabled]="disable">{{'proyectos.tabla-cambiar' | translate}}</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="cambiarEstado()"
+          [disabled]="disable"
+        >
+          {{ "proyectos.tabla-cambiar" | translate }}
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12" *ngIf="esRevisor == true">
-    <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
+  <div
+    class="d-block card-body col-lg-12 col-md-12 col-sm-12"
+    *ngIf="esRevisor == true"
+  >
+    <div
+      class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+    >
       <div class="m-1">
-        <button type="button" class="btn btn-primary" (click)="colaborar()">{{'proyectos.tabla-colaborar' | translate}} <i class="bi bi-chevron-compact-right"></i></button>
+        <button type="button" class="btn btn-primary" (click)="colaborar()">
+          {{ "proyectos.tabla-colaborar" | translate }}
+          <i class="bi bi-chevron-compact-right"></i>
+        </button>
       </div>
     </div>
   </div>
 
   <app-modal-eliminar-casting
-  (modalConfirm)="recibidoDelModal($event)"
+    (modalConfirm)="recibidoDelModal($event)"
   ></app-modal-eliminar-casting>
 </div>
