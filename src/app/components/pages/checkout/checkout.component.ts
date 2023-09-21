@@ -12,7 +12,7 @@ export class CheckoutComponent implements OnInit {
     ngOnInit(): void {
         this.resetOption = [this.options[0]];
     }
-    
+
     pageTitleContent = [
         {
             title: 'Checkout',
