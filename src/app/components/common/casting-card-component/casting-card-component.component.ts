@@ -19,6 +19,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 import { ModalEliminarCastingComponent } from '../modal-eliminar-casting/modal-eliminar-casting.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-casting-card-component',
@@ -44,6 +45,7 @@ export class CastingCardComponentComponent implements OnInit {
     private translate: TranslateService,
     private toastService: HotToastService,
     private servicio: SessionQuery,
+    private spinner: NgxSpinnerService,
     private ruta: Router
   ) {}
 
@@ -89,10 +91,12 @@ export class CastingCardComponentComponent implements OnInit {
 
   // Auxiliares UI
   recibidoDelModal(r: string) {
+    this.spinner.show('loadCastings');
     if (r == 'Y') {
       this.clientApi.castingDelete(this.Casting.id).subscribe(
         (e) => {
           this.refrescarCast.emit('Y');
+          this.spinner.hide('loadCastings');
           this.toastService.success(
             this.T['proyectos.succes-mensaje-eliminacion'],
             {
@@ -101,6 +105,7 @@ export class CastingCardComponentComponent implements OnInit {
           );
         },
         (err) => {
+          this.spinner.hide('loadCastings');
           this.toastService.error(
             this.T['proyectos.error-mensaje-eliminacion'],
             { position: 'bottom-center' }
@@ -118,6 +123,7 @@ export class CastingCardComponentComponent implements OnInit {
   }
 
   refrescarCasting() {
+    this.spinner.show('loadCastings');
     this.clientApi.id(this.Casting.id).subscribe((e) => {
       const mapeo: CastingListElement = {
         id: e.id,
@@ -134,10 +140,12 @@ export class CastingCardComponentComponent implements OnInit {
       };
 
       this.Casting = mapeo;
+      this.spinner.hide('loadCastings');
     });
   }
 
   cambiarEstado() {
+    this.spinner.show('loadCastings');
     switch (this.valoresdisponibles) {
       case this.T['proyectos.casting-estado-EnEdicion']:
         this.valoresdisponibles = EstadoCasting.EnEdicion;
@@ -156,6 +164,7 @@ export class CastingCardComponentComponent implements OnInit {
       .estadocasting(this.Casting.id, this.valoresdisponibles)
       .subscribe((e) => {
         this.clientApi.id(this.Casting.id).subscribe((e) => {
+          this.spinner.hide('loadCastings');
           this.estadoCasting = this.T['proyectos.casting-estado-' + e.status];
         });
       });

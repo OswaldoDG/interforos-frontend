@@ -11,6 +11,7 @@ import {
 import {GridApi,} from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { SessionQuery } from 'src/app/state/session.query';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-pagina-admin-proyectos',
@@ -30,7 +31,8 @@ admin :boolean=false;
   constructor(
     private castingClient: CastingClient,
     private ruta: Router, private translate: TranslateService,
-    private session:SessionQuery
+    private session:SessionQuery,
+    private spinner: NgxSpinnerService,
   ) {
   }
 
@@ -46,14 +48,16 @@ admin :boolean=false;
     ]).subscribe((ts) => {
       this.T = ts;
     });
-
-
   }
 
   ngAfterViewInit(): void {
-    console.log('si lo hace');
+    this.spinner.show('loadCastings');
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
+      this.spinner.hide('loadCastings');
+
+    },(err) => {
+      this.spinner.hide('loadCastings');
     });
   }
 
