@@ -51,14 +51,18 @@ export class CastigReviewComponent implements OnInit {
   public modelosCategoriaActual(id: string) {
     const modelos: Persona[] = [];
     var indexC = this.casting.categorias.findIndex((c) => c.id == id);
-    this.casting.categorias[indexC].modelos.forEach((m) => {
-      this.personaClient.idGet(m).subscribe((p) => {
-        if (p) {
-          modelos.push(p);
-        }
-        this.procesaPersonas(modelos);
+    if (this.casting.categorias[indexC].modelos.length > 0) {
+      this.casting.categorias[indexC].modelos.forEach((m) => {
+        this.personaClient.idGet(m).subscribe((p) => {
+          if (p) {
+            modelos.push(p);
+          }
+          this.procesaPersonas(modelos);
+        });
       });
-    });
+    } else {
+      this.personasDesplegables = [];
+    }
   }
 
   procesaPersonas(personas: any) {

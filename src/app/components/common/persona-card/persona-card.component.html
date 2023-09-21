@@ -1,10 +1,4 @@
-<div
-  *ngIf="
-    (direccionVertical == true && tipoBusqueda == true) ||
-      (direccionVertical == true && tipoBusqueda == false);
-    else elseTemplate
-  "
->
+<div *ngIf="modoStaff; else elseTemplate">
   <div class="col-lg-12 col-md-12 col-sm-12 pt-2">
     <app-voto-modelo-component
       class="d-block"
@@ -323,10 +317,10 @@
 
 <!-- MODO -->
 <ng-template #elseTemplate>
-  <div *ngIf="direccionVertical == false && tipoBusqueda == false">
+  <div *ngIf="modoRevisor">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-10 col-md-10 col-sm-10">
           <div class="row">
             <app-voto-modelo-component
               [personaId]="persona.id"
@@ -335,15 +329,15 @@
             </app-voto-modelo-component>
           </div>
         </div>
-        <div class="d-flex col-lg-12 col-md-12 col-sm-12">
-          <div class="col-lg-12 col-md-12 col-sm-12 m-1" *ngIf="mostrarAvatar">
+        <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
+          <div class="col-lg-10 col-md-10 col-sm-10 m-1" *ngIf="mostrarAvatar">
             <div class="card" style="height: 250px">
               <div class="card-header">
                 <h5>{{ "revisor-casting.perfil" | translate }}</h5>
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm12">
+                  <div class="col-lg-5 col-md-5 col-sm12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                       <div class="user-profile">
                         <div class="d-flex align-items-center">
@@ -371,251 +365,19 @@
                           </p>
                         </div>
                       </div>
-                      <div
-                        class="col-12 d-flex align-items-center justify-content-center"
-                        style="height: 100px; min-height: 120px"
-                      >
-                        <div *ngIf="imagenes.length > 0" class="col-lg-12">
-                          <ng-image-slider
-                            [images]="imagenes"
-                            #nav
-                            slideImage="1"
-                            [manageImageRatio]="true"
-                            [infinite]="false"
-                            [autoSlide]="1"
-                            [lazyLoading]="true"
-                            [imageSize]="configCarousel"
-                          >
-                          </ng-image-slider>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-lg-8 col-md-8 col-sm-8 m-1"
-                  *ngIf="mostrarGenerales"
-                >
-                  <div class="card" style="height: 250px; overflow-y: auto">
-                    <div class="card-header">
-                      <h5>{{ "revisor-casting.generales" | translate }}</h5>
-                    </div>
-                    <div class="card-body">
-                      <div class="user-contact-info">
-                        <table>
-                          <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{ "modelo.perfil-nacionalidad" | translate }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              {{ persona.paisOrigenId }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{ "modelo.perfil-pais-residencia" | translate }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              {{ persona.paisActualId }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{
-                                "modelo.perfil-estado-residencia" | translate
-                              }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              {{ persona.estadoPaisId }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{ "modelo.perfil-extranjero" | translate }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              <span *ngIf="persona.extranjero">{{
-                                "comun.si" | translate
-                              }}</span>
-                              <span *ngIf="!persona.extranjero">{{
-                                "comun.no" | translate
-                              }}</span>
-                            </td>
-                          </tr>
-                          <tr *ngIf="persona.extranjero">
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{ "modelo.perfil-permisotrabajo" | translate }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              <span *ngIf="persona.permisoTrabajo">{{
-                                "comun.si" | translate
-                              }}</span>
-                              <span *ngIf="!persona.permisoTrabajo">{{
-                                "comun.no" | translate
-                              }}</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
-                              {{ "modelo.perfil-idiomas" | translate }}
-                            </td>
-                            <td class="ps-2 fw-light">
-                              <span *ngFor="let a of persona.idiomasIds"
-                                >{{ a }}&nbsp;</span
-                              >
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-lg-6 col-md-6 col-sm-6 m-1"
-                  *ngIf="mostrarContacto"
-                >
-                  <div class="card" style="height: 250px">
-                    <div class="card-header">
-                      <h5>{{ "revisor-casting.contacto" | translate }}</h5>
-                    </div>
-                    <div class="card-body" style="overflow-y: auto">
-                      <div class="user-contact-info">
-                        <ul class="user-contact">
-                          <li *ngIf="persona.contacto?.telefono">
-                            <a href="#"
-                              ><i class="bx bx-phone-call"></i>
-                              {{ persona.contacto?.telefono }}</a
-                            >
-                          </li>
-                          <li *ngIf="persona.contacto?.email">
-                            <a href="#"
-                              ><i class="bx bx-envelope"></i>
-                              {{ persona.contacto?.email }}</a
-                            >
-                          </li>
-                          <li *ngIf="persona.contacto?.direccion">
-                            <a href="#"
-                              ><i class="bx bx-map"></i>
-                              <span style="text-align: justify">{{
-                                persona.contacto?.direccion
-                              }}</span>
-                            </a>
-                          </li>
-                        </ul>
-
-                        <ul class="social-profiles">
-                          <li *ngIf="persona.contacto?.faceBook">
-                            <a href="#"
-                              ><i class="bx bxl-facebook"></i>
-                              <span style="text-align: justify">{{
-                                persona.contacto?.faceBook
-                              }}</span>
-                            </a>
-                          </li>
-
-                          <li *ngIf="persona.contacto?.twitter">
-                            <a href="#"
-                              ><i class="bx bxl-twitter"></i>
-                              <span style="text-align: justify">{{
-                                persona.contacto?.twitter
-                              }}</span>
-                            </a>
-                          </li>
-
-                          <li *ngIf="persona.contacto?.instagram">
-                            <a href="#"
-                              ><i class="bx bxl-instagram"></i>
-                              <span style="text-align: justify">{{
-                                persona.contacto?.instagram
-                              }}</span>
-                            </a>
-                          </li>
-
-                          <li *ngIf="persona.contacto?.linkedIn">
-                            <a href="#"
-                              ><i class="bx bxl-linkedin"></i>
-                              <span style="text-align: justify">{{
-                                persona.contacto?.linkedIn
-                              }}</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-lg-8 col-md-8 col-sm-8 m-1"
-                  *ngIf="mostrarHabilidades"
-                >
-                  <div class="card" style="height: 250px">
-                    <div class="card-header">
-                      <h5>{{ "revisor-casting.habilidades" | translate }}</h5>
-                    </div>
-                    <div class="card-body" style="overflow-y: auto">
-                      <div class="user-contact-info">
-                        <ul class="user-contact">
-                          <tr>
-                            <td class="ps-2 fw-light">
-                              <div class="scrollcontenedor">
-                                <p
-                                  *ngFor="let a of persona.actividadesIds"
-                                  style="
-                                    font-family: Arial, Helvetica, sans-serif;
-                                  "
-                                >
-                                  &#8226; {{ a | titlecase }}
-                                </p>
-                              </div>
-                            </td>
-                          </tr>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-lg-8 col-md-8 col-sm-8 m-1"
-                  *ngIf="tipoBusqueda == false && direccionVertical == false"
-                >
-                  <div class="card" style="height: 250px">
-                    <div class="card-header">
-                      <h5>{{ "revisor-casting.comentarios" | translate }}</h5>
-                    </div>
-                    <div class="card-body">
-                      <app-comentario-persona-casting
-                        [personaId]="persona.id"
-                      ></app-comentario-persona-casting>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-3 m-1" *ngIf="mostrarGaleria">
+
+          <div class="col-lg-7 col-md-7 col-sm-4 m-1" *ngIf="mostrarGaleria">
             <div class="card" style="height: 250px">
               <div class="card-header">
                 <h5>{{ "revisor-casting.galeria" | translate }}</h5>
               </div>
-              <div class="card-body" style="overflow-y: auto">
+              <div style="overflow-y: auto">
                 <div
                   *ngIf="imagenes.length == 0"
                   class="col-lg-12 col-md-12 col-sm-12 align-items-center justify-content-center"
@@ -623,12 +385,12 @@
                   <div
                     class="col-12 d-flex align-items-center justify-content-center"
                   >
-                    No hay elementos de galería
+                    <h6>{{ "revisor-casting.galeria-vacia" | translate }}</h6>
                   </div>
                 </div>
                 <div
                   class="col-12 d-flex align-items-center justify-content-center"
-                  style="height: 100px; min-height: 120px"
+                  style="height: 80%; min-height: 120px; width: 100%"
                 >
                   <div *ngIf="imagenes.length > 0" class="col-lg-12">
                     <ng-image-slider
@@ -647,12 +409,13 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-8 col-md-8 col-sm-8 m-1" *ngIf="mostrarGenerales">
+
+          <div class="col-lg-9 col-md-9 col-sm-9 m-1" *ngIf="mostrarGenerales">
             <div class="card" style="height: 250px; overflow-y: auto">
               <div class="card-header">
                 <h5>{{ "revisor-casting.generales" | translate }}</h5>
               </div>
-              <div class="card-body">
+              <div class="card-body" style="overflow-y: auto">
                 <div class="user-contact-info">
                   <table>
                     <tr>
@@ -738,7 +501,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 m-1" *ngIf="mostrarContacto">
+          <div class="col-lg-7 col-md-7 col-sm-7 m-1" *ngIf="mostrarContacto">
             <div class="card" style="height: 250px">
               <div class="card-header">
                 <h5>{{ "revisor-casting.contacto" | translate }}</h5>
@@ -822,7 +585,7 @@
                   <ul class="user-contact">
                     <tr>
                       <td class="ps-2 fw-light">
-                        <div class="scrollcontenedor">
+                        <div>
                           <p
                             *ngFor="let a of persona.actividadesIds"
                             style="font-family: Arial, Helvetica, sans-serif"
@@ -838,14 +601,14 @@
             </div>
           </div>
           <div
-            class="col-lg-8 col-md-8 col-sm-8 m-1"
+            class="col-lg-10 col-md-10 col-sm-10 m-1"
             *ngIf="tipoBusqueda == false && direccionVertical == false"
           >
             <div class="card" style="height: 250px">
               <div class="card-header">
                 <h5>{{ "revisor-casting.comentarios" | translate }}</h5>
               </div>
-              <div class="card-body">
+              <div >
                 <app-comentario-persona-casting
                   [personaId]="persona.id"
                 ></app-comentario-persona-casting>

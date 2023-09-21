@@ -367,6 +367,7 @@
   "revisor-casting":{
     "perfil": "Modelo",
     "galeria": "Galería",
+    "galeria-vacia":"No hay elementos de galería",
     "contacto": "Contacto",
     "habilidades": "Habilidades",
     "generales": "Generales",

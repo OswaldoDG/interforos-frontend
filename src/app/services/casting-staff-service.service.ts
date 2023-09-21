@@ -64,6 +64,11 @@ export class CastingStaffServiceService {
     return this.categoriaSub.asObservable();
   }
 
+  private calcularTotalesSub: Subject<boolean> = new Subject();
+  public CalcularTotalesSub(): Observable<boolean> {
+    return this.calcularTotalesSub.asObservable();
+  }
+
   //Trae los votos, del modelo.
   public traerVotosModelo(modeloId: string): VotoModeloMapeo[] {
     this.votos = [];
@@ -100,6 +105,7 @@ export class CastingStaffServiceService {
       this.casting.categorias[indexC].votos = this.votos;
       this.categoriaSub.next(this.categoriaActual);
     }
+    this.calcularTotalesSub.next(true);
   }
 
   //devulve los comentarios en una categoria de un modelo ordenadosde manera decendente
