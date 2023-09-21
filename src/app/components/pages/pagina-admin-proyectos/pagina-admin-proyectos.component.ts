@@ -39,10 +39,6 @@ admin :boolean=false;
     var  roles: string[] = this.session.GetRoles
     this.staff=roles.indexOf(TipoRolCliente.Staff.toLocaleLowerCase())>=0;
     this.admin=roles.indexOf(TipoRolCliente.Administrador.toLocaleLowerCase())>=0;
-    this.castingClient.castingGet(true).subscribe((data) => {
-      this.casting = data;
-    });
-
     this.translate
     .get([
       'proyectos.casting-estado-ok',
@@ -53,6 +49,14 @@ admin :boolean=false;
 
 
   }
+
+  ngAfterViewInit(): void {
+    console.log('si lo hace');
+    this.castingClient.castingGet(true).subscribe((data) => {
+      this.casting = data;
+    });
+  }
+
 
   doQuery(query: BuscarProyectoDTO) {
     console.log(query);
