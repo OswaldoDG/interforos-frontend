@@ -23,7 +23,6 @@ export class ResumenVotoModeloComponent implements OnInit {
   constructor(private servicio : CastingStaffServiceService) { }
 
   ngOnInit(): void {
-    console.log(this.personaId);
     this.actualizarTabla();
     this.servicio.CategoriaSub().subscribe((v) => {
       if(v){
@@ -35,7 +34,6 @@ export class ResumenVotoModeloComponent implements OnInit {
   actualizarTabla() {
     this.mapeoVotos = [];
     if(this.servicio.personaEnCategoria(this.personaId)>=0){
-      console.log('entro aqui');
       this.votoMap = this.servicio.traerVotosModelo(this.personaId);
       const totales = {
           No: 0,
@@ -43,9 +41,7 @@ export class ResumenVotoModeloComponent implements OnInit {
           Si: 0,
           Mucho: 0
       };
-      console.log(this.votoMap);
       this.votoMap.forEach(voto => {
-        console.log(voto);
           const nivelLike = voto.nivelLike;
           const mapeoVoto: MapeoVoto = {
               usuarioId: this.servicio.nombreUsuarioId(voto.usuarioId),
@@ -54,10 +50,7 @@ export class ResumenVotoModeloComponent implements OnInit {
               Si: nivelLike === 2 ? "1" : null,
               Mucho: nivelLike === 3 ? "1" : null
           };
-          console.log(this.servicio.nombreUsuarioId(voto.usuarioId))
-          console.log(mapeoVoto);
           this.mapeoVotos.push(mapeoVoto);
-          console.log(this.mapeoVotos);
           switch(nivelLike){
             case 0:
               totales.No++;
@@ -82,7 +75,6 @@ export class ResumenVotoModeloComponent implements OnInit {
           Mucho: totales.Mucho.toString()
       };
       this.mapeoVotos.push(totalesRow);
-      console.log(this.mapeoVotos);
     }
   }
 }

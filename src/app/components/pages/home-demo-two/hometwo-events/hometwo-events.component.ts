@@ -23,7 +23,6 @@ export class HometwoEventsComponent implements OnInit {
         this.castingsActuales = data.slice(1, data.length);
         this.castingPrincipal = data[0];
         this.hayCasting = true;
-        console.log(data);
       }
     });
   }

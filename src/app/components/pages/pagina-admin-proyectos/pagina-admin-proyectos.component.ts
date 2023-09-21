@@ -51,15 +51,9 @@ admin :boolean=false;
   }
 
   ngAfterViewInit(): void {
-    console.log('si lo hace');
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
     });
-  }
-
-
-  doQuery(query: BuscarProyectoDTO) {
-    console.log(query);
   }
 
   creaProyecto() {

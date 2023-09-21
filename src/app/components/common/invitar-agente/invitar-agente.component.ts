@@ -74,9 +74,7 @@ export class InvitarAgenteComponent implements OnInit {
           rol : TipoRolCliente.Agencia,
           agenciaId: agenciaId.clave
         }
-        console.log(usuarioAgencia);
         this.registro.registroPost(usuarioAgencia).subscribe((data) => {
-          console.log(data);
           this.toastService.success(this.T['invitar-agente.invitar-correos-enviados'], { position: 'bottom-center'});
         },(err) => {this.toastService.error(this.T['invitar-agente.invitar-correos-error'], { position: 'bottom-center'}); });
       });
