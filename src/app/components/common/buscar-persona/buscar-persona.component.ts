@@ -17,6 +17,7 @@ import {
   BusquedaPersonasRequestPaginado,
   CastingClient,
   ElementoCatalogo,
+  ModeloOrdenable,
   Persona,
   PersonaClient,
   PersonaResponsePaginado,
@@ -170,15 +171,15 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         (_) => _.id == this.formBuscarCasting.get('categorias').value
       );
       if (categoria != undefined) {
-        categoria.modelos.forEach((id) => {
-          personas.push(id);
+        categoria.modelos.forEach((p) => {
+          personas.push(p.id);
         });
       }
     } else {
       this.categorias.forEach((categoria) => {
         categoria.modelos.forEach((m) => {
-          if (!personas.includes(m)) {
-            personas.push(m);
+          if (!personas.includes(m.id)) {
+            personas.push(m.id);
           }
         });
       });

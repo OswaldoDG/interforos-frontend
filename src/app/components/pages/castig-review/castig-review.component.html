@@ -6,7 +6,7 @@
       <div class="col-lg-6 col-md-12 col-sm-12 pt-4">
         <h1>{{ casting.nombre }}</h1>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12">
+      <div class="col-lg-3 col-md-12 col-sm-12">
         <label>{{ "buscar.categorias" | translate }}</label>
         <select
           class="form-select"
@@ -14,15 +14,28 @@
           aria-label="Default select example"
           (change)="onChangeCategoria($event.target.value)"
         >
-          <ng-container *ngIf="casting.categorias.length > 0">
-            <option
-              *ngFor="let categoria of casting.categorias"
-              [value]="categoria.id"
-            >
-              {{ categoria.nombre }}
-            </option>
-          </ng-container>
+          <option
+            *ngFor="let categoria of categoriasSelect"
+            [value]="categoria.id"
+          >
+            {{ categoria.nombre }}
+          </option>
         </select>
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <label>{{ "buscar.ordenar" | translate }}</label>
+        <div class="input-group">
+          <select
+            class="form-select"
+            id="ordenarPor"
+            [(value)]="orden"
+            (change)="ordenChange($event.target.value)"
+          >
+            <option *ngFor="let item of ordenModelos" [value]="item">
+              {{ "revisor-casting.ordenar-" + item | translate }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
     <div *ngIf="personasDesplegables.length > 0">
@@ -77,3 +90,12 @@
     </div>
   </div>
 </ng-template>
+
+<ngx-spinner
+  name="http"
+  [fullScreen]="true"
+  type="ball-scale-multiple"
+  size="medium"
+>
+  <p class="loading">...</p>
+</ngx-spinner>

@@ -7,7 +7,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
+import {
+  CastingClient,
+  ModeloOrdenable,
+  Persona,
+  TipoRelacionPersona,
+} from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
@@ -109,6 +114,7 @@ export class PersonaCardComponent implements OnInit {
       });
 
     this.servicio.CategoriaSub().subscribe((e) => {
+      console.log("New categoria")
       this.validarExiste();
     });
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
@@ -146,7 +152,13 @@ export class PersonaCardComponent implements OnInit {
             this.servicio.CategoriActual()
           )
           .subscribe((d) => {
-            this.servicio.agregarModelo(id, this.servicio.CategoriActual());
+            const modelo: ModeloOrdenable = {
+              id: id,
+              calificacion: 0,
+              exclusivo: false,
+              relacion:TipoRelacionPersona.Yo,
+            };
+            this.servicio.agregarModelo(modelo, this.servicio.CategoriActual());
             this.enCategoria = !this.enCategoria;
           });
       } else {

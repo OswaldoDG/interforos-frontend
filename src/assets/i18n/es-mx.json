@@ -371,7 +371,10 @@
     "contacto": "Contacto",
     "habilidades": "Habilidades",
     "generales": "Generales",
-    "comentarios": "Comentarios"
+    "comentarios": "Comentarios",
+    "ordenar-alfabetico":"Alfabetico",
+    "ordenar-mayor":"Mayor Calificaión",
+    "ordenar-menor":"Menor Calificaión"
   },
   "invitar-agente":{
     "invitar-agente-invitaciones" :"Crear Invitaciones",

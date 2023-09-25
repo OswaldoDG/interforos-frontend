@@ -59,13 +59,9 @@ export class VotoModeloComponentComponent implements OnInit {
         this.voto();
       }
     });
-    this.servicio.CategoriaSub().subscribe((c) => {
+    this.servicio.CalcularTotalesSub().subscribe((c) => {
       if (c) {
-        this.servicio.CalcularTotalesSub().subscribe((c) => {
-          if (c) {
-            this.totales();
-          }
-        });
+        this.totales();
       }
     });
   }
@@ -122,6 +118,7 @@ export class VotoModeloComponentComponent implements OnInit {
   totales() {
     if (this.servicio.personaEnCategoria(this.personaId) >= 0) {
       this.votoMap = this.servicio.traerVotosModelo(this.personaId);
+      console.log(this.votoMap)
       const totales = {
         No: 0,
         Nose: 0,

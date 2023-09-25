@@ -3,6 +3,7 @@ import {
   CatalogoBase,
   ClienteView,
   ComentarioCategoriaModeloCasting,
+  ModeloOrdenable,
   Persona,
   PersonaClient,
   SelectorCastingCategoria,
@@ -13,6 +14,8 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
 import { CatalogosCliente } from '../modelos/locales/catalogos-cliente';
+import { first } from 'rxjs/operators';
+import { Serializer } from '@angular/compiler';
 
 export interface MapeoVoto {
   usuarioId?: string | undefined;
@@ -62,6 +65,11 @@ export class CastingStaffServiceService {
   private categoriaSub: Subject<string> = new Subject();
   public CategoriaSub(): Observable<string> {
     return this.categoriaSub.asObservable();
+  }
+
+  private personasSub: Subject<Persona[]> = new Subject();
+  public PersonaSub(): Observable<Persona[]> {
+    return this.personasSub.asObservable();
   }
 
   private calcularTotalesSub: Subject<boolean> = new Subject();
@@ -162,7 +170,9 @@ export class CastingStaffServiceService {
         (c) => c.id == this.categoriaActual
       );
 
-      return this.casting.categorias[indexC].modelos.indexOf(idPersona);
+      return this.casting.categorias[indexC].modelos.findIndex(
+        (m) => m.id == idPersona
+      );
     } else {
       return -1;
     }
@@ -173,7 +183,7 @@ export class CastingStaffServiceService {
     const tmp: string[] = [];
     if (this.casting) {
       this.casting.categorias.forEach((c) => {
-        if (c.modelos.indexOf(idPersona) >= 0) {
+        if (c.modelos.findIndex((m) => m.id == idPersona) >= 0) {
           tmp.push(c.id);
         }
       });
@@ -197,14 +207,16 @@ export class CastingStaffServiceService {
     return this.casting.categorias;
   }
   //agregar un modelo
-  public agregarModelo(modeloId: string, categoriaId: string) {
+  public agregarModelo(modelo: ModeloOrdenable, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    this.casting.categorias[indexC].modelos.push(modeloId);
+    this.casting.categorias[indexC].modelos.push(modelo);
   }
   //remueve un modelo
   public removerModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    var indexM = this.casting.categorias[indexC].modelos.indexOf(modeloId);
+    var indexM = this.casting.categorias[indexC].modelos.findIndex(
+      (m) => m.id == modeloId
+    );
     this.casting.categorias[indexC].modelos.splice(indexM, 1);
   }
   //agrega comentario
@@ -373,5 +385,20 @@ export class CastingStaffServiceService {
       }
     });
     return elementos;
+  }
+
+  getPersonasCategoria(): Persona[] {
+    var personas: Persona[] = [];
+
+    var indexC = this.casting.categorias.findIndex(
+      (_) => (_.id = this.CastingIdActual())
+    );
+    if (this.casting.categorias[indexC].modelos.length > 0) {
+      this.casting.categorias[indexC].modelos.forEach((m) => {
+
+        personas.push(this.PersonaDesplegable(m));
+      });
+    }
+    return personas;
   }
 }
