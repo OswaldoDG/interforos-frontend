@@ -1,20 +1,20 @@
 <app-navbar-promodel></app-navbar-promodel>
 
-<ngx-spinner
-  name="spperfil"
-  [fullScreen]="true"
-  type="ball-scale-multiple"
-  size="medium"
->
-  <p class="loading">...</p>
-</ngx-spinner>
 <div class="row pt-5">
+  <ngx-spinner
+    name="spModelos"
+    [fullScreen]="false"
+    type="ball-scale-multiple"
+    size="medium"
+  >
+    <p class="loading">...</p>
+  </ngx-spinner>
   <app-aceptacion-consentimiento
     class="pt-5"
     [LlamarBackend]="LlamarBackend"
     [consentimiento]="consentimiento"
   >
-    <div *ngIf="Editando">
+    <div *ngIf="Editando && !verMedios">
       <div class="row pt-5">
         <div class="col-lg-12 col-md-12 col-sm-12 pt-5">
           <app-datos-persona
@@ -27,6 +27,17 @@
         </div>
       </div>
     </div>
+    <div *ngIf="Editando && verMedios">
+      <div class="row pt-5">
+        <div class="col-lg-12 col-md-12 col-sm-12 pt-5">
+          <app-galeria-model
+            [uid]="uid"
+            (volverMisModelos)="volver($event)"
+          ></app-galeria-model>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="!Editando">
       <div class="container text-center">
         <div class="row pt-5">
@@ -52,6 +63,7 @@
               [tipoBusqueda]="tBusqueda"
               [mostarControlesMisModelos]="mostarControlesMisModelos"
               [modoStaff]="true"
+              (uid)="traerMedios($event)"
             ></app-persona-card>
           </div>
         </div>

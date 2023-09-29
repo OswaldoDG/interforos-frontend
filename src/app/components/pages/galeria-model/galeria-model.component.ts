@@ -1,4 +1,11 @@
-import { Component, InjectionToken, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  InjectionToken,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import {
   FileParameter,
@@ -26,6 +33,8 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
   styleUrls: ['./galeria-model.component.scss'],
 })
 export class GaleriaModelComponent implements OnInit {
+  @Output() volverMisModelos: EventEmitter<string> = new EventEmitter();
+  @Input() uid: string = undefined;
   blogGrid: number = 1;
   working = false;
   uploadFile: File | null;
@@ -36,7 +45,7 @@ export class GaleriaModelComponent implements OnInit {
   T: any;
   fotos: ElementoMediaView[] = [];
   imageObject: Array<object> = [];
-  mediaCliente : MediaCliente;
+  mediaCliente: MediaCliente;
   datosimagen: FormGroup;
   contenido = {
     titulo: '',
@@ -58,7 +67,7 @@ export class GaleriaModelComponent implements OnInit {
 
   ngOnInit(): void {
     this.personaApi
-      .activos()
+      .activos(this.uid)
       .pipe(first())
       .subscribe((data) => {
         this.castingsActuales = data;
@@ -74,7 +83,7 @@ export class GaleriaModelComponent implements OnInit {
 
   toLink(e: ElementoMediaCliente): ElementoMediaView {
     const elementoId = e.video ? e.frameVideoId : e.id;
-    if(e.imagen){
+    if (e.imagen) {
       return {
         id: e.id,
         extension: e.extension,
@@ -88,9 +97,9 @@ export class GaleriaModelComponent implements OnInit {
         url: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/full`,
         urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/card`,
       };
-    }else{
-      if(e.video){
-        return{
+    } else {
+      if (e.video) {
+        return {
           id: e.id,
           extension: e.extension,
           mimeType: e.mimeType,
@@ -124,7 +133,7 @@ export class GaleriaModelComponent implements OnInit {
 
   bntPrincipal(id: string) {
     this.apiContenido
-      .principal(id)
+      .principal(this.uid, id)
       .pipe(first())
       .subscribe(
         (e) => {
@@ -154,7 +163,7 @@ export class GaleriaModelComponent implements OnInit {
     }
 
     this.apiContenido
-      .contenidoDelete(id)
+      .contenidoDelete(this.uid, id)
       .pipe(first())
       .subscribe(
         (e) => {
@@ -187,7 +196,7 @@ export class GaleriaModelComponent implements OnInit {
     }
 
     this.apiContenido
-      .bloqueo(id)
+      .bloqueo(this.uid, id)
       .pipe(first())
       .subscribe(
         (e) => {
@@ -278,7 +287,13 @@ export class GaleriaModelComponent implements OnInit {
       data: this.uploadFile,
     };
     this.apiContenido
-      .carga('galeria', formData, this.datosimagen.value.titulo, this.castingId)
+      .carga(
+        this.uid,
+        'galeria',
+        formData,
+        this.datosimagen.value.titulo,
+        this.castingId
+      )
       .pipe(first())
       .subscribe(
         (e) => {
@@ -314,7 +329,7 @@ export class GaleriaModelComponent implements OnInit {
 
   traerMedios() {
     this.apiContenido
-      .mi(this.castingId)
+      .mi(this.uid, this.castingId)
       .pipe(first())
       .subscribe(
         (media) => {
@@ -333,13 +348,15 @@ export class GaleriaModelComponent implements OnInit {
       );
   }
 
-
-
-
   pageTitleContent = [
     {
       title: 'Mis fotos',
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
+
+  volver() {
+    this.volverMisModelos.emit(null);
+    this.uid = undefined;
+  }
 }

@@ -95,7 +95,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
       data: this.uploadFile,
     };
     this.apiContenido
-      .documentacion(this.Documento.id, formData, '', '')
+      .documentacion(null,this.Documento.id, formData, '', '')
       .pipe(first())
       .subscribe(
         (e) => {

@@ -11,6 +11,7 @@ import { ServicioRegistroPersonasService } from 'src/app/services/servicio-regis
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 import { first } from 'rxjs/operators';
 import { SessionQuery } from 'src/app/state/session.query';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registro-personas',
@@ -31,13 +32,16 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   LlamarBackend: boolean = true;
   consentimiento: Consentimiento;
   mostarControlesMisModelos: boolean = true;
+  uid: string = null;
+  verMedios: boolean = false;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
     private servicioPersonas: ServicioRegistroPersonasService,
     private personaApi: PersonaClient,
     private session: SessionQuery,
-    private servicio: CastingStaffServiceService
+    private servicio: CastingStaffServiceService,
+    private spinner: NgxSpinnerService
   ) {
     if (this.session.ConsentimientoAltaModeloAceptado < 0) {
       this.consentimiento = this.session.GetConsentimientoAltaModelo;
@@ -50,19 +54,22 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.servicioPersonas.personaSub().subscribe((p) => {
-      if (p.length > 0) {
-        this.procesaPersonas(p);
-      } else {
-        this.personas = [];
-      }
-    });
-    this.personaApi
-      .perfilpublicoGet(this.session.UserId)
-      .pipe(first())
-      .subscribe((data) => {
-        this.agenciaId = data.agenciaId;
+    this.spinner.show('spModelos');
+    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
+      this.servicioPersonas.personaSub().subscribe((p) => {
+        if (p.length > 0) {
+          this.procesaPersonas(p);
+        } else {
+          this.personas = [];
+        }
       });
+      this.personaApi
+        .perfilpublicoGet(this.session.UserId)
+        .pipe(first())
+        .subscribe((data) => {
+          this.agenciaId = data.agenciaId;
+        });
+    });
   }
   agregarPersona() {
     this.Editando = !this.Editando;
@@ -81,6 +88,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
     this.personaId = p;
     this.miPerfil = false;
     this.Editando = !this.Editando;
+    this.verMedios = false;
   }
 
   confirmar(p) {
@@ -100,14 +108,28 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   }
 
   procesaPersonas(personas: any) {
-    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
-      if (personas != null) {
-        const tmp: Persona[] = [];
-        personas.forEach((p) => {
-          tmp.push(this.servicio.PersonaDesplegable(p));
-        });
-        this.personas = tmp;
-      }
-    });
+    if (personas != null) {
+      const tmp: Persona[] = [];
+      personas.forEach((p) => {
+        tmp.push(this.servicio.PersonaDesplegable(p));
+      });
+      this.personas = tmp;
+      this.spinner.hide('spModelos');
+    }
+  }
+  traerMedios(uid) {
+    this.uid = uid;
+    this.miPerfil = !this.miPerfil;
+    this.Editando = !this.Editando;
+    this.verMedios = !this.verMedios;
+  }
+
+  volver(uid) {
+    this.uid = uid;
+    this.miPerfil = !this.miPerfil;
+    this.Editando = !this.Editando;
+    this.verMedios = !this.verMedios;
+    this.personaId = null;
+    this.servicioPersonas.getPersonasApi();
   }
 }
