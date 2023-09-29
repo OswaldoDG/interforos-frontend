@@ -26,6 +26,7 @@ import {
 export class DocumentoPersonaComponent implements OnInit, OnChanges {
   @Input() Instancias: Documento[] = null;
   @Input() Documento: DocumentoModelo = null;
+  @Input() personaId: string = null;
   @Output() docUploaded: EventEmitter<string> = new EventEmitter();
   uploaded: boolean = false;
   uploadFile: File | null;
@@ -50,7 +51,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.uploaded =
       this.Instancias.findIndex((i) => i.id == this.Documento.id) >= 0;
-
     this.cargaTraducciones();
   }
 
@@ -95,7 +95,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
       data: this.uploadFile,
     };
     this.apiContenido
-      .documentacion(null,this.Documento.id, formData, '', '')
+      .documentacion(this.personaId,this.Documento.id, formData, '', '')
       .pipe(first())
       .subscribe(
         (e) => {
