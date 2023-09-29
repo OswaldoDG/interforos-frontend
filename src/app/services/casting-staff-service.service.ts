@@ -268,10 +268,10 @@ export class CastingStaffServiceService {
   }
 
   PersonaDesplegable(persona: Persona): Persona {
-    const pv = this.personasView.find((p) => p.id == persona.id);
-    if (pv != undefined) {
-      return pv;
-    }
+    // const pv = this.personasView.find((p) => p.id == persona.id);
+    // if (pv != undefined) {
+    //   return pv;
+    // }
 
     var p = { ...persona };
     const cs = this.catalogos.find((c) => c.url == this.cliente.url);
@@ -343,7 +343,7 @@ export class CastingStaffServiceService {
       );
     }
 
-    this.personasView.push({ ...p });
+    // this.personasView.push({ ...p });
     return p;
   }
 

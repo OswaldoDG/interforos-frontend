@@ -25,6 +25,7 @@ export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
+  @Output() uid: EventEmitter<string> = new EventEmitter();
   //Determina si el despliegue debe ser vertial
   @Input() direccionVertical: boolean = true;
   //Determina si la tarjeta se encuentra en una pantalla de búsqueda o en la resivión de modelos
@@ -71,28 +72,33 @@ export class PersonaCardComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
-      if (this.persona?.elementoMedioPrincipalId) {
-        this.avatarUrl = `${environment.apiRoot}/contenido/${this.persona.usuarioId}/${this.persona.elementoMedioPrincipalId}/thumb`;
+      var usuarioFinal = undefined;
+      if (this.persona.usuarioId) {
+        usuarioFinal = this.persona.usuarioId;
+      } else {
+        usuarioFinal = this.persona.id;
       }
-      this.personaService
-        .obtieneMediosPErsona(this.persona.usuarioId)
-        .subscribe((m) => {
-          m.elementos.forEach((e) => {
-            if (e.imagen) {
+
+      if (this.persona?.elementoMedioPrincipalId) {
+        this.avatarUrl = `${environment.apiRoot}/contenido/${usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
+      }
+      this.personaService.obtieneMediosPErsona(usuarioFinal).subscribe((m) => {
+        m.elementos.forEach((e) => {
+          if (e.imagen) {
+            this.imagenes.push({
+              image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
+              thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
+            });
+          } else {
+            if (e.video) {
               this.imagenes.push({
-                image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
-                thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
+                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
+                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
               });
-            } else {
-              if (e.video) {
-                this.imagenes.push({
-                  video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
-                  posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
-                });
-              }
             }
-          });
+          }
         });
+      });
       this.validarExiste();
     }
   }
@@ -179,5 +185,8 @@ export class PersonaCardComponent implements OnInit {
     if (this.persona) {
       this.personaRemover.emit(this.persona.id);
     }
+  }
+  verMedios() {
+    this.uid.emit(this.persona.id);
   }
 }
