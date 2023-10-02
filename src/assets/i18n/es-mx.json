@@ -215,7 +215,8 @@
   "perfil": {
     "t-doctype": ", añada solo documentos PDF o fotos.",
     "t-docs": "Documentación",
-    "t-docs-opcional": " (sólo si aplica)",
+    "t-docs-opcional": " (Sólo si aplica)",
+    "t-docs-obligatorio": " (Obligatorio)",
     "t-docs-enviar": "Enviar",
     "t-general": "Datos generales",
     "t-IdUsuario": "Su clave única de modelo es ",

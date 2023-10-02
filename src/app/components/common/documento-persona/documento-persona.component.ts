@@ -64,9 +64,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
       .pipe(first())
       .subscribe((ts) => {
         this.T = ts;
-        if (!this.Documento.obligatorio) {
-          this.Documento.nombre = `${this.Documento.nombre} ${this.T['perfil.t-docs-opcional']}`;
-        }
       });
   }
 
