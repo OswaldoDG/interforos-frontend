@@ -365,7 +365,8 @@
   },
   "persona":
   {
-    "crear":"crear"
+    "crear":"crear",
+    "crear-ayuda":"Presione sobre el boton crear para añadir otras personas."
   },
   "revisor-casting":{
     "perfil": "Modelo",
