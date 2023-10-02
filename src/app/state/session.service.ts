@@ -8,9 +8,7 @@ import {
 } from '../services/api/api-promodel';
 import { SessionStore } from './session.store';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
-import jwtDecode from 'jwt-decode';
-import { Subscription, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +59,10 @@ export class SessionService {
       perfil: p,
       autenticado: true,
     }));
+  }
+
+  actualizarEstadoPerfil(p:InformacionPerfil){
+
   }
 
   actualizaCliente(cliente: ClienteView) {

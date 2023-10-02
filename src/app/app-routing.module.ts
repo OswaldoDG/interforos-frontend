@@ -60,6 +60,8 @@ import { PagesModeloGuard } from './services/guards/pagesModelo-guard';
 import { PagesStaffGuard } from './services/guards/pagesStaff-guard';
 import { PagesRevisorGuard } from './services/guards/pagesRevisor-guard';
 import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
+import { ModelotieneperfilGuard } from './services/guards/modelotieneperfil.guard';
+import { validaPerfilGuard } from './services/guards/validaPerfilGuard';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -92,7 +94,7 @@ const routes: Routes = [
   {
     path: 'perfil',
     component: PerfilPersonaComponent,
-    canActivate: [PagesModeloGuard],
+    canActivate: [validaPerfilGuard],
   },
   {
     path: 'galeria',
@@ -144,6 +146,7 @@ const routes: Routes = [
   {
     path: 'mismodelos',
     component: RegistroPersonasComponent,
+    canActivate: [PagesModeloGuard],
   },
   {
     path: 'vertical-listings-left-sidebar',

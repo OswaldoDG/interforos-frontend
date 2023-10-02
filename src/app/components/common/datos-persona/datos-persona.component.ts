@@ -772,7 +772,9 @@ export class DatosPersonaComponent implements OnInit {
             });
             this.inCall = false;
             if (this.miPerfil) {
-              this.sessionService.actualizaUserName(p.nombreArtistico);
+            this.apiPersona.perfilusuario().subscribe((e)=>{
+              this.sessionService.establecePerfil(e);
+            });
             }
             this.spinner.hide('spperfil');
           },
@@ -792,7 +794,9 @@ export class DatosPersonaComponent implements OnInit {
             this.toastService.success(this.T['perfil.datos-ok'], {
               position: 'bottom-center',
             });
-            this.sessionService.actualizaUserName(p.nombreArtistico);
+            this.apiPersona.perfilusuario().subscribe((e)=>{
+              this.sessionService.establecePerfil(e);
+            });
             this.inCall = false;
             this.spinner.hide('spperfil');
           },
