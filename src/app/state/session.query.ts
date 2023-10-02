@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { SessionState, SessionStore } from './session.store';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
-import { AccesoClient } from '../services/api/api-promodel';
-import { SessionService } from './session.service';
-import { Subscription, interval, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

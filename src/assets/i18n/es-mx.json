@@ -63,7 +63,8 @@
     "perfil-extranjero": "Extranjero",
     "perfil-permisotrabajo": "Tiene permiso laboral",
     "perfil-pais-residencia": "País residencia",
-    "perfil-estado-residencia": "Estado residencia"
+    "perfil-estado-residencia": "Estado residencia",
+    "perfil-validacion-mensaje-guard":"Complete su perfil"
   },
   "proyectos": {
     "header": "Administrador de castings",
