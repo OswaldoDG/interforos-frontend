@@ -55,21 +55,20 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.spinner.show('spModelos');
-    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
-      this.servicioPersonas.personaSub().subscribe((p) => {
-        if (p.length > 0) {
-          this.procesaPersonas(p);
-        } else {
-          this.personas = [];
-        }
-      });
-      this.personaApi
-        .perfilpublicoGet(this.session.UserId)
-        .pipe(first())
-        .subscribe((data) => {
-          this.agenciaId = data.agenciaId;
-        });
+    this.servicioPersonas.personaSub().subscribe((p) => {
+      if (p.length > 0) {
+        this.procesaPersonas(p);
+      } else {
+        this.personas = [];
+      }
     });
+    this.personaApi
+      .perfilpublicoGet(this.session.UserId)
+      .pipe(first())
+      .subscribe((data) => {
+        this.agenciaId = data.agenciaId;
+      });
+    this.spinner.hide('spModelos');
   }
   agregarPersona() {
     this.Editando = !this.Editando;
@@ -108,14 +107,17 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   }
 
   procesaPersonas(personas: any) {
-    if (personas != null) {
-      const tmp: Persona[] = [];
-      personas.forEach((p) => {
-        tmp.push(this.servicio.PersonaDesplegable(p));
-      });
-      this.personas = tmp;
-      this.spinner.hide('spModelos');
-    }
+    this.spinner.show('spModelos');
+    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
+      if (personas != null) {
+        const tmp: Persona[] = [];
+        personas.forEach((p) => {
+          tmp.push(this.servicio.PersonaDesplegable(p));
+        });
+        this.personas = tmp;
+        this.spinner.hide('spModelos');
+      }
+    });
   }
   traerMedios(uid) {
     this.uid = uid;

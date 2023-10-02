@@ -60,7 +60,7 @@ import { PagesModeloGuard } from './services/guards/pagesModelo-guard';
 import { PagesStaffGuard } from './services/guards/pagesStaff-guard';
 import { PagesRevisorGuard } from './services/guards/pagesRevisor-guard';
 import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
-import { ModelotieneperfilGuard } from './services/guards/modelotieneperfil.guard';
+import { ModelotieneperfilGuard } from './services/guards/modelotieneperfil-guard';
 import { validaPerfilGuard } from './services/guards/validaPerfilGuard';
 
 const routes: Routes = [
