@@ -194,7 +194,8 @@
     "pin-lbl": "Marca la foto como permanente, las no permanentes son eliminadas después de un tiempo",
     "help": "Ayuda",
     "origen-general":"Perfil General",
-    "origen":"Añadir a"
+    "origen":"Categoria",
+    "titulo":"Título del archivo"
   },
   "confirmacion": {
     "titulo": "Confirmación",

@@ -22,6 +22,14 @@
 
 <section class="gallery-area bg-f9f9f9 pt-4 pb-70">
   <div class="container">
+    <ngx-spinner
+      name="spupload"
+      [fullScreen]="false"
+      type="ball-scale-multiple"
+      size="medium"
+    >
+      <p class="loading">...</p>
+    </ngx-spinner>
     <div class="col-lg-4 col-md-6 col-sm12 pt-4" *ngIf="uid">
       <i
         class="bi bi-arrow-return-left"
@@ -29,47 +37,15 @@
         (click)="volver()"
       ></i>
     </div>
-    <div>
-      <h4>Titulo</h4>
-      <form [formGroup]="datosimagen" #formDir="ngForm">
-        <input type="text" class="form-control" formControlName="titulo" />
-      </form>
-    </div>
 
-    <div class="row pb-4">
-      <ngx-spinner
-        name="spupload"
-        [fullScreen]="false"
-        type="ball-scale-multiple"
-        size="medium"
-      >
-        <p class="loading">...</p>
-      </ngx-spinner>
-      <div class="col-lg-12 col-md-12 col-sm-12 pt-5">
-        <h6>{{ "fotos.t-upload" | translate }}</h6>
+    <div class="row pt-2">
+      <div class="col-lg-6 col-md-6 col-sm-12 pt-2">
+        <label>{{ "fotos.titulo" | translate }}</label>
+        <form [formGroup]="datosimagen" #formDir="ngForm">
+          <input type="text" class="form-control" formControlName="titulo" />
+        </form>
       </div>
-
-      <div class="col-lg-4 col-md-6 col-sm12 pt-3">
-        <input
-          class="form-control"
-          type="file"
-          id="customFile"
-          (change)="handleFileInput($any($event.target).files)"
-          [disabled]="working"
-        />
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-12 mb-4 pt-4">
-        <button
-          type="button"
-          class="btn btn-primary"
-          ngbTooltip="Upload"
-          (click)="upload()"
-          [disabled]="working"
-        >
-          {{ "fotos.enviar" | translate }}
-        </button>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-12 mb-4">
+      <div class="col-lg-6 col-md-6 col-sm-12 pt-2">
         <label>{{ "fotos.origen" | translate }}</label>
         <select
           class="form-select"
@@ -88,42 +64,73 @@
           </option>
         </select>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 mb-4" style="display: none">
-        <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
+    </div>
+
+    <div class="row pt-2">
+      <div class="col-lg-6 col-md-6 col-sm-12 pt-3">
+        <label>{{ "fotos.t-upload" | translate }}</label>
+        <input
+          class="form-control"
+          type="file"
+          id="customFile"
+          (change)="handleFileInput($any($event.target).files)"
+          [disabled]="working"
+        />
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 pt-5">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col align-self-center">
               <button
-                class="accordion-button"
                 type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="false"
-                aria-controls="collapseOne"
+                class="btn btn-primary"
+                ngbTooltip="Upload"
+                (click)="upload()"
+                [disabled]="working"
               >
-                {{ "fotos.help" | translate }}
+                {{ "fotos.enviar" | translate }}
               </button>
-            </h2>
-            <div
-              id="collapseOne"
-              class="accordion-collapse collapse show"
-              aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="col-lg-6 col-md-4 col-sm-12 mb-4" style="display: none">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
             >
-              <div class="accordion-body">
-                <p>
-                  <i class="bx bxs-heart"></i>&nbsp;{{
-                    "fotos.prin-lbl" | translate
-                  }}
-                </p>
-                <p>
-                  <i class="bx bxs-lock-alt"></i>&nbsp;{{
-                    "fotos.pin-lbl" | translate
-                  }}
-                </p>
-                <p>
-                  <i class="bx bx-x"></i>&nbsp;{{ "fotos.del-lbl" | translate }}
-                </p>
-              </div>
+              {{ "fotos.help" | translate }}
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <p>
+                <i class="bx bxs-heart"></i>&nbsp;{{
+                  "fotos.prin-lbl" | translate
+                }}
+              </p>
+              <p>
+                <i class="bx bxs-lock-alt"></i>&nbsp;{{
+                  "fotos.pin-lbl" | translate
+                }}
+              </p>
+              <p>
+                <i class="bx bx-x"></i>&nbsp;{{ "fotos.del-lbl" | translate }}
+              </p>
             </div>
           </div>
         </div>

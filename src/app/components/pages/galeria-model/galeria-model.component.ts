@@ -335,8 +335,8 @@ export class GaleriaModelComponent implements OnInit {
         (media) => {
           this.fotos = [];
           this.usuarioId = media.usuarioId;
+          this.mediaCliente = media;
           media.elementos.forEach((e) => {
-            this.mediaCliente = media;
             this.addElementoView(this.toLink(e));
           });
           this.spinner.hide('spupload');
