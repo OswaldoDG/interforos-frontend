@@ -1,5 +1,13 @@
 <div class="modal-body">
   <form [formGroup]="formProyecto">
+    <ngx-spinner
+      name="loadCasting"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+      >
+      <p class="loading">...</p>
+    </ngx-spinner>
     <div class="row">
       <div class="row ">
         <strong class="abc mt-2">{{ "proyectos.form-Generales" | translate }}</strong>
