@@ -1,4 +1,10 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -8,10 +14,11 @@ import {
   CastingListElement,
   TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
-import {GridApi,} from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { SessionQuery } from 'src/app/state/session.query';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-pagina-admin-proyectos',
@@ -22,66 +29,78 @@ export class PaginaAdminProyectosComponent implements OnInit {
   bsModalRef: BsModalRef;
   idSeleccionado: string = '';
   casting: CastingListElement[] = [];
+  castingsFiltrados: CastingListElement[] = [];
   private gridApi!: GridApi<CastingListElement>;
   T: any;
-  valoresdisponibles:number;
-  v:string='x';
-staff :boolean=false;
-admin :boolean=false;
+  valoresdisponibles: number;
+  v: string = 'x';
+  staff: boolean = false;
+  admin: boolean = false;
+  form: FormGroup;
   constructor(
     private castingClient: CastingClient,
-    private ruta: Router, private translate: TranslateService,
-    private session:SessionQuery,
+    private ruta: Router,
+    private translate: TranslateService,
+    private session: SessionQuery,
     private spinner: NgxSpinnerService,
-  ) {
-  }
-
-
+    private formBuilder: FormBuilder
+  ) {}
   ngOnInit(): void {
-    var  roles: string[] = this.session.GetRoles
-    this.staff=roles.indexOf(TipoRolCliente.Staff.toLocaleLowerCase())>=0;
-    this.admin=roles.indexOf(TipoRolCliente.Administrador.toLocaleLowerCase())>=0;
-    this.translate
-    .get([
-      'proyectos.casting-estado-ok',
-      'proyectos.casting-estado-error'
-    ]).subscribe((ts) => {
-      this.T = ts;
+    this.form = new FormGroup({
+      buscar: new FormControl(),
     });
+    var roles: string[] = this.session.GetRoles;
+    this.staff = roles.indexOf(TipoRolCliente.Staff.toLocaleLowerCase()) >= 0;
+    this.admin =
+      roles.indexOf(TipoRolCliente.Administrador.toLocaleLowerCase()) >= 0;
+    this.translate
+      .get(['proyectos.casting-estado-ok', 'proyectos.casting-estado-error'])
+      .subscribe((ts) => {
+        this.T = ts;
+      });
   }
 
   ngAfterViewInit(): void {
-    this.spinner.show('loadCastings')
-    this.castingClient.castingGet(true).subscribe((data) => {
-      this.casting = data;
-      this.spinner.hide('loadCastings');
-
-    },(err) => {
-      this.spinner.hide('loadCastings');
-    });
+    this.spinner.show('loadCastings');
+    this.castingClient.castingGet(true).subscribe(
+      (data) => {
+        this.casting = data;
+        this.castingsFiltrados = data;
+        this.form.get('buscar').valueChanges.subscribe((v) => {
+          this.filtrarCasting(v);
+        });
+        this.spinner.hide('loadCastings');
+      },
+      (err) => {
+        this.spinner.hide('loadCastings');
+      }
+    );
   }
 
   creaProyecto() {
     this.ruta.navigateByUrl('castings/');
   }
 
-  refrescar(){
+  refrescar() {
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
     });
   }
 
-  recibidoDelModal(r : string){
-    if(r == 'Y'){
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
       this.castingClient.castingGet(true).subscribe((data) => {
         this.casting = data;
       });
     }
   }
 
-  onFilterTextBoxChanged() {
-    this.gridApi.setQuickFilter(
-      (document.getElementById('filter-text-box') as HTMLInputElement).value
-    );
+  filtrarCasting(buscar: string) {
+    if (buscar) {
+      this.castingsFiltrados = this.casting.filter((c) =>c.nombre.toLocaleLowerCase().includes(buscar.toLocaleLowerCase())
+      );
+    } else {
+      this.castingsFiltrados = this.casting;
+    }
   }
 }

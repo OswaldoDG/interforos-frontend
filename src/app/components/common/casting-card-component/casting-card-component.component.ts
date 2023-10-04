@@ -52,7 +52,6 @@ export class CastingCardComponentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.Casting);
     this.translate
       .get([
         'proyectos.casting-estado-ok',
