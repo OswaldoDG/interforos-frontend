@@ -49,6 +49,7 @@ export class VotoModeloComponentComponent implements OnInit {
       this.session.GetRoles.toLowerCase() ==
       TipoRolCliente.RevisorExterno.toLocaleLowerCase();
     this.nombreModelo = this.servicio.getNombreModelo();
+    console.log(this.nombreModelo);
     if (this.esRevisor) {
       this.voto();
     }
