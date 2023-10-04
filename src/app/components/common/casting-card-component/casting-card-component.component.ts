@@ -38,6 +38,8 @@ export class CastingCardComponentComponent implements OnInit {
   esRevisor: boolean;
   esAdmin: boolean;
   disable: boolean = true;
+  fechaApertura : Date;
+  fechaCierre : Date;
   //Modal
   @ViewChild(ModalEliminarCastingComponent) componenteModal;
   constructor(
@@ -50,6 +52,7 @@ export class CastingCardComponentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.Casting);
     this.translate
       .get([
         'proyectos.casting-estado-ok',
