@@ -51,6 +51,7 @@ admin :boolean=false;
   }
 
   ngAfterViewInit(): void {
+    this.spinner.show('loadCastings')
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
       this.spinner.hide('loadCastings');
