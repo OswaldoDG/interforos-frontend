@@ -242,8 +242,8 @@ export class EditorCastingComponent implements OnInit {
           } else {
             this.isImageLoading = false;
           }
-          this.spinner.hide('loadCasting');
         });
+        this.spinner.hide('loadCasting');
       }
     });
   }
