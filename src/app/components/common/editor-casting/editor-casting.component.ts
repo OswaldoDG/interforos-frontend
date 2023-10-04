@@ -58,7 +58,7 @@ export class EditorCastingComponent implements OnInit {
     private dateTimeAdapter: DateTimeAdapter<any>,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -89,7 +89,6 @@ export class EditorCastingComponent implements OnInit {
     }
   }
 
-
   salvarDatos() {
     if (this.esUpdate) {
       this.actualizarCasting();
@@ -100,9 +99,6 @@ export class EditorCastingComponent implements OnInit {
         this.esLogoNuevo = false;
       }
     }
-    this.toastService.success(this.T['casting.guardar'], {
-      position: 'bottom-center',
-    });
   }
 
   // Crea un casting y establece la variable para realizar actualización si la savaguarda es exitosa
@@ -149,7 +145,12 @@ export class EditorCastingComponent implements OnInit {
           });
         });
       }
-    });
+      this.toastService.success(this.T['casting.crear'], {
+        position: 'bottom-center',
+      });
+    },(error)=>{this.toastService.success(this.T['casting.error'], {
+      position: 'bottom-center',
+    });});
   }
 
   // Actualzia el casting con los datos de la forma
@@ -170,39 +171,42 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.cierreAutomatico),
       (this.CastingActual.aperturaAutomatica =
         this.formProyecto.value.aperturaAutomatica),
-    this.clientApi
-      .castingPut(this.CastingId, this.CastingActual)
-      .subscribe((data) => {
-        if (
-          this.componenteContactos.Casting != null &&
-          this.componenteCategorias.Casting != null &&
-          this.componenteEventos.Casting != null
-        ) {
-          var a = this.componenteEventos.listaEventos;
-          var b = this.componenteCategorias.categoriasCasting;
-          var c = this.componenteContactos.listaContactoUsuario();
+      this.clientApi
+        .castingPut(this.CastingId, this.CastingActual)
+        .subscribe((data) => {
+          if (
+            this.componenteContactos.Casting != null &&
+            this.componenteCategorias.Casting != null &&
+            this.componenteEventos.Casting != null
+          ) {
+            var a = this.componenteEventos.listaEventos;
+            var b = this.componenteCategorias.categoriasCasting;
+            var c = this.componenteContactos.listaContactoUsuario();
 
-          this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
-            this.componenteEventos.gridApi.setRowData(a);
-            this.componenteEventos.listaEventos = [...a];
-            this.clientApi
-              .categoriasPut(this.CastingId, b)
-              .subscribe((data2) => {
-                this.componenteCategorias.gridApi.setRowData(b);
-                this.componenteCategorias.categoriasCasting = [...b];
-                this.clientApi
-                  .contactos(this.CastingId, c)
-                  .subscribe((data3) => {
-                    this.componenteContactos.contactosCasting = [...data3];
-                    this.componenteContactos.gridApi.setRowData(
-                      this.componenteContactos.contactosCasting
-                    );
-                    this.actualizarLogo(this.CastingActual.id);
-                  });
-              });
-          });
-        }
-      });
+            this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
+              this.componenteEventos.gridApi.setRowData(a);
+              this.componenteEventos.listaEventos = [...a];
+              this.clientApi
+                .categoriasPut(this.CastingId, b)
+                .subscribe((data2) => {
+                  this.componenteCategorias.gridApi.setRowData(b);
+                  this.componenteCategorias.categoriasCasting = [...b];
+                  this.clientApi
+                    .contactos(this.CastingId, c)
+                    .subscribe((data3) => {
+                      this.componenteContactos.contactosCasting = [...data3];
+                      this.componenteContactos.gridApi.setRowData(
+                        this.componenteContactos.contactosCasting
+                      );
+                      this.actualizarLogo(this.CastingActual.id);
+                    });
+                });
+            });
+            this.toastService.success(this.T['casting.guardar'], {
+              position: 'bottom-center',
+            });
+          }
+        });
   }
 
   // Obitne el casting y asigna los valores del form
