@@ -57,11 +57,11 @@ size="medium"
           </tr>
           <tr>
             <th scope="row">{{ "proyectos.tabla-Apertura" | translate }}</th>
-            <td>{{ Casting.fechaApertura }}</td>
+            <td>{{ Casting.fechaApertura | date:"dd/MM/yyyy" }}</td>
           </tr>
           <tr>
             <th scope="row">{{ "proyectos.tabla-Cierre" | translate }}</th>
-            <td>{{ Casting.fechaCierre }}</td>
+            <td>{{ Casting.fechaCierre | date:"dd/MM/yyyy" }}</td>
           </tr>
           <tr>
             <th scope="row">
