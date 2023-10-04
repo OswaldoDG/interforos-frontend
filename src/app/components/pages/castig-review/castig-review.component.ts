@@ -1,5 +1,5 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   CastingClient,
   Persona,
@@ -27,7 +27,8 @@ export class CastigReviewComponent implements OnInit {
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
     private servicio: CastingStaffServiceService,
-    private personaClient: PersonaClient
+    private personaClient: PersonaClient,
+    private ruta:Router
   ) {
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
@@ -75,5 +76,9 @@ export class CastigReviewComponent implements OnInit {
         this.personasDesplegables = tmp;
       }
     });
+  }
+  volver()
+  {
+    this.ruta.navigateByUrl('/castings');
   }
 }
