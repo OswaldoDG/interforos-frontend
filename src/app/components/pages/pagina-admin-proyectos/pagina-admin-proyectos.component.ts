@@ -1,13 +1,5 @@
-import {
-  Component,
-  Inject,
-  LOCALE_ID,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { BuscarProyectoDTO } from 'src/app/modelos/locales/buscar-proyecto-dto';
+import {Component,OnInit,} from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import {
   CastingClient,
@@ -30,7 +22,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   idSeleccionado: string = '';
   casting: CastingListElement[] = [];
   castingsFiltrados: CastingListElement[] = [];
-  private gridApi!: GridApi<CastingListElement>;
   T: any;
   valoresdisponibles: number;
   v: string = 'x';
@@ -43,7 +34,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
     private translate: TranslateService,
     private session: SessionQuery,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
   ) {}
   ngOnInit(): void {
     this.form = new FormGroup({
