@@ -15,6 +15,7 @@ import { OnChange } from 'ngx-bootstrap/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { SessionQuery } from 'src/app/state/session.query';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editor-casting',
@@ -57,6 +58,7 @@ export class EditorCastingComponent implements OnInit {
     private dateTimeAdapter: DateTimeAdapter<any>,
     private translate: TranslateService,
     private toastService: HotToastService,
+    private spinner: NgxSpinnerService,
   ) {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -86,6 +88,7 @@ export class EditorCastingComponent implements OnInit {
       this.obtenerCasting();
     }
   }
+
 
   salvarDatos() {
     if (this.esUpdate) {
@@ -204,6 +207,7 @@ export class EditorCastingComponent implements OnInit {
 
   // Obitne el casting y asigna los valores del form
   obtenerCasting() {
+    this.spinner.show('loadCasting');
     this.clientApi.id(this.CastingId).subscribe((data) => {
       this.CastingActual = data;
       if (this.CastingActual != null) {
@@ -239,6 +243,7 @@ export class EditorCastingComponent implements OnInit {
             this.isImageLoading = false;
           }
         });
+        this.spinner.hide('loadCasting');
       }
     });
   }
