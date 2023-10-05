@@ -21,7 +21,7 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 import { compare } from 'src/app/services/utiles';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-datos-persona',
   templateUrl: './datos-persona.component.html',
@@ -86,7 +86,7 @@ export class DatosPersonaComponent implements OnInit {
 
   documentos: DocumentoModelo[] = [];
   instanciasDocumento: Documento[] = [];
-
+  mostrarOpcion : boolean;
   constructor(
     private personaService: PersonaInfoService,
     private bks: BreakpointObserver,
@@ -97,10 +97,10 @@ export class DatosPersonaComponent implements OnInit {
     private fb: FormBuilder,
     private sessionService: SessionService,
     dateTimeAdapter: DateTimeAdapter<any>,
-    session: SessionQuery
+    session: SessionQuery,
   ) {
     dateTimeAdapter.setLocale(session.lang);
-
+    this.mostrarOpcion = environment.catalogosAbiertos == false;
     session.cliente$.pipe(first()).subscribe((c) => {
       this.documentos = c.documentacion;
     });
