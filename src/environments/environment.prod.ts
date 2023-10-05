@@ -1,4 +1,5 @@
 export const environment = {
+  catalogosAbiertos: false,
   production: true,
   apiRoot: 'https://promodel-api.eccordion.com',
   recaptcha: {

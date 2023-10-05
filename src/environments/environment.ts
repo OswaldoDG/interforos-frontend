@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  catalogosAbiertos: false,
   production: false,
   // apiRoot: 'https://promodel-api.eccordion.com',
   apiRoot: 'https://localhost:7001',
