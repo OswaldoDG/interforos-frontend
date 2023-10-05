@@ -22,7 +22,7 @@ export class ServicioRegistroPersonasService {
       if (p.length > 0) {
         const busqueda = {
           request: {
-            ids: p,
+            ids: p.map((d) => d.id),
           },
           ordernarASC: true,
           ordenarPor: 'nombre',
@@ -32,8 +32,7 @@ export class ServicioRegistroPersonasService {
         this.personaClient.idPost(busqueda).subscribe((r) => {
           this.personasSub.next(r.elementos);
         });
-      }else
-      {
+      } else {
         this.personasSub.next([]);
       }
     });

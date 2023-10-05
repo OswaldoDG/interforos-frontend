@@ -54,15 +54,18 @@
             <strong>{{ casting.fechaCierre | date : "yyyy-MM-dd" }}</strong>
           </p>
         </div>
-        <div class="titulo col-lg-2 col-md-9 col-sm-9 justify-content-start p-3"  *ngIf="!enSesion">
-          <button
-          type="button"
-          class="btn btn-primary"
-          style="width: 100%"
-           (click)="login()"
+        <div
+          class="titulo col-lg-2 col-md-9 col-sm-9 justify-content-start p-3"
+          *ngIf="!esModelo"
         >
-          {{ "navbar.registro-btn-registrar" | translate }}
-        </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="width: 100%"
+            (click)="login()"
+          >
+            {{ "navbar.registro-btn-registrar" | translate }}
+          </button>
         </div>
       </div>
       <hr />
@@ -95,35 +98,8 @@
               aria-current="true"
               *ngFor="let categoria of casting.categorias"
             >
-              <div class="d-flex align-items-center justify-content-center">
-                <div *ngIf="!esModelo">
-                  <button
-                  *ngIf="inscritoCategoria(categoria.id)"
-                  type="button"
-                  class="btn btn-primary m-4"
-                  style="max-width: 120px"
-                  (click)="Abandonar(categoria.id)"
-                  >
-                  {{ "casting.abandonar" | translate }}
-                  </button>
-                  <button
-                  *ngIf="!inscritoCategoria(categoria.id)"
-                  type="button"
-                  class="btn btn-primary m-4"
-                  style="max-width: 120px"
-                  (click)="Inscribir(categoria.id)"
-                  >
-                  {{ "casting.inscribir" | translate }}
-                  </button>
-                </div>
-                <div class="m-4">
-                  <h6 class="mb-1">{{ categoria.nombre }}</h6>
-                </div>
-                <div class="ms-2 me-auto">
-                  <p class="mb-1" [innerHTML]="categoria.descripcion"></p>
-                </div>
-              </div>
-            </a>
+            <app-categoria-casting-view [categoria]="categoria" [esModelo]="esModelo" [modelosPersona]="modelosPersona" [castingId]="castingId"></app-categoria-casting-view>
+          </a>
           </div>
         </div>
       </div>

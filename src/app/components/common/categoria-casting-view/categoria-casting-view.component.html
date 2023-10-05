@@ -1,0 +1,42 @@
+<div class="d-flex align-items-center justify-content-center">
+  <div *ngIf="esModelo">
+    <div class="input-group">
+      <select
+        class="form-select"
+        (change)="modeloChange($event.target.value)"
+      >
+        <option selected value="">Yo</option>
+        <option
+          *ngFor="let modelo of modelosPersona"
+          [value]="modelo.id"
+        >
+          {{ modelo.nombre }}
+        </option>
+      </select>
+    </div>
+    <button
+      *ngIf="inscritoCategoria(categoria.id)"
+      type="button"
+      class="btn btn-primary m-4"
+      style="max-width: 120px"
+      (click)="Abandonar(categoria.id)"
+    >
+      {{ "casting.abandonar" | translate }}
+    </button>
+    <button
+      *ngIf="!inscritoCategoria(categoria.id)"
+      type="button"
+      class="btn btn-primary m-4"
+      style="max-width: 120px"
+      (click)="Inscribir(categoria.id)"
+    >
+      {{ "casting.inscribir" | translate }}
+    </button>
+  </div>
+  <div class="m-4">
+    <h6 class="mb-1">{{ categoria.nombre }}</h6>
+  </div>
+  <div class="ms-2 me-auto">
+    <p class="mb-1" [innerHTML]="categoria.descripcion"></p>
+  </div>
+</div>

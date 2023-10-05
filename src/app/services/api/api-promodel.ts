@@ -532,17 +532,20 @@ export interface ICastingClient {
      */
     like(castingId: string, categoriaId: string, modeloId: string, nivel: string): Observable<VotoModeloCategoria>;
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    categoriasGet(castingId: string): Observable<string[]>;
+    categoriasGet(castingId: string, personaId: string | undefined): Observable<string[]>;
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    inscribir(castingId: string, categoriaId: string): Observable<void>;
+    inscribir(castingId: string, categoriaId: string, personaId: string | undefined): Observable<void>;
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    abandonar(castingId: string, categoriaId: string): Observable<void>;
+    abandonar(castingId: string, categoriaId: string, personaId: string | undefined): Observable<void>;
     /**
      * @return Success
      */
@@ -1989,13 +1992,18 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    categoriasGet(castingId: string, httpContext?: HttpContext): Observable<string[]> {
-        let url_ = this.baseUrl + "/api/Casting/{castingId}/modelo/categorias";
+    categoriasGet(castingId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<string[]> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/modelo/categorias?";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (personaId === null)
+            throw new Error("The parameter 'personaId' cannot be null.");
+        else if (personaId !== undefined)
+            url_ += "personaId=" + encodeURIComponent("" + personaId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2055,16 +2063,21 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    inscribir(castingId: string, categoriaId: string, httpContext?: HttpContext): Observable<void> {
-        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/inscribir";
+    inscribir(castingId: string, categoriaId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/inscribir?";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
         if (categoriaId === undefined || categoriaId === null)
             throw new Error("The parameter 'categoriaId' must be defined.");
         url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        if (personaId === null)
+            throw new Error("The parameter 'personaId' cannot be null.");
+        else if (personaId !== undefined)
+            url_ += "personaId=" + encodeURIComponent("" + personaId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2121,16 +2134,21 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
+     * @param personaId (optional) 
      * @return Success
      */
-    abandonar(castingId: string, categoriaId: string, httpContext?: HttpContext): Observable<void> {
-        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/abandonar";
+    abandonar(castingId: string, categoriaId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/abandonar?";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
         if (categoriaId === undefined || categoriaId === null)
             throw new Error("The parameter 'categoriaId' must be defined.");
         url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        if (personaId === null)
+            throw new Error("The parameter 'personaId' cannot be null.");
+        else if (personaId !== undefined)
+            url_ += "personaId=" + encodeURIComponent("" + personaId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3465,7 +3483,7 @@ export interface IPersonaClient {
     /**
      * @return Success
      */
-    porusuarioGet(): Observable<string[]>;
+    porusuarioGet(): Observable<MapaUsuarioNombre[]>;
     /**
      * @return Success
      */
@@ -4613,7 +4631,7 @@ export class PersonaClient implements IPersonaClient {
     /**
      * @return Success
      */
-    porusuarioGet(httpContext?: HttpContext): Observable<string[]> {
+    porusuarioGet(httpContext?: HttpContext): Observable<MapaUsuarioNombre[]> {
         let url_ = this.baseUrl + "/persona/porusuario";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4633,14 +4651,14 @@ export class PersonaClient implements IPersonaClient {
                 try {
                     return this.processPorusuarioGet(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string[]>;
+                    return _observableThrow(e) as any as Observable<MapaUsuarioNombre[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string[]>;
+                return _observableThrow(response_) as any as Observable<MapaUsuarioNombre[]>;
         }));
     }
 
-    protected processPorusuarioGet(response: HttpResponseBase): Observable<string[]> {
+    protected processPorusuarioGet(response: HttpResponseBase): Observable<MapaUsuarioNombre[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -4650,7 +4668,7 @@ export class PersonaClient implements IPersonaClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as MapaUsuarioNombre[];
             return _observableOf(result200);
             }));
         } else if (status === 404) {
@@ -4670,7 +4688,7 @@ export class PersonaClient implements IPersonaClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string[]>(null as any);
+        return _observableOf<MapaUsuarioNombre[]>(null as any);
     }
 
     /**
