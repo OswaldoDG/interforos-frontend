@@ -156,6 +156,7 @@ import { AceptacionConsentimientoComponent } from './components/common/aceptacio
 import { CastingCardComponentComponent } from './components/common/casting-card-component/casting-card-component.component';
 import { ModalEliminarCastingComponent } from './components/common/modal-eliminar-casting/modal-eliminar-casting.component';
 import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
+import { CategoriaCastingViewComponent } from './components/common/categoria-casting-view/categoria-casting-view.component';
 
 defineLocale('es', esLocale);
 
@@ -275,6 +276,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CastingCardComponentComponent,
     ModalEliminarCastingComponent,
     PromodelRevisorComponent,
+    CategoriaCastingViewComponent,
   ],
   imports: [
     AppRoutingModule,
