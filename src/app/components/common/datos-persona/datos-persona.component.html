@@ -295,7 +295,7 @@
             >
             </ng-multiselect-dropdown>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{ "perfil.otroIdioma" | translate }}</label>
             <div class="input-group">
               <input
@@ -403,7 +403,7 @@
                 />
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-12" >
               <label for="colorOjosId">{{
                 "perfil.colorOjosId" | translate
               }}</label>
@@ -423,7 +423,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-12" >
               <label for="tipoCabelloId">{{
                 "perfil.tipoCabelloId" | translate
               }}</label>
@@ -443,7 +443,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-12" >
               <label for="colorCabelloId">{{
                 "perfil.colorCabelloId" | translate
               }}</label>
@@ -487,7 +487,7 @@
           </div>
         </form>
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{ "perfil.otroColorOjos" | translate }}</label>
             <div class="input-group">
               <input
@@ -500,7 +500,7 @@
               />
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{
               "perfil.otroTipoCabello" | translate
             }}</label>
@@ -516,7 +516,7 @@
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{
               "perfil.otroColorCabello" | translate
             }}</label>
@@ -532,7 +532,7 @@
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{
               "perfil.otroGrupoRacial" | translate
             }}</label>
@@ -669,7 +669,7 @@
             >
             </ng-multiselect-dropdown>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!mostrarOpcion">
             <label for="nombre">{{
               "perfil.otroHabilidad" | translate | titlecase
             }}</label>
