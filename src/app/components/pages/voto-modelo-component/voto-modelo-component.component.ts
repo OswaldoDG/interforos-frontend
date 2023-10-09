@@ -49,7 +49,6 @@ export class VotoModeloComponentComponent implements OnInit {
       this.session.GetRoles.toLowerCase() ==
       TipoRolCliente.RevisorExterno.toLocaleLowerCase();
     this.nombreModelo = this.servicio.getNombreModelo();
-    console.log(this.nombreModelo);
     if (this.esRevisor) {
       this.voto();
     }
@@ -96,7 +95,7 @@ export class VotoModeloComponentComponent implements OnInit {
       this.castingService
         .like(casting, categoria, persona, nivelLike)
         .subscribe((v) => {
-          this.servicio.agregarVoto(v, this.personaId);
+          this.servicio.agregarVoto(v, this.personaId, this.servicio.getUserId());
           this.voto();
         });
     }

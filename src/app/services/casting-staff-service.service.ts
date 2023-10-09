@@ -83,18 +83,19 @@ export class CastingStaffServiceService {
     return this.votos;
   }
   //Agrega el voto del revisor externo
-  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string) {
+  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string, revisorId: string) {
     var indexC = this.casting.categorias.findIndex(
       (c) => c.id == this.categoriaActual
     );
     var indexV = this.casting.categorias[indexC].votos.findIndex(
-      (v) => v.personaId == modeloId
+      (v) => v.personaId == modeloId && v.usuarioId == revisorId
     );
-
     if (indexV >= 0) {
       var voto = this.casting.categorias[indexC].votos[indexV];
       voto.nivelLike = votoRevisor.nivelLike;
       this.categoriaSub.next(this.categoriaActual);
+      this.calcularTotalesSub.next(true);
+
     } else {
       const votoMapeado = {
         personaId: modeloId,
@@ -104,8 +105,8 @@ export class CastingStaffServiceService {
       this.votos.push(votoMapeado);
       this.casting.categorias[indexC].votos = this.votos;
       this.categoriaSub.next(this.categoriaActual);
+      this.calcularTotalesSub.next(true);
     }
-    this.calcularTotalesSub.next(true);
   }
 
   //devulve los comentarios en una categoria de un modelo ordenadosde manera decendente
