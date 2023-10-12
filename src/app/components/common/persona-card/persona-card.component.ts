@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
@@ -15,6 +16,7 @@ import { CastingStaffServiceService } from 'src/app/services/casting-staff-servi
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionQuery } from 'src/app/state/session.query';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-persona-card',
@@ -60,6 +62,7 @@ export class PersonaCardComponent implements OnInit {
   enCasting: boolean = null;
   T: any;
   enCategoria: boolean = null;
+  usuarioFinal: string = undefined;
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -72,33 +75,18 @@ export class PersonaCardComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
-      var usuarioFinal = undefined;
       if (this.persona.usuarioId) {
-        usuarioFinal = this.persona.usuarioId;
+        this.usuarioFinal = this.persona.usuarioId;
       } else {
-        usuarioFinal = this.persona.id;
+        this.usuarioFinal = this.persona.id;
       }
 
       if (this.persona?.elementoMedioPrincipalId) {
-        this.avatarUrl = `${environment.apiRoot}/contenido/${usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
+        this.avatarUrl = `${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
       }
-      this.personaService.obtieneMediosPErsona(usuarioFinal).subscribe((m) => {
-        m.elementos.forEach((e) => {
-          if (e.imagen) {
-            this.imagenes.push({
-              image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
-              thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
-            });
-          } else {
-            if (e.video) {
-              this.imagenes.push({
-                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
-                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
-              });
-            }
-          }
-        });
-      });
+      if (this.modoRevisor) {
+        this.traerMedios();
+      }
       this.validarExiste();
     }
   }
@@ -188,5 +176,31 @@ export class PersonaCardComponent implements OnInit {
   }
   verMedios() {
     this.uid.emit(this.persona.id);
+  }
+
+  selectTab() {
+    this.traerMedios();
+  }
+
+  traerMedios() {
+    this.personaService
+      .obtieneMediosPErsona(this.usuarioFinal)
+      .subscribe((m) => {
+        m.elementos.forEach((e) => {
+          if (e.imagen) {
+            this.imagenes.push({
+              image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
+              thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
+            });
+          } else {
+            if (e.video) {
+              this.imagenes.push({
+                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
+                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
+              });
+            }
+          }
+        });
+      });
   }
 }
