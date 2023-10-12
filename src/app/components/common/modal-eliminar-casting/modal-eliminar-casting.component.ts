@@ -11,7 +11,7 @@ export class ModalEliminarCastingComponent implements OnInit {
   modalRef?: BsModalRef;
   confirmacionModalEliminar?: boolean = false;
   @ViewChild('contactoModal') myTemplate: TemplateRef<any>;
-  @Output() modalConfirm = new EventEmitter();
+  @Output() modalConfirm : EventEmitter<string> = new EventEmitter();
   nombre : string;
   formModalCasting : FormGroup;
   constructor(private modalService: BsModalService,
