@@ -28,7 +28,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class CastingCardComponentComponent implements OnInit {
   @Input() Casting: any;
-  @Output() refrescarCast = new EventEmitter();
+  @Output() refrescarCast : EventEmitter<string> = new EventEmitter();
   urlImage: string;
   valoresdisponibles: any;
   T: any;

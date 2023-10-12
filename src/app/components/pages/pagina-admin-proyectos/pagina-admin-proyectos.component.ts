@@ -74,6 +74,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   refrescar() {
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
+      this.castingsFiltrados = data;
     });
   }
 
@@ -81,6 +82,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
     if (r == 'Y') {
       this.castingClient.castingGet(true).subscribe((data) => {
         this.casting = data;
+        this.castingsFiltrados = data;
       });
     }
   }
