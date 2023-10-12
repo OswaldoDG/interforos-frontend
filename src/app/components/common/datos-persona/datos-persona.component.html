@@ -38,6 +38,8 @@
               [Documento]="doc"
               [Instancias]="instanciasDocumento"
               [personaId]="persona.id"
+              (enviandoDoc) = "EnviandoDoc($event)"
+              [estadoBoton] = "enviadoEstado"
             ></app-documento-persona>
           </div>
         </div>

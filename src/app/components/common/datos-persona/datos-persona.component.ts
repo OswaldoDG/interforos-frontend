@@ -32,6 +32,7 @@ export class DatosPersonaComponent implements OnInit {
   @Input() personaId: string = null;
   @Input() validarDocumentos: boolean = true;
   @Input() agenciaId: string = null;
+  @Input() enviadoEstado : boolean = false;
   @Output() PersonaCreada: EventEmitter<string> = new EventEmitter();
   @Output() PersonaActualizada: EventEmitter<string> = new EventEmitter();
   private destroy$ = new Subject();
@@ -841,6 +842,10 @@ export class DatosPersonaComponent implements OnInit {
 
   DocUploaded(docId: string) {
     this.actualizaDocumentos(docId);
+  }
+
+  EnviandoDoc(estadoEnvio: boolean) {
+    this.enviadoEstado = estadoEnvio;
   }
 
   actualizaDocumentos(docId: string) {
