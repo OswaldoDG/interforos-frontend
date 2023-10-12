@@ -1,4 +1,12 @@
 <section class="listing-area">
+  <ngx-spinner
+      name="buscar"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
+    >
+      <p class="loading">...</p>
+    </ngx-spinner>
   <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
       <div class="pagination-area text-center">
@@ -31,7 +39,7 @@
     <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
       <div class="pagination-area text-center">
         <pagination-controls
-          (pageChange)="gridListings = $event"
+          (pageChange)="nexPage($event)"
           previousLabel="{{ 'buscar.before' | translate }}"
           nextLabel="{{ 'buscar.next' | translate }}"
         ></pagination-controls>

@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import {
   BusquedaPersonasRequestPaginado,
@@ -34,10 +35,12 @@ export class PaginadoPersonasComponent implements OnInit {
   t: string = 'hola';
   constructor(
     private personaService: PersonaInfoService,
-    private servicioBusqueda: BusquedaPersonasService
+    private servicioBusqueda: BusquedaPersonasService,
+    private spinner: NgxSpinnerService,
   ) {}
 
   procesaPersonas() {
+
     if (this.personas) {
       this.paginaTamano = this.personas.tamano;
       this.total = this.personas.total;
@@ -56,12 +59,15 @@ export class PaginadoPersonasComponent implements OnInit {
         }
         this.EstadoBusqueda.emit(false);
       });
+
     }
   }
 
   nexPage(p) {
+    this.EstadoBusqueda.emit(true);
     this.gridListings = p;
     this.servicioBusqueda.nextPage(p);
+
   }
   ngOnInit(): void {
     this.servicioBusqueda.personaSub().subscribe((data) => {
