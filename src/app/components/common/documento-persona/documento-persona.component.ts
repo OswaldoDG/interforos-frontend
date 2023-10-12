@@ -35,7 +35,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   uploadFileLabel: string | undefined = '';
   uploadProgress: number;
   uploadUrl: string;
-  working: boolean = false;
   T: any;
 
   constructor(
