@@ -19,10 +19,10 @@
         </td>
         <td>
           <input class="form-control" type="file" id="customFile" (change)="handleFileInput($any($event.target).files)"
-            [disabled]="working">
+            [disabled]="estadoBoton">
         </td>
         <td>
-          <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="working">{{
+          <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="estadoBoton">{{
             'perfil.t-docs-enviar' | translate }}</button>
         </td>
       </tr>

@@ -27,13 +27,14 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   @Input() Instancias: Documento[] = null;
   @Input() Documento: DocumentoModelo = null;
   @Input() personaId: string = null;
+  @Input() estadoBoton : boolean = false;
   @Output() docUploaded: EventEmitter<string> = new EventEmitter();
+  @Output() enviandoDoc : EventEmitter<boolean> = new EventEmitter();
   uploaded: boolean = false;
   uploadFile: File | null;
   uploadFileLabel: string | undefined = '';
   uploadProgress: number;
   uploadUrl: string;
-  working: boolean = false;
   T: any;
 
   constructor(
@@ -75,6 +76,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   }
 
   upload() {
+    this.enviandoDoc.emit(true);
     if (!this.uploadFile) {
       this.toastService.warning(this.T['fotos.no-file'], {
         position: 'bottom-center',
@@ -84,7 +86,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
 
     this.uploadUrl = '';
     this.uploadProgress = 0;
-    this.working = true;
     this.spinner.show('spupload');
 
     const formData: FileParameter = {
@@ -103,9 +104,9 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           this.uploadFileLabel = '';
           this.spinner.hide('docupload');
           this.uploadProgress = 0;
-          this.working = false;
           this.uploaded = true;
           this.docUploaded.emit(this.Documento.id);
+          this.enviandoDoc.emit(false);
         },
         (err) => {
           this.toastService.error(this.T['perfil.error-envio-documento'], {
@@ -115,7 +116,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           this.uploadFileLabel = '';
           this.spinner.hide('docupload');
           this.uploadProgress = 0;
-          this.working = false;
+          this.enviandoDoc.emit(false);
           console.error(err);
         }
       );
