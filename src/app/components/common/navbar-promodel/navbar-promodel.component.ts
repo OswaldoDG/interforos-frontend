@@ -44,6 +44,7 @@ export class NavbarPromodelComponent implements OnInit {
   admin: boolean = false;
   staff: boolean = false;
   revisor: boolean = false;
+  agencia:boolean=false;
   mobile: boolean = false;
   userName: string = '';
   showPass: boolean = false;
@@ -131,6 +132,7 @@ export class NavbarPromodelComponent implements OnInit {
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
           this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
           this.revisor = p.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0;
+          this.agencia = p.roles.indexOf(TipoRolCliente.Agencia) >= 0;
         }
         this.userName = p.alias;
       }

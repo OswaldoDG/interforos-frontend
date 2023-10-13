@@ -151,6 +151,7 @@
     "menu-mismodelos":"Mis Modelos",
     "menu-staff": "Inicio Staff",
     "menu-admin": "Inicio Administradores",
+    "menu-agencia": "Inicio Agencia",
     "menu-logout": "Cerrar sesión",
     "menu-chpass": "Cambiar contraseña",
     "menu-chpass-no": "No",
@@ -175,7 +176,8 @@
     "perfil": "Perfil",
     "salir": "Salir",
     "proyectos": "Castings",
-    "agencia": "Agencia"
+    "agencia": "Agencia",
+    "misModelos":"Mis Modelos"
   },
   "staff-search": {
     "titulo": "Buscar talento"
@@ -301,7 +303,8 @@
     "colaborador-guardar":"Guardar Datos",
     "colaborador-datos-no-guardados":"No se pudo guardar la Información",
     "colaborador-datos-guardados":"La información se guardo",
-    "colaborador-cancelar":"Cancelar"
+    "colaborador-cancelar":"Cancelar",
+    "email":"Email"
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",

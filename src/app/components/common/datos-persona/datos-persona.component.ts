@@ -32,7 +32,7 @@ export class DatosPersonaComponent implements OnInit {
   @Input() personaId: string = null;
   @Input() validarDocumentos: boolean = true;
   @Input() agenciaId: string = null;
-  @Input() enviadoEstado : boolean = false;
+  @Input() enviadoEstado: boolean = false;
   @Output() PersonaCreada: EventEmitter<string> = new EventEmitter();
   @Output() PersonaActualizada: EventEmitter<string> = new EventEmitter();
   private destroy$ = new Subject();
@@ -87,7 +87,7 @@ export class DatosPersonaComponent implements OnInit {
 
   documentos: DocumentoModelo[] = [];
   instanciasDocumento: Documento[] = [];
-  mostrarOpcion : boolean;
+  mostrarOpcion: boolean;
   constructor(
     private personaService: PersonaInfoService,
     private bks: BreakpointObserver,
@@ -98,7 +98,7 @@ export class DatosPersonaComponent implements OnInit {
     private fb: FormBuilder,
     private sessionService: SessionService,
     dateTimeAdapter: DateTimeAdapter<any>,
-    session: SessionQuery,
+    session: SessionQuery
   ) {
     dateTimeAdapter.setLocale(session.lang);
     this.mostrarOpcion = environment.catalogosAbiertos == false;
@@ -143,6 +143,7 @@ export class DatosPersonaComponent implements OnInit {
         'perfil.colorCabelloId',
         'perfil.tipoCabelloId',
         'perfil.etniaId',
+        'perfil.email',
       ])
       .subscribe((ts) => {
         this.T = ts;
@@ -186,7 +187,7 @@ export class DatosPersonaComponent implements OnInit {
   formContacto: FormGroup = this.fb.group({
     direccion: [null],
     telefono: [null, Validators.pattern('^[0-9]{10}$')],
-    email: [null],
+    email: [null, Validators.required],
     twitter: [null],
     faceBook: [null],
     linkedIn: [null],
@@ -237,7 +238,6 @@ export class DatosPersonaComponent implements OnInit {
     p.contacto.accesoEmail = accesos;
     p.contacto.accesoRedes = accesos;
     p.contacto.accesoTelefono = accesos;
-
     p.propiedadesFisicas = this.formFisicas.getRawValue();
     p.propiedadesVestuario = this.formVestuario.getRawValue();
     p.idiomasIds = [];
@@ -310,7 +310,9 @@ export class DatosPersonaComponent implements OnInit {
       .get('telefonoWhatsApp')
       .setValue(this.persona.contacto.telefonoWhatsApp);
     this.formContacto.get('telSMS').setValue(this.persona.contacto.telSMS);
-
+    if (!this.miPerfil || this.agenciaId) {
+      this.formContacto.get('email').setValue(this.persona.contacto.email);
+    }
     this.mostrarContacto = !this.persona.contacto.omitirDatos;
 
     this.formGenerales.get('id').setValue(this.persona.id);
@@ -726,6 +728,12 @@ export class DatosPersonaComponent implements OnInit {
       });
       return false;
     }
+    if (this.agenciaId) {
+      console.log(!this.formContacto.get('email').valid);
+      if (!this.formContacto.get('email').valid) {
+        return false;
+      }
+    }
 
     return true;
   }
@@ -773,9 +781,9 @@ export class DatosPersonaComponent implements OnInit {
             });
             this.inCall = false;
             if (this.miPerfil) {
-            this.apiPersona.perfilusuario().subscribe((e)=>{
-              this.sessionService.establecePerfil(e);
-            });
+              this.apiPersona.perfilusuario().subscribe((e) => {
+                this.sessionService.establecePerfil(e);
+              });
             }
             this.spinner.hide('spperfil');
           },
@@ -795,7 +803,7 @@ export class DatosPersonaComponent implements OnInit {
             this.toastService.success(this.T['perfil.datos-ok'], {
               position: 'bottom-center',
             });
-            this.apiPersona.perfilusuario().subscribe((e)=>{
+            this.apiPersona.perfilusuario().subscribe((e) => {
               this.sessionService.establecePerfil(e);
             });
             this.inCall = false;
@@ -836,6 +844,13 @@ export class DatosPersonaComponent implements OnInit {
             position: 'bottom-center',
           });
         }
+      }
+    }
+    if (this.agenciaId) {
+      if (!this.formContacto.get('email').value) {
+        this.toastService.warning(this.T['perfil.email'], {
+          position: 'bottom-center',
+        });
       }
     }
   }

@@ -5,7 +5,12 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first, takeUntil } from 'rxjs/operators';
-import { AccesoClient, PersonaClient, RegistroClient, TipoRolCliente } from 'src/app/services/api/api-promodel';
+import {
+  AccesoClient,
+  PersonaClient,
+  RegistroClient,
+  TipoRolCliente,
+} from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 import { SessionService } from 'src/app/state/session.service';
 import { Router } from '@angular/router';
@@ -24,6 +29,7 @@ export class NavbarStyleOneComponent implements OnInit {
   modelo: boolean = false;
   admin: boolean = false;
   staff: boolean = false;
+  agencia: boolean = false;
 
   userName: string = '';
   showPass: boolean = false;
@@ -57,7 +63,7 @@ export class NavbarStyleOneComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private translate: TranslateService,
-    private toastService: HotToastService,
+    private toastService: HotToastService
   ) {}
 
   ngOnInit(): void {
@@ -71,21 +77,19 @@ export class NavbarStyleOneComponent implements OnInit {
         this.T = trads;
       });
 
-    this.query.autenticado$.pipe(takeUntil(this.destroy$))
-    .subscribe((u) => {
+    this.query.autenticado$.pipe(takeUntil(this.destroy$)).subscribe((u) => {
       this.autenticado = u;
     });
 
-    this.query.perfil$.pipe(takeUntil(this.destroy$))
-    .subscribe(p=> {
-      if(p != null && p != undefined){
-        this.admin =  (p.roles.indexOf(TipoRolCliente.Administrador) >= 0);
-        this.staff =  (p.roles.indexOf(TipoRolCliente.Staff) >= 0);
-        this.modelo =  (p.roles.indexOf(TipoRolCliente.Modelo) >= 0);
+    this.query.perfil$.pipe(takeUntil(this.destroy$)).subscribe((p) => {
+      if (p != null && p != undefined) {
+        this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
+        this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
+        this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
+        this.agencia = p.roles.indexOf(TipoRolCliente.Agencia) >= 0;
         this.userName = p.alias;
       }
     });
-
   }
 
   ngOnDestroy() {
@@ -122,7 +126,9 @@ export class NavbarStyleOneComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (r) => {
-          this.toastService.info(this.T['navbar.registro-creado'], { position: 'bottom-center'});
+          this.toastService.info(this.T['navbar.registro-creado'], {
+            position: 'bottom-center',
+          });
           this.runRegistro(false);
           this.closemodal.nativeElement.click();
         },
@@ -144,7 +150,9 @@ export class NavbarStyleOneComponent implements OnInit {
 
   login() {
     if (!this.loginForm.valid) {
-      this.toastService.warning(this.T['navbar.datos-incorrectos-login'], { position: 'bottom-center'});
+      this.toastService.warning(this.T['navbar.datos-incorrectos-login'], {
+        position: 'bottom-center',
+      });
       return;
     }
     this.runLogin(true);
@@ -167,8 +175,8 @@ export class NavbarStyleOneComponent implements OnInit {
                 this.session.establecePerfil(u);
                 this.runLogin(false);
 
-                if(u.requirePerfil) {
-                  if(u.tienePerfil) {
+                if (u.requirePerfil) {
+                  if (u.tienePerfil) {
                     if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
                       this.router.navigateByUrl('/staff');
                     } else {
@@ -178,13 +186,12 @@ export class NavbarStyleOneComponent implements OnInit {
                     this.router.navigateByUrl('/perfil');
                   }
                 } else {
-                  if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
-                    this.router.navigateByUrl('/staff');
+                  if (u.roles.indexOf(TipoRolCliente.Agencia) >= 0) {
+                    this.router.navigateByUrl('/mismodelos');
                   } else {
-                    this.router.navigateByUrl('/model');
+                    this.router.navigateByUrl('/staff');
                   }
                 }
-
               },
               (err) => {
                 this.userName = this.loginForm.get('usuario').getRawValue();
@@ -194,7 +201,9 @@ export class NavbarStyleOneComponent implements OnInit {
         },
         (err) => {
           console.log(err);
-          this.toastService.warning(this.T['navbar.login-incorrecto'], { position: 'bottom-center'});
+          this.toastService.warning(this.T['navbar.login-incorrecto'], {
+            position: 'bottom-center',
+          });
           this.runLogin(false);
         }
       );

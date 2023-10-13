@@ -157,6 +157,7 @@ import { CastingCardComponentComponent } from './components/common/casting-card-
 import { ModalEliminarCastingComponent } from './components/common/modal-eliminar-casting/modal-eliminar-casting.component';
 import { PromodelRevisorComponent } from './components/pages/promodel-revisor/promodel-revisor.component';
 import { CategoriaCastingViewComponent } from './components/common/categoria-casting-view/categoria-casting-view.component';
+import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/promodel-agencia.component';
 
 defineLocale('es', esLocale);
 
@@ -277,6 +278,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalEliminarCastingComponent,
     PromodelRevisorComponent,
     CategoriaCastingViewComponent,
+    PromodelAgenciaComponent,
   ],
   imports: [
     AppRoutingModule,

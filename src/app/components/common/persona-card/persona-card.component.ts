@@ -48,6 +48,7 @@ export class PersonaCardComponent implements OnInit {
   @Input() modoStaff: boolean = false;
   //Vista Para revisor
   @Input() modoRevisor: boolean = false;
+  //Vista Para revisor
 
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';

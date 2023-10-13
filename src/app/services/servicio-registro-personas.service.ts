@@ -19,7 +19,7 @@ export class ServicioRegistroPersonasService {
 
   getPersonasApi() {
     this.personaClient.porusuarioGet().subscribe((p) => {
-      if (p.length > 0) {
+      if (p) {
         const busqueda = {
           request: {
             ids: p.map((d) => d.id),

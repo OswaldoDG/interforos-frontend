@@ -1,10 +1,11 @@
+<div *ngIf="agenciaId">
 <app-navbar-promodel></app-navbar-promodel>
-
+</div>
 <!-- Start Page Title Area -->
 <div
   class="page-title-area"
   *ngFor="let Content of pageTitleContent"
-  style="background-image: url({{ Content.backgroundImage }});"
+  style="background-image: url({{ Content.backgroundImage }})"
 >
   <div class="container">
     <div class="page-title-content">
@@ -197,6 +198,6 @@
     </div>
   </div>
 </section>
-<!-- End Gallery Area -->
 
-<app-footer-style-one></app-footer-style-one>
+
+

@@ -34,6 +34,7 @@ export class NavbarStaffComponent implements OnInit {
   modelo: boolean = false;
   admin: boolean = false;
   staff: boolean = false;
+  agencia: boolean = false;
   userName: string = '';
   T: any[];
 
@@ -90,6 +91,7 @@ export class NavbarStaffComponent implements OnInit {
           this.admin = p.roles.indexOf(TipoRolCliente.Administrador) >= 0;
           this.staff = p.roles.indexOf(TipoRolCliente.Staff) >= 0;
           this.modelo = p.roles.indexOf(TipoRolCliente.Modelo) >= 0;
+          this.agencia = p.roles.indexOf(TipoRolCliente.Agencia) >= 0;
         }
         this.userName = p.alias;
       }

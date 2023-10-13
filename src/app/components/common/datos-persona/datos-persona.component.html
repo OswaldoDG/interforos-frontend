@@ -38,8 +38,8 @@
               [Documento]="doc"
               [Instancias]="instanciasDocumento"
               [personaId]="persona.id"
-              (enviandoDoc) = "EnviandoDoc($event)"
-              [estadoBoton] = "enviadoEstado"
+              (enviandoDoc)="EnviandoDoc($event)"
+              [estadoBoton]="enviadoEstado"
             ></app-documento-persona>
           </div>
         </div>
@@ -307,7 +307,7 @@
                 [(ngModel)]="otroIdioma"
                 id="otroIdioma"
                 [disabled]="mostrarOpcion"
-                />
+              />
             </div>
           </div>
         </div>
@@ -405,7 +405,7 @@
                 />
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" >
+            <div class="col-lg-6 col-md-6 col-sm-12">
               <label for="colorOjosId">{{
                 "perfil.colorOjosId" | translate
               }}</label>
@@ -425,7 +425,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" >
+            <div class="col-lg-6 col-md-6 col-sm-12">
               <label for="tipoCabelloId">{{
                 "perfil.tipoCabelloId" | translate
               }}</label>
@@ -445,7 +445,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" >
+            <div class="col-lg-6 col-md-6 col-sm-12">
               <label for="colorCabelloId">{{
                 "perfil.colorCabelloId" | translate
               }}</label>
@@ -824,6 +824,18 @@
                     class="form-control"
                     formControlName="instagram"
                     id="instagram"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!miPerfil || agenciaId">
+                <label for="email">{{ "perfil.email" | translate }}</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    placeholder="{{ 'perfil.email' | translate }}"
+                    class="form-control"
+                    formControlName="email"
+                    id="email"
                   />
                 </div>
               </div>
