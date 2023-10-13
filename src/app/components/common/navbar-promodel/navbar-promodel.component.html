@@ -19,6 +19,15 @@
 
         <div class="collapse navbar-collapse mean-menu">
           <ul class="navbar-nav">
+            <li *ngIf="autenticado && (agencia || admin)" class="nav-item">
+              <a
+                routerLink="/agencia"
+                class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "navbar.menu-agencia" | translate }}</a
+              >
+            </li>
             <li *ngIf="autenticado && (staff || admin)" class="nav-item">
               <a
                 routerLink="/staff"

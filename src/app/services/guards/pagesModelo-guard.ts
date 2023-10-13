@@ -6,6 +6,7 @@ import { SessionQuery } from 'src/app/state/session.query';
 import { ModelotieneperfilGuard } from './modelotieneperfil-guard';
 import { TranslateService } from '@ngx-translate/core';
 import { HotToastService } from '@ngneat/hot-toast';
+import { AgenciaGuard } from './agencia-guard';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class PagesModeloGuard implements CanActivate {
     private router: Router,
     private modelo: ModeloGuard,
     private admin: AdminGuard,
+    private agencia:AgenciaGuard,
     private modeloPerfil: ModelotieneperfilGuard,
     private sessionQuery: SessionQuery,
     private translate: TranslateService,
@@ -32,7 +34,7 @@ export class PagesModeloGuard implements CanActivate {
   }
 
   canActivate(): boolean {
-    if (this.modelo.canActivate() || this.admin.canActivate()) {
+    if (this.modelo.canActivate() || this.admin.canActivate() || this.agencia.canActivate()) {
       if (this.modeloPerfil.canActivate()) {
         return true;
       } else {

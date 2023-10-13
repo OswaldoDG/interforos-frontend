@@ -23,11 +23,19 @@
           }}</span>
         </a>
       </li>
-      <li class="nav-item" routerLinkActive="active mm-active">
+      <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin || revisor">
         <a routerLink="/castings" class="nav-link">
           <span class="icon"><i class="bx bx-briefcase"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.proyectos" | translate
+          }}</span>
+        </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active mm-active" *ngIf="agencia||admin">
+        <a routerLink="/agencia" class="nav-link">
+          <span class="icon"><i class="bx bxs-user-rectangle"></i></span>
+          <span class="menu-title">{{
+            "side-menu-staff.misModelos" | translate
           }}</span>
         </a>
       </li>
