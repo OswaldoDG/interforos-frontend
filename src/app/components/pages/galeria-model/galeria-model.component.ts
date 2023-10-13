@@ -109,7 +109,7 @@ export class GaleriaModelComponent implements OnInit {
           principal: e.principal,
           landscape: e.landscape,
           titulo: e.titulo,
-          url: `${environment.apiRoot}/videos/${this.mediaCliente.usuarioId}/${e.id}-full.mp4`,
+          url: `https://drive.google.com/uc?export=download&id=${e.id}`,
           urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/card`,
         };
       }
