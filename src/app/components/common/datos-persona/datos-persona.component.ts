@@ -900,4 +900,10 @@ export class DatosPersonaComponent implements OnInit {
       this.PersonaCreada.emit(null);
     }
   }
+  pageTitleContent = [
+    {
+      title: 'Mi Perfil',
+      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+    },
+  ];
 }

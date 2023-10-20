@@ -28,7 +28,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   personaIdEliminar: string = null;
   dVertical: boolean = true;
   tBusqueda: boolean = true;
-  agenciaId = null;
+  agenciaId:string ='';
   LlamarBackend: boolean = true;
   consentimiento: Consentimiento;
   mostarControlesMisModelos: boolean = true;

@@ -16,7 +16,7 @@
     [consentimiento]="consentimiento"
   >
     <div *ngIf="Editando && !verMedios">
-      <div class="row pt-5">
+      <div class="row gy-5 g-5">
         <div class="col-lg-12 col-md-12 col-sm-12 pt-5">
           <app-datos-persona
             [miPerfil]="miPerfil"
@@ -29,12 +29,11 @@
       </div>
     </div>
     <div *ngIf="Editando && verMedios">
-      <div class="row">
+      <div class="row gy-5 g-5">
         <div class="col-lg-12 col-md-12 col-sm-12">
           <app-galeria-model
             [uid]="uid"
             (volverMisModelos)="volver($event)"
-            (agenciaId)="(agenciaId)"
           ></app-galeria-model>
         </div>
       </div>
