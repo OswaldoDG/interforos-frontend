@@ -908,6 +908,7 @@ export class DatosPersonaComponent implements OnInit {
       this.PersonaCreada.emit(null);
     }
   }
+
   pageTitleContent = [
     {
       title: 'Mi Perfil',
@@ -919,4 +920,5 @@ export class DatosPersonaComponent implements OnInit {
   onClosed(dismissedAlert: any): void {
     this.dismissible = false;
   }
+
 }
