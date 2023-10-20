@@ -925,9 +925,4 @@ export class DatosPersonaComponent implements OnInit {
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
-
-  //AUX
-  onClosed(dismissedAlert: any): void {
-    this.dismissible = false;
-  }
 }
