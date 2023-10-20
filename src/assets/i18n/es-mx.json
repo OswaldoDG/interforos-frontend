@@ -304,7 +304,9 @@
     "colaborador-datos-no-guardados":"No se pudo guardar la Información",
     "colaborador-datos-guardados":"La información se guardo",
     "colaborador-cancelar":"Cancelar",
-    "email":"Email"
+    "email":"Email",
+    "datosCompletos-snap":"Nota!",
+    "datosCompletos-msj":"Complete sus datos para generar su clave única de modelo."
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",
