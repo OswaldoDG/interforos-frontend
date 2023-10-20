@@ -20,7 +20,6 @@ export class PersonaInfoComponent implements OnInit, OnChanges {
   @Input() persona: Persona = null;
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
-
   constructor(private bks: BreakpointObserver) {}
 
   ngOnChanges(changes: SimpleChanges): void {

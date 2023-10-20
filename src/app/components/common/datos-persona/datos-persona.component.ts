@@ -88,6 +88,8 @@ export class DatosPersonaComponent implements OnInit {
   documentos: DocumentoModelo[] = [];
   instanciasDocumento: Documento[] = [];
   mostrarOpcion: boolean;
+  registroCompleto: boolean = false;
+  dismissible = true;
   constructor(
     private personaService: PersonaInfoService,
     private bks: BreakpointObserver,
@@ -565,6 +567,7 @@ export class DatosPersonaComponent implements OnInit {
               this.setHabilidades();
               this.ValoresAForma();
               this.spinner.hide('spperfil');
+              this.registroCompleto = this.persona.datosCompletos;
             },
             (err) => {
               this.esUpdate = false;
@@ -624,6 +627,7 @@ export class DatosPersonaComponent implements OnInit {
             this.setHabilidades();
             this.ValoresAForma();
             this.spinner.hide('spperfil');
+            this.registroCompleto = this.persona.datosCompletos;
           },
           (err) => {
             this.esUpdate = false;
@@ -761,7 +765,7 @@ export class DatosPersonaComponent implements OnInit {
     }
 
     const p = this.FormaAPersona();
-
+    p.datosCompletos = true;
     this.inCall = true;
     this.spinner.show('spperfil');
     if (this.esUpdate) {
@@ -779,6 +783,8 @@ export class DatosPersonaComponent implements OnInit {
             this.toastService.success(this.T['perfil.datos-ok'], {
               position: 'bottom-center',
             });
+            this.registroCompleto = p.datosCompletos;
+            this.dismissible = false;
             this.inCall = false;
             if (this.miPerfil) {
               this.apiPersona.perfilusuario().subscribe((e) => {
@@ -803,6 +809,8 @@ export class DatosPersonaComponent implements OnInit {
             this.toastService.success(this.T['perfil.datos-ok'], {
               position: 'bottom-center',
             });
+            this.registroCompleto = r.datosCompletos;
+            this.dismissible = false;
             this.apiPersona.perfilusuario().subscribe((e) => {
               this.sessionService.establecePerfil(e);
             });
@@ -899,5 +907,10 @@ export class DatosPersonaComponent implements OnInit {
       this.personaId = null;
       this.PersonaCreada.emit(null);
     }
+  }
+
+  //AUX
+  onClosed(dismissedAlert: any): void {
+    this.dismissible = false;
   }
 }
