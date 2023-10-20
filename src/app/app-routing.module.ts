@@ -63,6 +63,7 @@ import { PromodelRevisorComponent } from './components/pages/promodel-revisor/pr
 import { validaPerfilGuard } from './services/guards/validaPerfilGuard';
 import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/promodel-agencia.component';
 import { PagesAgenciaGuard } from './services/guards/pagesAgencia-guard';
+import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -104,7 +105,7 @@ const routes: Routes = [
   },
   {
     path: 'galeria',
-    component: GaleriaModelComponent,
+    component: GaleriaPersonaComponent,
     canActivate: [PagesModeloGuard],
   },
   { path: 'confirmacion/:id', component: ConfirmacionComponent },

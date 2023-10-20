@@ -35,7 +35,6 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export class GaleriaModelComponent implements OnInit {
   @Output() volverMisModelos: EventEmitter<string> = new EventEmitter();
   @Input() uid: string = undefined;
-  @Input() agenciaId: string = null;
   blogGrid: number = 1;
   working = false;
   uploadFile: File | null;
