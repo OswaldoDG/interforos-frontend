@@ -72,9 +72,11 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   refrescar() {
+    this.spinner.show('loadCastings');
     this.castingClient.castingGet(true).subscribe((data) => {
       this.casting = data;
       this.castingsFiltrados = data;
+      this.spinner.hide('loadCastings');
     });
   }
 
