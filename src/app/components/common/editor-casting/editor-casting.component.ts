@@ -71,7 +71,11 @@ export class EditorCastingComponent implements OnInit {
       aperturaAutomatica: [this.aperturaAuto],
     });
     this.dateTimeAdapter.setLocale('es-ES');
-    this.translate.get(['casting.guardar']).subscribe((ts) => {
+    this.translate.get([
+      'casting.guardar',
+      'casting.crear',
+      'casting.error'
+    ]).subscribe((ts) => {
       this.T = ts;
     });
   }
