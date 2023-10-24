@@ -351,7 +351,8 @@
     "mensaje-abandonar-error" : "Ha ocurrido un error al abandonar la categoría, intente más tarde.",
     "guardar":"Se han Guardado los datos Correctamente",
     "crear":"Se ha creado  el Casting Correctamente",
-    "error":"No se ha podido guardar los datos."
+    "error":"No se ha podido guardar los datos.",
+    "noCategorias":"No hay categorías en el Casting."
 
   },
   "comentarios": {

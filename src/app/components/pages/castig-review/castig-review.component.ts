@@ -1,5 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import {
   CastingClient,
   Persona,
@@ -23,11 +24,13 @@ export class CastigReviewComponent implements OnInit {
   categorias: SelectorCategoria[] = [];
   dVertical: boolean = false;
   tBusqueda: boolean = false;
+  hayCategorias : boolean = false;
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
     private servicio: CastingStaffServiceService,
     private personaClient: PersonaClient,
+    private spinner: NgxSpinnerService,
     private ruta:Router
   ) {
     this.rutaActiva.params.subscribe((params: Params) => {
@@ -41,6 +44,9 @@ export class CastigReviewComponent implements OnInit {
       this.servicio.ActualizarCasting(c);
       if (c.categorias.length > 0) {
         this.onChangeCategoria(c.categorias[0].id);
+        this.hayCategorias = true;
+      }else{
+        this.hayCategorias = false;
       }
     });
   }
@@ -50,6 +56,7 @@ export class CastigReviewComponent implements OnInit {
   }
 
   public modelosCategoriaActual(id: string) {
+    this.spinner.show('loadCategorias');
     const modelos: Persona[] = [];
     var indexC = this.casting.categorias.findIndex((c) => c.id == id);
     if (this.casting.categorias[indexC].modelos.length > 0) {
@@ -59,10 +66,12 @@ export class CastigReviewComponent implements OnInit {
             modelos.push(p);
           }
           this.procesaPersonas(modelos);
+          this.spinner.hide('loadCategorias');
         });
       });
     } else {
       this.personasDesplegables = [];
+      this.spinner.hide('loadCategorias');
     }
   }
 
