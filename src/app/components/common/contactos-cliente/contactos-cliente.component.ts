@@ -38,6 +38,7 @@ export class ContactosClienteComponent
   protected contactosCliente: any[] = [];
   // En esta variable se llenan los contactos seleccionados
   public contactosCasting: ContactoCasting[] = [];
+  public emailMod: boolean = false;
   //  dropdown en el template
   roles: TipoRolCliente[] = [
     TipoRolCliente.Staff,
@@ -178,6 +179,7 @@ export class ContactosClienteComponent
       let contacto = this.contactosCasting.find((c) => c.email == field);
       if (contacto != undefined) {
         this.formContactos.get('email').setValue(contacto.email);
+        this.formContactos.get('email').disable();
         this.formContactos.get('rol').setValue(contacto.rol);
       }
     }
@@ -204,6 +206,9 @@ export class ContactosClienteComponent
   }
 
   // Auxiliares UI
+
+
+
   recibidoDelModal(r: string) {
     if (r == 'Y') {
       this.eliminaContacto(this.idSeleccinadoEliminar);
