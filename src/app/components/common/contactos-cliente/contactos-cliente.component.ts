@@ -186,6 +186,7 @@ export class ContactosClienteComponent
   }
 
   public limpiar() {
+    this.formContactos.get('email').enable();
     this.formContactos.get('email').setValue('');
     this.formContactos.get('rol').setValue('');
   }
