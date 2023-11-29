@@ -118,7 +118,7 @@ export class EditorCastingComponent implements OnInit {
       cierreAutomatico: this.formProyecto.value.cierreAutomatico,
       aperturaAutomatica: this.formProyecto.value.aperturaAutomatica,
     };
-
+    this.spinner.show('loadCasting');
     this.clientApi.castingPost(datos).subscribe((data1) => {
       this.CastingActual = data1;
       this.CastingId = data1.id;
@@ -150,8 +150,10 @@ export class EditorCastingComponent implements OnInit {
         });
       }
       this.toastService.success(this.T['casting.crear'], {
+
         position: 'bottom-center',
       });
+      this.spinner.hide('loadCasting');
     },(error)=>{this.toastService.success(this.T['casting.error'], {
       position: 'bottom-center',
     });});
@@ -159,7 +161,9 @@ export class EditorCastingComponent implements OnInit {
 
   // Actualzia el casting con los datos de la forma
   actualizarCasting() {
+    this.spinner.show('loadCasting');
     if (!this.CastingId) {
+      this.spinner.hide('loadCasting');
       return;
     }
     (this.CastingActual.nombre = this.formProyecto.value.nombre),
@@ -209,6 +213,7 @@ export class EditorCastingComponent implements OnInit {
             this.toastService.success(this.T['casting.guardar'], {
               position: 'bottom-center',
             });
+            this.spinner.hide('loadCasting');
           }
         });
   }
