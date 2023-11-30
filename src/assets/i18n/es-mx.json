@@ -6,7 +6,8 @@
     "select-all": "Todas",
     "select-clear": "Borrar",
     "select-search": "Buscar",
-    "select-nodata": "No se encuetra el tipo"
+    "select-nodata": "No se encuetra el tipo",
+    "logOut":"Cerrar Sesion"
   },
   "buscar": {
     "btn-buscar": "Buscar",

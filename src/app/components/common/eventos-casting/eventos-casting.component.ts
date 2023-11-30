@@ -213,7 +213,7 @@ export class EventosCastingComponent implements OnInit {
       cellRenderer: BtnCloseRenderer,
       cellRendererParams:{
         clicked: (field : any) => {
-          this.componenteModal.openModal(this.componenteModal.myTemplate, 'el evento');
+          this.componenteModal.openModal(this.componenteModal.myTemplate, 'eliminar el evento');
           this.idSeleccinadoEliminar = field;
         },
       },
