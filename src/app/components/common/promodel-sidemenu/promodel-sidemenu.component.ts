@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-promodel-sidemenu',
@@ -37,7 +38,7 @@ export class PromodelSidemenuComponent implements OnInit {
   agencia: boolean = false;
   userName: string = '';
   T: any[];
-
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
     @Inject('persistStorage') private persistStorage: PersistState[],
     private titleService: Title,
@@ -51,7 +52,9 @@ export class PromodelSidemenuComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private translate: TranslateService,
-    private toastService: HotToastService
+    private toastService: HotToastService,
+    private ruta: Router,
+    private login: SessionService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +75,7 @@ export class PromodelSidemenuComponent implements OnInit {
         'side-menu-staff.buscar',
         'side-menu-staff.mi-cuenta',
         'side-menu-staff.salir',
+        'comun.logOut',
       ])
       .subscribe((trads) => {
         this.T = trads;
@@ -96,5 +100,21 @@ export class PromodelSidemenuComponent implements OnInit {
         this.userName = p.alias;
       }
     });
+  }
+
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.login.logOut();
+      this.ruta.navigateByUrl('/').then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
+  confirmar() {
+    this.componenteModal.openModal(
+      this.componenteModal.myTemplate,
+      this.T['comun.logOut']
+    );
   }
 }

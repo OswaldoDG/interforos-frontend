@@ -130,13 +130,16 @@
           }}</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a routerLink="/" class="nav-link">
+      <li class="nav-item nav-link" (click)="confirmar()">
+        <div  class="nav-link">
           <span class="icon"><i class="bx bx-log-out"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.salir" | translate
           }}</span>
-        </a>
+          </div>
+          <app-modal-confirmacion
+          (modalConfirm)="recibidoDelModal($event)"
+        ></app-modal-confirmacion>
       </li>
     </ul>
   </div>

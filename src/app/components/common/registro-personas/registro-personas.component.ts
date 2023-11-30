@@ -94,7 +94,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
     this.personaIdEliminar = p;
     this.componenteModal.openModal(
       this.componenteModal.myTemplate,
-      'el modelo'
+      'eliminar el modelo'
     );
   }
 

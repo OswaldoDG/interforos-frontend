@@ -97,7 +97,7 @@ export class ComentarioPersonaCastingComponent implements OnInit {
   confirmar(comentarioId: string) {
     this.componenteModal.openModal(
       this.componenteModal.myTemplate,
-      'el comentario'
+      'eliminar el comentario'
     );
     this.idSeleccinadoEliminar = comentarioId;
   }

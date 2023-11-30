@@ -241,7 +241,7 @@ export class ContactosClienteComponent
         clicked: (field: any) => {
           this.componenteModal.openModal(
             this.componenteModal.myTemplate,
-            'el contacto'
+            'eliminar el contacto'
           );
           this.idSeleccinadoEliminar = field;
         },
