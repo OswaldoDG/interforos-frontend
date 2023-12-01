@@ -51,6 +51,7 @@ export class EditorCastingComponent implements OnInit {
   inscripcionAutomatica: boolean = false;
   cierreAuto: boolean = false;
   aperturaAuto: boolean = false;
+  logoGuardado : boolean = false;
   private T: any;
   constructor(
     private clientApi: CastingClient,
@@ -157,7 +158,7 @@ export class EditorCastingComponent implements OnInit {
         });
       },
       (error) => {
-        this.toastService.success(this.T['casting.error'], {
+        this.toastService.error(this.T['casting.error'], {
           position: 'bottom-center',
         });
       }
@@ -212,6 +213,9 @@ export class EditorCastingComponent implements OnInit {
                         this.componenteContactos.contactosCasting
                       );
                       this.actualizarLogo(this.CastingActual.id);
+                      this.toastService.success(this.T['casting.guardar'], {
+                        position: 'bottom-center',
+                      });
                     });
                 });
             });
@@ -280,7 +284,9 @@ export class EditorCastingComponent implements OnInit {
   //agregar o actuliza el log del casting
   actualizarLogo(castignId?: string) {
     if (this.esLogoNuevo && castignId != null) {
-      this.clientApi.logoPut(castignId, this.logoCasting).subscribe();
+      this.clientApi.logoPut(castignId, this.logoCasting).subscribe((data)=>{
+        this.logoGuardado = true;
+      },(error)=>{this.logoGuardado = false});
     }
     this.esLogoNuevo = false;
   }
