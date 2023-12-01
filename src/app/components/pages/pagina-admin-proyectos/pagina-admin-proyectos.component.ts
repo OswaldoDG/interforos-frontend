@@ -40,6 +40,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
       buscar: new FormControl(),
     });
     var roles: string[] = this.session.GetRoles;
+    console.log(roles);
     this.staff = roles.indexOf(TipoRolCliente.Staff.toLocaleLowerCase()) >= 0;
     this.admin =
       roles.indexOf(TipoRolCliente.Administrador.toLocaleLowerCase()) >= 0;
