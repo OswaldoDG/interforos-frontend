@@ -84,26 +84,28 @@ export class CastingStaffServiceService {
   }
   //Agrega el voto del revisor externo
   agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string, revisorId: string) {
-    var indexC = this.casting.categorias.findIndex(
+    var indexCategoria = this.casting.categorias.findIndex(
       (c) => c.id == this.categoriaActual
     );
-    var indexV = this.casting.categorias[indexC].votos.findIndex(
+    var existeVotoRevisor = this.casting.categorias[indexCategoria].votos.find(
       (v) => v.personaId == modeloId && v.usuarioId == revisorId
     );
-    if (indexV >= 0) {
-      var voto = this.casting.categorias[indexC].votos[indexV];
-      voto.nivelLike = votoRevisor.nivelLike;
-      this.categoriaSub.next(this.categoriaActual);
-      this.calcularTotalesSub.next(true);
-
+    var indexVotoRevisor = this.casting.categorias[indexCategoria].votos.findIndex(
+      (v) => v.personaId == modeloId && v.usuarioId == revisorId
+    );
+    if (existeVotoRevisor!=undefined) {
+        var voto = this.casting.categorias[indexCategoria].votos[indexVotoRevisor];
+        voto.nivelLike = votoRevisor.nivelLike;
+        this.categoriaSub.next(this.categoriaActual);
+        this.calcularTotalesSub.next(true);
     } else {
+      var listaActual = this.casting.categorias[indexCategoria].votos;
       const votoMapeado = {
         personaId: modeloId,
         usuarioId: votoRevisor.usuarioId,
         nivelLike: votoRevisor.nivelLike,
       };
-      this.votos.push(votoMapeado);
-      this.casting.categorias[indexC].votos = this.votos;
+      listaActual.push(votoMapeado);
       this.categoriaSub.next(this.categoriaActual);
       this.calcularTotalesSub.next(true);
     }

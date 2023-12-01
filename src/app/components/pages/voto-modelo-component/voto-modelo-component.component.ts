@@ -10,6 +10,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SessionQuery } from 'src/app/state/session.query';
+import { ResumenVotoModeloComponent } from '../../common/resumen-voto-modelo/resumen-voto-modelo.component';
 
 @Component({
   selector: 'app-voto-modelo-component',
@@ -37,11 +38,12 @@ export class VotoModeloComponentComponent implements OnInit {
   modalRef?: BsModalRef;
   esRevisor: boolean = false;
   nombreModelo: string;
+  resumenVoto : ResumenVotoModeloComponent;
   constructor(
     private servicio: CastingStaffServiceService,
     private castingService: CastingClient,
     private modalService: BsModalService,
-    private session: SessionQuery
+    private session: SessionQuery,
   ) {}
 
   ngOnInit(): void {
