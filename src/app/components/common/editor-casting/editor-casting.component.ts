@@ -71,13 +71,11 @@ export class EditorCastingComponent implements OnInit {
       aperturaAutomatica: [this.aperturaAuto],
     });
     this.dateTimeAdapter.setLocale('es-ES');
-    this.translate.get([
-      'casting.guardar',
-      'casting.crear',
-      'casting.error'
-    ]).subscribe((ts) => {
-      this.T = ts;
-    });
+    this.translate
+      .get(['casting.guardar', 'casting.crear', 'casting.error'])
+      .subscribe((ts) => {
+        this.T = ts;
+      });
   }
 
   ngOnInit() {
@@ -118,45 +116,52 @@ export class EditorCastingComponent implements OnInit {
       cierreAutomatico: this.formProyecto.value.cierreAutomatico,
       aperturaAutomatica: this.formProyecto.value.aperturaAutomatica,
     };
-    this.spinner.show('loadCasting');
-    this.clientApi.castingPost(datos).subscribe((data1) => {
-      this.CastingActual = data1;
-      this.CastingId = data1.id;
-      this.actualizarLogo(data1.id);
-      this.esUpdate = true;
-      if (data1 != null) {
-        var a = this.componenteEventos.listaEventos;
-        var b = this.componenteCategorias.categoriasCasting;
-        var c = this.componenteContactos.listaContactoUsuario();
-        this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
-          this.CastingActual = data1;
-          this.CastingId = data1.id;
-          this.componenteEventos.gridApi.setRowData(a);
-          this.componenteEventos.listaEventos = [...a];
-          this.clientApi.categoriasPut(this.CastingId, b).subscribe((data2) => {
+
+    this.clientApi.castingPost(datos).subscribe(
+      (data1) => {
+        this.CastingActual = data1;
+        this.CastingId = data1.id;
+        this.esUpdate = true;
+        if (data1 != null) {
+          var a = this.componenteEventos.listaEventos;
+          var b = this.componenteCategorias.categoriasCasting;
+          var c = this.componenteContactos.listaContactoUsuario();
+          this.clientApi.eventos(this.CastingId, a).subscribe((data2) => {
             this.CastingActual = data1;
             this.CastingId = data1.id;
-            this.componenteCategorias.gridApi.setRowData(b);
-            this.componenteCategorias.categoriasCasting = [...b];
-            this.clientApi.contactos(this.CastingId, c).subscribe((data3) => {
-              this.componenteContactos.contactosCasting = [...data3];
-              this.componenteContactos.gridApi.setRowData(
-                this.componenteContactos.contactosCasting
-              );
-              this.CastingActual = data1;
-              this.CastingId = data1.id;
-            });
+            this.componenteEventos.gridApi.setRowData(a);
+            this.componenteEventos.listaEventos = [...a];
+            this.clientApi
+              .categoriasPut(this.CastingId, b)
+              .subscribe((data2) => {
+                this.CastingActual = data1;
+                this.CastingId = data1.id;
+                this.componenteCategorias.gridApi.setRowData(b);
+                this.componenteCategorias.categoriasCasting = [...b];
+                this.clientApi
+                  .contactos(this.CastingId, c)
+                  .subscribe((data3) => {
+                    this.componenteContactos.contactosCasting = [...data3];
+                    this.componenteContactos.gridApi.setRowData(
+                      this.componenteContactos.contactosCasting
+                    );
+                    this.CastingActual = data1;
+                    this.CastingId = data1.id;
+                    this.actualizarLogo(data1.id);
+                  });
+              });
           });
+        }
+        this.toastService.success(this.T['casting.crear'], {
+          position: 'bottom-center',
+        });
+      },
+      (error) => {
+        this.toastService.success(this.T['casting.error'], {
+          position: 'bottom-center',
         });
       }
-      this.toastService.success(this.T['casting.crear'], {
-
-        position: 'bottom-center',
-      });
-      this.spinner.hide('loadCasting');
-    },(error)=>{this.toastService.success(this.T['casting.error'], {
-      position: 'bottom-center',
-    });});
+    );
   }
 
   // Actualzia el casting con los datos de la forma
