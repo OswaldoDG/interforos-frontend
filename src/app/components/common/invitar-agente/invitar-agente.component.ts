@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { CatalogoBase, PersonaClient, RegistroClient, TipoRolCliente } from 'src/app/services/api/api-promodel';
 
@@ -21,7 +22,8 @@ export class InvitarAgenteComponent implements OnInit {
               private apiPersona : PersonaClient,
               private registro : RegistroClient,
               private translate: TranslateService,
-              private toastService: HotToastService) {
+              private toastService: HotToastService,
+              private spinner: NgxSpinnerService) {
     this.formAgencias = this.formBuilder.group({
       agencia: ['', Validators.required],
       correos: ['', Validators.required]
@@ -51,6 +53,7 @@ export class InvitarAgenteComponent implements OnInit {
   }
 
   enviarInvitaciones(){
+    this.spinner.show('spinner-invitaciones');
     const lista = this.formAgencias.value.correos.split("\n").join("").trim();
     var express = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
     const lista2 = lista.split(/\s+/).join('');
@@ -75,10 +78,15 @@ export class InvitarAgenteComponent implements OnInit {
           agenciaId: agenciaId.clave
         }
         this.registro.registroPost(usuarioAgencia).subscribe((data) => {
+          this.spinner.hide('spinner-invitaciones');
+
           this.toastService.success(this.T['invitar-agente.invitar-correos-enviados'], { position: 'bottom-center'});
+
         },(err) => {this.toastService.error(this.T['invitar-agente.invitar-correos-error'], { position: 'bottom-center'}); });
       });
     }else{
+      this.spinner.hide('spinner-invitaciones');
+
       this.toastService.error(this.T['invitar-agente.invitar-correos-novalidos'], { position: 'bottom-center'});
 
     }
