@@ -28,6 +28,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./datos-persona.component.scss'],
 })
 export class DatosPersonaComponent implements OnInit {
+  //miPerfil = true es de la persona, cuando es false está creando nuevo modelo;
   @Input() miPerfil: boolean = true;
   @Input() personaId: string = null;
   @Input() validarDocumentos: boolean = true;
@@ -35,6 +36,7 @@ export class DatosPersonaComponent implements OnInit {
   @Input() enviadoEstado: boolean = false;
   @Output() PersonaCreada: EventEmitter<string> = new EventEmitter();
   @Output() PersonaActualizada: EventEmitter<string> = new EventEmitter();
+  mostrarImagen : boolean;
   private destroy$ = new Subject();
   private persona: Persona = {
     id: '',
@@ -146,10 +148,21 @@ export class DatosPersonaComponent implements OnInit {
         'perfil.tipoCabelloId',
         'perfil.etniaId',
         'perfil.email',
+        'perfil.perfil.titulo',
+        'perfil.perfil.alta.titulo'
       ])
       .subscribe((ts) => {
         this.T = ts;
+        if(this.miPerfil == true){
+          this.mostrarImagen= true;
+          this.pageTitleContent[0].title= this.T['perfil.perfil.titulo'];
+        }else{
+          this.mostrarImagen = false;
+          this.pageTitleContent[0].title = this.T['perfil.perfil.alta.titulo'];
+        }
       });
+
+
   }
 
   ngOnDestroy() {
@@ -733,7 +746,6 @@ export class DatosPersonaComponent implements OnInit {
       return false;
     }
     if (this.agenciaId) {
-      console.log(!this.formContacto.get('email').valid);
       if (!this.formContacto.get('email').valid) {
         return false;
       }
@@ -911,8 +923,7 @@ export class DatosPersonaComponent implements OnInit {
 
   pageTitleContent = [
     {
-      title: 'Mi Perfil',
-      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+      title: '',
     },
   ];
 

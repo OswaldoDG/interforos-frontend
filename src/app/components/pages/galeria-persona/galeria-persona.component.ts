@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class GaleriaPersonaComponent implements OnInit {
   pageTitleContent = [
     {
-      title: 'Mi Perfil',
-      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+      title: '',
+      backgroundImage: '',
     },
   ];
   constructor() { }
