@@ -28,7 +28,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./datos-persona.component.scss'],
 })
 export class DatosPersonaComponent implements OnInit {
-  //miPerfil = true es de la persona, cuando es false está creando nuevo modelo;
   @Input() miPerfil: boolean = true;
   @Input() personaId: string = null;
   @Input() validarDocumentos: boolean = true;

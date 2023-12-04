@@ -358,7 +358,6 @@ export class GaleriaModelComponent implements OnInit {
   pageTitleContent = [
     {
       title: '',
-      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
     },
   ];
 
