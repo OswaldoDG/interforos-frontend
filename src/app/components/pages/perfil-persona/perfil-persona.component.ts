@@ -6,7 +6,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./perfil-persona.component.scss'],
 })
 export class PerfilPersonaComponent  {
-
   pageTitleContent = [
     {
       title: 'Mi Perfil',

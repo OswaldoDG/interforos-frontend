@@ -307,7 +307,11 @@
     "colaborador-cancelar":"Cancelar",
     "email":"Email",
     "datosCompletos-snap":"Nota!",
-    "datosCompletos-msj":"Complete sus datos para generar su clave única de modelo."
+    "datosCompletos-msj":"Complete sus datos para generar su clave única de modelo.",
+    "perfil.titulo" : "Mi Perfil",
+    "perfil.alta.titulo":"Alta de Nuevo Modelo",
+    "perfil.fotos":"Mis fotos",
+    "perfil.fotos.alta":"Fotos y Videos"
   },
   "recuperacion":{
     "titulo": "Restablecer Contraseña",

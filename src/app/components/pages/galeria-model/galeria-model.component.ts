@@ -255,10 +255,17 @@ export class GaleriaModelComponent implements OnInit {
         'fotos.foto-gen-error',
         'fotos.foto-altprin-error',
         'fotos.foto-delprin-error',
+        'perfil.perfil.fotos.alta',
+        'perfil.perfil.fotos'
       ])
       .pipe(first())
       .subscribe((ts) => {
         this.T = ts;
+        if(this.uid != undefined){
+          this.pageTitleContent[0].title= this.T['perfil.perfil.fotos.alta'];
+        }else{
+          this.pageTitleContent[0].title= this.T['perfil.perfil.fotos'];
+        }
       });
   }
 
@@ -350,8 +357,7 @@ export class GaleriaModelComponent implements OnInit {
 
   pageTitleContent = [
     {
-      title: 'Mis fotos',
-      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+      title: '',
     },
   ];
 
