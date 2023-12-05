@@ -221,7 +221,7 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.verHabilidades),
       (this.CastingActual.pernisosEcternos.verDatosGenerales  =
         this.formProyecto.value.verDatosGenerales),
-      (this.CastingActual.pernisosEcternos.verRedesSociales  =
+      (this.CastingActual.pernisosEcternos.verGaleriaPersonal  =
         this.formProyecto.value.verGaleriaPersonal),
       (this.CastingActual.pernisosEcternos.verComentarios  =
           this.formProyecto.value.verComentarios),
