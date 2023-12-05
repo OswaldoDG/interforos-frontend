@@ -91,6 +91,17 @@
               <input
               class="form-check-input"
               type="checkbox"
+              formControlName="verDireccion"
+              (change)="onChangeVerDireccion()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerDireccion" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
               formControlName="verEmail"
               (change)="onChangeVerEmail()"
             />

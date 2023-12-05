@@ -133,6 +133,7 @@
     "VerDatosGenerales": "Datos apariencia",
     "VerGaleriaPersonal": "Galería personal",
     "VerComentarios" : "Comentarios",
+    "VerDireccion":"Dirección",
     "externospuedenver": "Los externos pueden ver:"
   },
   "navbar": {

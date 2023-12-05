@@ -61,6 +61,7 @@ export class EditorCastingComponent implements OnInit {
   verdatosGenerales : boolean = false;
   vergaleriaPersonal : boolean = false;
   verComentarios : boolean = false;
+  verdireccion : boolean = false;
   private T: any;
   constructor(
     private clientApi: CastingClient,
@@ -81,6 +82,7 @@ export class EditorCastingComponent implements OnInit {
       aperturaAutomatica: [this.aperturaAuto],
       verRedesSociales: [this.verredesSociales],
       verTelefono : [this.vertelefono],
+      verDireccion: [this.verdireccion],
       verEmail : [this.veremail],
       verHabilidades : [this.verhabilidades],
       verDatosGenerales : [this.verdatosGenerales],
@@ -125,6 +127,7 @@ export class EditorCastingComponent implements OnInit {
     const permisos: PermisosCasting ={
       verRedesSociales : this.formProyecto.value.verRedesSociales,
       verTelefono : this.formProyecto.value.verTelefono,
+      verDireccion : this.formProyecto.value.verDireccion,
       verEmail : this.formProyecto.value.verEmail,
       verHabilidades : this.formProyecto.value.verHabilidades,
       verDatosGenerales : this.formProyecto.value.verDatosGenerales,
@@ -225,6 +228,8 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.verGaleriaPersonal),
       (this.CastingActual.pernisosEcternos.verComentarios  =
           this.formProyecto.value.verComentarios),
+      (this.CastingActual.pernisosEcternos.verDireccion  =
+        this.formProyecto.value.verDireccion),
       this.clientApi
         .castingPut(this.CastingId, this.CastingActual)
         .subscribe((data) => {
@@ -316,6 +321,9 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto
           .get('verComentarios')
           .setValue(this.CastingActual.pernisosEcternos.verComentarios);
+        this.formProyecto
+          .get('verDireccion')
+          .setValue(this.CastingActual.pernisosEcternos.verDireccion);
         //Obtine el logo Relacionado al casting
         this.clientApi.logoGet(this.CastingActual.id).subscribe((data) => {
           if (data != null) {
@@ -380,6 +388,9 @@ export class EditorCastingComponent implements OnInit {
   }
   onChangeVerComentarios(){
     this.verComentarios = !this.verComentarios;
+  }
+  onChangeVerDireccion(){
+    this.verdireccion = !this.verdireccion;
   }
 
   //evento de input para cargar la imagen
