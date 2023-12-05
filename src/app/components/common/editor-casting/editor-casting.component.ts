@@ -6,6 +6,7 @@ import {
   CastingClient,
   ContactoCasting,
   ContactoUsuario,
+  PermisosCasting,
 } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
@@ -52,6 +53,14 @@ export class EditorCastingComponent implements OnInit {
   cierreAuto: boolean = false;
   aperturaAuto: boolean = false;
   logoGuardado : boolean = false;
+  //permisos
+  verredesSociales : boolean = false;
+  vertelefono : boolean = false;
+  veremail: boolean = false;
+  verhabilidades : boolean = false;
+  verdatosGenerales : boolean = false;
+  vergaleriaPersonal : boolean = false;
+  verComentarios : boolean = false;
   private T: any;
   constructor(
     private clientApi: CastingClient,
@@ -70,6 +79,13 @@ export class EditorCastingComponent implements OnInit {
       aceptaAutoInscripcionModelos: [this.inscripcionAutomatica],
       cierreAutomatico: [this.cierreAuto],
       aperturaAutomatica: [this.aperturaAuto],
+      verRedesSociales: [this.verredesSociales],
+      verTelefono : [this.vertelefono],
+      verEmail : [this.veremail],
+      verHabilidades : [this.verhabilidades],
+      verDatosGenerales : [this.verdatosGenerales],
+      verGaleriaPersonal : [this.vergaleriaPersonal],
+      verComentarios : [this.verComentarios],
     });
     this.dateTimeAdapter.setLocale('es-ES');
     this.translate
@@ -106,6 +122,15 @@ export class EditorCastingComponent implements OnInit {
 
   // Crea un casting y establece la variable para realizar actualización si la savaguarda es exitosa
   altaCasting() {
+    const permisos: PermisosCasting ={
+      verRedesSociales : this.formProyecto.value.verRedesSociales,
+      verTelefono : this.formProyecto.value.verTelefono,
+      verEmail : this.formProyecto.value.verEmail,
+      verHabilidades : this.formProyecto.value.verHabilidades,
+      verDatosGenerales : this.formProyecto.value.verDatosGenerales,
+      verGaleriaPersonal : this. formProyecto.value.verGaleriaPersonal,
+      verComentarios : this.formProyecto.value.verComentarios
+    }
     const datos: Casting = {
       nombre: this.formProyecto.value.nombre,
       nombreCliente: this.formProyecto.value.nombreCliente,
@@ -116,6 +141,7 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.aceptaAutoInscripcionModelos,
       cierreAutomatico: this.formProyecto.value.cierreAutomatico,
       aperturaAutomatica: this.formProyecto.value.aperturaAutomatica,
+      pernisosEcternos : permisos
     };
 
     this.clientApi.castingPost(datos).subscribe(
@@ -185,6 +211,20 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.cierreAutomatico),
       (this.CastingActual.aperturaAutomatica =
         this.formProyecto.value.aperturaAutomatica),
+      (this.CastingActual.pernisosEcternos.verRedesSociales  =
+        this.formProyecto.value.verRedesSociales),
+      (this.CastingActual.pernisosEcternos.verTelefono  =
+        this.formProyecto.value.verTelefono),
+      (this.CastingActual.pernisosEcternos.verEmail  =
+        this.formProyecto.value.verEmail),
+      (this.CastingActual.pernisosEcternos.verHabilidades  =
+        this.formProyecto.value.verHabilidades),
+      (this.CastingActual.pernisosEcternos.verDatosGenerales  =
+        this.formProyecto.value.verDatosGenerales),
+      (this.CastingActual.pernisosEcternos.verRedesSociales  =
+        this.formProyecto.value.verGaleriaPersonal),
+      (this.CastingActual.pernisosEcternos.verComentarios  =
+          this.formProyecto.value.verComentarios),
       this.clientApi
         .castingPut(this.CastingId, this.CastingActual)
         .subscribe((data) => {
@@ -255,7 +295,27 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto
           .get('aperturaAutomatica')
           .setValue(this.CastingActual.aperturaAutomatica);
-
+        this.formProyecto
+          .get('verRedesSociales')
+          .setValue(this.CastingActual.pernisosEcternos.verRedesSociales);
+        this.formProyecto
+          .get('verTelefono')
+          .setValue(this.CastingActual.pernisosEcternos.verTelefono);
+        this.formProyecto
+          .get('verEmail')
+          .setValue(this.CastingActual.pernisosEcternos.verEmail);
+        this.formProyecto
+          .get('verHabilidades')
+          .setValue(this.CastingActual.pernisosEcternos.verHabilidades);
+        this.formProyecto
+          .get('verDatosGenerales')
+          .setValue(this.CastingActual.pernisosEcternos.verDatosGenerales);
+        this.formProyecto
+          .get('verGaleriaPersonal')
+          .setValue(this.CastingActual.pernisosEcternos.verGaleriaPersonal);
+        this.formProyecto
+          .get('verComentarios')
+          .setValue(this.CastingActual.pernisosEcternos.verComentarios);
         //Obtine el logo Relacionado al casting
         this.clientApi.logoGet(this.CastingActual.id).subscribe((data) => {
           if (data != null) {
@@ -299,6 +359,27 @@ export class EditorCastingComponent implements OnInit {
   }
   onChangeAperturaAutomatica() {
     this.aperturaAuto = !this.aperturaAuto;
+  }
+  onChangeVerRedesSociales() {
+    this.verredesSociales = !this.verredesSociales;
+  }
+  onChangeVerTelefono() {
+    this.vertelefono = !this.vertelefono;
+  }
+  onChangeVerEmail() {
+    this.veremail = !this.veremail;
+  }
+  onChangeVerHabilidades() {
+    this.verhabilidades = !this.verhabilidades;
+  }
+  onChangeVerDatosGenerales() {
+    this.verdatosGenerales = !this.verdatosGenerales;
+  }
+  onChangeVerGaleriaPersonal(){
+    this.vergaleriaPersonal = !this.vergaleriaPersonal;
+  }
+  onChangeVerComentarios(){
+    this.verComentarios = !this.verComentarios;
   }
 
   //evento de input para cargar la imagen
