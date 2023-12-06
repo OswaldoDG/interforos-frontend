@@ -3,12 +3,15 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   CastingClient,
+  PermisosCasting,
   Persona,
   PersonaClient,
   SelectorCastingCategoria,
   SelectorCategoria,
+  TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-castig-review',
@@ -25,22 +28,38 @@ export class CastigReviewComponent implements OnInit {
   dVertical: boolean = false;
   tBusqueda: boolean = false;
   hayCategorias : boolean = false;
+  permisosCast: PermisosCasting ={
+    verRedesSociales: true,
+    verTelefono: true,
+    verDireccion: true,
+    verEmail:  true,
+    verHabilidades: true,
+    verDatosGenerales: true,
+    verGaleriaPersonal: true,
+    verComentarios: true,
+
+  };
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
     private servicio: CastingStaffServiceService,
     private personaClient: PersonaClient,
     private spinner: NgxSpinnerService,
-    private ruta:Router
+    private ruta:Router,
+    private session : SessionQuery
   ) {
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
     });
   }
   ngOnInit(): void {
+    var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
     this.castingClient.revisor(this.castingId).subscribe((c) => {
       this.casting = c;
+      if(roles.indexOf(TipoRolCliente.RevisorExterno.toLocaleLowerCase()) >= 0){
+        this.permisosCast = this.casting.pernisosEcternos;
+      }
       this.servicio.ActualizarCasting(c);
       if (c.categorias.length > 0) {
         this.onChangeCategoria(c.categorias[0].id);

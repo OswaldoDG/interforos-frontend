@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
+import { CastingClient, PermisosCasting, Persona } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
@@ -48,8 +48,12 @@ export class PersonaCardComponent implements OnInit {
   @Input() modoStaff: boolean = false;
   //Vista Para revisor
   @Input() modoRevisor: boolean = false;
-  //Vista Para revisor
-
+  //Permisos
+  @Input() verRedesSociales : boolean = true;
+  @Input() verTelefono : boolean = true;
+  @Input() verEmail : boolean = true;
+  @Input() verDireccion : boolean = true;
+  @Input() verComentarios : boolean = true;
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
   imagenes = [];
@@ -83,7 +87,7 @@ export class PersonaCardComponent implements OnInit {
       }
 
       if (this.persona?.elementoMedioPrincipalId) {
-        this.avatarUrl = `${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
+        this.avatarUrl = '${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb';
       }
       if (this.modoRevisor) {
         this.traerMedios();
@@ -93,6 +97,8 @@ export class PersonaCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.verDireccion);
+    console.log(this.persona.contacto.telefono);
     this.bks
       .observe(['(min-width: 500px)'])
       .subscribe((state: BreakpointState) => {
@@ -116,6 +122,11 @@ export class PersonaCardComponent implements OnInit {
       ' ' +
       this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
+    console.log(this.verComentarios);
+    if(this.verDireccion == false && this.verEmail == false && this.verTelefono == false && this.verRedesSociales == false){
+      this.mostrarContacto = false;
+    }
+    console.log(this.mostrarContacto);
   }
   validarExiste() {
     if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
@@ -190,14 +201,14 @@ export class PersonaCardComponent implements OnInit {
         m.elementos.forEach((e) => {
           if (e.imagen) {
             this.imagenes.push({
-              image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
-              thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
+              image: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full',
+              thumbImage: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card',
             });
           } else {
             if (e.video) {
               this.imagenes.push({
-                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
-                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
+                video: '${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4',
+                posterImage: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card',
               });
             }
           }
