@@ -3405,6 +3405,206 @@ export class DiagnosticoClient implements IDiagnosticoClient {
     }
 }
 
+export interface IGoogleWebhooksClient {
+    /**
+     * @return Success
+     */
+    echo(): Observable<void>;
+    /**
+     * @return Success
+     */
+    evento(id: string): Observable<void>;
+    /**
+     * @param x_Goog_Channel_ID (optional) 
+     * @param x_Goog_Message_Number (optional) 
+     * @param x_Goog_Resource_ID (optional) 
+     * @param x_Goog_Resource_State (optional) 
+     * @param x_Goog_Resource_URI (optional) 
+     * @param x_Goog_Changed (optional) 
+     * @param x_Goog_Channel_Expiration (optional) 
+     * @param x_Goog_Channel_Token (optional) 
+     * @return Success
+     */
+    drivechange(x_Goog_Channel_ID: string | undefined, x_Goog_Message_Number: number | undefined, x_Goog_Resource_ID: string | undefined, x_Goog_Resource_State: string | undefined, x_Goog_Resource_URI: string | undefined, x_Goog_Changed: string | undefined, x_Goog_Channel_Expiration: string | undefined, x_Goog_Channel_Token: string | undefined): Observable<void>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class GoogleWebhooksClient implements IGoogleWebhooksClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    echo(httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/GoogleWebhooks/echo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEcho(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEcho(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processEcho(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    evento(id: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/GoogleWebhooks/evento/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEvento(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEvento(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processEvento(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @param x_Goog_Channel_ID (optional) 
+     * @param x_Goog_Message_Number (optional) 
+     * @param x_Goog_Resource_ID (optional) 
+     * @param x_Goog_Resource_State (optional) 
+     * @param x_Goog_Resource_URI (optional) 
+     * @param x_Goog_Changed (optional) 
+     * @param x_Goog_Channel_Expiration (optional) 
+     * @param x_Goog_Channel_Token (optional) 
+     * @return Success
+     */
+    drivechange(x_Goog_Channel_ID: string | undefined, x_Goog_Message_Number: number | undefined, x_Goog_Resource_ID: string | undefined, x_Goog_Resource_State: string | undefined, x_Goog_Resource_URI: string | undefined, x_Goog_Changed: string | undefined, x_Goog_Channel_Expiration: string | undefined, x_Goog_Channel_Token: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/GoogleWebhooks/drivechange";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "X-Goog-Channel-ID": x_Goog_Channel_ID !== undefined && x_Goog_Channel_ID !== null ? "" + x_Goog_Channel_ID : "",
+                "X-Goog-Message-Number": x_Goog_Message_Number !== undefined && x_Goog_Message_Number !== null ? "" + x_Goog_Message_Number : "",
+                "X-Goog-Resource-ID": x_Goog_Resource_ID !== undefined && x_Goog_Resource_ID !== null ? "" + x_Goog_Resource_ID : "",
+                "X-Goog-Resource-State": x_Goog_Resource_State !== undefined && x_Goog_Resource_State !== null ? "" + x_Goog_Resource_State : "",
+                "X-Goog-Resource-URI": x_Goog_Resource_URI !== undefined && x_Goog_Resource_URI !== null ? "" + x_Goog_Resource_URI : "",
+                "X-Goog-Changed": x_Goog_Changed !== undefined && x_Goog_Changed !== null ? "" + x_Goog_Changed : "",
+                "X-Goog-Channel-Expiration": x_Goog_Channel_Expiration !== undefined && x_Goog_Channel_Expiration !== null ? "" + x_Goog_Channel_Expiration : "",
+                "X-Goog-Channel-Token": x_Goog_Channel_Token !== undefined && x_Goog_Channel_Token !== null ? "" + x_Goog_Channel_Token : "",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDrivechange(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDrivechange(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDrivechange(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+}
+
 export interface IPersonaClient {
     /**
      * @return Success
@@ -5064,6 +5264,7 @@ export interface Casting {
     cierreAutomatico?: boolean;
     categorias?: CategoriaCasting[] | undefined;
     logoCasting?: string | undefined;
+    pernisosEcternos?: PermisosCasting;
     eventos?: EventoCasting[] | undefined;
     folderId?: string | undefined;
 }
@@ -5324,6 +5525,8 @@ export interface ModeloCasting {
     aceptada?: boolean;
     declinada?: boolean;
     origen?: OrigenInscripcion;
+    imagenPortadaId?: string | undefined;
+    videoPortadaId?: string | undefined;
     comentarios?: ComentarioCasting[] | undefined;
     votos?: VotoModeloCategoria[] | undefined;
 }
@@ -5338,6 +5541,17 @@ export interface PerfilPublicoUsuario {
     nombre?: string | undefined;
     agenciaId?: string | undefined;
     avatar?: string | undefined;
+}
+
+export interface PermisosCasting {
+    verRedesSociales?: boolean;
+    verTelefono?: boolean;
+    verDireccion?: boolean;
+    verEmail?: boolean;
+    verHabilidades?: boolean;
+    verDatosGenerales?: boolean;
+    verGaleriaPersonal?: boolean;
+    verComentarios?: boolean;
 }
 
 export interface Persona {

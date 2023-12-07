@@ -63,6 +63,97 @@
               </label>
             </div>
           </div>
+          <h6>{{"proyectos.externospuedenver" | translate}}</h6>
+          <div class="d-block">
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verRedesSociales"
+              (change)="onChangeVerRedesSociales()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerRedesSociales" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verTelefono"
+              (change)="onChangeVerTelefono()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerTelefono" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verDireccion"
+              (change)="onChangeVerDireccion()"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerDireccion" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verEmail"
+              (change)="onChangeVerEmail()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerEmail" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verHabilidades"
+              (change)="onChangeVerHabilidades()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerHabilidades" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verDatosGenerales"
+              (change)="onChangeVerDatosGenerales()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerDatosGenerales" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verGaleriaPersonal"
+              (change)="onChangeVerGaleriaPersonal()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerGaleriaPersonal" | translate }}
+              </label>
+            </div>
+            <div class="d-block mb-1">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="verComentarios"
+              (change)="onChangeVerComentarios()"
+            />
+              <label class="form-check-label" for="flexCheckDefault">
+                &nbsp;{{ "proyectos.VerComentarios" | translate }}
+              </label>
+            </div>
+          </div>
         </div>
         <div class="col-md-6 col-sm-6 d-flex align-items-center justify-content-center">
           <div class="row m-3">
@@ -99,25 +190,23 @@
                 </alert>
               </div>
             </div>
+            <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+                <div class="row align-items-center justify-content-center">
+                    <br>
+                    <button
+                      class="btn btn-primary col-md-12"
+                      (click)="file.click()"
+                      style="max-width: 300px"
+                    >
+                    {{"proyectos.form-logo" | translate}}
+                    </button>
+                </div>
+            </div>
           </div>
           </div>
         </div>
       </div>
       <br>
-      <div class="row">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center m-4">
-            <br>
-            <button
-              class="btn btn-primary col-md-12"
-              (click)="file.click()"
-              style="max-width: 300px"
-            >
-            {{"proyectos.form-logo" | translate}}
-            </button>
-          </div>
-        </div>
-      </div>
       <div class="row mb-5">
         <div class="col-md-12">
           <label>{{ "proyectos.form-descripcion" | translate }}</label>
