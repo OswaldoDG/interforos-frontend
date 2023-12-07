@@ -192,19 +192,19 @@
                   >
                     <div class="user-contact-info">
                       <ul class="user-contact">
-                        <li *ngIf="persona.contacto?.telefono">
+                        <li *ngIf="verTelefono">
                           <a href="#"
                             ><i class="bx bx-phone-call"></i>
                             {{ persona.contacto?.telefono }}</a
                           >
                         </li>
-                        <li *ngIf="persona.contacto?.email">
+                        <li *ngIf="verEmail">
                           <a href="#"
                             ><i class="bx bx-envelope"></i>
                             {{ persona.contacto?.email }}</a
                           >
                         </li>
-                        <li *ngIf="persona.contacto?.direccion">
+                        <li *ngIf="verDireccion">
                           <a href="#"
                             ><i class="bx bx-map"></i>
                             <span style="text-align: justify">{{
@@ -215,7 +215,7 @@
                       </ul>
 
                       <ul class="social-profiles">
-                        <li *ngIf="persona.contacto?.faceBook">
+                        <li *ngIf="verRedesSociales">
                           <a href="#"
                             ><i class="bx bxl-facebook"></i>
                             <span style="text-align: justify">{{
@@ -224,7 +224,7 @@
                           </a>
                         </li>
 
-                        <li *ngIf="persona.contacto?.twitter">
+                        <li *ngIf="verRedesSociales">
                           <a href="#"
                             ><i class="bx bxl-twitter"></i>
                             <span style="text-align: justify">{{
@@ -233,7 +233,7 @@
                           </a>
                         </li>
 
-                        <li *ngIf="persona.contacto?.instagram">
+                        <li *ngIf="verRedesSociales">
                           <a href="#"
                             ><i class="bx bxl-instagram"></i>
                             <span style="text-align: justify">{{
@@ -242,7 +242,7 @@
                           </a>
                         </li>
 
-                        <li *ngIf="persona.contacto?.linkedIn">
+                        <li *ngIf="verRedesSociales">
                           <a href="#"
                             ><i class="bx bxl-linkedin"></i>
                             <span style="text-align: justify">{{
@@ -278,7 +278,7 @@
                       </ul>
                     </div>
                   </tab>
-
+<!-- VALIDAR PERMISOS -->
                   <tab
                     heading="{{ 'modelo.t-galeria' | translate }}"
                     *ngIf="mostrarGaleria"
@@ -518,19 +518,24 @@
               </div>
               <div class="card-body" style="overflow-y: auto">
                 <div class="user-contact-info">
-                  <ul class="user-contact">
+
+                  <ul *ngIf="verTelefono" class="user-contact">
                     <li *ngIf="persona.contacto?.telefono">
                       <a href="#"
                         ><i class="bx bx-phone-call"></i>
                         {{ persona.contacto?.telefono }}</a
                       >
                     </li>
+                  </ul>
+                  <ul *ngIf="verEmail" class="user-contact">
                     <li *ngIf="persona.contacto?.email">
                       <a href="#"
                         ><i class="bx bx-envelope"></i>
                         {{ persona.contacto?.email }}</a
                       >
                     </li>
+                  </ul>
+                  <ul *ngIf="verDireccion" class="user-contact">
                     <li *ngIf="persona.contacto?.direccion">
                       <a href="#"
                         ><i class="bx bx-map"></i>
@@ -540,8 +545,7 @@
                       </a>
                     </li>
                   </ul>
-
-                  <ul class="social-profiles">
+                  <ul *ngIf="verRedesSociales" class="social-profiles">
                     <li *ngIf="persona.contacto?.faceBook">
                       <a href="#"
                         ><i class="bx bxl-facebook"></i>
@@ -550,7 +554,6 @@
                         }}</span>
                       </a>
                     </li>
-
                     <li *ngIf="persona.contacto?.twitter">
                       <a href="#"
                         ><i class="bx bxl-twitter"></i>
@@ -559,7 +562,6 @@
                         }}</span>
                       </a>
                     </li>
-
                     <li *ngIf="persona.contacto?.instagram">
                       <a href="#"
                         ><i class="bx bxl-instagram"></i>
@@ -568,7 +570,6 @@
                         }}</span>
                       </a>
                     </li>
-
                     <li *ngIf="persona.contacto?.linkedIn">
                       <a href="#"
                         ><i class="bx bxl-linkedin"></i>
@@ -614,7 +615,7 @@
             class="col-lg-10 col-md-10 col-sm-10 m-1"
             *ngIf="tipoBusqueda == false && direccionVertical == false"
           >
-            <div class="card" style="height: 250px">
+            <div *ngIf="verComentarios" class="card" style="height: 250px">
               <div class="card-header">
                 <h5>{{ "revisor-casting.comentarios" | translate }}</h5>
               </div>

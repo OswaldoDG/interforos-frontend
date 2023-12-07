@@ -5681,6 +5681,7 @@ export interface SelectorCastingCategoria {
     nombre?: string | undefined;
     categorias?: SelectorCategoria[] | undefined;
     participantes?: MapaUsuarioNombre[] | undefined;
+    pernisosEcternos?: PermisosCasting;
 }
 
 export interface SelectorCategoria {
