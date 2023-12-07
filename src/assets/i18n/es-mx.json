@@ -155,7 +155,7 @@
     "menu-agencia": "Inicio Agencia",
     "menu-logout": "Cerrar sesión",
     "menu-chpass": "Cambiar contraseña",
-    "menu-chpass-no": "No",
+    "menu-chpass-cancelar": "Cancelar",
     "menu-chpass-cambiar": "Cambiar",
     "menu-perfil": "Mis datos",
     "menu-fotos": "Mi galería",

@@ -28,6 +28,7 @@ export class ModalCambiarPasswordComponent implements OnInit {
   showPass: boolean = false;
   showPassNew: boolean = false;
   T: any[];
+  estadoBoton : boolean = false;
 
   constructor(
     private modalService: BsModalService,
@@ -57,9 +58,11 @@ export class ModalCambiarPasswordComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.clearForm();
   }
 
   confirm(): void {
+    this.estadoBoton = true;
     var data: EstablecerContrasena = {
       actual: this.passwordForm.get('contrasenaActual').value,
       nueva: this.passwordForm.get('contrasenaNueva').value,
@@ -67,10 +70,13 @@ export class ModalCambiarPasswordComponent implements OnInit {
     this.accesoCliente.establecer(data).subscribe(
       (data) => {
         this.modalConfirm.emit('Y');
+        this.clearForm();
+        this.estadoBoton = false;
         this.modalRef?.hide();
       },
       (error) => {
         this.modalConfirm.emit(error.error);
+        this.estadoBoton = false;
       }
     );
   }
