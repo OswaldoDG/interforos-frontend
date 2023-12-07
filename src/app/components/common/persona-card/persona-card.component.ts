@@ -97,8 +97,6 @@ export class PersonaCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.verDireccion);
-    console.log(this.persona.contacto.telefono);
     this.bks
       .observe(['(min-width: 500px)'])
       .subscribe((state: BreakpointState) => {
@@ -122,11 +120,9 @@ export class PersonaCardComponent implements OnInit {
       ' ' +
       this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
-    console.log(this.verComentarios);
     if(this.verDireccion == false && this.verEmail == false && this.verTelefono == false && this.verRedesSociales == false){
       this.mostrarContacto = false;
     }
-    console.log(this.mostrarContacto);
   }
   validarExiste() {
     if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {

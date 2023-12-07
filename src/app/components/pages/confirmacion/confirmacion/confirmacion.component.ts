@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PersistState } from '@datorama/akita';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,6 +14,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { CustomValidators } from 'src/app/services/custom-validators';
 import { SessionQuery } from 'src/app/state/session.query';
+import { SessionService } from 'src/app/state/session.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -30,6 +32,8 @@ export class ConfirmacionComponent implements OnInit {
   inCall: boolean = false;
   showPass: boolean = false;
   consentimiento: Consentimiento;
+  rutaConfirmacion: string;
+  logOutFlag : boolean = false;
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -86,10 +90,13 @@ export class ConfirmacionComponent implements OnInit {
     private translate: TranslateService,
     private toastService: HotToastService,
     private fb: FormBuilder,
-    private sesion: SessionQuery
+    private sesion: SessionQuery,
+    private sesionService: SessionService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+
     this.spinner.show('spregistro');
     this.translate
       .get([
@@ -108,7 +115,18 @@ export class ConfirmacionComponent implements OnInit {
 
     this.route.params.pipe(first()).subscribe((params) => {
       this.id = params['id'];
+      this.rutaConfirmacion = '/confirmacion/' + this.id;
+      if(this.sesion.UserId != undefined){
+        this.logOut(this.rutaConfirmacion);
+      }
       this.validarConfirmacion(this.id);
+    });
+  }
+
+  logOut(id: string){
+    this.sesionService.logOut();
+    this.router.navigateByUrl(this.rutaConfirmacion).then(() => {
+      window.location.reload();
     });
   }
 
@@ -167,6 +185,7 @@ export class ConfirmacionComponent implements OnInit {
           this.confirmacionValida = true;
           this.confirmando = false;
           this.spinner.hide('spregistro');
+
         },
         (err) => {
           this.confirmando = false;
@@ -175,6 +194,7 @@ export class ConfirmacionComponent implements OnInit {
         }
       );
   }
+
 
   pageTitleContent = [
     {
