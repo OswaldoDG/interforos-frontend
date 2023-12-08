@@ -55,7 +55,6 @@ export class CastigReviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.casting);
     var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
     this.castingClient.revisor(this.castingId).subscribe((c) => {
@@ -116,8 +115,6 @@ export class CastigReviewComponent implements OnInit {
   }
 
   personaCargadaEvnt(r : boolean){
-    console.log('hola');
     this.estadoPersona = r;
-    console.log(this.estadoPersona);
   }
 }

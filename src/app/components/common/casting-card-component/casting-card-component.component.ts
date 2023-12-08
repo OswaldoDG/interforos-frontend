@@ -73,12 +73,10 @@ export class CastingCardComponentComponent implements OnInit {
     this.validarRol();
   }
 
-
   ngAfterViewInit(): void {
     this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
       this.urlImage = data;
       this.logoCargado.emit(false);
-      console.log('LOEMITIÓ');
     });
   }
 

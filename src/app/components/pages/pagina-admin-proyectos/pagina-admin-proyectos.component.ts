@@ -61,8 +61,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
           this.filtrarCasting(v);
         });
         if(this.estadoLogo == false){
-          console.log('entró');
-
           this.spinner.hide('loadCastings');
           this.estadoLogo = false;
         }
@@ -87,7 +85,6 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   recibidoDelModal(r: string) {
-    console.log("RECIBIDO");
     if (r == 'Y') {
       this.castingClient.castingGet(true).subscribe((data) => {
         this.casting = data;
@@ -97,9 +94,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   logoCargadoEvnt(r : boolean){
-    console.log('hola');
     this.estadoLogo = r;
-    console.log(this.estadoLogo);
   }
 
   filtrarCasting(buscar: string) {

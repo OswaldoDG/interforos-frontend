@@ -37,7 +37,6 @@ personaId: string ='';
     });
     if(this.esModelo)
     { this.traerCategoriasModelo()}
-
   }
 
   inscritoCategoria(idCategoria: string): boolean {
