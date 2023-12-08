@@ -17,6 +17,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionQuery } from 'src/app/state/session.query';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-persona-card',
@@ -27,6 +28,7 @@ export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
+  @Output() personaCargada : EventEmitter<boolean> = new EventEmitter();
   @Output() uid: EventEmitter<string> = new EventEmitter();
   //Determina si el despliegue debe ser vertial
   @Input() direccionVertical: boolean = true;
@@ -75,7 +77,8 @@ export class PersonaCardComponent implements OnInit {
     private castingService: CastingClient,
     private toastService: HotToastService,
     private translate: TranslateService,
-    private session: SessionQuery
+    private session: SessionQuery,
+    private spinner: NgxSpinnerService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -209,6 +212,7 @@ export class PersonaCardComponent implements OnInit {
             }
           }
         });
+        this.personaCargada.emit(false);
       });
   }
 }

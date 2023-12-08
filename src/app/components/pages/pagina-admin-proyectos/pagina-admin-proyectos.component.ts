@@ -6,7 +6,7 @@ import {
   CastingListElement,
   TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
-import { GridApi } from 'ag-grid-community';
+import { BodyScrollEndEvent, GridApi } from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { SessionQuery } from 'src/app/state/session.query';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,6 +28,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   staff: boolean = false;
   admin: boolean = false;
   form: FormGroup;
+  estadoLogo : boolean = true;
   constructor(
     private castingClient: CastingClient,
     private ruta: Router,
@@ -59,7 +60,12 @@ export class PaginaAdminProyectosComponent implements OnInit {
         this.form.get('buscar').valueChanges.subscribe((v) => {
           this.filtrarCasting(v);
         });
-        this.spinner.hide('loadCastings');
+        if(this.estadoLogo == false){
+          console.log('entró');
+
+          this.spinner.hide('loadCastings');
+          this.estadoLogo = false;
+        }
       },
       (err) => {
         this.spinner.hide('loadCastings');
@@ -81,12 +87,19 @@ export class PaginaAdminProyectosComponent implements OnInit {
   }
 
   recibidoDelModal(r: string) {
+    console.log("RECIBIDO");
     if (r == 'Y') {
       this.castingClient.castingGet(true).subscribe((data) => {
         this.casting = data;
         this.castingsFiltrados = data;
       });
     }
+  }
+
+  logoCargadoEvnt(r : boolean){
+    console.log('hola');
+    this.estadoLogo = r;
+    console.log(this.estadoLogo);
   }
 
   filtrarCasting(buscar: string) {

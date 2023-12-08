@@ -28,6 +28,7 @@ export class CastigReviewComponent implements OnInit {
   dVertical: boolean = false;
   tBusqueda: boolean = false;
   hayCategorias : boolean = false;
+  estadoPersona : boolean = true;
   permisosCast: PermisosCasting ={
     verRedesSociales: true,
     verTelefono: true,
@@ -52,7 +53,9 @@ export class CastigReviewComponent implements OnInit {
       this.castingId = params['id'];
     });
   }
+
   ngOnInit(): void {
+    console.log(this.casting);
     var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
     this.castingClient.revisor(this.castingId).subscribe((c) => {
@@ -85,7 +88,9 @@ export class CastigReviewComponent implements OnInit {
             modelos.push(p);
           }
           this.procesaPersonas(modelos);
-          this.spinner.hide('loadCategorias');
+          if(this.estadoPersona == false){
+            this.spinner.hide('loadCategorias');
+          }
         });
       });
     } else {
@@ -108,5 +113,11 @@ export class CastigReviewComponent implements OnInit {
   volver()
   {
     this.ruta.navigateByUrl('/castings');
+  }
+
+  personaCargadaEvnt(r : boolean){
+    console.log('hola');
+    this.estadoPersona = r;
+    console.log(this.estadoPersona);
   }
 }

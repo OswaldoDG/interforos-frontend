@@ -82,7 +82,7 @@ personaId: string ='';
         }
       );
   }
-  
+
   Inscribir(idCategoria: string) {
     this.castingClient
       .inscribir(this.castingId, idCategoria, this.personaId)

@@ -29,6 +29,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class CastingCardComponentComponent implements OnInit {
   @Input() Casting: any;
   @Output() refrescarCast : EventEmitter<string> = new EventEmitter();
+  @Output() logoCargado : EventEmitter<boolean> = new EventEmitter();
   urlImage: string;
   valoresdisponibles: any;
   T: any;
@@ -69,10 +70,16 @@ export class CastingCardComponentComponent implements OnInit {
           this.T['proyectos.casting-estado-' + this.Casting.status];
       });
 
+    this.validarRol();
+  }
+
+
+  ngAfterViewInit(): void {
     this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
       this.urlImage = data;
+      this.logoCargado.emit(false);
+      console.log('LOEMITIÓ');
     });
-    this.validarRol();
   }
 
   validarRol() {

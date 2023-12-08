@@ -8,6 +8,7 @@
 
   <h3>{{ "proyectos.header" | translate }}</h3>
   <ngx-spinner
+    *ngIf="estadoLogo == true"
     name="loadCastings"
     [fullScreen]="true"
     type="ball-scale-multiple"
@@ -15,6 +16,7 @@
   >
     <p class="loading">...</p>
   </ngx-spinner>
+
   <div class="container">
     <div *ngIf="staff || admin">
       <div class="row justify-content-center">
@@ -52,6 +54,7 @@
         <app-casting-card-component
           (refrescarCast)="recibidoDelModal($event)"
           [Casting]="cast"
+          (logoCargado) = "logoCargadoEvnt($event)"
         ></app-casting-card-component>
       </div>
     </div>
