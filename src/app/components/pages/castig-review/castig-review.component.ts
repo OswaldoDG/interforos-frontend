@@ -1,5 +1,8 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HotToastService } from '@ngneat/hot-toast';
+import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   CastingClient,
@@ -27,17 +30,20 @@ export class CastigReviewComponent implements OnInit {
   categorias: SelectorCategoria[] = [];
   dVertical: boolean = false;
   tBusqueda: boolean = false;
-  hayCategorias : boolean = false;
-  permisosCast: PermisosCasting ={
+  hayCategorias: boolean = false;
+  puedeAgregarModelo: boolean = true;
+  T: any;
+  CategoriaActual: string = '';
+  formAgregarModelo: FormGroup;
+  permisosCast: PermisosCasting = {
     verRedesSociales: true,
     verTelefono: true,
     verDireccion: true,
-    verEmail:  true,
+    verEmail: true,
     verHabilidades: true,
     verDatosGenerales: true,
     verGaleriaPersonal: true,
     verComentarios: true,
-
   };
   constructor(
     private rutaActiva: ActivatedRoute,
@@ -45,33 +51,50 @@ export class CastigReviewComponent implements OnInit {
     private servicio: CastingStaffServiceService,
     private personaClient: PersonaClient,
     private spinner: NgxSpinnerService,
-    private ruta:Router,
-    private session : SessionQuery
+    private ruta: Router,
+    private session: SessionQuery,
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private toastService: HotToastService
   ) {
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
     });
+    this.formAgregarModelo = this.fb.group({
+      consecutivo: ['', Validators.required],
+    });
   }
   ngOnInit(): void {
+    this.translate
+      .get(['modelo.error-modelo', 'modelo.modelo'])
+      .subscribe((ts) => {
+        this.T = ts;
+      });
     var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
+    this.spinner.show('loadCategorias');
     this.castingClient.revisor(this.castingId).subscribe((c) => {
       this.casting = c;
-      if(roles.indexOf(TipoRolCliente.RevisorExterno.toLocaleLowerCase()) >= 0){
+      this.categorias = c.categorias;
+      if (
+        roles.indexOf(TipoRolCliente.RevisorExterno.toLocaleLowerCase()) >= 0
+      ) {
         this.permisosCast = this.casting.pernisosEcternos;
+        this.puedeAgregarModelo = false;
       }
       this.servicio.ActualizarCasting(c);
       if (c.categorias.length > 0) {
-        this.onChangeCategoria(c.categorias[0].id);
         this.hayCategorias = true;
-      }else{
+      } else {
         this.hayCategorias = false;
       }
+      this.spinner.hide('loadCategorias');
     });
   }
   onChangeCategoria(id: string) {
     this.servicio.ActualizarCategoria(id);
     this.modelosCategoriaActual(id);
+    this.CategoriaActual = id;
   }
 
   public modelosCategoriaActual(id: string) {
@@ -105,8 +128,40 @@ export class CastigReviewComponent implements OnInit {
       }
     });
   }
-  volver()
-  {
+  volver() {
     this.ruta.navigateByUrl('/castings');
+  }
+  agregarModelo() {
+    this.spinner.show('loadCategorias');
+    this.castingClient
+      .consecutivo(
+        this.castingId,
+        this.formAgregarModelo.get('consecutivo').value,
+        this.servicio.CategoriActual()
+      )
+      .subscribe(
+        (data) => {
+          this.castingClient.revisor(this.castingId).subscribe((c) => {
+            this.casting = c;
+            this.servicio.ActualizarCasting(c);
+            if (c.categorias.length > 0) {
+              this.onChangeCategoria(this.servicio.CategoriActual());
+              this.hayCategorias = true;
+            } else {
+              this.hayCategorias = false;
+            }
+            this.toastService.success(this.T['modelo.modelo'], {
+              position: 'bottom-center',
+            });
+          });
+        },
+        (err) => {
+          this.spinner.hide('loadCategorias');
+          this.toastService.error(this.T['modelo.error-modelo'], {
+            position: 'bottom-center',
+          });
+        }
+      );
+    this.formAgregarModelo.get('consecutivo').setValue(null);
   }
 }

@@ -83,21 +83,28 @@ export class CastingStaffServiceService {
     return this.votos;
   }
   //Agrega el voto del revisor externo
-  agregarVoto(votoRevisor: VotoModeloCategoria, modeloId: string, revisorId: string) {
+  agregarVoto(
+    votoRevisor: VotoModeloCategoria,
+    modeloId: string,
+    revisorId: string
+  ) {
     var indexCategoria = this.casting.categorias.findIndex(
       (c) => c.id == this.categoriaActual
     );
     var existeVotoRevisor = this.casting.categorias[indexCategoria].votos.find(
       (v) => v.personaId == modeloId && v.usuarioId == revisorId
     );
-    var indexVotoRevisor = this.casting.categorias[indexCategoria].votos.findIndex(
+    var indexVotoRevisor = this.casting.categorias[
+      indexCategoria
+    ].votos.findIndex(
       (v) => v.personaId == modeloId && v.usuarioId == revisorId
     );
-    if (existeVotoRevisor!=undefined) {
-        var voto = this.casting.categorias[indexCategoria].votos[indexVotoRevisor];
-        voto.nivelLike = votoRevisor.nivelLike;
-        this.categoriaSub.next(this.categoriaActual);
-        this.calcularTotalesSub.next(true);
+    if (existeVotoRevisor != undefined) {
+      var voto =
+        this.casting.categorias[indexCategoria].votos[indexVotoRevisor];
+      voto.nivelLike = votoRevisor.nivelLike;
+      this.categoriaSub.next(this.categoriaActual);
+      this.calcularTotalesSub.next(true);
     } else {
       var listaActual = this.casting.categorias[indexCategoria].votos;
       const votoMapeado = {

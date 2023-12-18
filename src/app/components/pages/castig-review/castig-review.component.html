@@ -1,19 +1,24 @@
-<div class="pt-5"> <br>
+<div class="pt-5">
+  <br />
   <app-navbar-promodel></app-navbar-promodel>
 
-  <div class="container text-center" *ngIf="casting != null && hayCategorias == true; else templateNohayCategorias">
+  <div
+    class="container text-center"
+    *ngIf="
+      casting != null && hayCategorias == true;
+      else templateNohayCategorias
+    "
+  >
     <ngx-spinner
-    name="loadCategorias"
-    [fullScreen]="true"
-    type="ball-scale-multiple"
-    size="medium"
+      name="loadCategorias"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
     >
-    <p class="loading">...</p>
+      <p class="loading">...</p>
     </ngx-spinner>
     <div class="pt-5">
-
-      <div class="container" style="margin-top: 1%;">
-
+      <div class="container" style="margin-top: 1%">
         <div class="row">
           <div class="col col-lg-1">
             <i
@@ -22,40 +27,69 @@
               (click)="volver()"
             ></i>
           </div>
-          <div class="col col-lg-11" style="text-align: left;">
+          <div class="col col-lg-11" style="text-align: left">
             <h1>{{ casting.nombre }}</h1>
           </div>
         </div>
-
 
         <div class="row">
           <div class="col col-lg-3">
             <label>{{ "buscar.categorias" | translate }}</label>
           </div>
           <div class="col col-lg-3">
-            <select
-              class="form-select"
-              id="categoriaSelect"
-              aria-label="Default select example"
-              (change)="onChangeCategoria($event.target.value)"
-            >
-              <ng-container *ngIf="casting.categorias.length > 0">
-                <option
-                  *ngFor="let categoria of casting.categorias"
-                  [value]="categoria.id"
-                >
-                  {{ categoria.nombre }}
-                </option>
-              </ng-container>
-            </select>
+              <select
+                class="form-select"
+                id="categoriaSelect"
+                aria-label="Default select example"
+                (change)="onChangeCategoria($event.target.value)"
+                formControlName="categorias"
+                [(ngModel)]="CategoriaActual"
+              >
+                <ng-container *ngIf="casting.categorias.length > 0">
+                  <option
+                    *ngFor="let categoria of categorias"
+                    [value]="categoria.id"
+                  >
+                    {{ categoria.nombre }}
+                  </option>
+                </ng-container>
+              </select>
           </div>
-          <div class="col col-lg-6">
-
+          <div
+            class="col col-lg-4 container text-center"
+            *ngIf="puedeAgregarModelo"
+          >
+            <form [formGroup]="formAgregarModelo">
+              <div class="row justify-content-md-center">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                  <label>{{ "buscar.agregarModelo" | translate }}</label>
+                </div>
+                <div class="col-lg-6 col-md-8 col-sm-8">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Numero Modelo"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    formControlName="consecutivo"
+                    onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
+                  />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 p-1">
+                  <button
+                    type="button"
+                    [disabled]="formAgregarModelo.invalid"
+                    class="btn btn-primary"
+                    (click)="agregarModelo()"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-
       </div>
-
     </div>
 
     <div *ngIf="personasDesplegables.length > 0">
@@ -69,7 +103,7 @@
               [direccionVertical]="true"
               [tipoBusqueda]="false"
               [persona]="modelo"
-              [permisos] = "permisosCast"
+              [permisos]="permisosCast"
             ></app-persona-card>
           </div>
         </div>
@@ -86,14 +120,14 @@
                 [tipoBusqueda]="false"
                 [modoRevisor]="true"
                 [persona]="modelo"
-                [mostrarGenerales] = "permisosCast.verDatosGenerales"
-                [mostrarGaleria] = "permisosCast.verGaleriaPersonal"
-                [mostrarHabilidades] = "permisosCast.verHabilidades"
-                [verTelefono] = "permisosCast.verTelefono"
-                [verEmail] = "permisosCast.verEmail"
-                [verDireccion] = "permisosCast.verDireccion"
-                [verComentarios] = "permisosCast.verComentarios"
-                [verRedesSociales] = "permisosCast.verRedesSociales"
+                [mostrarGenerales]="permisosCast.verDatosGenerales"
+                [mostrarGaleria]="permisosCast.verGaleriaPersonal"
+                [mostrarHabilidades]="permisosCast.verHabilidades"
+                [verTelefono]="permisosCast.verTelefono"
+                [verEmail]="permisosCast.verEmail"
+                [verDireccion]="permisosCast.verDireccion"
+                [verComentarios]="permisosCast.verComentarios"
+                [verRedesSociales]="permisosCast.verRedesSociales"
               ></app-persona-card>
             </div>
           </div>
@@ -111,14 +145,14 @@
 </div>
 
 <ng-template #templateNohayCategorias>
-  <ng-container *ngIf="hayCategorias == false"; else templateNohayCategorias >
+  <ng-container *ngIf="hayCategorias == false" ; else templateNohayCategorias>
     <ngx-spinner
-    name="loadCategorias"
-    [fullScreen]="true"
-    type="ball-scale-multiple"
-    size="medium"
+      name="loadCategorias"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
     >
-    <p class="loading">...</p>
+      <p class="loading">...</p>
     </ngx-spinner>
     <div class="col-1 pt-4">
       <i
@@ -140,12 +174,12 @@
 <ng-template #elseTemplate>
   <ng-container *ngIf="casting == null">
     <ngx-spinner
-    name="loadCategorias"
-    [fullScreen]="true"
-    type="ball-scale-multiple"
-    size="medium"
+      name="loadCategorias"
+      [fullScreen]="true"
+      type="ball-scale-multiple"
+      size="medium"
     >
-    <p class="loading">...</p>
+      <p class="loading">...</p>
     </ngx-spinner>
     <div class="col-1 pt-4">
       <i
