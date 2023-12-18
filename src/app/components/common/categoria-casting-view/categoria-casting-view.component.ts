@@ -37,7 +37,6 @@ personaId: string ='';
     });
     if(this.esModelo)
     { this.traerCategoriasModelo()}
-
   }
 
   inscritoCategoria(idCategoria: string): boolean {
@@ -82,7 +81,7 @@ personaId: string ='';
         }
       );
   }
-  
+
   Inscribir(idCategoria: string) {
     this.castingClient
       .inscribir(this.castingId, idCategoria, this.personaId)

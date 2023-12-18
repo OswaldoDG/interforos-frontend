@@ -6,7 +6,7 @@ import {
   CastingListElement,
   TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
-import { GridApi } from 'ag-grid-community';
+import { BodyScrollEndEvent, GridApi } from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { SessionQuery } from 'src/app/state/session.query';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,6 +28,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   staff: boolean = false;
   admin: boolean = false;
   form: FormGroup;
+  estadoLogo : boolean = true;
   constructor(
     private castingClient: CastingClient,
     private ruta: Router,
@@ -59,7 +60,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
         this.form.get('buscar').valueChanges.subscribe((v) => {
           this.filtrarCasting(v);
         });
-        this.spinner.hide('loadCastings');
+        if(this.estadoLogo == false){
+          this.spinner.hide('loadCastings');
+          this.estadoLogo = false;
+        }
       },
       (err) => {
         this.spinner.hide('loadCastings');
@@ -87,6 +91,10 @@ export class PaginaAdminProyectosComponent implements OnInit {
         this.castingsFiltrados = data;
       });
     }
+  }
+
+  logoCargadoEvnt(r : boolean){
+    this.estadoLogo = r;
   }
 
   filtrarCasting(buscar: string) {
