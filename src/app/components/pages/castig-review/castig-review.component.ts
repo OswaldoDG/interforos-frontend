@@ -46,7 +46,7 @@ export class CastigReviewComponent implements OnInit {
     private personaClient: PersonaClient,
     private spinner: NgxSpinnerService,
     private ruta:Router,
-    private session : SessionQuery
+    private session : SessionQuery,
   ) {
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
@@ -108,5 +108,11 @@ export class CastigReviewComponent implements OnInit {
   volver()
   {
     this.ruta.navigateByUrl('/castings');
+  }
+
+  excel(){
+    this.castingClient.excel(this.castingId).subscribe((data)=>{
+      console.log(data);
+    })
   }
 }
