@@ -273,7 +273,6 @@ export class NavbarPromodelComponent implements OnInit {
             );
         },
         (err) => {
-          console.log(err);
           this.toastService.warning(this.T['navbar.login-incorrecto'], {
             position: 'bottom-center',
           });

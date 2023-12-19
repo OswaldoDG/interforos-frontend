@@ -33,24 +33,22 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<Object>> {
     let authReq = req;
-
-    const token = this.sessionQuery.getValue().auth?.token;
-
-    if (token != null && token != undefined) {
+    if (this.sessionQuery.getValue().auth?.token) {
+      const token = this.sessionQuery.getValue().auth?.token;
       authReq = this.addTokenHeader(req, token);
     }
     return next.handle(authReq).pipe(
       catchError((error) => {
         if (
           error instanceof HttpErrorResponse &&
-          !authReq.url.includes('acceso/token-refresh') &&
+          !authReq.url.includes('acceso/token-refresh') && !authReq.url.includes('acceso/login')&&
           error.status === 401
         ) {
           return this.handle401Error(authReq, next);
         }
         if (
           error instanceof HttpErrorResponse &&
-          authReq.url.includes('acceso/token-refresh') &&
+          authReq.url.includes('acceso/token-refresh') && !authReq.url.includes('acceso/login')&&
           error.status === 401
         ) {
           this.CerrarSesion();
