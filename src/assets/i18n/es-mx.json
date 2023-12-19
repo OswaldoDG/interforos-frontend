@@ -137,7 +137,9 @@
     "VerGaleriaPersonal": "Galería personal",
     "VerComentarios" : "Comentarios",
     "VerDireccion":"Dirección",
-    "externospuedenver": "Los externos pueden ver:"
+    "externospuedenver": "Los externos pueden ver:",
+    "succes-estadocast":"Estado del Casting Actualizado.",
+    "err-estadocast":"Ocurrió algo mal al actualizar el estado, intente más tarde."
   },
   "navbar": {
     "salir": "Salir",

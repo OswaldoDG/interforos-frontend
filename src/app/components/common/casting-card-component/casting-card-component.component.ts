@@ -63,11 +63,14 @@ export class CastingCardComponentComponent implements OnInit {
         'proyectos.casting-estado-Cancelado',
         'proyectos.succes-mensaje-eliminacion',
         'proyectos.error-mensaje-eliminacion',
+        'proyectos.succes-estadocast',
+        'proyectos.err-estadocast'
       ])
       .subscribe((ts) => {
         this.T = ts;
         this.estadoCasting =
           this.T['proyectos.casting-estado-' + this.Casting.status];
+          this.valoresdisponibles = this.estadoCasting;
       });
 
     this.validarRol();
@@ -173,7 +176,15 @@ export class CastingCardComponentComponent implements OnInit {
         this.clientApi.id(this.Casting.id).subscribe((e) => {
           this.spinner.hide('loadCastings');
           this.estadoCasting = this.T['proyectos.casting-estado-' + e.status];
+          this.toastService.success(this.T['proyectos.succes-estadocast'],{position:'bottom-center'});
+          this.valoresdisponibles = this.estadoCasting;
+          this.disable = true;
         });
+      } ,(err) => {
+        this.toastService.error(
+          this.T['proyectos.err-estadocast'],
+          { position: 'bottom-center' }
+        );
       });
   }
 
