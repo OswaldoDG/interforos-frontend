@@ -557,7 +557,7 @@ export interface ICastingClient {
     /**
      * @return Success
      */
-    excel(castingId: string): Observable<Casting>;
+    excel(castingId: string): Observable<void>;
 }
 
 @Injectable({
@@ -2331,7 +2331,7 @@ export class CastingClient implements ICastingClient {
     /**
      * @return Success
      */
-    excel(castingId: string, httpContext?: HttpContext): Observable<Casting> {
+    excel(castingId: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}/excel";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
@@ -2343,7 +2343,6 @@ export class CastingClient implements ICastingClient {
             responseType: "blob",
             context: httpContext,
             headers: new HttpHeaders({
-                "Accept": "text/plain"
             })
         };
 
@@ -2354,14 +2353,14 @@ export class CastingClient implements ICastingClient {
                 try {
                     return this.processExcel(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<Casting>;
+                    return _observableThrow(e) as any as Observable<void>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<Casting>;
+                return _observableThrow(response_) as any as Observable<void>;
         }));
     }
 
-    protected processExcel(response: HttpResponseBase): Observable<Casting> {
+    protected processExcel(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2370,9 +2369,7 @@ export class CastingClient implements ICastingClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Casting;
-            return _observableOf(result200);
+            return _observableOf<void>(null as any);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2391,7 +2388,7 @@ export class CastingClient implements ICastingClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Casting>(null as any);
+        return _observableOf<void>(null as any);
     }
 }
 

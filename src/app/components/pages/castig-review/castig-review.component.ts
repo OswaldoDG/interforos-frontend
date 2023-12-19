@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -110,9 +111,25 @@ export class CastigReviewComponent implements OnInit {
     this.ruta.navigateByUrl('/castings');
   }
 
-  excel(){
-    this.castingClient.excel(this.castingId).subscribe((data)=>{
-      console.log(data);
-    })
+  excel(): void {
+    this.castingClient.excel(this.castingId).subscribe(
+      (blobData: Blob) => {
+        this.descargarArchivo(blobData);
+      },
+      error => {
+        console.error('Error al descargar el archivo:', error);
+      }
+    );
+  }
+
+  private descargarArchivo(blobData: Blob): void {
+    const url = window.URL.createObjectURL(blobData);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = url;
+    a.download = 'Casting.xlsx'; // Nombre del archivo
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 }
