@@ -1,5 +1,10 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,11 +35,11 @@ export class CastigReviewComponent implements OnInit {
   categorias: SelectorCategoria[] = [];
   dVertical: boolean = false;
   tBusqueda: boolean = false;
-  hayCategorias : boolean = false;
-  estadoPersona : boolean = true;
+  hayCategorias: boolean = false;
+  estadoPersona: boolean = true;
   puedeAgregarModelo: boolean = true;
+  categoriaSeleccionada: boolean = false;
   T: any;
-  CategoriaActual: string = '';
   formAgregarModelo: FormGroup;
   permisosCast: PermisosCasting = {
     verRedesSociales: true,
@@ -68,13 +73,17 @@ export class CastigReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate
-      .get(['modelo.error-modelo', 'modelo.modelo'])
+      .get([
+        'modelo.error-400',
+        'modelo.modelo',
+        'modelo.error-404',
+        'modelo.error-409',
+      ])
       .subscribe((ts) => {
         this.T = ts;
       });
     var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
-    this.spinner.show('loadCategorias');
     this.castingClient.revisor(this.castingId).subscribe((c) => {
       this.casting = c;
       this.categorias = c.categorias;
@@ -90,17 +99,16 @@ export class CastigReviewComponent implements OnInit {
       } else {
         this.hayCategorias = false;
       }
-      this.spinner.hide('loadCategorias');
     });
   }
   onChangeCategoria(id: string) {
+    this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
     this.modelosCategoriaActual(id);
-    this.CategoriaActual = id;
+    this.categoriaSeleccionada = true;
   }
 
   public modelosCategoriaActual(id: string) {
-    this.spinner.show('loadCategorias');
     const modelos: Persona[] = [];
     var indexC = this.casting.categorias.findIndex((c) => c.id == id);
     if (this.casting.categorias[indexC].modelos.length > 0) {
@@ -110,8 +118,7 @@ export class CastigReviewComponent implements OnInit {
             modelos.push(p);
           }
           this.procesaPersonas(modelos);
-          if(this.estadoPersona == false){
-            this.spinner.hide('loadCategorias');
+          if (this.estadoPersona == false) {
           }
         });
       });
@@ -129,6 +136,7 @@ export class CastigReviewComponent implements OnInit {
           tmp.push(this.servicio.PersonaDesplegable(p));
         });
         this.personasDesplegables = tmp;
+        this.spinner.hide('loadCategorias');
       }
     });
   }
@@ -136,10 +144,10 @@ export class CastigReviewComponent implements OnInit {
     this.ruta.navigateByUrl('/castings');
   }
 
-  personaCargadaEvnt(r : boolean){
+  personaCargadaEvnt(r: boolean) {
     this.estadoPersona = r;
   }
-  
+
   agregarModelo() {
     this.spinner.show('loadCategorias');
     this.castingClient
@@ -166,7 +174,7 @@ export class CastigReviewComponent implements OnInit {
         },
         (err) => {
           this.spinner.hide('loadCategorias');
-          this.toastService.error(this.T['modelo.error-modelo'], {
+          this.toastService.error(this.T[`modelo.error-${err.status}`], {
             position: 'bottom-center',
           });
         }
