@@ -1,10 +1,5 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +15,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { SessionQuery } from 'src/app/state/session.query';
+import { ModalConfirmacionComponent } from '../../common/modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-castig-review',
@@ -28,6 +24,7 @@ import { SessionQuery } from 'src/app/state/session.query';
   providers: [CastingStaffServiceService],
 })
 export class CastigReviewComponent implements OnInit {
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
   castingId: string = null;
   casting: SelectorCastingCategoria;
   modelos: Persona[] = [];
@@ -51,6 +48,7 @@ export class CastigReviewComponent implements OnInit {
     verGaleriaPersonal: true,
     verComentarios: true,
   };
+  ModeloIdEliminar: string;
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -181,4 +179,30 @@ export class CastigReviewComponent implements OnInit {
       );
     this.formAgregarModelo.get('consecutivo').setValue(null);
   }
+  removerModelo() {
+    this.spinner.show('loadCategorias');
+    this.castingClient
+      .modeloDelete(this.castingId, this.ModeloIdEliminar, this.servicio.CategoriActual())
+      .subscribe((data) => {
+        this.servicio.removerModelo(this.ModeloIdEliminar, this.servicio.CategoriActual());
+        this.modelosCategoriaActual(this.servicio.CategoriActual());
+        this.categoriaSeleccionada = true;
+      });
+  }
+
+    //confirma  el remover un comentario
+    confirmar(modeloId: string) {
+      this.componenteModal.openModal(
+        this.componenteModal.myTemplate,
+        'remover el modelo'
+      );
+      this.ModeloIdEliminar = modeloId;
+    }
+    // Auxiliares UI
+    recibidoDelModal(r: string) {
+      if (r == 'Y') {
+        this.removerModelo();
+      }
+      this.ModeloIdEliminar  = null;
+    }
 }
