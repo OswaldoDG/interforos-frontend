@@ -39,7 +39,8 @@
     "ordenar-nombreArtistico":"Nombre Artistico",
     "ordenar-edad":"Edad",
     "next":"Siguiente",
-    "before":"Anterior"
+    "before":"Anterior",
+    "agregarModelo":"Agregar a Casting"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
@@ -65,7 +66,9 @@
     "perfil-permisotrabajo": "Tiene permiso laboral",
     "perfil-pais-residencia": "País residencia",
     "perfil-estado-residencia": "Estado residencia",
-    "perfil-validacion-mensaje-guard":"Complete su perfil"
+    "perfil-validacion-mensaje-guard":"Complete su perfil",
+    "error-modelo":"No se pudo agregar al modelo",
+    "modelo":"Se agrego el modelo correctamente"
   },
   "proyectos": {
     "header": "Administrador de castings",
