@@ -90,7 +90,7 @@ export class PersonaCardComponent implements OnInit {
       }
 
       if (this.persona?.elementoMedioPrincipalId) {
-        this.avatarUrl = '${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb';
+        this.avatarUrl = `${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
       }
       if (this.modoRevisor) {
         this.traerMedios();
@@ -200,14 +200,14 @@ export class PersonaCardComponent implements OnInit {
         m.elementos.forEach((e) => {
           if (e.imagen) {
             this.imagenes.push({
-              image: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full',
-              thumbImage: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card',
+              image: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/full`,
+              thumbImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.id}/card`,
             });
           } else {
             if (e.video) {
               this.imagenes.push({
-                video: '${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4',
-                posterImage: '${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card',
+                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
+                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
               });
             }
           }

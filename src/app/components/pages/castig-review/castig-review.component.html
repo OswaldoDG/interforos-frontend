@@ -1,16 +1,6 @@
 <div class="pt-5">
   <br />
   <app-navbar-promodel></app-navbar-promodel>
-  <ngx-spinner
-  *ngIf="estadoPersona == true"
-  name="loadCategorias"
-  [fullScreen]="true"
-  type="ball-scale-multiple"
-  size="medium"
-  >
-  <p class="loading">...</p>
-  </ngx-spinner>
-
   <div
     class="container text-center"
     *ngIf="
@@ -46,56 +36,54 @@
             <label>{{ "buscar.categorias" | translate }}</label>
           </div>
           <div class="col col-lg-3">
-              <select
-                class="form-select"
-                id="categoriaSelect"
-                aria-label="Default select example"
-                (change)="onChangeCategoria($event.target.value)"
-                formControlName="categorias"
-                [(ngModel)]="CategoriaActual"
-              >
-                <ng-container *ngIf="casting.categorias.length > 0">
-                  <option
-                    *ngFor="let categoria of categorias"
-                    [value]="categoria.id"
-                  >
-                    {{ categoria.nombre }}
-                  </option>
-                </ng-container>
-              </select>
+            <select
+              class="form-select"
+              id="categoriaSelect"
+              aria-label="Default select example"
+              (change)="onChangeCategoria($event.target.value)"
+              [(ngModel)]="CategoriaActual"
+            >
+              <ng-container *ngIf="casting.categorias.length > 0">
+                <option
+                  *ngFor="let categoria of categorias"
+                  [value]="categoria.id"
+                >
+                  {{ categoria.nombre }}
+                </option>
+              </ng-container>
+            </select>
           </div>
           <div
+            [formGroup]="formAgregarModelo"
             class="col col-lg-4 container text-center"
-            *ngIf="puedeAgregarModelo"
+            *ngIf="puedeAgregarModelo && categoriaSeleccionada"
           >
-            <form [formGroup]="formAgregarModelo">
-              <div class="row justify-content-md-center">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                  <label>{{ "buscar.agregarModelo" | translate }}</label>
-                </div>
-                <div class="col-lg-6 col-md-8 col-sm-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Numero Modelo"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                    formControlName="consecutivo"
-                    onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
-                  />
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 p-1">
-                  <button
-                    type="button"
-                    [disabled]="formAgregarModelo.invalid"
-                    class="btn btn-primary"
-                    (click)="agregarModelo()"
-                  >
-                    +
-                  </button>
-                </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-4 col-md-12 col-sm-12">
+                <label>{{ "buscar.agregarModelo" | translate }}</label>
               </div>
-            </form>
+              <div class="col-lg-6 col-md-8 col-sm-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Numero Modelo"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="consecutivo"
+                  onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
+                />
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 p-1">
+                <button
+                  type="button"
+                  [disabled]="formAgregarModelo.invalid"
+                  class="btn btn-primary"
+                  (click)="agregarModelo()"
+                >
+                  +
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -129,17 +117,17 @@
                 [tipoBusqueda]="false"
                 [modoRevisor]="true"
                 [persona]="modelo"
-                [mostrarGenerales] = "permisosCast.verDatosGenerales"
-                [mostrarGaleria] = "permisosCast.verGaleriaPersonal"
-                [mostrarHabilidades] = "permisosCast.verHabilidades"
-                [verTelefono] = "permisosCast.verTelefono"
-                [verEmail] = "permisosCast.verEmail"
-                [verDireccion] = "permisosCast.verDireccion"
-                [verComentarios] = "permisosCast.verComentarios"
-                [verRedesSociales] = "permisosCast.verRedesSociales"
-                (personaCargada) = "personaCargadaEvnt($event)"
+                [mostrarGenerales]="permisosCast.verDatosGenerales"
+                [mostrarGaleria]="permisosCast.verGaleriaPersonal"
+                [mostrarHabilidades]="permisosCast.verHabilidades"
+                [verTelefono]="permisosCast.verTelefono"
+                [verEmail]="permisosCast.verEmail"
+                [verDireccion]="permisosCast.verDireccion"
+                [verComentarios]="permisosCast.verComentarios"
+                [verRedesSociales]="permisosCast.verRedesSociales"
+                (personaCargada)="personaCargadaEvnt($event)"
               >
-            </app-persona-card>
+              </app-persona-card>
             </div>
           </div>
         </div>

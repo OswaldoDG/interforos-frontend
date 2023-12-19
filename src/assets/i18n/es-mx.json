@@ -67,7 +67,9 @@
     "perfil-pais-residencia": "País residencia",
     "perfil-estado-residencia": "Estado residencia",
     "perfil-validacion-mensaje-guard":"Complete su perfil",
-    "error-modelo":"No se pudo agregar al modelo",
+    "error-400":"No se pudo agregar al modelo",
+    "error-404":"No existe modelo",
+    "error-409":"Modelo ya se encuentra en la categoria",
     "modelo":"Se agrego el modelo correctamente"
   },
   "proyectos": {
