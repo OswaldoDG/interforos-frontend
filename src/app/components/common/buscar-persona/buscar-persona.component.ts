@@ -162,6 +162,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
   ordenChange(event) {
     this.orden = event;
+    this.buscar()
   }
   private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
     let personas: string[] = [];
@@ -331,6 +332,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
   onChangeOrden() {
     this.ordenASC = !this.ordenASC;
+    this.buscar()
   }
   cargarCategorias() {
     this.categorias = this.servicio.CategoriasCastingActual();
