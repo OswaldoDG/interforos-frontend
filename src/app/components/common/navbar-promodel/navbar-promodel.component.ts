@@ -14,6 +14,7 @@ import {
   AccesoClient,
   ClienteView,
   HttpCode,
+  InformacionPerfil,
   PersonaClient,
   RegistroClient,
   TipoRolCliente,
@@ -51,9 +52,8 @@ export class NavbarPromodelComponent implements OnInit {
   T: any[];
   inCall: boolean = false;
   autenticado: boolean = false;
-
+  documentosCompletos : boolean = false;
   existeEmail: boolean = false;
-
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -137,6 +137,8 @@ export class NavbarPromodelComponent implements OnInit {
         this.userName = p.alias;
       }
     });
+    this.documentosCompletos = this.query.getValue().perfil.datosCompletos;
+
   }
 
   ngOnDestroy() {
@@ -238,10 +240,8 @@ export class NavbarPromodelComponent implements OnInit {
                 this.userName = u.alias;
                 this.session.establecePerfil(u);
                 this.runLogin(false);
-
                 if (u.requirePerfil) {
                   if (u.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0) {
-
                     this.router.navigateByUrl('/staff');
                   if (u.tienePerfil) {
                     if (u.roles.indexOf(TipoRolCliente.Staff) >= 0) {
@@ -305,6 +305,10 @@ export class NavbarPromodelComponent implements OnInit {
   //confirma  el remover un comentario
   confirmar() {
     this.componenteModal.openModal(this.componenteModal.myTemplate);
+  }
+
+  navegarRutas(){
+    this.router.navigateByUrl('/staff');
   }
   // Auxiliares UI
   recibidoDelModal(r: string) {
