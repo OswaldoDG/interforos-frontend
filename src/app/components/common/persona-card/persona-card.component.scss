@@ -1,7 +1,18 @@
 :host ::ng-deep .card {
   //min-height: 100px;
 }
+hr {
+  border-top: 3px solid black;
+}
 
+.divCard
+{
+  padding: 20px;
+}
+.card{
+  border: none; /* Elimina el borde */
+  box-shadow: none/* Elimina cualquier sombra */
+}
 .user-profile {
   img {
     width: 110px;
@@ -59,10 +70,10 @@
 }
 
 .user-contact-info {
-  margin-top: 10px;
+  margin-top: 20px;
   background-color: #f9f9f9;
   border-radius: 3px;
-  padding: 5px;
+  padding: 20px;
 
   h3 {
     font-size: 20px;

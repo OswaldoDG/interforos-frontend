@@ -70,7 +70,8 @@
     "error-400":"No se pudo agregar al modelo",
     "error-404":"No existe modelo",
     "error-409":"Modelo ya se encuentra en la categoria",
-    "modelo":"Se agrego el modelo correctamente"
+    "modelo":"Se agrego el modelo correctamente",
+    "edad":" años"
   },
   "proyectos": {
     "header": "Administrador de castings",

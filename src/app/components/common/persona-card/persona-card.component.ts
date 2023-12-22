@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -8,7 +9,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CastingClient, PermisosCasting, Persona } from 'src/app/services/api/api-promodel';
+import {
+  CastingClient,
+  PermisosCasting,
+  Persona,
+} from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
@@ -18,6 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SessionQuery } from 'src/app/state/session.query';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-persona-card',
@@ -28,7 +34,7 @@ export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
-  @Output() personaCargada : EventEmitter<boolean> = new EventEmitter();
+  @Output() personaCargada: EventEmitter<boolean> = new EventEmitter();
   @Output() uid: EventEmitter<string> = new EventEmitter();
   //Determina si el despliegue debe ser vertial
   @Input() direccionVertical: boolean = true;
@@ -51,13 +57,17 @@ export class PersonaCardComponent implements OnInit {
   //Vista Para revisor
   @Input() modoRevisor: boolean = false;
   //Permisos
-  @Input() verRedesSociales : boolean = true;
-  @Input() verTelefono : boolean = true;
-  @Input() verEmail : boolean = true;
-  @Input() verDireccion : boolean = true;
-  @Input() verComentarios : boolean = true;
+  @Input() verRedesSociales: boolean = true;
+  @Input() verTelefono: boolean = true;
+  @Input() verEmail: boolean = true;
+  @Input() verDireccion: boolean = true;
+  @Input() verComentarios: boolean = true;
   mobile: boolean = false;
-  avatarUrl: string = 'assets/img/avatar-404.png';
+  notFoundURL: string = 'assets/img/errorMedio.jpg';
+  avatarUrl: string = 'assets/img/errorMedio.jpg';
+  videoCasting: any;
+  fotoCasting: any;
+  tieneVideo: boolean = false;
   imagenes = [];
   tabHome = '';
   tabHomeBtn = '';
@@ -78,16 +88,12 @@ export class PersonaCardComponent implements OnInit {
     private toastService: HotToastService,
     private translate: TranslateService,
     private session: SessionQuery,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
-      if (this.persona.usuarioId) {
-        this.usuarioFinal = this.persona.usuarioId;
-      } else {
-        this.usuarioFinal = this.persona.id;
-      }
+      this.usuarioFinal = this.persona.id;
 
       if (this.persona?.elementoMedioPrincipalId) {
         this.avatarUrl = `${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
@@ -100,6 +106,36 @@ export class PersonaCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.spinner.show('loadMedios');
+    this.castingService
+      .video(
+        this.servicio.CastingIdActual(),
+        this.persona.id,
+        this.servicio.CategoriActual()
+      )
+      .subscribe((video) => {
+        if (video.videoPortadaId) {
+          this.videoCasting = `https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`;
+          this.tieneVideo = true;
+        }
+        this.castingService
+          .foto(
+            this.servicio.CastingIdActual(),
+            this.persona.id,
+            this.servicio.CategoriActual()
+          )
+          .pipe(first())
+          .subscribe(
+            (foto) => {
+              this.fotoCasting = foto;
+              this.spinner.hide('loadMedios');
+            },
+            (err) => {
+              this.fotoCasting = this.notFoundURL;
+              this.spinner.hide('loadMedios');
+            }
+          );
+      });
     this.bks
       .observe(['(min-width: 500px)'])
       .subscribe((state: BreakpointState) => {
@@ -123,7 +159,12 @@ export class PersonaCardComponent implements OnInit {
       ' ' +
       this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
-    if(this.verDireccion == false && this.verEmail == false && this.verTelefono == false && this.verRedesSociales == false){
+    if (
+      this.verDireccion == false &&
+      this.verEmail == false &&
+      this.verTelefono == false &&
+      this.verRedesSociales == false
+    ) {
       this.mostrarContacto = false;
     }
   }
@@ -206,8 +247,8 @@ export class PersonaCardComponent implements OnInit {
           } else {
             if (e.video) {
               this.imagenes.push({
-                video: `${environment.apiRoot}/videos/${m.usuarioId}/${e.id}-full.mp4`,
-                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/card`,
+                video: `https://drive.google.com/uc?export=download&id=${e.id}`,
+                posterImage: `${environment.apiRoot}/contenido/${m.usuarioId}/${e.frameVideoId}/thumb`,
               });
             }
           }

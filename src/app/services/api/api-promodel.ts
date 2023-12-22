@@ -558,6 +558,14 @@ export interface ICastingClient {
      * @return Success
      */
     bitacora(id: string): Observable<BitacoraCasting[]>;
+    /**
+     * @return Success
+     */
+    video(castingId: string, modeloId: string, categoriaId: string): Observable<ModeloCasting>;
+    /**
+     * @return Success
+     */
+    foto(castingId: string, modeloId: string, categoriaId: string): Observable<string>;
 }
 
 @Injectable({
@@ -2401,6 +2409,162 @@ export class CastingClient implements ICastingClient {
             }));
         }
         return _observableOf<BitacoraCasting[]>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    video(castingId: string, modeloId: string, categoriaId: string, httpContext?: HttpContext): Observable<ModeloCasting> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/video";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (modeloId === undefined || modeloId === null)
+            throw new Error("The parameter 'modeloId' must be defined.");
+        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
+        if (categoriaId === undefined || categoriaId === null)
+            throw new Error("The parameter 'categoriaId' must be defined.");
+        url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processVideo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processVideo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ModeloCasting>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ModeloCasting>;
+        }));
+    }
+
+    protected processVideo(response: HttpResponseBase): Observable<ModeloCasting> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ModeloCasting;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ModeloCasting>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    foto(castingId: string, modeloId: string, categoriaId: string, httpContext?: HttpContext): Observable<string> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/foto";
+        if (castingId === undefined || castingId === null)
+            throw new Error("The parameter 'castingId' must be defined.");
+        url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (modeloId === undefined || modeloId === null)
+            throw new Error("The parameter 'modeloId' must be defined.");
+        url_ = url_.replace("{modeloId}", encodeURIComponent("" + modeloId));
+        if (categoriaId === undefined || categoriaId === null)
+            throw new Error("The parameter 'categoriaId' must be defined.");
+        url_ = url_.replace("{categoriaId}", encodeURIComponent("" + categoriaId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFoto(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFoto(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processFoto(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(null as any);
     }
 }
 
