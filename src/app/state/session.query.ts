@@ -28,6 +28,10 @@ export class SessionQuery extends Query<SessionState> {
   cliente$ = this.select((state) => state.cliente);
   alias$ = this.select((state) => state.perfil.alias);
 
+  get DatosCompletos(){
+    return !!this.getValue().perfil.datosCompletos;
+  }
+
   get UserId() {
     if (this.getValue().auth?.token) {
       const decoded: JwtPayload = this.decodedAccessToken(

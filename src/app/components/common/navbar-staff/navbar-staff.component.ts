@@ -101,6 +101,10 @@ export class NavbarStaffComponent implements OnInit {
   confirmar() {
     this.componenteModal.openModal(this.componenteModal.myTemplate);
   }
+
+  navegarRoot(){
+    this.router.navigateByUrl("/");
+  }
   // Auxiliares UI
   recibidoDelModal(r: string) {
     if (r == 'Y') {

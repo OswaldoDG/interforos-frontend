@@ -23,7 +23,7 @@ export function createInitialState(): SessionState {
     lang: "es-MX",
     cliente: null,
     userId: null,
-    rolesUsuario:[]
+    rolesUsuario:[],
   };
 }
 export const sessionPersistStorage = persistState({

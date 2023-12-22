@@ -19,34 +19,7 @@
 
         <div class="collapse navbar-collapse mean-menu">
           <ul class="navbar-nav">
-            <li *ngIf="autenticado && (agencia || admin)" class="nav-item">
-              <a
-                routerLink="/agencia"
-                class="nav-link"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >{{ "navbar.menu-agencia" | translate }}</a
-              >
-            </li>
-            <li *ngIf="autenticado && (staff || admin)" class="nav-item">
-              <a
-                routerLink="/staff"
-                class="nav-link"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >{{ "navbar.menu-staff" | translate }}</a
-              >
-            </li>
-            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
-              <a
-                routerLink="/model"
-                class="nav-link"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >{{ "navbar.menu-modelo" | translate }}</a
-              >
-            </li>
-            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
+            <li *ngIf="autenticado && (modelo)" class="nav-item">
               <a
                 routerLink="/perfil"
                 class="nav-link"
@@ -55,7 +28,17 @@
                 >{{ "navbar.menu-perfil" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
+            <i *ngIf="autenticado && (revisor || staff || agencia || admin)" class="bi bi-house m-4 cursor-pointer m-4 h3" (click)="navegarRutas()"></i>
+            <li *ngIf="autenticado && (modelo) && documentosCompletos == true" class="nav-item">
+              <a
+                routerLink="/model"
+                class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "navbar.menu-modelo" | translate }}</a
+              >
+            </li>
+            <li *ngIf="autenticado && (modelo) && documentosCompletos == true" class="nav-item">
               <a
                 routerLink="/galeria"
                 class="nav-link"
@@ -64,7 +47,7 @@
                 >{{ "navbar.menu-fotos" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && (modelo || admin)" class="nav-item">
+            <li *ngIf="autenticado && (modelo) && documentosCompletos == true" class="nav-item">
               <a
                 routerLink="/mismodelos"
                 class="nav-link"
@@ -73,16 +56,7 @@
                 >{{ "navbar.menu-mismodelos" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && (revisor || admin)" class="nav-item">
-              <a
-                routerLink="/castings"
-                class="nav-link"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >{{ "navbar.menu-casting" | translate }}</a
-              >
-            </li>
-            <li *ngIf="autenticado && !mobile" class="nav-item">
+            <li *ngIf="autenticado && !mobile && !staff && !!revisor && !!agencia || modelo" class="nav-item">
               <a href="javascript:void(0)" class="dropdown-toggle nav-link">{{
                 "navbar.menu-sesion" | translate
               }}</a>

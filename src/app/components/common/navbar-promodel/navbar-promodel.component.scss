@@ -1,5 +1,12 @@
 @import "../navbar-style-one/navbar-style-one.component.scss";@import "../navbar-style-one/navbar-style-one.component.scss";
+.cursor-pointer {
+  cursor: pointer;
+  background-color: transparent;
+}
 
+.cursor-pointer:hover {
+  color: var(--mainColor);
+}
 .navbar-area {
   top: 0 !important;
   left: 250px !important;

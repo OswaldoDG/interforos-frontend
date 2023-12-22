@@ -1,6 +1,7 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { DateTimeAdapter } from 'ng-pick-datetime';
@@ -91,6 +92,7 @@ export class DatosPersonaComponent implements OnInit {
   mostrarOpcion: boolean;
   registroCompleto: boolean = false;
   dismissible = true;
+
   constructor(
     private personaService: PersonaInfoService,
     private bks: BreakpointObserver,
@@ -101,7 +103,8 @@ export class DatosPersonaComponent implements OnInit {
     private fb: FormBuilder,
     private sessionService: SessionService,
     dateTimeAdapter: DateTimeAdapter<any>,
-    session: SessionQuery
+    private session: SessionQuery,
+    private ruta: Router
   ) {
     dateTimeAdapter.setLocale(session.lang);
     this.mostrarOpcion = environment.catalogosAbiertos == false;
@@ -800,6 +803,7 @@ export class DatosPersonaComponent implements OnInit {
             if (this.miPerfil) {
               this.apiPersona.perfilusuario().subscribe((e) => {
                 this.sessionService.establecePerfil(e);
+                this.ruta.navigateByUrl("/model");
               });
             }
             this.spinner.hide('spperfil');
