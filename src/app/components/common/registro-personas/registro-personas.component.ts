@@ -5,6 +5,7 @@ import {
   PersonaClient,
   PersonaResponsePaginado,
   TipoRelacionPersona,
+  TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { ServicioRegistroPersonasService } from 'src/app/services/servicio-registro-personas.service';
@@ -34,6 +35,7 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
   mostarControlesMisModelos: boolean = true;
   uid: string = null;
   verMedios: boolean = false;
+  esModelo : boolean = false;
   //Modal
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
@@ -68,6 +70,14 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
       .subscribe((data) => {
         this.agenciaId = data.agenciaId;
       });
+    this.session.getValue().perfil.roles.forEach(e=>{
+      console.log(e);
+      if(e == TipoRolCliente.Modelo){
+        this.esModelo = true;
+      }else{
+        this.esModelo = false;
+      }
+    })
     this.spinner.hide('spModelos');
   }
   agregarPersona() {
