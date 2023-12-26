@@ -239,8 +239,7 @@ export class NavbarPromodelComponent implements OnInit {
               (u) => {
                 this.userName = u.alias;
                 this.session.establecePerfil(u);
-                this.runLogin(false);
-                if (u.requirePerfil) {
+                if (u.requirePerfil == true) {
                   if (u.roles.indexOf(TipoRolCliente.RevisorExterno) >= 0) {
                     this.router.navigateByUrl('/staff');
                   if (u.tienePerfil) {
@@ -264,7 +263,10 @@ export class NavbarPromodelComponent implements OnInit {
                     this.router.navigateByUrl('/model');
                   }
                  }
+                }else{
+                  this.navegarRutaRol();
                 }
+                this.runLogin(false);
               },
               (err) => {
                 this.userName = this.loginForm.get('usuario').getRawValue();
@@ -281,6 +283,15 @@ export class NavbarPromodelComponent implements OnInit {
       );
   }
 
+  navegarRutaRol(){
+    this.query.getValue().perfil.roles.forEach(e=>{
+      if(e == TipoRolCliente.Administrador || e == TipoRolCliente.Staff || e == TipoRolCliente.RevisorExterno){
+        this.ruta.navigateByUrl('/castings');
+      }else{
+        this.ruta.navigateByUrl('/agencia');
+      }
+    });
+  }
   public solicitudPassword() {
     if (this.loginForm.value.usuario != '') {
       this.acceso

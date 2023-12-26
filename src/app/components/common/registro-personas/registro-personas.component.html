@@ -1,5 +1,8 @@
 <div *ngIf="!agenciaId">
-  <app-navbar-promodel></app-navbar-promodel>
+  <app-navbar-promodel *ngIf="esModelo == true; else navStaff" ></app-navbar-promodel>
+  <ng-template #navStaff>
+    <app-navbar-staff></app-navbar-staff>
+  </ng-template>
 </div>
 <div [ngClass]="{ '': agenciaId, 'row pt-5': !agenciaId }">
   <ngx-spinner

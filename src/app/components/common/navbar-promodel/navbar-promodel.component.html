@@ -28,7 +28,7 @@
                 >{{ "navbar.menu-perfil" | translate }}</a
               >
             </li>
-            <i *ngIf="autenticado && (revisor || staff || agencia || admin)" class="bi bi-house m-4 cursor-pointer m-4 h3" (click)="navegarRutas()"></i>
+            <i *ngIf="autenticado && (revisor || staff || agencia || admin)" class="bi bi-house m-4 cursor-pointer m-4 h3" (click)="navegarRutaRol()"></i>
             <li *ngIf="autenticado && (modelo) && documentosCompletos == true" class="nav-item">
               <a
                 routerLink="/model"
