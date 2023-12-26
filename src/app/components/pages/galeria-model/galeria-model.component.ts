@@ -110,7 +110,7 @@ export class GaleriaModelComponent implements OnInit {
           landscape: e.landscape,
           titulo: e.titulo,
           url: `https://drive.google.com/uc?export=download&id=${e.id}`,
-          urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/card`,
+          urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/thumb`,
         };
       }
     }
@@ -225,7 +225,6 @@ export class GaleriaModelComponent implements OnInit {
       (x) => x.principal == false && x.permanente == true
     );
     const caducibles = items.filter((x) => x.permanente == false);
-
     if (principales) {
       principales.forEach((i) => {
         ordenados.push(i);
