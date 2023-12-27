@@ -96,6 +96,7 @@ export class GaleriaModelComponent implements OnInit {
         titulo: e.titulo,
         url: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/full`,
         urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/card`,
+        castingId: e.castingId,
       };
     } else {
       if (e.video) {
@@ -111,6 +112,7 @@ export class GaleriaModelComponent implements OnInit {
           titulo: e.titulo,
           url: `https://drive.google.com/uc?export=download&id=${e.id}`,
           urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/thumb`,
+          castingId: e.castingId,
         };
       }
     }
@@ -255,15 +257,15 @@ export class GaleriaModelComponent implements OnInit {
         'fotos.foto-altprin-error',
         'fotos.foto-delprin-error',
         'perfil.perfil.fotos.alta',
-        'perfil.perfil.fotos'
+        'perfil.perfil.fotos',
       ])
       .pipe(first())
       .subscribe((ts) => {
         this.T = ts;
-        if(this.uid != undefined){
-          this.pageTitleContent[0].title= this.T['perfil.perfil.fotos.alta'];
-        }else{
-          this.pageTitleContent[0].title= this.T['perfil.perfil.fotos'];
+        if (this.uid != undefined) {
+          this.pageTitleContent[0].title = this.T['perfil.perfil.fotos.alta'];
+        } else {
+          this.pageTitleContent[0].title = this.T['perfil.perfil.fotos'];
         }
       });
   }

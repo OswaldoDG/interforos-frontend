@@ -10,4 +10,5 @@ export interface ElementoMediaView {
     url?:string;
     urlFull?:string;
     titulo?:string;
+    castingId?:string;
 }
