@@ -6,7 +6,7 @@
 >
   <div class="container">
     <div class="page-title-content">
-      <h2>{{ this.pageTitleContent[0].title}}</h2>
+      <h2>{{ this.pageTitleContent[0].title }}</h2>
       <ul>
         <!-- <li><a routerLink="/">Home</a></li>
                 <li>{{Content.title}}</li> -->
@@ -14,9 +14,9 @@
     </div>
   </div>
 </div>
-<div *ngIf="uid != undefined"class="container">
+<div *ngIf="uid != undefined" class="container">
   <div class="page-title-content">
-    <h2>{{ this.pageTitleContent[0].title}}</h2>
+    <h2>{{ this.pageTitleContent[0].title }}</h2>
     <!-- <ul>
               <li><a routerLink="/">Home</a></li>
               <li>{{Content.title}}</li>
@@ -160,9 +160,14 @@
               [ngClass]="{ checked: l.principal == true }"
               ><i class="bx bxs-heart"></i
             ></a>
-            <a [routerLink]="" (click)="bntEliminar(l.id)" class="eliminar-btn"
-              ><i class="bx bx-x"></i
-            ></a>
+            <div *ngIf="!l.castingId">
+              <a
+                [routerLink]=""
+                (click)="bntEliminar(l.id)"
+                class="eliminar-btn"
+                ><i class="bx bx-x"></i
+              ></a>
+            </div>
             <a
               [routerLink]=""
               (click)="bntPin(l.id)"
@@ -188,9 +193,15 @@
               [ngClass]="{ checked: l.principal == true }"
               ><i class="bx bxs-heart"></i
             ></a>
-            <a [routerLink]="" (click)="bntEliminar(l.id)" class="eliminar-btn"
-              ><i class="bx bx-x"></i
-            ></a>
+            <div *ngIf="!l.castingId">
+              <a
+                [routerLink]=""
+                (click)="bntEliminar(l.id)"
+                class="eliminar-btn"
+                ><i class="bx bx-x"></i
+              ></a>
+            </div>
+
             <a
               [routerLink]=""
               (click)="bntPin(l.id)"
