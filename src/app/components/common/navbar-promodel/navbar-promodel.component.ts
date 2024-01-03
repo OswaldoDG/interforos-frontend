@@ -1,5 +1,5 @@
 import { PersistState, isEmpty } from '@datorama/akita';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -85,7 +85,7 @@ export class NavbarPromodelComponent implements OnInit {
     private translate: TranslateService,
     private toastService: HotToastService,
     private ruta: Router,
-    private recaptchaV3Service: ReCaptchaV3Service
+    private recaptchaV3Service: ReCaptchaV3Service,
   ) {
     this.token = undefined;
   }
@@ -341,4 +341,5 @@ export class NavbarPromodelComponent implements OnInit {
       }
     }
   }
+
 }
