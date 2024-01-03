@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {VotoModeloMapeo } from 'src/app/services/api/api-promodel';
+import { CastingReviewService } from 'src/app/services/casting-review.service';
 import { CastingStaffServiceService, MapeoVoto } from 'src/app/services/casting-staff-service.service';
 
 
@@ -20,7 +21,7 @@ export class ResumenVotoModeloComponent implements OnInit {
   //Variable donde se mapean el nivel de like y el usaurio que realizó la votación
   mapeoVotos: MapeoVoto[] = [];
 
-  constructor(private servicio : CastingStaffServiceService) { }
+  constructor(private servicio : CastingReviewService) { }
 
   ngOnInit(): void {
     this.actualizarTabla();

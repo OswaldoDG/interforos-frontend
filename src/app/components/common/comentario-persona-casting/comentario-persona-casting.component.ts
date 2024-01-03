@@ -7,6 +7,7 @@ import {
 } from 'src/app/services/api/api-promodel';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
+import { CastingReviewService } from 'src/app/services/casting-review.service';
 
 @Component({
   selector: 'app-comentario-persona-casting',
@@ -22,7 +23,7 @@ export class ComentarioPersonaCastingComponent implements OnInit {
   formComentario: FormGroup;
   idSeleccinadoEliminar: string;
   constructor(
-    private servicio: CastingStaffServiceService,
+    private servicio: CastingReviewService,
     private castingService: CastingClient,
     private fb: FormBuilder
   ) {

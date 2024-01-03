@@ -159,6 +159,7 @@ import { PromodelRevisorComponent } from './components/pages/promodel-revisor/pr
 import { CategoriaCastingViewComponent } from './components/common/categoria-casting-view/categoria-casting-view.component';
 import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/promodel-agencia.component';
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
+import { PersonaCardReviewComponent } from './components/common/persona-card-review/persona-card-review.component';
 
 defineLocale('es', esLocale);
 
@@ -281,6 +282,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CategoriaCastingViewComponent,
     PromodelAgenciaComponent,
     GaleriaPersonaComponent,
+    PersonaCardReviewComponent,
   ],
   imports: [
     AppRoutingModule,
