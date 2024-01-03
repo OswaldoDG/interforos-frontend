@@ -91,9 +91,57 @@
             *ngIf="autenticado"
             class="others-option d-flex align-items-center"
           >
-            <div class="option-item">
-              <span><i class="flaticon-user"></i>{{ userName }}</span>
+          <div class="option-item">
+            <div class="vesax-nav">
+              <nav class="navbar navbar-expand-md navbar-light">
+                <div class="collapse navbar-collapse mean-menu">
+                  <ul class="navbar-nav">
+                  </ul>
+                  <div class="others-option d-flex align-items-center">
+                    <div class="option-item">
+                      <div class="dropdown profile-nav-item">
+                        <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false">
+                          <div class="menu-profile">
+                            <div>
+                              <span class="name"><i class="option-itemn flaticon-user"></i>{{ userName }}</span>
+                            </div>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu">
+
+                          <div class="dropdown-body">
+                            <ul class="profile-nav p-0 pt-3">
+                              <li class="nav-item"><div *ngIf="autenticado" class="option-item">
+                                <span (click)="confirmar()">
+                                  <i class="bx bx-key"></i>
+                                  {{ "navbar.menu-chpass" | translate }}
+                                </span>
+                              </div>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="dropdown-footer">
+                            <ul class="profile-nav">
+                              <li class="nav-item">
+                                <div *ngIf="autenticado" class="option-item">
+                                  <span (click)="logout()">
+                                    <i class="bx bx-exit"></i>
+                                    {{ "navbar.menu-logout" | translate }}
+                                  </span>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
             </div>
+          </div>
+
           </div>
         </div>
       </nav>
