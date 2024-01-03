@@ -172,14 +172,14 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       );
       if (categoria != undefined) {
         categoria.modelos.forEach((id) => {
-          personas.push(id);
+          personas.push(id.personaId);
         });
       }
     } else {
       this.categorias.forEach((categoria) => {
         categoria.modelos.forEach((m) => {
-          if (!personas.includes(m)) {
-            personas.push(m);
+          if (!personas.includes(m.personaId)) {
+            personas.push(m.personaId);
           }
         });
       });
@@ -306,7 +306,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
                 this.formBuscar.valueChanges
                   .pipe(takeUntil(this.destroy$))
                   .subscribe((c) => {
-                    console.info(c);
+                    //console.info(c);
                   });
               }
             }
@@ -322,7 +322,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   onChangeCasting(id: any) {
     this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
     this.cargarCategorias();
-    this.servicio.ActualizarCategoria(this.categorias[0].id);
+    //this.servicio.ActualizarCategoria(this.categorias[0].id);
   }
   onChangeCategoria(id: string) {
     this.servicio.ActualizarCategoria(id);

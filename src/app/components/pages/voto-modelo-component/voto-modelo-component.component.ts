@@ -11,6 +11,7 @@ import {
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SessionQuery } from 'src/app/state/session.query';
 import { ResumenVotoModeloComponent } from '../../common/resumen-voto-modelo/resumen-voto-modelo.component';
+import { CastingReviewService } from 'src/app/services/casting-review.service';
 
 @Component({
   selector: 'app-voto-modelo-component',
@@ -40,7 +41,7 @@ export class VotoModeloComponentComponent implements OnInit {
   nombreModelo: string;
   resumenVoto : ResumenVotoModeloComponent;
   constructor(
-    private servicio: CastingStaffServiceService,
+    private servicio: CastingReviewService,
     private castingService: CastingClient,
     private modalService: BsModalService,
     private session: SessionQuery,

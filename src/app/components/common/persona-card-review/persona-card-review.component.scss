@@ -1,0 +1,215 @@
+:host ::ng-deep .card {
+  //min-height: 100px;
+}
+hr {
+  border-top: 3px solid black;
+}
+
+.divCard
+{
+  padding: 20px;
+}
+.card{
+  border: none; /* Elimina el borde */
+  box-shadow: none/* Elimina cualquier sombra */
+}
+.user-profile {
+  img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    box-shadow: 0 9px 26px rgba(58, 87, 135, .2);
+    border: 5px solid var(--whiteColor);
+  }
+
+  .title {
+    margin-left: 20px;
+
+    h4 {
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+
+    .sub-title {
+      display: block;
+      color: var(--mainColor);
+
+      font: {
+        weight: 500;
+      }
+
+      ;
+    }
+
+    .rating {
+      margin-top: 7px;
+
+      .bx {
+        color: #cecfd2;
+        font-size: 16px;
+        margin-right: 2px;
+
+        &.checked {
+          color: #efc02f;
+        }
+      }
+
+      .rating-count {
+        position: relative;
+        top: 1px;
+
+        font: {
+          size: 16px;
+          weight: 500;
+        }
+
+        ;
+      }
+    }
+  }
+}
+
+.user-contact-info {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 3px;
+  padding: 20px;
+
+  h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
+  }
+
+  .user-contact {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+
+    li {
+      margin-bottom: 9px;
+      font-weight: 500;
+
+      a {
+        display: inline-block;
+        position: relative;
+        color: var(--optionalColor);
+        padding-left: 25px;
+
+        i {
+          position: absolute;
+          left: 0;
+          top: 2px;
+          color: var(--mainColor);
+          font-size: 18px;
+        }
+
+        &:hover {
+          color: var(--mainColor);
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .social-profiles {
+    padding-left: 0;
+    list-style-type: none;
+
+    margin: {
+      top: 20px;
+      bottom: 0;
+    }
+
+    ;
+
+    li {
+      margin-bottom: 9px;
+      font-weight: 500;
+
+      a {
+        display: inline-block;
+        position: relative;
+        color: var(--optionalColor);
+        padding-left: 25px;
+
+        i {
+          position: absolute;
+          left: 0;
+          top: 2px;
+          font-size: 18px;
+        }
+
+        &.facebook {
+          color: #3b5998;
+        }
+
+        &.twitter {
+          color: #1da1f2;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  form {
+    margin-top: 25px;
+
+    .form-control {
+      background-color: var(--whiteColor) !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+    }
+  }
+}
+
+
+.star-checkbox {
+  position:static;
+  display: flex;
+  width: 30px;
+  height: 30px;
+}
+
+.star-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.star-checkbox .star {
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(11.25% 0%, 81.5% 0%, 83.75% 100%, 47.5% 63.75%, 11.25% 100%);
+
+  background-color:rgba(0, 0, 0, 0.267);
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Agregar transición para el borde */
+}
+
+.star-checkbox input[type="checkbox"]:checked + .star {
+  background-color: var(--mainColor); /* Color dorado para la estrella llena */
+  border-color: var(--mainColor);/* Color dorado para el borde cuando está llena */
+}
+
+.marcador
+{
+  width: 50px;
+  height: auto;
+}
+
+.scrollcontenedor{
+  height: 300px;
+  overflow:auto;
+}
+
+.bi
+{
+ font-size: 1.1em;
+}

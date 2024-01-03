@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
+  CastingClient,
   CatalogoBase,
   ClienteView,
+  ComentarioCategoriaModeloCasting,
+  ModeloCastingReview,
   Persona,
   PersonaClient,
   SelectorCastingCategoria,
   SelectorCategoria,
+  VotoModeloCategoria,
+  VotoModeloMapeo,
 } from './api/api-promodel';
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
@@ -20,19 +25,22 @@ export interface MapeoVoto {
 }
 
 @Injectable()
-export class CastingStaffServiceService {
+export class CastingReviewService {
   private casting: SelectorCastingCategoria = null;
   private categoriaActual: string = null;
   private userId: string = null;
   private destroySubject: Subject<void> = new Subject();
   private editar: boolean = false;
+  private votos: VotoModeloMapeo[] = [];
+  private modelosCategoria: ModeloCategoria[] = [];
   private personaNombre: string;
   public catalogos: CatalogosCliente[] = [];
   public cliente: ClienteView;
 
   constructor(
     sessionQuery: SessionQuery,
-    private personaClient: PersonaClient
+    private personaClient: PersonaClient,
+    private castingClient: CastingClient
   ) {
     this.userId = sessionQuery.UserId;
     const cs = sessionStorage.getItem('catalogos');
@@ -57,6 +65,95 @@ export class CastingStaffServiceService {
   private categoriaSub: Subject<string> = new Subject();
   public CategoriaSub(): Observable<string> {
     return this.categoriaSub.asObservable();
+  }
+  private castingSub: Subject<SelectorCastingCategoria> = new Subject();
+  public CastingSub(): Observable<SelectorCastingCategoria> {
+    return this.castingSub.asObservable();
+  }
+  private modelosSub: Subject<ModeloCategoria[]> = new Subject();
+  public ModelosSub(): Observable<ModeloCategoria[]> {
+    return this.modelosSub.asObservable();
+  }
+  private spinnerSub: Subject<boolean> = new Subject();
+  public SpinnerSub(): Observable<boolean> {
+    return this.spinnerSub.asObservable();
+  }
+  private calcularTotalesSub: Subject<boolean> = new Subject();
+  public CalcularTotalesSub(): Observable<boolean> {
+    return this.calcularTotalesSub.asObservable();
+  }
+
+  //Trae los votos, del modelo.
+  public traerVotosModelo(modeloId: string): VotoModeloMapeo[] {
+    this.votos = [];
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    this.casting.categorias[indexC].votos.forEach((m) => {
+      if (m.personaId == modeloId) {
+        this.votos.push(m);
+      }
+    });
+    return this.votos;
+  }
+  //Agrega el voto del revisor externo
+  agregarVoto(
+    votoRevisor: VotoModeloCategoria,
+    modeloId: string,
+    revisorId: string
+  ) {
+    var indexCategoria = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    var existeVotoRevisor = this.casting.categorias[indexCategoria].votos.find(
+      (v) => v.personaId == modeloId && v.usuarioId == revisorId
+    );
+    var indexVotoRevisor = this.casting.categorias[
+      indexCategoria
+    ].votos.findIndex(
+      (v) => v.personaId == modeloId && v.usuarioId == revisorId
+    );
+    if (existeVotoRevisor != undefined) {
+      var voto =
+        this.casting.categorias[indexCategoria].votos[indexVotoRevisor];
+      voto.nivelLike = votoRevisor.nivelLike;
+      this.categoriaSub.next(this.categoriaActual);
+      this.calcularTotalesSub.next(true);
+    } else {
+      var listaActual = this.casting.categorias[indexCategoria].votos;
+      const votoMapeado = {
+        personaId: modeloId,
+        usuarioId: votoRevisor.usuarioId,
+        nivelLike: votoRevisor.nivelLike,
+      };
+      listaActual.push(votoMapeado);
+      this.categoriaSub.next(this.categoriaActual);
+      this.calcularTotalesSub.next(true);
+    }
+  }
+
+  //devulve los comentarios en una categoria de un modelo ordenadosde manera decendente
+  public ComentariosCategoriaPersonaId(
+    personaId: string,
+    categoriaId: string
+  ): ComentarioCategoriaModeloCasting[] {
+    var comentarios: ComentarioCategoriaModeloCasting[] = [];
+    if (categoriaId) {
+      var indexC = this.casting.categorias.findIndex(
+        (c) => c.id == categoriaId
+      );
+      this.casting.categorias[indexC].comentarios.forEach((comentario) => {
+        if (comentario.personaId == personaId) {
+          comentarios.push(comentario);
+        }
+      });
+    }
+    comentarios.sort(function (a, b) {
+      if (a.fecha < b.fecha) return 1;
+      else if (a.fecha > b.fecha) return -1;
+      else return 0;
+    });
+    return comentarios;
   }
 
   //devuelve el nombre de un usuarioId
@@ -89,24 +186,15 @@ export class CastingStaffServiceService {
         (c) => c.id == this.categoriaActual
       );
 
-      return this.casting.categorias[indexC].modelos.findIndex(_=>_.personaId==idPersona);
+      return this.casting.categorias[indexC].modelos.findIndex(
+        (_) => _.personaId == idPersona
+      );
     } else {
       return -1;
     }
   }
 
-  // Devuelve una lista de categorias en las que participa el modelo
-  public CastingsPersona(idPersona: string): string[] {
-    const tmp: string[] = [];
-    if (this.casting) {
-      this.casting.categorias.forEach((c) => {
-        if (c.modelos.findIndex(_=>_.personaId==idPersona) >= 0) {
-          tmp.push(c.id);
-        }
-      });
-    }
-    return tmp;
-  }
+
   //devuelve la categoriaId actual
   public CategoriActual(): string {
     return this.categoriaActual;
@@ -124,27 +212,62 @@ export class CastingStaffServiceService {
     return this.casting.categorias;
   }
   //agregar un modelo
-  public agregarModelo(modeloId: string, categoriaId: string) {
-    var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    var consecutivo = Math.max(...this.casting.categorias[indexC].modelos.map(_=>_.consecutivo));
-    this.casting.categorias[indexC].modelos.push({consecutivo:consecutivo,personaId:modeloId});
+  public agregarModelo(modelo: ModeloCastingReview, categoriaId: string) {
+    this.personaClient.idGet(modelo.personaId).subscribe((p) => {
+      var indexC = this.casting.categorias.findIndex(
+        (c) => c.id == categoriaId
+      );
+      this.casting.categorias[indexC].modelos.push(modelo);
+      const modeloCategoria: ModeloCategoria = {
+        consecutivo: modelo.consecutivo,
+        modelo: this.PersonaDesplegable(p),
+      };
+      this.modelosCategoria.push(modeloCategoria);
+      this.modelosSub.next(this.modelosCategoria);
+      this.spinnerSub.next(false);
+    });
   }
   //remueve un modelo
   public removerModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    var indexM = this.casting.categorias[indexC].modelos.findIndex(_=>_.personaId==modeloId);
+    var indexM = this.casting.categorias[indexC].modelos.findIndex(
+      _=> _.personaId == modeloId);
+    var indexMC=this.modelosCategoria.findIndex(_=>_.modelo.id==modeloId);
     this.casting.categorias[indexC].modelos.splice(indexM, 1);
+    this.modelosCategoria.splice(indexMC, 1);
+    this.modelosSub.next(this.modelosCategoria);
+    this.spinnerSub.next(false);
+  }
+  //agrega comentario
+  agregarComentario(comentario: ComentarioCategoriaModeloCasting) {
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == comentario.categoriaId
+    );
+    this.casting.categorias[indexC].comentarios.push(comentario);
+  }
+  //remueve comentario
+  public removerComentario(comentarioId: string, categoriaId: string) {
+    var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
+    var indexCo = this.casting.categorias[indexC].comentarios.findIndex(
+      (_) => _.id == comentarioId
+    );
+    this.casting.categorias[indexC].comentarios.splice(indexCo, 1);
   }
 
-  public ActualizarCasting(castingNuevo: SelectorCastingCategoria) {
-    if (castingNuevo != null) {
-      this.casting = castingNuevo;
+  public ActualizarCasting(castingId: string) {
+    if (castingId != null) {
+      this.castingClient.selector(castingId).subscribe((c) => {
+        this.casting = c;
+        this.castingSub.next(c);
+      });
     }
   }
   public ActualizarCategoria(categoria: string) {
     if (categoria != null) {
       this.categoriaActual = categoria;
       this.categoriaSub.next(this.categoriaActual);
+      this.modelosCategoria=[];
+      this.procesaPersonas();
     }
   }
 
@@ -181,11 +304,6 @@ export class CastingStaffServiceService {
   }
 
   PersonaDesplegable(persona: Persona): Persona {
-    // const pv = this.personasView.find((p) => p.id == persona.id);
-    // if (pv != undefined) {
-    //   return pv;
-    // }
-
     var p = { ...persona };
     const cs = this.catalogos.find((c) => c.url == this.cliente.url);
 
@@ -272,6 +390,35 @@ export class CastingStaffServiceService {
     return el;
   }
 
+  public procesaPersonas() {
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    if(this.casting.categorias[indexC].modelos.length>0)
+    {
+      this.castingClient
+      .modelos(this.casting.id, this.categoriaActual)
+      .subscribe((personas) => {
+        personas.forEach((persona) => {
+          const modelo: ModeloCategoria = {
+            consecutivo: this.casting.categorias[indexC].modelos.find(
+              (_) => _.personaId == persona.id
+            ).consecutivo,
+            modelo: this.PersonaDesplegable(persona),
+          };
+          this.modelosCategoria.push(modelo);
+        });
+        this.modelosSub.next(this.modelosCategoria);
+        this.spinnerSub.next(false);
+      });
+    }
+    else
+    {
+        this.modelosSub.next([]);
+        this.spinnerSub.next(false);
+    }
+  }
+
   private ADespliegueArray(ids: string[], catalogo: CatalogoBase) {
     if (catalogo == undefined) {
       return ids;
@@ -287,4 +434,9 @@ export class CastingStaffServiceService {
     });
     return elementos;
   }
+}
+
+export interface ModeloCategoria {
+  consecutivo: number;
+  modelo: Persona;
 }

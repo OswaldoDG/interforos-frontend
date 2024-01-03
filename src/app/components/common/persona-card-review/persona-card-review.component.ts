@@ -24,18 +24,38 @@ import { SessionQuery } from 'src/app/state/session.query';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
+import { CastigReviewComponent } from '../../pages/castig-review/castig-review.component';
+import { CastingReviewService } from 'src/app/services/casting-review.service';
 
 @Component({
-  selector: 'app-persona-card',
-  templateUrl: './persona-card.component.html',
-  styleUrls: ['./persona-card.component.scss'],
+  selector: 'app-persona-card-review',
+  templateUrl: './persona-card-review.component.html',
+  styleUrls: ['./persona-card-review.component.scss'],
 })
-export class PersonaCardComponent implements OnInit {
+export class PersonaCardReviewComponent implements OnInit {
   @Input() persona: Persona = null;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
   @Output() personaCargada: EventEmitter<boolean> = new EventEmitter();
   @Output() uid: EventEmitter<string> = new EventEmitter();
+  //Determina si el avatar con la imagen principal del usuario debe mostrarse
+  @Input() mostrarAvatar: boolean = true;
+  //Determina si la lista de habilidades debe ser mostrada
+  @Input() mostrarHabilidades: boolean = true;
+  //Determina si los datos de contacto deben mostrase
+  @Input() mostrarContacto: boolean = true;
+  //Determina si los datos generales deben mostrarse
+  @Input() mostrarGenerales: boolean = true;
+  //Determina si la galeria debe mostrarse
+  @Input() mostrarGaleria: boolean = true;
+  //Determina si se muestran los controles de Mismodelos
+  @Input() mostarControlesMisModelos: boolean = false;
+  //Permisos
+  @Input() verRedesSociales: boolean = true;
+  @Input() verTelefono: boolean = true;
+  @Input() verEmail: boolean = true;
+  @Input() verDireccion: boolean = true;
+  @Input() verComentarios: boolean = true;
   mobile: boolean = false;
   notFoundURL: string = 'assets/img/errorMedio.jpg';
   avatarUrl: string = 'assets/img/errorMedio.jpg';
@@ -57,10 +77,11 @@ export class PersonaCardComponent implements OnInit {
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
-    private servicio: CastingStaffServiceService,
+    private servicio: CastingReviewService,
     private castingService: CastingClient,
     private toastService: HotToastService,
     private translate: TranslateService,
+    private session: SessionQuery,
     private spinner: NgxSpinnerService
   ) {}
 
@@ -71,24 +92,42 @@ export class PersonaCardComponent implements OnInit {
       if (this.persona?.elementoMedioPrincipalId) {
         this.avatarUrl = `${environment.apiRoot}/contenido/${this.usuarioFinal}/${this.persona.elementoMedioPrincipalId}/thumb`;
       }
-      this.validarExiste();
+      this.traerMedios();
     }
   }
 
   ngOnInit(): void {
     this.spinner.show('loadMedios');
-    this.bks
-      .observe(['(min-width: 500px)'])
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.mobile = false;
-        } else {
-          this.mobile = true;
+    this.castingService
+      .video(
+        this.servicio.CastingIdActual(),
+        this.persona.id,
+        this.servicio.CategoriActual()
+      )
+      .subscribe((video) => {
+        if (video.videoPortadaId) {
+          this.videoCasting = `https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`;
+          this.tieneVideo = true;
         }
+        this.castingService
+          .foto(
+            this.servicio.CastingIdActual(),
+            this.persona.id,
+            this.servicio.CategoriActual()
+          )
+          .pipe(first())
+          .subscribe(
+            (foto) => {
+              this.fotoCasting = foto;
+              this.spinner.hide('loadMedios');
+            },
+            (err) => {
+              this.fotoCasting = this.notFoundURL;
+              this.spinner.hide('loadMedios');
+            }
+          );
       });
-    this.servicio.CategoriaSub().subscribe((e) => {
-      this.validarExiste();
-    });
+
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
@@ -99,73 +138,15 @@ export class PersonaCardComponent implements OnInit {
       ' ' +
       this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
-  }
-  validarExiste() {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      this.mostrarBandera = true;
-    }
-    this.enCasting =
-      this.servicio
-        .CastingsPersona(this.persona.id)
-        .indexOf(this.servicio.CategoriActual()) >= 0;
-    if (this.servicio.personaEnCategoria(this.persona.id) >= 0) {
-      this.enCategoria = true;
-    } else {
-      this.enCategoria = false;
+    if (
+      this.verDireccion == false &&
+      this.verEmail == false &&
+      this.verTelefono == false &&
+      this.verRedesSociales == false
+    ) {
+      this.mostrarContacto = false;
     }
   }
-  onChangeCheckBox(id: string) {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      if (this.enCasting) {
-        this.castingService
-          .modeloPut(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
-          )
-          .subscribe((d) => {
-            this.servicio.agregarModelo(id, this.servicio.CategoriActual());
-            this.enCategoria = !this.enCategoria;
-          });
-      } else {
-        this.castingService
-          .modeloDelete(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
-          )
-          .subscribe((d) => {
-            this.servicio.removerModelo(id, this.servicio.CategoriActual());
-            this.enCategoria = !this.enCategoria;
-          });
-      }
-    } else {
-      this.enCasting = !this.enCasting;
-      this.enCategoria = !this.enCategoria;
-      this.toastService.warning(this.T['buscar.categorias-error'], {
-        position: 'bottom-center',
-      });
-    }
-  }
-
-  editarPersona() {
-    if (this.persona) {
-      this.personaEditar.emit(this.persona.id);
-    }
-  }
-  removerPersona() {
-    if (this.persona) {
-      this.personaRemover.emit(this.persona.id);
-    }
-  }
-  verMedios() {
-    this.uid.emit(this.persona.id);
-  }
-
-  selectTab() {
-    this.traerMedios();
-  }
-
   traerMedios() {
     this.personaService
       .obtieneMediosPErsona(this.usuarioFinal)

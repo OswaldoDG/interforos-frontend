@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   CastingClient,
+  ModeloCastingReview,
   PermisosCasting,
   Persona,
   PersonaClient,
@@ -16,19 +17,19 @@ import {
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { SessionQuery } from 'src/app/state/session.query';
 import { ModalConfirmacionComponent } from '../../common/modal-confirmacion/modal-confirmacion.component';
+import { CastingReviewService, ModeloCategoria } from 'src/app/services/casting-review.service';
 
 @Component({
   selector: 'app-castig-review',
   templateUrl: './castig-review.component.html',
   styleUrls: ['./castig-review.component.scss'],
-  providers: [CastingStaffServiceService],
+  providers: [CastingStaffServiceService,CastingReviewService],
 })
 export class CastigReviewComponent implements OnInit {
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   castingId: string = null;
   casting: SelectorCastingCategoria;
-  modelos: Persona[] = [];
-  personasDesplegables = [];
+  personasDesplegables: ModeloCategoria[] = [];
   categorias: SelectorCategoria[] = [];
   dVertical: boolean = false;
   tBusqueda: boolean = false;
@@ -52,7 +53,7 @@ export class CastigReviewComponent implements OnInit {
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
-    private servicio: CastingStaffServiceService,
+    private servicio: CastingReviewService,
     private personaClient: PersonaClient,
     private spinner: NgxSpinnerService,
     private ruta: Router,
@@ -61,82 +62,61 @@ export class CastigReviewComponent implements OnInit {
     private translate: TranslateService,
     private toastService: HotToastService
   ) {
+    this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
     });
     this.formAgregarModelo = this.fb.group({
       consecutivo: ['', Validators.required],
     });
+    this.servicio.CastingSub().subscribe((c) => {
+      this.casting = c;
+      this.permisosCast = this.casting.pernisosEcternos;
+      if (this.servicio.CategoriActual()){
+        this.onChangeCategoria(this.servicio.CategoriActual());
+        this.hayCategorias = true;
+      } else {
+        this.categorias = c.categorias;
+          if (this.categorias.length>0) {
+            this.hayCategorias = true;
+          } else {
+            this.hayCategorias = false;
+          }
+        this.spinner.hide('loadCategorias');
+      }
+    });
+    this.servicio.ModelosSub().subscribe(m=>{this.personasDesplegables=m})
+    this.servicio.SpinnerSub().subscribe(m=>{if(m){ this.spinner.show('loadCategorias');}else{this.spinner.hide('loadCategorias');}})
   }
 
   ngOnInit(): void {
-    this.translate
-      .get([
-        'modelo.error-400',
-        'modelo.modelo',
-        'modelo.error-404',
-        'modelo.error-409',
-      ])
-      .subscribe((ts) => {
-        this.T = ts;
-      });
-    var roles: string[] = this.session.GetRoles;
     this.servicio.PutModoTrabajo(true);
-    this.castingClient.revisor(this.castingId).subscribe((c) => {
-      this.casting = c;
-      this.categorias = c.categorias;
+    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
       if (
-        roles.indexOf(TipoRolCliente.RevisorExterno.toLocaleLowerCase()) >= 0
+        this.session.GetRoles.indexOf(
+          TipoRolCliente.RevisorExterno.toLocaleLowerCase()
+        ) >= 0
       ) {
-        this.permisosCast = this.casting.pernisosEcternos;
         this.puedeAgregarModelo = false;
       }
-      this.servicio.ActualizarCasting(c);
-      if (c.categorias.length > 0) {
-        this.hayCategorias = true;
-      } else {
-        this.hayCategorias = false;
-      }
+      this.translate
+        .get([
+          'modelo.error-400',
+          'modelo.modelo',
+          'modelo.error-404',
+          'modelo.error-409',
+        ])
+        .subscribe((ts) => {
+          this.T = ts;
+        });
+
+      this.servicio.ActualizarCasting(this.castingId);
     });
   }
   onChangeCategoria(id: string) {
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
-    this.modelosCategoriaActual(id);
     this.categoriaSeleccionada = true;
-  }
-
-  public modelosCategoriaActual(id: string) {
-    const modelos: Persona[] = [];
-    var indexC = this.casting.categorias.findIndex((c) => c.id == id);
-    if (this.casting.categorias[indexC].modelos.length > 0) {
-      this.casting.categorias[indexC].modelos.forEach((m) => {
-        this.personaClient.idGet(m).subscribe((p) => {
-          if (p) {
-            modelos.push(p);
-          }
-          this.procesaPersonas(modelos);
-          if (this.estadoPersona == false) {
-          }
-        });
-      });
-    } else {
-      this.personasDesplegables = [];
-      this.spinner.hide('loadCategorias');
-    }
-  }
-
-  procesaPersonas(personas: any) {
-    this.servicio.obtieneCatalogoCliente().subscribe((done) => {
-      if (personas != null) {
-        const tmp: Persona[] = [];
-        personas.forEach((p) => {
-          tmp.push(this.servicio.PersonaDesplegable(p));
-        });
-        this.personasDesplegables = tmp;
-        this.spinner.hide('loadCategorias');
-      }
-    });
   }
   volver() {
     this.ruta.navigateByUrl('/castings');
@@ -156,18 +136,9 @@ export class CastigReviewComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          this.castingClient.revisor(this.castingId).subscribe((c) => {
-            this.casting = c;
-            this.servicio.ActualizarCasting(c);
-            if (c.categorias.length > 0) {
-              this.onChangeCategoria(this.servicio.CategoriActual());
-              this.hayCategorias = true;
-            } else {
-              this.hayCategorias = false;
-            }
-            this.toastService.success(this.T['modelo.modelo'], {
-              position: 'bottom-center',
-            });
+          this.servicio.agregarModelo(data,this.servicio.CategoriActual());
+          this.toastService.success(this.T['modelo.modelo'], {
+            position: 'bottom-center',
           });
         },
         (err) => {
@@ -182,27 +153,34 @@ export class CastigReviewComponent implements OnInit {
   removerModelo() {
     this.spinner.show('loadCategorias');
     this.castingClient
-      .modeloDelete(this.castingId, this.ModeloIdEliminar, this.servicio.CategoriActual())
+      .modeloDelete(
+        this.castingId,
+        this.ModeloIdEliminar,
+        this.servicio.CategoriActual()
+      )
       .subscribe((data) => {
-        this.servicio.removerModelo(this.ModeloIdEliminar, this.servicio.CategoriActual());
-        this.modelosCategoriaActual(this.servicio.CategoriActual());
+        this.servicio.removerModelo(
+          this.ModeloIdEliminar,
+          this.servicio.CategoriActual()
+        );
         this.categoriaSeleccionada = true;
+        this.ModeloIdEliminar = null;
       });
   }
 
-    //confirma  el remover un comentario
-    confirmar(modeloId: string) {
-      this.componenteModal.openModal(
-        this.componenteModal.myTemplate,
-        'remover el modelo'
-      );
-      this.ModeloIdEliminar = modeloId;
+  //confirma  el remover un comentario
+  confirmar(modeloId: string) {
+    this.componenteModal.openModal(
+      this.componenteModal.myTemplate,
+      'remover el modelo'
+    );
+    this.ModeloIdEliminar = modeloId;
+  }
+  // Auxiliares UI
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.removerModelo();
     }
-    // Auxiliares UI
-    recibidoDelModal(r: string) {
-      if (r == 'Y') {
-        this.removerModelo();
-      }
-      this.ModeloIdEliminar  = null;
-    }
+  }
 }
+
