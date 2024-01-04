@@ -40,7 +40,8 @@
     "ordenar-edad":"Edad",
     "next":"Siguiente",
     "before":"Anterior",
-    "agregarModelo":"Agregar a Casting"
+    "agregarModelo":"Agregar a Casting",
+    "fechas":"Fechas"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
@@ -374,7 +375,8 @@
     "guardar":"Se han Guardado los datos Correctamente",
     "crear":"Se ha creado  el Casting Correctamente",
     "error":"No se ha podido guardar los datos.",
-    "noCategorias":"No hay categorías en el Casting."
+    "noCategorias":"No hay categorías en el Casting.",
+    "noModelos":"No hay modelos en la categoria."
 
   },
   "comentarios": {
