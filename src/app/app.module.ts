@@ -160,6 +160,7 @@ import { CategoriaCastingViewComponent } from './components/common/categoria-cas
 import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/promodel-agencia.component';
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
 import { PersonaCardReviewComponent } from './components/common/persona-card-review/persona-card-review.component';
+import { DatePipe } from '@angular/common';
 
 defineLocale('es', esLocale);
 
@@ -331,6 +332,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX' },
     UserGuard,
+    DatePipe,
     BsModalService,
     AppConfigService,
     {

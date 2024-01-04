@@ -15,6 +15,7 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { SessionQuery } from '../state/session.query';
 import { CatalogosCliente } from '../modelos/locales/catalogos-cliente';
+import { DatePipe, Time } from '@angular/common';
 
 export interface MapeoVoto {
   usuarioId?: string | undefined;
@@ -36,11 +37,14 @@ export class CastingReviewService {
   private personaNombre: string;
   public catalogos: CatalogosCliente[] = [];
   public cliente: ClienteView;
+  public diasCasting: string[] = [];
+  private diaActual: number = 0;
 
   constructor(
     sessionQuery: SessionQuery,
     private personaClient: PersonaClient,
-    private castingClient: CastingClient
+    private castingClient: CastingClient,
+    private datePipe: DatePipe
   ) {
     this.userId = sessionQuery.UserId;
     const cs = sessionStorage.getItem('catalogos');
@@ -81,6 +85,14 @@ export class CastingReviewService {
   private calcularTotalesSub: Subject<boolean> = new Subject();
   public CalcularTotalesSub(): Observable<boolean> {
     return this.calcularTotalesSub.asObservable();
+  }
+  private diasSub: Subject<number> = new Subject();
+  public DiasSub(): Observable<number> {
+    return this.diasSub.asObservable();
+  }
+  private diaActualSub: Subject<number> = new Subject();
+  public DiaActualSub(): Observable<number> {
+    return this.diaActualSub.asObservable();
   }
 
   //Trae los votos, del modelo.
@@ -194,7 +206,6 @@ export class CastingReviewService {
     }
   }
 
-
   //devuelve la categoriaId actual
   public CategoriActual(): string {
     return this.categoriaActual;
@@ -215,26 +226,29 @@ export class CastingReviewService {
   public agregarModelo(modelo: ModeloCastingReview, categoriaId: string) {
     this.personaClient.idGet(modelo.personaId).subscribe((p) => {
       var indexC = this.casting.categorias.findIndex(
-        (c) => c.id == categoriaId
-      );
+        c=> c.id == categoriaId);
       this.casting.categorias[indexC].modelos.push(modelo);
       const modeloCategoria: ModeloCategoria = {
         consecutivo: modelo.consecutivo,
         modelo: this.PersonaDesplegable(p),
+        dia: this.ObtieneDia(modelo.fechaAdicion),
       };
       this.modelosCategoria.push(modeloCategoria);
-      this.modelosSub.next(this.modelosCategoria);
-      this.spinnerSub.next(false);
+      this.getModelos();
     });
   }
   //remueve un modelo
   public removerModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
     var indexM = this.casting.categorias[indexC].modelos.findIndex(
-      _=> _.personaId == modeloId);
-    var indexMC=this.modelosCategoria.findIndex(_=>_.modelo.id==modeloId);
+      (_) => _.personaId == modeloId
+    );
+    var indexMC = this.modelosCategoria.findIndex(
+      (_) => _.modelo.id == modeloId
+    );
     this.casting.categorias[indexC].modelos.splice(indexM, 1);
     this.modelosCategoria.splice(indexMC, 1);
+    this.diasSub.next(this.diasCasting.length);
     this.modelosSub.next(this.modelosCategoria);
     this.spinnerSub.next(false);
   }
@@ -266,7 +280,10 @@ export class CastingReviewService {
     if (categoria != null) {
       this.categoriaActual = categoria;
       this.categoriaSub.next(this.categoriaActual);
-      this.modelosCategoria=[];
+      this.modelosCategoria = [];
+      this.diaActual = 0;
+      this.diasCasting = [];
+      this.procesarDias();
       this.procesaPersonas();
     }
   }
@@ -394,28 +411,26 @@ export class CastingReviewService {
     var indexC = this.casting.categorias.findIndex(
       (c) => c.id == this.categoriaActual
     );
-    if(this.casting.categorias[indexC].modelos.length>0)
-    {
+    if (this.casting.categorias[indexC].modelos.length > 0) {
       this.castingClient
-      .modelos(this.casting.id, this.categoriaActual)
-      .subscribe((personas) => {
-        personas.forEach((persona) => {
-          const modelo: ModeloCategoria = {
-            consecutivo: this.casting.categorias[indexC].modelos.find(
-              (_) => _.personaId == persona.id
-            ).consecutivo,
-            modelo: this.PersonaDesplegable(persona),
-          };
-          this.modelosCategoria.push(modelo);
+        .modelos(this.casting.id, this.categoriaActual)
+        .subscribe((personas) => {
+          personas.forEach((persona) => {
+            const modeloCasting = this.casting.categorias[indexC].modelos.find(
+              _=> _.personaId == persona.id
+            );
+            const modelo: ModeloCategoria = {
+              consecutivo: modeloCasting.consecutivo,
+              modelo: this.PersonaDesplegable(persona),
+              dia: this.ObtieneDia(modeloCasting.fechaAdicion),
+            };
+            this.modelosCategoria.push(modelo);
+          });
+          this.getModelos();
         });
-        this.modelosSub.next(this.modelosCategoria);
-        this.spinnerSub.next(false);
-      });
-    }
-    else
-    {
-        this.modelosSub.next([]);
-        this.spinnerSub.next(false);
+    } else {
+      this.modelosSub.next([]);
+      this.spinnerSub.next(false);
     }
   }
 
@@ -434,9 +449,58 @@ export class CastingReviewService {
     });
     return elementos;
   }
+
+  public ObtieneDia(fecha: Date): number {
+    const fe = this.datePipe.transform(fecha, 'yyyy-MM-dd');
+    if (this.diasCasting.indexOf(fe) >= 0) {
+      return this.diasCasting.indexOf(fe) + 1;
+    } else {
+      this.diasCasting.push(fe);
+      this.diasSub.next(this.diasCasting.length);
+      return this.diasCasting.indexOf(fe) + 1;
+    }
+  }
+  public procesarDias() {
+    var indexC = this.casting.categorias.findIndex(
+      (c) => c.id == this.categoriaActual
+    );
+    var fechas = this.casting.categorias[indexC].modelos.map(
+      (_) => _.fechaAdicion
+    );
+    fechas.forEach((f) => {
+      const fe = this.datePipe.transform(f, 'yyyy-MM-dd');
+      if (this.diasCasting.indexOf(fe) < 0) {
+        this.diasCasting.push(fe);
+      }
+    });
+    this.diasSub.next(this.diasCasting.length);
+  }
+
+  public getModelos() {
+    //console.log(this.modelosCategoria)
+    if (this.diaActual == 0) {
+      this.modelosSub.next(this.modelosCategoria);
+      this.spinnerSub.next(false);
+    } else {
+      const modelos = this.modelosCategoria.filter(
+        (_) => _.dia == this.diaActual
+      );
+      // console.log(modelos)
+      this.modelosSub.next(modelos);
+      this.spinnerSub.next(false);
+    }
+  }
+  public ActualizarDia(dia: number) {
+    if (dia >= 0) {
+      this.diaActual = dia;
+      this.diaActualSub.next(dia);
+      this.getModelos();
+    }
+  }
 }
 
 export interface ModeloCategoria {
   consecutivo: number;
   modelo: Persona;
+  dia: number;
 }

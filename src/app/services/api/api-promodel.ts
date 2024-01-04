@@ -5963,11 +5963,13 @@ export interface ModeloCasting {
     comentarios?: ComentarioCasting[] | undefined;
     votos?: VotoModeloCategoria[] | undefined;
     folderId?: string | undefined;
+    fechaAdicion?: Date;
 }
 
 export interface ModeloCastingReview {
     personaId?: string | undefined;
     consecutivo?: number | undefined;
+    fechaAdicion?: Date;
 }
 
 export enum OrigenInscripcion {

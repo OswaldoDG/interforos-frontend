@@ -1,5 +1,10 @@
 import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,17 +22,22 @@ import {
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { SessionQuery } from 'src/app/state/session.query';
 import { ModalConfirmacionComponent } from '../../common/modal-confirmacion/modal-confirmacion.component';
-import { CastingReviewService, ModeloCategoria } from 'src/app/services/casting-review.service';
+import {
+  CastingReviewService,
+  ModeloCategoria,
+} from 'src/app/services/casting-review.service';
 
 @Component({
   selector: 'app-castig-review',
   templateUrl: './castig-review.component.html',
   styleUrls: ['./castig-review.component.scss'],
-  providers: [CastingStaffServiceService,CastingReviewService],
+  providers: [CastingStaffServiceService, CastingReviewService],
 })
 export class CastigReviewComponent implements OnInit {
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   castingId: string = null;
+  public diaActual: number = 0;
+  dias: number[] = [];
   casting: SelectorCastingCategoria;
   personasDesplegables: ModeloCategoria[] = [];
   categorias: SelectorCategoria[] = [];
@@ -72,21 +82,37 @@ export class CastigReviewComponent implements OnInit {
     this.servicio.CastingSub().subscribe((c) => {
       this.casting = c;
       this.permisosCast = this.casting.pernisosEcternos;
-      if (this.servicio.CategoriActual()){
+      if (this.servicio.CategoriActual()) {
         this.onChangeCategoria(this.servicio.CategoriActual());
         this.hayCategorias = true;
       } else {
         this.categorias = c.categorias;
-          if (this.categorias.length>0) {
-            this.hayCategorias = true;
-          } else {
-            this.hayCategorias = false;
-          }
+        if (this.categorias.length > 0) {
+          this.hayCategorias = true;
+        } else {
+          this.hayCategorias = false;
+        }
         this.spinner.hide('loadCategorias');
       }
     });
-    this.servicio.ModelosSub().subscribe(m=>{this.personasDesplegables=m})
-    this.servicio.SpinnerSub().subscribe(m=>{if(m){ this.spinner.show('loadCategorias');}else{this.spinner.hide('loadCategorias');}})
+    this.servicio.ModelosSub().subscribe((m) => {
+      this.personasDesplegables = m;
+    });
+    this.servicio.DiasSub().subscribe((d) => {
+      var tmp: number[] = [];
+      for (let index = 0; index < d; index++) {
+        tmp.push(index + 1);
+      }
+      this.dias = tmp;
+    });
+
+    this.servicio.SpinnerSub().subscribe((m) => {
+      if (m) {
+        this.spinner.show('loadCategorias');
+      } else {
+        this.spinner.hide('loadCategorias');
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -114,8 +140,15 @@ export class CastigReviewComponent implements OnInit {
     });
   }
   onChangeCategoria(id: string) {
+    this.diaActual=0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
+    this.categoriaSeleccionada = true;
+  }
+  onChangeDia(dia: number) {
+    this.diaActual=dia;
+    this.spinner.show('loadCategorias');
+    this.servicio.ActualizarDia(dia);
     this.categoriaSeleccionada = true;
   }
   volver() {
@@ -136,7 +169,7 @@ export class CastigReviewComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          this.servicio.agregarModelo(data,this.servicio.CategoriActual());
+          this.servicio.agregarModelo(data, this.servicio.CategoriActual());
           this.toastService.success(this.T['modelo.modelo'], {
             position: 'bottom-center',
           });
@@ -163,6 +196,7 @@ export class CastigReviewComponent implements OnInit {
           this.ModeloIdEliminar,
           this.servicio.CategoriActual()
         );
+        this.diaActual=0;
         this.categoriaSeleccionada = true;
         this.ModeloIdEliminar = null;
       });
@@ -183,4 +217,3 @@ export class CastigReviewComponent implements OnInit {
     }
   }
 }
-

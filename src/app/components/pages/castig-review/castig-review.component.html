@@ -3,10 +3,7 @@
   <app-navbar-promodel></app-navbar-promodel>
   <div
     class="container text-center"
-    *ngIf="
-      casting != null && hayCategorias;
-      else templateNohayCategorias
-    "
+    *ngIf="casting != null && hayCategorias; else templateNohayCategorias"
   >
     <ngx-spinner
       name="loadCategorias"
@@ -31,7 +28,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
           <div class="col col-lg-3">
             <label>{{ "buscar.categorias" | translate }}</label>
           </div>
@@ -73,7 +70,7 @@
                   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
                 />
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 p-1">
+              <div class="col-lg-1 col-md-1 col-sm-2 p-1">
                 <button
                   type="button"
                   [disabled]="formAgregarModelo.invalid"
@@ -85,91 +82,109 @@
               </div>
             </div>
           </div>
+          <div class="col-1 p-1">
+            <label>{{ "buscar.fechas" | translate }}</label>
+          </div>
+          <div class="col-2">
+            <select
+              class="form-select"
+              id="categoriaSelect"
+              aria-label="Default select example"
+              (change)="onChangeDia($event.target.value)"
+              [(ngModel)]="diaActual"
+            >
+              <ng-container *ngIf="dias.length > 0">
+                <option [value]="0">Todas</option>
+                <option *ngFor="let dia of dias" [value]="dia" >
+                  Dia: {{dia}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
         </div>
       </div>
     </div>
 
-    <div *ngIf="personasDesplegables.length > 0">
-        <br />
-        <br />
-        <div class="row">
-            <div *ngFor="let modelo of personasDesplegables">
-
-              <div class="col-lg-12">
-                <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
-                  <div class="p-3">
-                    <h5 style="color: gold; font-weight: bold">
-                      {{ modelo.consecutivo }})
-                    </h5>
-                  </div>
-                  <div class="p-3" *ngIf="puedeAgregarModelo">
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-sm exit"
-                      (click)="confirmar(modelo.modelo.id)"
-                    >
-                      x
-                    </button>
-                  </div>
-                  <div class="p-3">
-                    <h5 style="color: red; font-weight: bold">
-                      {{ modelo.modelo.consecutivo }}
-                    </h5>
-                  </div>
-                  <div class="p-1">
-                    <app-voto-modelo-component [personaId]="modelo.modelo.id">
-                    </app-voto-modelo-component>
-                  </div>
-                  <div id="nombre" class="p-3">
-                    <spam>{{ modelo.modelo.nombreArtistico }}</spam>
-                  </div>
-                  <div id="genero" class="p-3">
-                    <h5>{{ modelo.modelo.generoId }}</h5>
-                  </div>
-                  <div id="edad" class="p-3">
-                    <h5>
-                      {{ modelo.modelo.edadString }}{{ "modelo.edad" | translate }}
-                    </h5>
-                  </div>
-                </div>
-               </div>
-               <div class="col-lg-15 col-md-5 col-sm-12">
-                <app-persona-card-review
-                  [persona]="modelo.modelo"
-                  [mostrarGenerales]="permisosCast.verDatosGenerales"
-                  [mostrarGaleria]="permisosCast.verGaleriaPersonal"
-                  [mostrarHabilidades]="permisosCast.verHabilidades"
-                  [verTelefono]="permisosCast.verTelefono"
-                  [verEmail]="permisosCast.verEmail"
-                  [verDireccion]="permisosCast.verDireccion"
-                  [verComentarios]="permisosCast.verComentarios"
-                  [verRedesSociales]="permisosCast.verRedesSociales"
-                  (personaCargada)="personaCargadaEvnt($event)"
-                >
-                </app-persona-card-review>
+    <div *ngIf="personasDesplegables.length > 0;  else templateNohayModelos">
+      <br />
+      <br />
+      <div class="row">
+        <div *ngFor="let modelo of personasDesplegables">
+          <div class="col-lg-12">
+            <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
+              <div class="p-3">
+                <h5 style="color: gold; font-weight: bold">
+                  {{ modelo.consecutivo }})
+                </h5>
               </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="d-block">
-            <div class="col-12 footer">
-              <app-footer-style-one></app-footer-style-one>
+              <div class="p-3" *ngIf="puedeAgregarModelo">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm exit"
+                  (click)="confirmar(modelo.modelo.id)"
+                >
+                  x
+                </button>
+              </div>
+              <div class="p-3">
+                <h5 style="color: red; font-weight: bold">
+                  {{ modelo.modelo.consecutivo }}
+                </h5>
+              </div>
+              <div class="p-1">
+                <app-voto-modelo-component [personaId]="modelo.modelo.id">
+                </app-voto-modelo-component>
+              </div>
+              <div id="nombre" class="p-3">
+                <spam>{{ modelo.modelo.nombreArtistico }}</spam>
+              </div>
+              <div id="genero" class="p-3">
+                <h5>{{ modelo.modelo.generoId }}</h5>
+              </div>
+              <div id="edad" class="p-3">
+                <h5>
+                  {{ modelo.modelo.edadString }}{{ "modelo.edad" | translate }}
+                </h5>
+              </div>
             </div>
           </div>
+          <div class="col-lg-15 col-md-5 col-sm-12">
+            <app-persona-card-review
+              [persona]="modelo.modelo"
+              [mostrarGenerales]="permisosCast.verDatosGenerales"
+              [mostrarGaleria]="permisosCast.verGaleriaPersonal"
+              [mostrarHabilidades]="permisosCast.verHabilidades"
+              [verTelefono]="permisosCast.verTelefono"
+              [verEmail]="permisosCast.verEmail"
+              [verDireccion]="permisosCast.verDireccion"
+              [verComentarios]="permisosCast.verComentarios"
+              [verRedesSociales]="permisosCast.verRedesSociales"
+              (personaCargada)="personaCargadaEvnt($event)"
+            >
+            </app-persona-card-review>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="d-block">
+          <div class="col-12 footer">
+            <app-footer-style-one></app-footer-style-one>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <ng-template #templateNohayCategorias>
-      <ngx-spinner
-      name="loadCategorias"
-      [fullScreen]="true"
-      type="ball-scale-multiple"
-      size="medium"
-    >
-      <p class="loading">...</p>
-    </ngx-spinner>
-    <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
+  <ngx-spinner
+    name="loadCategorias"
+    [fullScreen]="true"
+    type="ball-scale-multiple"
+    size="medium"
+  >
+    <p class="loading">...</p>
+  </ngx-spinner>
+  <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
     <div class="col-1 pt-5 offset-2">
       <i
         class="bi bi-arrow-return-left"
@@ -186,7 +201,27 @@
         </div>
       </div>
     </div>
-
+  </div>
+</ng-template>
+<ng-template #templateNohayModelos>
+  <ngx-spinner
+    name="loadCategorias"
+    [fullScreen]="true"
+    type="ball-scale-multiple"
+    size="medium"
+  >
+    <p class="loading">...</p>
+  </ngx-spinner>
+  <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12" *ngIf="categoriaSeleccionada ">
+    <div class="col-12 pt-5 ">
+      <div class="container text-center">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center pt-5">
+            <h2>{{ "casting.noModelos" | translate }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>
 <app-modal-confirmacion
