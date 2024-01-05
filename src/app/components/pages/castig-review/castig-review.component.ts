@@ -1,10 +1,6 @@
 import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +22,7 @@ import {
   CastingReviewService,
   ModeloCategoria,
 } from 'src/app/services/casting-review.service';
+import { DownloadExcelService } from 'src/app/services/Files/download-excel.service';
 
 @Component({
   selector: 'app-castig-review',
@@ -60,6 +57,7 @@ export class CastigReviewComponent implements OnInit {
     verComentarios: true,
   };
   ModeloIdEliminar: string;
+  btnExcelDescarga : boolean = false;
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -70,7 +68,8 @@ export class CastigReviewComponent implements OnInit {
     private session: SessionQuery,
     private fb: FormBuilder,
     private translate: TranslateService,
-    private toastService: HotToastService
+    private toastService: HotToastService,
+    private excelDescargaServicio : DownloadExcelService,
   ) {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
@@ -79,6 +78,7 @@ export class CastigReviewComponent implements OnInit {
     this.formAgregarModelo = this.fb.group({
       consecutivo: ['', Validators.required],
     });
+
     this.servicio.CastingSub().subscribe((c) => {
       this.casting = c;
       this.permisosCast = this.casting.pernisosEcternos;
@@ -131,6 +131,8 @@ export class CastigReviewComponent implements OnInit {
           'modelo.modelo',
           'modelo.error-404',
           'modelo.error-409',
+          'modelo.excel-status-suc',
+          'modelo.excel-status-err'
         ])
         .subscribe((ts) => {
           this.T = ts;
@@ -202,18 +204,59 @@ export class CastigReviewComponent implements OnInit {
       });
   }
 
-  //confirma  el remover un comentario
-  confirmar(modeloId: string) {
-    this.componenteModal.openModal(
-      this.componenteModal.myTemplate,
-      'remover el modelo'
-    );
-    this.ModeloIdEliminar = modeloId;
-  }
-  // Auxiliares UI
-  recibidoDelModal(r: string) {
-    if (r == 'Y') {
-      this.removerModelo();
+    //confirma  el remover un comentario
+    confirmar(modeloId: string) {
+      this.componenteModal.openModal(
+        this.componenteModal.myTemplate,
+        'remover el modelo'
+      );
+      this.ModeloIdEliminar = modeloId;
     }
-  }
+    // Auxiliares UI
+    recibidoDelModal(r: string) {
+      if (r == 'Y') {
+        this.removerModelo();
+      }
+      this.ModeloIdEliminar  = null;
+    }
+
+    excel2(castingId:string): void {
+      this.spinner.show('loadCategorias');
+      this.btnExcelDescarga = true;
+      this.excelDescargaServicio.descargarArchivoExcel2(castingId).subscribe(
+        (response: HttpResponse<Blob>) => {
+          const blobData: Blob = response.body;
+          this.descargarArchivo(blobData);
+        },(err) =>{
+          this.spinner.hide('loadCategorias');
+          this.btnExcelDescarga = false;
+          this.toastService.error(this.T['modelo.excel-status-err'], {
+            position: 'bottom-center',
+          });
+        }
+      );
+    }
+
+    private descargarArchivo(blobData: Blob): void {
+      const currentDate: Date = new Date();
+      const formattedDate: string = `${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${currentDate.getUTCDate().toString().padStart(2, '0')}`;
+      const filename: string = `${formattedDate}__${this.casting.nombre}.xlsx`;
+      const url = window.URL.createObjectURL(blobData);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = url;
+      console.log('ntes');
+      if(a.download != null || a.download != ""){
+        a.download = filename;
+        this.btnExcelDescarga = false;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.spinner.hide('loadCategorias');
+        this.toastService.success(this.T['modelo.excel-status-suc'], {
+          position: 'bottom-center',
+        });
+
+      }
+    }
 }
