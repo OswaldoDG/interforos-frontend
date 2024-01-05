@@ -220,7 +220,7 @@ export class CastigReviewComponent implements OnInit {
       this.ModeloIdEliminar  = null;
     }
 
-    excel2(castingId:string): void {
+    excelDescarga(castingId:string): void {
       this.spinner.show('loadCategorias');
       this.btnExcelDescarga = true;
       this.excelDescargaServicio.descargarArchivoExcel2(castingId).subscribe(
