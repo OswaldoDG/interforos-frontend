@@ -131,6 +131,7 @@ export class CastigReviewComponent implements OnInit {
           'modelo.modelo',
           'modelo.error-404',
           'modelo.error-409',
+          'modelo.error-500',
         ])
         .subscribe((ts) => {
           this.T = ts;
@@ -140,13 +141,13 @@ export class CastigReviewComponent implements OnInit {
     });
   }
   onChangeCategoria(id: string) {
-    this.diaActual=0;
+    this.diaActual = 0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
     this.categoriaSeleccionada = true;
   }
   onChangeDia(dia: number) {
-    this.diaActual=dia;
+    this.diaActual = dia;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarDia(dia);
     this.categoriaSeleccionada = true;
@@ -176,9 +177,15 @@ export class CastigReviewComponent implements OnInit {
         },
         (err) => {
           this.spinner.hide('loadCategorias');
-          this.toastService.error(this.T[`modelo.error-${err.status}`], {
-            position: 'bottom-center',
-          });
+          if (parseInt(err.status) >= 400 && parseInt(err.status) < 500) {
+            this.toastService.error(this.T[`modelo.error-${err.status}`], {
+              position: 'bottom-center',
+            });
+          } else {
+            this.toastService.error(this.T['modelo.error-400'], {
+              position: 'bottom-center',
+            });
+          }
         }
       );
     this.formAgregarModelo.get('consecutivo').setValue(null);
@@ -196,7 +203,7 @@ export class CastigReviewComponent implements OnInit {
           this.ModeloIdEliminar,
           this.servicio.CategoriActual()
         );
-        this.diaActual=0;
+        this.diaActual = 0;
         this.categoriaSeleccionada = true;
         this.ModeloIdEliminar = null;
       });
