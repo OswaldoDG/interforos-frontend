@@ -68,13 +68,13 @@
     "perfil-pais-residencia": "País residencia",
     "perfil-estado-residencia": "Estado residencia",
     "perfil-validacion-mensaje-guard":"Complete su perfil",
-    "error-400":"No se pudo agregar al modelo",
+    "error-400":"No se pudo agregar al modelo, Intentelo mas tarde.",
     "error-404":"No existe modelo",
     "error-409":"Modelo ya se encuentra en la categoria",
     "modelo":"Se agrego el modelo correctamente",
     "edad":" años",
     "excel-status-suc":"Archivo excel descargado.",
-    "modelo.excel-status-err":"No se pudo descargar, intente más tarde."
+    "excel-status-err":"No se pudo descargar, intente más tarde."
   },
   "proyectos": {
     "header": "Administrador de castings",

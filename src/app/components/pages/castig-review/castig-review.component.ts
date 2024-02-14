@@ -57,7 +57,7 @@ export class CastigReviewComponent implements OnInit {
     verComentarios: true,
   };
   ModeloIdEliminar: string;
-  btnExcelDescarga : boolean = false;
+  btnExcelDescarga: boolean = false;
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -69,7 +69,7 @@ export class CastigReviewComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private excelDescargaServicio : DownloadExcelService,
+    private excelDescargaServicio: DownloadExcelService
   ) {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
@@ -132,7 +132,8 @@ export class CastigReviewComponent implements OnInit {
           'modelo.error-404',
           'modelo.error-409',
           'modelo.excel-status-suc',
-          'modelo.excel-status-err'
+          'modelo.excel-status-err',
+          'modelo.error-500',
         ])
         .subscribe((ts) => {
           this.T = ts;
@@ -142,13 +143,13 @@ export class CastigReviewComponent implements OnInit {
     });
   }
   onChangeCategoria(id: string) {
-    this.diaActual=0;
+    this.diaActual = 0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
     this.categoriaSeleccionada = true;
   }
   onChangeDia(dia: number) {
-    this.diaActual=dia;
+    this.diaActual = dia;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarDia(dia);
     this.categoriaSeleccionada = true;
@@ -178,9 +179,15 @@ export class CastigReviewComponent implements OnInit {
         },
         (err) => {
           this.spinner.hide('loadCategorias');
-          this.toastService.error(this.T[`modelo.error-${err.status}`], {
-            position: 'bottom-center',
-          });
+          if (parseInt(err.status) >= 400 && parseInt(err.status) < 500) {
+            this.toastService.error(this.T[`modelo.error-${err.status}`], {
+              position: 'bottom-center',
+            });
+          } else {
+            this.toastService.error(this.T['modelo.error-400'], {
+              position: 'bottom-center',
+            });
+          }
         }
       );
     this.formAgregarModelo.get('consecutivo').setValue(null);
@@ -198,65 +205,72 @@ export class CastigReviewComponent implements OnInit {
           this.ModeloIdEliminar,
           this.servicio.CategoriActual()
         );
-        this.diaActual=0;
+        this.diaActual = 0;
         this.categoriaSeleccionada = true;
         this.ModeloIdEliminar = null;
       });
   }
 
-    //confirma  el remover un comentario
-    confirmar(modeloId: string) {
-      this.componenteModal.openModal(
-        this.componenteModal.myTemplate,
-        'remover el modelo'
-      );
-      this.ModeloIdEliminar = modeloId;
+  //confirma  el remover un comentario
+  confirmar(modeloId: string) {
+    this.componenteModal.openModal(
+      this.componenteModal.myTemplate,
+      'remover el modelo'
+    );
+    this.ModeloIdEliminar = modeloId;
+  }
+  // Auxiliares UI
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.removerModelo();
     }
-    // Auxiliares UI
-    recibidoDelModal(r: string) {
-      if (r == 'Y') {
-        this.removerModelo();
-      }
-      this.ModeloIdEliminar  = null;
-    }
+    this.ModeloIdEliminar = null;
+  }
 
-    excelDescarga(castingId:string): void {
-      this.spinner.show('loadCategorias');
-      this.btnExcelDescarga = true;
-      this.excelDescargaServicio.descargarArchivoExcel2(castingId).subscribe(
-        (response: HttpResponse<Blob>) => {
-          const blobData: Blob = response.body;
-          this.descargarArchivo(blobData);
-        },(err) =>{
-          this.spinner.hide('loadCategorias');
-          this.btnExcelDescarga = false;
-          this.toastService.error(this.T['modelo.excel-status-err'], {
-            position: 'bottom-center',
-          });
-        }
-      );
-    }
-
-    private descargarArchivo(blobData: Blob): void {
-      const currentDate: Date = new Date();
-      const formattedDate: string = `${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${currentDate.getUTCDate().toString().padStart(2, '0')}`;
-      const filename: string = `${formattedDate}__${this.casting.nombre}.xlsx`;
-      const url = window.URL.createObjectURL(blobData);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.href = url;
-      console.log('ntes');
-      if(a.download != null || a.download != ""){
-        a.download = filename;
-        this.btnExcelDescarga = false;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+  excelDescarga(castingId: string): void {
+    this.spinner.show('loadCategorias');
+    this.btnExcelDescarga = true;
+    this.excelDescargaServicio.descargarArchivoExcel2(castingId).subscribe(
+      (response: HttpResponse<Blob>) => {
+        const blobData: Blob = response.body;
+        this.descargarArchivo(blobData);
+      },
+      (err) => {
         this.spinner.hide('loadCategorias');
-        this.toastService.success(this.T['modelo.excel-status-suc'], {
+        this.btnExcelDescarga = false;
+        this.toastService.error(this.T['modelo.excel-status-err'], {
           position: 'bottom-center',
         });
-
       }
+    );
+  }
+
+  private descargarArchivo(blobData: Blob): void {
+    const currentDate: Date = new Date();
+    const formattedDate: string = `${currentDate.getUTCFullYear()}-${(
+      currentDate.getUTCMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getUTCDate()
+      .toString()
+      .padStart(2, '0')}`;
+    const filename: string = `${formattedDate}__${this.casting.nombre}.xlsx`;
+    const url = window.URL.createObjectURL(blobData);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = url;
+    console.log('ntes');
+    if (a.download != null || a.download != '') {
+      a.download = filename;
+      this.btnExcelDescarga = false;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.spinner.hide('loadCategorias');
+      this.toastService.success(this.T['modelo.excel-status-suc'], {
+        position: 'bottom-center',
+      });
     }
+  }
 }

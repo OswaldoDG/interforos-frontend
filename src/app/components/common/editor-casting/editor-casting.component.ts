@@ -59,7 +59,7 @@ export class EditorCastingComponent implements OnInit {
   veremail: boolean = false;
   verhabilidades : boolean = false;
   verdatosGenerales : boolean = false;
-  vergaleriaPersonal : boolean = false;
+  vergaleriaPersonal : boolean = true;
   verComentarios : boolean = false;
   verdireccion : boolean = false;
   private T: any;
