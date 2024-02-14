@@ -74,7 +74,7 @@
     "modelo":"Se agrego el modelo correctamente",
     "edad":" años",
     "excel-status-suc":"Archivo excel descargado.",
-    "modelo.excel-status-err":"No se pudo descargar, intente más tarde."
+    "excel-status-err":"No se pudo descargar, intente más tarde."
   },
   "proyectos": {
     "header": "Administrador de castings",
