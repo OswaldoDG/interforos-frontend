@@ -54,6 +54,7 @@ export class PersonaCardComponent implements OnInit {
   T: any;
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
+  nombrePersona: string;
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -92,6 +93,7 @@ export class PersonaCardComponent implements OnInit {
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
+    this.getNombreModelo();
     const nombreModelo =
       this.persona.nombre +
       ' ' +
@@ -187,5 +189,20 @@ export class PersonaCardComponent implements OnInit {
         });
         this.personaCargada.emit(false);
       });
+  }
+
+  getNombreModelo() {
+    var nombre =
+      this.persona.nombre +
+      ' ' +
+      this.persona.apellido1 +
+      ' ' +
+      this.persona.apellido2;
+
+    if (nombre.length > 25) {
+      this.nombrePersona = `${nombre.slice(0, 24)}...`.toUpperCase();
+    } else {
+      this.nombrePersona = `${nombre.slice(0, 24)}`.toUpperCase();
+    }
   }
 }

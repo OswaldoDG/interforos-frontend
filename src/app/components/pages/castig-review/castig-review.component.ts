@@ -44,6 +44,7 @@ export class CastigReviewComponent implements OnInit {
   estadoPersona: boolean = true;
   puedeAgregarModelo: boolean = true;
   categoriaSeleccionada: boolean = false;
+  CategoriaActual: string;
   T: any;
   formAgregarModelo: FormGroup;
   permisosCast: PermisosCasting = {
@@ -140,9 +141,16 @@ export class CastigReviewComponent implements OnInit {
         });
 
       this.servicio.ActualizarCasting(this.castingId);
+      this.servicio.CastingSub().subscribe((c) => {
+        if (c != null && c.categorias.length > 0) {
+          this.onChangeCategoria(c.categorias[0].id);
+          this.CategoriaActual = c.categorias[0].id;
+        }
+      });
     });
   }
   onChangeCategoria(id: string) {
+    this.CategoriaActual=id;
     this.diaActual = 0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
