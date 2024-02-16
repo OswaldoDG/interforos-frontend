@@ -23,7 +23,6 @@ import {
   ModeloCategoria,
 } from 'src/app/services/casting-review.service';
 import { DownloadExcelService } from 'src/app/services/Files/download-excel.service';
-
 @Component({
   selector: 'app-castig-review',
   templateUrl: './castig-review.component.html',
@@ -44,6 +43,7 @@ export class CastigReviewComponent implements OnInit {
   estadoPersona: boolean = true;
   puedeAgregarModelo: boolean = true;
   categoriaSeleccionada: boolean = false;
+  CategoriaActual: string;
   T: any;
   formAgregarModelo: FormGroup;
   permisosCast: PermisosCasting = {
@@ -69,8 +69,8 @@ export class CastigReviewComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private excelDescargaServicio: DownloadExcelService
-  ) {
+    private excelDescargaServicio: DownloadExcelService,
+    ) {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
@@ -140,9 +140,16 @@ export class CastigReviewComponent implements OnInit {
         });
 
       this.servicio.ActualizarCasting(this.castingId);
+      this.servicio.CastingSub().subscribe((c) => {
+        if (c != null && c.categorias.length > 0) {
+          this.onChangeCategoria(c.categorias[0].id);
+          this.CategoriaActual = c.categorias[0].id;
+        }
+      });
     });
   }
   onChangeCategoria(id: string) {
+    this.CategoriaActual=id;
     this.diaActual = 0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
