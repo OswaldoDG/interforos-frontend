@@ -23,7 +23,6 @@ import {
   ModeloCategoria,
 } from 'src/app/services/casting-review.service';
 import { DownloadExcelService } from 'src/app/services/Files/download-excel.service';
-
 @Component({
   selector: 'app-castig-review',
   templateUrl: './castig-review.component.html',
@@ -70,8 +69,8 @@ export class CastigReviewComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private excelDescargaServicio: DownloadExcelService
-  ) {
+    private excelDescargaServicio: DownloadExcelService,
+    ) {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
