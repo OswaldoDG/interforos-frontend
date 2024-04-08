@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -57,10 +58,16 @@ export class PersonaCardReviewComponent implements OnInit {
   @Input() verDireccion: boolean = true;
   @Input() verComentarios: boolean = true;
   mobile: boolean = false;
-  notFoundURL: string = 'assets/img/errorMedio.jpg';
+  notFoundURL: any = [
+    {
+      image: 'assets/img/errorMedio.jpg',
+      thumbImage: 'assets/img/errorMedio.jpg',
+      title: '',
+    },
+  ];
   avatarUrl: string = 'assets/img/errorMedio.jpg';
   videoCasting: any;
-  fotoCasting: any;
+  fotoCasting: string = 'assets/img/errorMedio.jpg';
   tieneVideo: boolean = false;
   imagenes = [];
   tabHome = '';
@@ -72,6 +79,13 @@ export class PersonaCardReviewComponent implements OnInit {
   };
   enCasting: boolean = null;
   T: any;
+  imageObject: any = [
+    {
+      image: this.avatarUrl,
+      thumbImage: this.avatarUrl,
+      title: '',
+    },
+  ];
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
   constructor(
@@ -106,7 +120,13 @@ export class PersonaCardReviewComponent implements OnInit {
       )
       .subscribe((video) => {
         if (video.videoPortadaId) {
-          this.videoCasting = `https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`;
+          this.videoCasting = [
+            {
+              video: `https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`,
+            },
+          ];
+
+          //`https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`;
           this.tieneVideo = true;
         }
         this.castingService
@@ -119,6 +139,13 @@ export class PersonaCardReviewComponent implements OnInit {
           .subscribe(
             (foto) => {
               this.fotoCasting = foto;
+              this.imageObject = [
+                {
+                  image: this.fotoCasting,
+                  thumbImage: this.fotoCasting,
+                  title: '',
+                },
+              ];
               this.spinner.hide('loadMedios');
             },
             (err) => {

@@ -18,11 +18,11 @@
           <img *ngIf="!uploaded" src="../../../../assets/icons/pendiente.png" class="uploadicon">
         </td>
         <td>
-          <input class="form-control" type="file" id="customFile" (change)="handleFileInput($any($event.target).files)"
+          <input class="form-control" type="file" id="customFile" (change)="handleFileInput($any($event.target).files)" (change)="onFileSelected($any($event.target).files)"
             [disabled]="estadoBoton">
         </td>
         <td>
-          <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="estadoBoton">{{
+          <button type="button" class="btn btn-primary" ngbTooltip="Upload" (click)="upload()" [disabled]="selectedFile">{{
             'perfil.t-docs-enviar' | translate }}</button>
         </td>
       </tr>

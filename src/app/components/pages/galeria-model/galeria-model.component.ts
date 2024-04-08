@@ -73,7 +73,7 @@ export class GaleriaModelComponent implements OnInit {
         this.castingsActuales = data;
       });
     this.datosimagen = new FormGroup({
-      titulo: new FormControl(this.contenido.titulo),
+      titulo: new FormControl(''),
     });
 
     this.cargaTraducciones();
@@ -299,7 +299,7 @@ export class GaleriaModelComponent implements OnInit {
         this.uid,
         'galeria',
         formData,
-        this.datosimagen.value.titulo,
+        this.datosimagen.get('titulo').value,
         this.castingId
       )
       .pipe(first())
@@ -314,7 +314,7 @@ export class GaleriaModelComponent implements OnInit {
           this.uploadProgress = 0;
           this.working = false;
           this.addElementoView(this.toLink(e));
-          this.datosimagen.reset();
+          this.datosimagen.get('titulo').setValue('');
         },
         (err) => {
           this.toastService.error(this.T['fotos.foto-error'], {

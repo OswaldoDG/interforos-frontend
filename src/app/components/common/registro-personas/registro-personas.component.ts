@@ -71,7 +71,6 @@ export class RegistroPersonasComponent implements OnInit, AfterViewInit {
         this.agenciaId = data.agenciaId;
       });
     this.session.getValue().perfil.roles.forEach(e=>{
-      console.log(e);
       if(e == TipoRolCliente.Modelo){
         this.esModelo = true;
       }else{
