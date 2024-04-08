@@ -27,10 +27,11 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   @Input() Instancias: Documento[] = null;
   @Input() Documento: DocumentoModelo = null;
   @Input() personaId: string = null;
-  @Input() estadoBoton : boolean = false;
+  @Input() estadoBoton: boolean = false;
   @Output() docUploaded: EventEmitter<string> = new EventEmitter();
-  @Output() enviandoDoc : EventEmitter<boolean> = new EventEmitter();
+  @Output() enviandoDoc: EventEmitter<boolean> = new EventEmitter();
   uploaded: boolean = false;
+  selectedFile: boolean = true;
   uploadFile: File | null;
   uploadFileLabel: string | undefined = '';
   uploadProgress: number;
@@ -74,9 +75,17 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
       this.uploadFileLabel = this.uploadFile?.name;
     }
   }
+  onFileSelected(file: FileList) {
+    if (file.length > 0) {
+      this.selectedFile = false;
+    } else {
+      this.selectedFile = true;
+    }
+  }
 
   upload() {
     this.enviandoDoc.emit(true);
+    this.selectedFile = true;
     if (!this.uploadFile) {
       this.toastService.warning(this.T['fotos.no-file'], {
         position: 'bottom-center',
@@ -93,7 +102,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
       data: this.uploadFile,
     };
     this.apiContenido
-      .documentacion(this.personaId,this.Documento.id, formData, '', '')
+      .documentacion(this.personaId, this.Documento.id, formData, '', '')
       .pipe(first())
       .subscribe(
         (e) => {
@@ -107,6 +116,8 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           this.uploaded = true;
           this.docUploaded.emit(this.Documento.id);
           this.enviandoDoc.emit(false);
+          this.selectedFile = false;
+          this.uploadFile = null;
         },
         (err) => {
           this.toastService.error(this.T['perfil.error-envio-documento'], {
@@ -117,6 +128,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           this.spinner.hide('docupload');
           this.uploadProgress = 0;
           this.enviandoDoc.emit(false);
+          this.selectedFile = false;
           console.error(err);
         }
       );

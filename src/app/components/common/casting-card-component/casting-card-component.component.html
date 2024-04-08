@@ -9,22 +9,22 @@
       <div class="row justify-content-center"> <!-- Agregamos esta clase para centrar las columnas -->
         <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin"> <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button"  class="btn btn-outline-secondary no-outline">
-              <i class="bi bi-trash-fill" (click)="confirmar()"></i>
+            <button type="button"  class="btn btn-outline-secondary no-outline"(click)="confirmar()">
+              <i class="bi bi-trash-fill" ></i>
             </button>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin || esRevisor"> <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button" class="btn btn-outline-secondary no-outline">
-              <i class="bi bi-eye-fill" (click)="colaborar()"></i>
+            <button type="button" class="btn btn-outline-secondary no-outline" (click)="colaborar()">
+              <i class="bi bi-eye-fill" ></i>
             </button>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin"> <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button" class="btn btn-outline-secondary no-outline">
-              <i class="bi bi-pencil-fill" (click)="editarCasting()"></i>
+            <button type="button" class="btn btn-outline-secondary no-outline" (click)="editarCasting()">
+              <i class="bi bi-pencil-fill" ></i>
             </button>
           </div>
         </div>

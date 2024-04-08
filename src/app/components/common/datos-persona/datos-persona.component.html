@@ -69,7 +69,7 @@
               [Documento]="doc"
               [Instancias]="instanciasDocumento"
               [personaId]="persona.id"
-              (enviandoDoc)="EnviandoDoc($event)"
+              (enviandoDoc)="EnviandoDoc($event.target)"
               [estadoBoton]="enviadoEstado"
             ></app-documento-persona>
           </div>
