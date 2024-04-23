@@ -53,7 +53,8 @@
     "t-clavemodelo": "Clave modelo",
     "t-modelo": "Mi Perfil",
     "t-contacto": "Contacto",
-    "t-galeria": "Galería",
+    "t-galeria-fotos": "Fotos",
+    "t-galeria-videos": "Videos",
     "t-idiomas": "Idiomas",
     "t-habilidades": "Habilidades",
     "t-generales": "Generales",
@@ -74,7 +75,8 @@
     "modelo":"Se agrego el modelo correctamente",
     "edad":" años",
     "excel-status-suc":"Archivo excel descargado.",
-    "excel-status-err":"No se pudo descargar, intente más tarde."
+    "excel-status-err":"No se pudo descargar, intente más tarde.",
+    "perfil-detalles":"Ver Detalles..."
   },
   "proyectos": {
     "header": "Administrador de castings",

@@ -477,7 +477,6 @@ export class CastingReviewService {
   }
 
   public getModelos() {
-    //console.log(this.modelosCategoria)
     if (this.diaActual == 0) {
       this.modelosSub.next(this.modelosCategoria);
       this.spinnerSub.next(false);
@@ -485,7 +484,6 @@ export class CastingReviewService {
       const modelos = this.modelosCategoria.filter(
         (_) => _.dia == this.diaActual
       );
-      // console.log(modelos)
       this.modelosSub.next(modelos);
       this.spinnerSub.next(false);
     }

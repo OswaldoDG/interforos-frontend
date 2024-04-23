@@ -26,7 +26,6 @@ export class DownloadExcelService {
 
   descargarArchivoExcel(castingId: string) {
     const url = `${this.apiBaseUrl}/api/Casting/${castingId}/excel`;
-    console.log(url);
     return this.http.get(url, { responseType: 'blob' });
   }
 

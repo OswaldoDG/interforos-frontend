@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   EventEmitter,
+  ViewChild,
 } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -37,7 +38,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   uploadProgress: number;
   uploadUrl: string;
   T: any;
-
+  @ViewChild('fileInput') fileInput: any;
   constructor(
     private spinner: NgxSpinnerService,
     private apiContenido: ContenidoClient,
@@ -118,6 +119,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           this.enviandoDoc.emit(false);
           this.selectedFile = false;
           this.uploadFile = null;
+          this.fileInput.nativeElement.value = '';
         },
         (err) => {
           this.toastService.error(this.T['perfil.error-envio-documento'], {

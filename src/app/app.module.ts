@@ -4,7 +4,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
 } from '@angular/core';
-import { CarouselModule } from 'ngx-owl-carousel-o';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NgxTypedJsModule } from 'ngx-typed-js';
@@ -161,8 +161,8 @@ import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/pr
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
 import { PersonaCardReviewComponent } from './components/common/persona-card-review/persona-card-review.component';
 import { DatePipe } from '@angular/common';
-
 defineLocale('es', esLocale);
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -286,6 +286,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PersonaCardReviewComponent,
   ],
   imports: [
+    PopoverModule.forRoot(),
     AppRoutingModule,
     RecaptchaV3Module,
     ImageCropperModule,
@@ -306,7 +307,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CarouselModule,
+    CarouselModule.forRoot(),
     SelectDropDownModule,
     NgxTypedJsModule,
     FormsModule,
@@ -345,5 +346,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey },
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

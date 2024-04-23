@@ -2,7 +2,7 @@
   <div class="d-flex card" style="width: 100%">
     <div class="card-header">
       <div class="row justify-content-left">
-        <div class="col-lg-11 col-md-11 col-sm-11 col-align-self-star d-flex">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-align-self-star d-flex">
           <label class="name">
             {{ nombrePersona }}
           </label>
@@ -29,7 +29,7 @@
         <div class="row">
           <div class="container">
             <div class="row">
-              <div class="col-12">
+              <div class="col-12" *ngIf="mostarControlesMisModelos">
                 <div class="row">
                   <div class="col-4">
                     <i class="bi bi-pencil-fill" (click)="editarPersona()"></i>
@@ -47,14 +47,23 @@
                 <hr />
               </div>
 
-              <div class="col-6">
-                <div class="user-profile">
+              <div class="col-5">
+                <div
+                  class="user-profile"
+                  (mouseenter)="resaltarImagen(true)"
+                  (mouseleave)="resaltarImagen(false)"
+                  [ngClass]="{ resaltada: isResaltada }"
+                >
                   <div class="d-flex align-items-center">
-                    <img [src]="avatarUrl" alt="image" />
+                    <img
+                      [src]="avatarUrl"
+                      alt="image"
+                      (click)="openModalWithClass(template)"
+                    />
                   </div>
                 </div>
               </div>
-              <div class="col-6 pt-3">
+              <div class="col-7 pt-3">
                 <div class="user-profile">
                   <div class="d-flex align-items-center">
                     <div class="title">
@@ -79,203 +88,257 @@
           </div>
 
           <div class="row pt-4">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-              <tabset #tabset>
-                <tab heading="{{ 'modelo.t-generales' | translate }}">
-                  <div class="user-contact-info">
-                    <table>
-                      <tr>
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-nacionalidad" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          {{ persona.paisOrigenId }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-pais-residencia" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          {{ persona.paisActualId }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-estado-residencia" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          {{ persona.estadoPaisId }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-extranjero" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          <span *ngIf="persona.extranjero">{{
-                            "comun.si" | translate
-                          }}</span>
-                          <span *ngIf="!persona.extranjero">{{
-                            "comun.no" | translate
-                          }}</span>
-                        </td>
-                      </tr>
-                      <tr *ngIf="persona.extranjero">
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-permisotrabajo" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          <span *ngIf="persona.permisoTrabajo">{{
-                            "comun.si" | translate
-                          }}</span>
-                          <span *ngIf="!persona.permisoTrabajo">{{
-                            "comun.no" | translate
-                          }}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          class="fw-normal pe-2"
-                          style="border-right: 1px solid gainsboro"
-                        >
-                          {{ "modelo.perfil-idiomas" | translate }}
-                        </td>
-                        <td class="ps-2 fw-light">
-                          <span *ngFor="let a of persona.idiomasIds"
-                            >{{ a }}&nbsp;</span
-                          >
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </tab>
-
-                <tab heading="{{ 'modelo.t-contacto' | translate }}">
-                  <div class="user-contact-info">
-                    <ul class="user-contact">
-                      <li>
-                        <a href="#"
-                          ><i class="bx bx-phone-call"></i>
-                          {{ persona.contacto?.telefono }}</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="bx bx-envelope"></i>
-                          {{ persona.contacto?.email }}</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="bx bx-map"></i>
-                          <span style="text-align: justify">{{
-                            persona.contacto?.direccion
-                          }}</span>
-                        </a>
-                      </li>
-                    </ul>
-
-                    <ul class="social-profiles">
-                      <li>
-                        <a href="#"
-                          ><i class="bx bxl-facebook"></i>
-                          <span style="text-align: justify">{{
-                            persona.contacto?.faceBook
-                          }}</span>
-                        </a>
-                      </li>
-
-                      <li>
-                        <a href="#"
-                          ><i class="bx bxl-twitter"></i>
-                          <span style="text-align: justify">{{
-                            persona.contacto?.twitter
-                          }}</span>
-                        </a>
-                      </li>
-
-                      <li>
-                        <a href="#"
-                          ><i class="bx bxl-instagram"></i>
-                          <span style="text-align: justify">{{
-                            persona.contacto?.instagram
-                          }}</span>
-                        </a>
-                      </li>
-
-                      <li>
-                        <a href="#"
-                          ><i class="bx bxl-linkedin"></i>
-                          <span style="text-align: justify">{{
-                            persona.contacto?.linkedIn
-                          }}</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </tab>
-                <!-- --------------------------------Modificar--------------------------------- -->
-
-                <tab heading="{{ 'Habilidades' | translate }}">
-                  <div class="user-contact-info">
-                    <ul class="user-contact">
-                      <tr>
-                        <td class="ps-2 fw-light">
-                          <div class="scrollcontenedor">
-                            <p
-                              *ngFor="let a of persona.actividadesIds"
-                              style="font-family: Arial, Helvetica, sans-serif"
-                            >
-                              &#8226; {{ a | titlecase }}
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                    </ul>
-                  </div>
-                </tab>
-                <!-- VALIDAR PERMISOS -->
-                <tab
-                  heading="{{ 'modelo.t-galeria' | translate }}"
-                  (selectTab)="selectTab()"
+            <ng-template #template>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                  <span class="sub-title">{{ persona.nombreArtistico }}</span>
+                </h4>
+                <button
+                  type="button"
+                  class="close btn-close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef?.hide()"
                 >
-                  <div *ngIf="imagenes.length == 0" class="col-lg-12 pt-2">
-                    <div style="height: 200px; min-height: 200px">
-                      No hay elementos de galería
-                    </div>
-                  </div>
-                  <div *ngIf="imagenes.length > 0" class="col-lg-12 pt-5">
-                    <ng-image-slider
-                      [images]="imagenes"
-                      #nav
-                      slideImage="1"
-                      [manageImageRatio]="true"
-                      [infinite]="false"
-                      [autoSlide]="1"
-                      [lazyLoading]="true"
-                      [imageSize]="configCarousel"
+                  <span aria-hidden="true" class="visually-hidden"
+                    >&times;</span
+                  >
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <tabset #tabset>
+                    <tab heading="{{ 'modelo.t-generales' | translate }}">
+                      <div class="user-contact-info">
+                        <table>
+                          <tr>
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{ "modelo.perfil-nacionalidad" | translate }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              {{ persona.paisOrigenId }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{ "modelo.perfil-pais-residencia" | translate }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              {{ persona.paisActualId }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{
+                                "modelo.perfil-estado-residencia" | translate
+                              }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              {{ persona.estadoPaisId }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{ "modelo.perfil-extranjero" | translate }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              <span *ngIf="persona.extranjero">{{
+                                "comun.si" | translate
+                              }}</span>
+                              <span *ngIf="!persona.extranjero">{{
+                                "comun.no" | translate
+                              }}</span>
+                            </td>
+                          </tr>
+                          <tr *ngIf="persona.extranjero">
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{ "modelo.perfil-permisotrabajo" | translate }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              <span *ngIf="persona.permisoTrabajo">{{
+                                "comun.si" | translate
+                              }}</span>
+                              <span *ngIf="!persona.permisoTrabajo">{{
+                                "comun.no" | translate
+                              }}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="fw-normal pe-2"
+                              style="border-right: 1px solid gainsboro"
+                            >
+                              {{ "modelo.perfil-idiomas" | translate }}
+                            </td>
+                            <td class="ps-2 fw-light">
+                              <span *ngFor="let a of persona.idiomasIds"
+                                >{{ a }}&nbsp;</span
+                              >
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </tab>
+
+                    <tab heading="{{ 'modelo.t-contacto' | translate }}">
+                      <div class="user-contact-info">
+                        <ul class="user-contact">
+                          <li>
+                            <a href="#"
+                              ><i class="bx bx-phone-call"></i>
+                              {{ persona.contacto?.telefono }}</a
+                            >
+                          </li>
+                          <li>
+                            <a href="#"
+                              ><i class="bx bx-envelope"></i>
+                              {{ persona.contacto?.email }}</a
+                            >
+                          </li>
+                          <li>
+                            <a href="#"
+                              ><i class="bx bx-map"></i>
+                              <span style="text-align: justify">{{
+                                persona.contacto?.direccion
+                              }}</span>
+                            </a>
+                          </li>
+                        </ul>
+
+                        <ul class="social-profiles">
+                          <li>
+                            <a href="#"
+                              ><i class="bx bxl-facebook"></i>
+                              <span style="text-align: justify">{{
+                                persona.contacto?.faceBook
+                              }}</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#"
+                              ><i class="bx bxl-twitter"></i>
+                              <span style="text-align: justify">{{
+                                persona.contacto?.twitter
+                              }}</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#"
+                              ><i class="bx bxl-instagram"></i>
+                              <span style="text-align: justify">{{
+                                persona.contacto?.instagram
+                              }}</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#"
+                              ><i class="bx bxl-linkedin"></i>
+                              <span style="text-align: justify">{{
+                                persona.contacto?.linkedIn
+                              }}</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </tab>
+                    <!-- --------------------------------Modificar--------------------------------- -->
+
+                    <tab heading="{{ 'Habilidades' | translate }}">
+                      <div class="user-contact-info">
+                        <ul class="user-contact">
+                          <tr>
+                            <td class="ps-2 fw-light">
+                              <div class="scrollcontenedor">
+                                <p
+                                  *ngFor="let a of persona.actividadesIds"
+                                  style="
+                                    font-family: Arial, Helvetica, sans-serif;
+                                  "
+                                >
+                                  &#8226; {{ a | titlecase }}
+                                </p>
+                              </div>
+                            </td>
+                          </tr>
+                        </ul>
+                      </div>
+                    </tab>
+                    <!-- VALIDAR PERMISOS -->
+                    <tab heading="{{ 'modelo.t-galeria-fotos' | translate }}">
+                      <div *ngIf="imagenes.length == 0" class="col-lg-12 pt-2">
+                        <div style="height: 200px; min-height: 200px">
+                          No hay videos de galería
+                        </div>
+                      </div>
+                      <div *ngIf="imagenes.length > 0" class="col-lg-12 pt-5">
+                        <ng-image-slider
+                          [images]="imagenes"
+                          slideImage="3"
+                          [manageImageRatio]="true"
+                          [infinite]="true"
+                          [imageSize]="configCarousel"
+                        >
+                        </ng-image-slider>
+                      </div>
+                    </tab>
+                    <tab heading="{{ 'modelo.t-galeria-videos' | translate }}">
+                      <div *ngIf="videos.length == 0" class="col-lg-12 pt-2">
+                        <div style="height: 200px; min-height: 200px">
+                          No hay videos de galería
+                        </div>
+                      </div>
+                      <div *ngIf="videos.length > 0" class="col-lg-12 pt-5">
+                        <ng-image-slider
+                          [images]="videos"
+                          slideImage="3"
+                          [manageImageRatio]="true"
+                          [infinite]="false"
+                          [imageSize]="configCarousel"
+                          (imageClick)="openModalMux(templateNested, $event)"
+                          [imagePopup]="false"
+                        >
+                        </ng-image-slider>
+                      </div>
+                    </tab>
+                  </tabset>
+                </div>
+              </div>
+              <ng-template #templateNested>
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="close btn-close pull-right"
+                    aria-label="Close"
+                    (click)="modalRefMux?.hide()"
+                  >
+                    <span aria-hidden="true" class="visually-hidden"
+                      >&times;</span
                     >
-                    </ng-image-slider>
-                  </div>
-                </tab>
-              </tabset>
-            </div>
+                  </button>
+                </div>
+                <mux-player
+                  autoplay
+                  attr.playback-id="{{ playbackId }}"
+                ></mux-player>
+              </ng-template>
+            </ng-template>
           </div>
         </div>
       </div>

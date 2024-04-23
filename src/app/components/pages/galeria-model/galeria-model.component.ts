@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 
 import {
@@ -24,6 +25,7 @@ import { ElementoMediaView } from 'src/app/modelos/locales/elemento-media-view';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { FormControl, FormGroup } from '@angular/forms';
+import '@mux/mux-player';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -52,6 +54,7 @@ export class GaleriaModelComponent implements OnInit {
   };
   castingsActuales: CastingPersonaCompleto[] = [];
   castingId: string = '';
+  @ViewChild('fileInput') fileInput: any;
   constructor(
     private servicioPersona: PersonaInfoService,
     private apiContenido: ContenidoClient,
@@ -94,8 +97,8 @@ export class GaleriaModelComponent implements OnInit {
         principal: e.principal,
         landscape: e.landscape,
         titulo: e.titulo,
-        url: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/full`,
-        urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.id}/card`,
+        url: `https://storage.googleapis.com/interforos/modelos/${this.usuarioId}/foto/${e.id}${e.extension}`,
+        urlFull: `https://storage.googleapis.com/interforos/modelos/${this.usuarioId}/foto/${e.id}-mini${e.extension}`,
         castingId: e.castingId,
       };
     } else {
@@ -110,7 +113,7 @@ export class GaleriaModelComponent implements OnInit {
           principal: e.principal,
           landscape: e.landscape,
           titulo: e.titulo,
-          url: `https://drive.google.com/uc?export=download&id=${e.id}`,
+          url: e.playBackId,
           urlFull: `${environment.apiRoot}/contenido/${this.mediaCliente.usuarioId}/${e.frameVideoId}/thumb`,
           castingId: e.castingId,
         };
@@ -305,11 +308,12 @@ export class GaleriaModelComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (e) => {
+          this.fileInput.nativeElement.value = '';
           this.toastService.success(this.T['fotos.foto-ok'], {
             position: 'bottom-center',
           });
           this.uploadFile = null;
-          this.uploadFileLabel = '';
+          this.uploadFileLabel = null;
           this.spinner.hide('spupload');
           this.uploadProgress = 0;
           this.working = false;
@@ -317,6 +321,7 @@ export class GaleriaModelComponent implements OnInit {
           this.datosimagen.get('titulo').setValue('');
         },
         (err) => {
+          this.fileInput.nativeElement.value = '';
           this.toastService.error(this.T['fotos.foto-error'], {
             position: 'bottom-center',
           });

@@ -1,32 +1,25 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   CastingClient,
-  PermisosCasting,
   Persona,
 } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
-import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionQuery } from 'src/app/state/session.query';
-import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { first } from 'rxjs/operators';
-import { CastigReviewComponent } from '../../pages/castig-review/castig-review.component';
 import { CastingReviewService } from 'src/app/services/casting-review.service';
+import '@mux/mux-player';
 
 @Component({
   selector: 'app-persona-card-review',
@@ -66,7 +59,7 @@ export class PersonaCardReviewComponent implements OnInit {
     },
   ];
   avatarUrl: string = 'assets/img/errorMedio.jpg';
-  videoCasting: any;
+  videoCasting: string;
   fotoCasting: string = 'assets/img/errorMedio.jpg';
   tieneVideo: boolean = false;
   imagenes = [];
@@ -113,47 +106,39 @@ export class PersonaCardReviewComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show('loadMedios');
     this.castingService
-      .video(
+      .medios(
         this.servicio.CastingIdActual(),
         this.persona.id,
         this.servicio.CategoriActual()
       )
-      .subscribe((video) => {
-        if (video.videoPortadaId) {
-          this.videoCasting = [
-            {
-              video: `https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`,
-            },
-          ];
+      .subscribe(
+        (medios) => {
+          if (medios.videoPortadaId) {
+            this.videoCasting = medios.videoPortadaId;
+            this.tieneVideo = true;
 
-          //`https://drive.google.com/uc?export=download&id=${video.videoPortadaId}`;
-          this.tieneVideo = true;
+          }
+          if (medios.imagenPortadaId) {
+            this.fotoCasting = `https://storage.googleapis.com/interforos/modelos/${this.persona.id}/foto/${medios.imagenPortadaId}`;
+            this.imageObject = [
+              {
+                image: this.fotoCasting,
+                thumbImage: this.fotoCasting,
+                title: '',
+              },
+            ];
+            this.spinner.hide('loadMedios');
+          } else {
+            this.fotoCasting = this.notFoundURL;
+            this.spinner.hide('loadMedios');
+          }
+
+        },
+        (err) => {
+          this.fotoCasting = this.notFoundURL;
+          this.spinner.hide('loadMedios');
         }
-        this.castingService
-          .foto(
-            this.servicio.CastingIdActual(),
-            this.persona.id,
-            this.servicio.CategoriActual()
-          )
-          .pipe(first())
-          .subscribe(
-            (foto) => {
-              this.fotoCasting = foto;
-              this.imageObject = [
-                {
-                  image: this.fotoCasting,
-                  thumbImage: this.fotoCasting,
-                  title: '',
-                },
-              ];
-              this.spinner.hide('loadMedios');
-            },
-            (err) => {
-              this.fotoCasting = this.notFoundURL;
-              this.spinner.hide('loadMedios');
-            }
-          );
-      });
+      );
 
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
