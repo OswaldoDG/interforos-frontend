@@ -22,6 +22,7 @@
     "@angular/router": "^14.0.1",
     "@datorama/akita": "^7.1.1",
     "@mdi/font": "^7.2.96",
+    "@mux/mux-player": "^2.5.0",
     "@ngneat/hot-toast": "^4.1.0",
     "@ngneat/overview": "^2.0.2",
     "@ngx-translate/core": "^14.0.0",

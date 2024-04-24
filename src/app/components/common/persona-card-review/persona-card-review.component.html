@@ -14,13 +14,19 @@
           </ngx-spinner>
 
           <div style="height: 248px; width: 200px">
-            <ng-image-slider [images]="imageObject" [manageImageRatio]="true"></ng-image-slider>
+            <ng-image-slider
+              [images]="imageObject"
+              [manageImageRatio]="true"
+            ></ng-image-slider>
           </div>
           <div style="height: 248px; width: 200px" *ngIf="tieneVideo">
-            <ng-image-slider [images]="videoCasting" [manageImageRatio]="true"></ng-image-slider>
+            <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
           </div>
           <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
-            <ng-image-slider [images]="notFoundURL" [manageImageRatio]="true"></ng-image-slider>
+            <ng-image-slider
+              [images]="notFoundURL"
+              [manageImageRatio]="true"
+            ></ng-image-slider>
           </div>
         </div>
       </div>

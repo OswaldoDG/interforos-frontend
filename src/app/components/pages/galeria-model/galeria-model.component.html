@@ -77,6 +77,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12 pt-3">
         <label>{{ "fotos.t-upload" | translate }}</label>
         <input
+          #fileInput
           class="form-control"
           type="file"
           id="customFile"
@@ -143,15 +144,17 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos">
         <div *ngIf="l.extension == '.mp4'; else otraExtension">
-          <h5>{{ l.titulo }}</h5>
+          <h5>{{ l.titulo}}</h5>
           <div class="single-gallery-item">
-            <video muted controls style="width: 100%; height: 300px">
-              <source [src]="l.url" />
-            </video>
+            <mux-player
+              attr.playback-id={{l.url}}
+            ></mux-player>
+            <!-- <video muted controls style="width: 100%; height: 300px">
+            <source [src]="l.url" />
+          </video> -->
             <a
               *ngIf="!l.video"
               [routerLink]=""
@@ -182,7 +185,7 @@
           <div class="single-gallery-item">
             <img
               style="width: 100%"
-              [src]="l.url | secureimg | async"
+              [src]="l.url"
               alt="image"
             />
             <a
