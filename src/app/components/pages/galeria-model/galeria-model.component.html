@@ -152,9 +152,6 @@
             <mux-player
               attr.playback-id={{l.url}}
             ></mux-player>
-            <!-- <video muted controls style="width: 100%; height: 300px">
-            <source [src]="l.url" />
-          </video> -->
             <a
               *ngIf="!l.video"
               [routerLink]=""
@@ -182,7 +179,7 @@
         </div>
         <ng-template #otraExtension>
           <h5>{{ l.titulo }}</h5>
-          <div class="single-gallery-item">
+          <div class=" container single-gallery-item">
             <img
               style="width: 100%"
               [src]="l.url"
