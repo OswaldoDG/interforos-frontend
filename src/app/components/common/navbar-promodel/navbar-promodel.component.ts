@@ -137,7 +137,11 @@ export class NavbarPromodelComponent implements OnInit {
         this.userName = p.alias;
       }
     });
-    this.documentosCompletos = this.query.getValue().perfil.datosCompletos;
+    if(this.query.autenticado)
+      {
+        this.documentosCompletos = this.query.getValue().perfil.datosCompletos;
+      }
+
 
   }
 

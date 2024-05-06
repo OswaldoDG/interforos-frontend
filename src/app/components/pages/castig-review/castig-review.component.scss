@@ -8,6 +8,7 @@
 .footer
 {
   width:96vw;
+  bottom: 0;
 }
 
 #concecutivo
@@ -30,4 +31,12 @@ hr {
 .noDisplay
 {
   display:none;
+}
+
+.contenedor
+{
+  position:relative;
+  display: inline-block;
+  right: 250px;
+
 }

@@ -28,6 +28,7 @@
 <!-- Start Gallery Area -->
 
 <section class="gallery-area bg-f9f9f9 pt-4 pb-70">
+
   <div class="container">
     <ngx-spinner
       name="spupload"
@@ -52,7 +53,7 @@
           <input type="text" class="form-control" formControlName="titulo" />
         </form>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12 pt-2">
+      <div class="col-lg-6 col-md-6 col-sm-12 pt-2 noDisplay">
         <label>{{ "fotos.origen" | translate }}</label>
         <select
           class="form-select"
@@ -146,12 +147,19 @@
     </div>
     <div class="row">
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos">
-        <div *ngIf="l.extension == '.mp4'; else otraExtension">
-          <h5>{{ l.titulo}}</h5>
+        <div *ngIf="l.extension == '.mp4' && !l.castingId; else otraExtension">
+          <h5>{{ l.titulo }}</h5>
           <div class="single-gallery-item">
-            <mux-player
-              attr.playback-id={{l.url}}
-            ></mux-player>
+            <ngx-spinner
+            name="loading"
+            [fullScreen]="false"
+            type="ball-scale-multiple"
+            size="medium"
+            bdColor="rgba(0,0,0,0.1)"
+          >
+            <p class="loading">...</p>
+          </ngx-spinner>
+            <mux-player attr.playback-id="{{ l.url }}"></mux-player>
             <a
               *ngIf="!l.video"
               [routerLink]=""
@@ -178,37 +186,41 @@
           </div>
         </div>
         <ng-template #otraExtension>
-          <h5>{{ l.titulo }}</h5>
-          <div class=" container single-gallery-item">
-            <img
-              style="width: 100%"
-              [src]="l.url"
-              alt="image"
-            />
-            <a
-              *ngIf="!l.video"
-              [routerLink]=""
-              (click)="bntPrincipal(l.id)"
-              class="principal-bnt"
-              [ngClass]="{ checked: l.principal == true }"
-              ><i class="bx bxs-heart"></i
-            ></a>
-            <div *ngIf="!l.castingId">
+          <div *ngIf="!l.castingId">
+            <h5>{{ l.titulo }}</h5>
+            <div class="container single-gallery-item">
+              <ngx-spinner
+              name="loading"
+              [fullScreen]="false"
+              type="ball-scale-multiple"
+              size="medium"
+              bdColor="rgba(0,0,0,0.1)"
+            >
+              <p class="loading">...</p>
+            </ngx-spinner>
+              <img style="width: 100%" [src]="l.url" alt="image" onerror="this.src='assets/img/profile-404.png'"/>
+              <a
+                *ngIf="!l.video"
+                [routerLink]=""
+                (click)="bntPrincipal(l.id)"
+                class="principal-bnt"
+                [ngClass]="{ checked: l.principal == true }"
+                ><i class="bx bxs-heart"></i
+              ></a>
+                <a
+                  [routerLink]=""
+                  (click)="bntEliminar(l.id)"
+                  class="eliminar-btn"
+                  ><i class="bx bx-x"></i
+                ></a>
               <a
                 [routerLink]=""
-                (click)="bntEliminar(l.id)"
-                class="eliminar-btn"
-                ><i class="bx bx-x"></i
+                (click)="bntPin(l.id)"
+                class="pin-btn"
+                [ngClass]="{ checked: l.permanente == true }"
+                ><i class="bx bxs-lock-alt"></i
               ></a>
             </div>
-
-            <a
-              [routerLink]=""
-              (click)="bntPin(l.id)"
-              class="pin-btn"
-              [ngClass]="{ checked: l.permanente == true }"
-              ><i class="bx bxs-lock-alt"></i
-            ></a>
           </div>
         </ng-template>
       </div>
