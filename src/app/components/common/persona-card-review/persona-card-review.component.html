@@ -2,32 +2,38 @@
   <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
     <div class="col-lg-10 col-md-10 col-sm-10">
       <div class="card" style="height: 250px">
-        <div class="d-inline-flex p-2 gx-2" style="height: 250px">
-          <ngx-spinner
-            name="loadMedios"
-            [fullScreen]="false"
-            type="ball-scale-multiple"
-            size="medium"
-            bdColor="rgba(0,0,0,0.1)"
-          >
-            <p class="loading">...</p>
-          </ngx-spinner>
+        <ngx-spinner
+        name="loadMedios"
+        [fullScreen]="false"
+        type="ball-scale-multiple"
+        size="medium"
+        bdColor="rgba(0,0,0,0.1)"
+      >
+        <p class="loading">...</p>
+      </ngx-spinner>
+        <div class="row">
+          <div class="col-6">
+            <div style="max-height: 248px; max-width: 200px" >
+              <ng-image-slider
+                [images]="imageObject"
+                [manageImageRatio]="true"
+              ></ng-image-slider>
+            </div>
+            </div>
 
-          <div style="height: 248px; width: 200px">
-            <ng-image-slider
-              [images]="imageObject"
-              [manageImageRatio]="true"
-            ></ng-image-slider>
-          </div>
-          <div style="height: 248px; width: 200px" *ngIf="tieneVideo">
-            <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
-          </div>
-          <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
-            <ng-image-slider
-              [images]="notFoundURL"
-              [manageImageRatio]="true"
-            ></ng-image-slider>
-          </div>
+            <div class="col-6" *ngIf="tieneVideo">
+              <div style="height: 230px; width: 180px" *ngIf="tieneVideo">
+                <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="!tieneVideo">
+              <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
+                <ng-image-slider
+                  [images]="notFoundURL"
+                  [manageImageRatio]="true"
+                ></ng-image-slider>
+              </div>
+            </div>
         </div>
       </div>
       <hr />

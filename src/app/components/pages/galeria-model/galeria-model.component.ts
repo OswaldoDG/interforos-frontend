@@ -38,6 +38,7 @@ export class GaleriaModelComponent implements OnInit {
   @Output() volverMisModelos: EventEmitter<string> = new EventEmitter();
   @Input() uid: string = undefined;
   blogGrid: number = 1;
+  errorMedio: string = 'assets/img/errorMedio.jpg';
   working = false;
   uploadFile: File | null;
   uploadFileLabel: string | undefined = 'Choose an image to upload';
@@ -159,11 +160,13 @@ export class GaleriaModelComponent implements OnInit {
   }
 
   bntEliminar(id: any) {
+    this.spinner.show('loading');
     const foto = this.fotos.find((f) => f.id == id);
     if (foto.principal) {
       this.toastService.warning(this.T['fotos.foto-delprin-error'], {
         position: 'bottom-center',
       });
+      this.spinner.hide('loading');
       return;
     }
 
@@ -173,11 +176,13 @@ export class GaleriaModelComponent implements OnInit {
       .subscribe(
         (e) => {
           this.eliminaElemento(id);
+          this.spinner.hide('loading');
         },
         (err) => {
           this.toastService.error(this.T['fotos.foto-gen-error'], {
             position: 'bottom-center',
           });
+          this.spinner.hide('loading');
           console.error(err);
         }
       );

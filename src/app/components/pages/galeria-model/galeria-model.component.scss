@@ -13,7 +13,6 @@
       cursor: zoom-in;
       .eliminar-btn {
           position: absolute;
-          top: 20px;
           right: 20px;
           z-index: 3;
           display: inline-block;
@@ -61,7 +60,6 @@
       }
       .principal-bnt {
           position: absolute;
-          top: 20px;
           left: 20px;
           z-index: 3;
           display: inline-block;
@@ -141,3 +139,7 @@
 
 
   }
+.noDisplay
+{
+  display: none;
+}

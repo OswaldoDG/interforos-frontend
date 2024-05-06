@@ -52,16 +52,16 @@ export class EditorCastingComponent implements OnInit {
   inscripcionAutomatica: boolean = false;
   cierreAuto: boolean = false;
   aperturaAuto: boolean = false;
-  logoGuardado : boolean = false;
+  logoGuardado: boolean = false;
   //permisos
-  verredesSociales : boolean = false;
-  vertelefono : boolean = false;
+  verredesSociales: boolean = false;
+  vertelefono: boolean = false;
   veremail: boolean = false;
-  verhabilidades : boolean = false;
-  verdatosGenerales : boolean = false;
-  vergaleriaPersonal : boolean = true;
-  verComentarios : boolean = false;
-  verdireccion : boolean = false;
+  verhabilidades: boolean = false;
+  verdatosGenerales: boolean = false;
+  vergaleriaPersonal: boolean = true;
+  verComentarios: boolean = false;
+  verdireccion: boolean = false;
   private T: any;
   constructor(
     private clientApi: CastingClient,
@@ -81,13 +81,13 @@ export class EditorCastingComponent implements OnInit {
       cierreAutomatico: [this.cierreAuto],
       aperturaAutomatica: [this.aperturaAuto],
       verRedesSociales: [this.verredesSociales],
-      verTelefono : [this.vertelefono],
+      verTelefono: [this.vertelefono],
       verDireccion: [this.verdireccion],
-      verEmail : [this.veremail],
-      verHabilidades : [this.verhabilidades],
-      verDatosGenerales : [this.verdatosGenerales],
-      verGaleriaPersonal : [this.vergaleriaPersonal],
-      verComentarios : [this.verComentarios],
+      verEmail: [this.veremail],
+      verHabilidades: [this.verhabilidades],
+      verDatosGenerales: [this.verdatosGenerales],
+      verGaleriaPersonal: [this.vergaleriaPersonal],
+      verComentarios: [this.verComentarios],
     });
     this.dateTimeAdapter.setLocale('es-ES');
     this.translate
@@ -124,16 +124,17 @@ export class EditorCastingComponent implements OnInit {
 
   // Crea un casting y establece la variable para realizar actualización si la savaguarda es exitosa
   altaCasting() {
-    const permisos: PermisosCasting ={
-      verRedesSociales : this.formProyecto.value.verRedesSociales,
-      verTelefono : this.formProyecto.value.verTelefono,
-      verDireccion : this.formProyecto.value.verDireccion,
-      verEmail : this.formProyecto.value.verEmail,
-      verHabilidades : this.formProyecto.value.verHabilidades,
-      verDatosGenerales : this.formProyecto.value.verDatosGenerales,
-      verGaleriaPersonal : this. formProyecto.value.verGaleriaPersonal,
-      verComentarios : this.formProyecto.value.verComentarios
-    }
+    this.spinner.show('loadCasting');
+    const permisos: PermisosCasting = {
+      verRedesSociales: this.formProyecto.value.verRedesSociales,
+      verTelefono: this.formProyecto.value.verTelefono,
+      verDireccion: this.formProyecto.value.verDireccion,
+      verEmail: this.formProyecto.value.verEmail,
+      verHabilidades: this.formProyecto.value.verHabilidades,
+      verDatosGenerales: this.formProyecto.value.verDatosGenerales,
+      verGaleriaPersonal: this.formProyecto.value.verGaleriaPersonal,
+      verComentarios: this.formProyecto.value.verComentarios,
+    };
     const datos: Casting = {
       nombre: this.formProyecto.value.nombre,
       nombreCliente: this.formProyecto.value.nombreCliente,
@@ -144,7 +145,7 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.aceptaAutoInscripcionModelos,
       cierreAutomatico: this.formProyecto.value.cierreAutomatico,
       aperturaAutomatica: this.formProyecto.value.aperturaAutomatica,
-      pernisosEcternos : permisos
+      pernisosEcternos: permisos,
     };
 
     this.clientApi.castingPost(datos).subscribe(
@@ -182,11 +183,13 @@ export class EditorCastingComponent implements OnInit {
               });
           });
         }
+        this.spinner.hide('loadCasting');
         this.toastService.success(this.T['casting.crear'], {
           position: 'bottom-center',
         });
       },
       (error) => {
+        this.spinner.hide('loadCasting');
         this.toastService.error(this.T['casting.error'], {
           position: 'bottom-center',
         });
@@ -214,21 +217,21 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto.value.cierreAutomatico),
       (this.CastingActual.aperturaAutomatica =
         this.formProyecto.value.aperturaAutomatica),
-      (this.CastingActual.pernisosEcternos.verRedesSociales  =
+      (this.CastingActual.pernisosEcternos.verRedesSociales =
         this.formProyecto.value.verRedesSociales),
-      (this.CastingActual.pernisosEcternos.verTelefono  =
+      (this.CastingActual.pernisosEcternos.verTelefono =
         this.formProyecto.value.verTelefono),
-      (this.CastingActual.pernisosEcternos.verEmail  =
+      (this.CastingActual.pernisosEcternos.verEmail =
         this.formProyecto.value.verEmail),
-      (this.CastingActual.pernisosEcternos.verHabilidades  =
+      (this.CastingActual.pernisosEcternos.verHabilidades =
         this.formProyecto.value.verHabilidades),
-      (this.CastingActual.pernisosEcternos.verDatosGenerales  =
+      (this.CastingActual.pernisosEcternos.verDatosGenerales =
         this.formProyecto.value.verDatosGenerales),
-      (this.CastingActual.pernisosEcternos.verGaleriaPersonal  =
+      (this.CastingActual.pernisosEcternos.verGaleriaPersonal =
         this.formProyecto.value.verGaleriaPersonal),
-      (this.CastingActual.pernisosEcternos.verComentarios  =
-          this.formProyecto.value.verComentarios),
-      (this.CastingActual.pernisosEcternos.verDireccion  =
+      (this.CastingActual.pernisosEcternos.verComentarios =
+        this.formProyecto.value.verComentarios),
+      (this.CastingActual.pernisosEcternos.verDireccion =
         this.formProyecto.value.verDireccion),
       this.clientApi
         .castingPut(this.CastingId, this.CastingActual)
@@ -352,9 +355,14 @@ export class EditorCastingComponent implements OnInit {
   //agregar o actuliza el log del casting
   actualizarLogo(castignId?: string) {
     if (this.esLogoNuevo && castignId != null) {
-      this.clientApi.logoPut(castignId, this.logoCasting).subscribe((data)=>{
-        this.logoGuardado = true;
-      },(error)=>{this.logoGuardado = false});
+      this.clientApi.logoPut(castignId, this.logoCasting).subscribe(
+        (data) => {
+          this.logoGuardado = true;
+        },
+        (error) => {
+          this.logoGuardado = false;
+        }
+      );
     }
     this.esLogoNuevo = false;
   }
@@ -383,13 +391,13 @@ export class EditorCastingComponent implements OnInit {
   onChangeVerDatosGenerales() {
     this.verdatosGenerales = !this.verdatosGenerales;
   }
-  onChangeVerGaleriaPersonal(){
+  onChangeVerGaleriaPersonal() {
     this.vergaleriaPersonal = !this.vergaleriaPersonal;
   }
-  onChangeVerComentarios(){
+  onChangeVerComentarios() {
     this.verComentarios = !this.verComentarios;
   }
-  onChangeVerDireccion(){
+  onChangeVerDireccion() {
     this.verdireccion = !this.verdireccion;
   }
 
