@@ -32,7 +32,7 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   @Output() docUploaded: EventEmitter<string> = new EventEmitter();
   @Output() enviandoDoc: EventEmitter<boolean> = new EventEmitter();
   uploaded: boolean = false;
-  selectedFile: boolean = true;
+  selectedFile: boolean = false;
   uploadFile: File | null;
   uploadFileLabel: string | undefined = '';
   uploadProgress: number;
@@ -40,7 +40,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
   T: any;
   @ViewChild('fileInput') fileInput: any;
   constructor(
-    private spinner: NgxSpinnerService,
     private apiContenido: ContenidoClient,
     private toastService: HotToastService,
     private translate: TranslateService
@@ -74,29 +73,29 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
     if (files.length > 0) {
       this.uploadFile = files.item(0);
       this.uploadFileLabel = this.uploadFile?.name;
+      this.selectedFile = true;
     }
   }
   onFileSelected(file: FileList) {
     if (file.length > 0) {
-      this.selectedFile = false;
-    } else {
       this.selectedFile = true;
+    } else {
+      this.selectedFile = false;
     }
   }
 
   upload() {
     this.enviandoDoc.emit(true);
-    this.selectedFile = true;
     if (!this.uploadFile) {
       this.toastService.warning(this.T['fotos.no-file'], {
         position: 'bottom-center',
       });
+      this.enviandoDoc.emit(false);
       return;
     }
 
     this.uploadUrl = '';
     this.uploadProgress = 0;
-    this.spinner.show('spupload');
 
     const formData: FileParameter = {
       fileName: this.uploadFile.name,
@@ -112,7 +111,6 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           });
           this.uploadFile = null;
           this.uploadFileLabel = '';
-          this.spinner.hide('docupload');
           this.uploadProgress = 0;
           this.uploaded = true;
           this.docUploaded.emit(this.Documento.id);
@@ -127,10 +125,10 @@ export class DocumentoPersonaComponent implements OnInit, OnChanges {
           });
           this.uploadFile = null;
           this.uploadFileLabel = '';
-          this.spinner.hide('docupload');
           this.uploadProgress = 0;
           this.enviandoDoc.emit(false);
           this.selectedFile = false;
+          this.fileInput.nativeElement.value = '';
           console.error(err);
         }
       );

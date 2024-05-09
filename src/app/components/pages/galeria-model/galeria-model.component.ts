@@ -55,6 +55,7 @@ export class GaleriaModelComponent implements OnInit {
   };
   castingsActuales: CastingPersonaCompleto[] = [];
   castingId: string = '';
+  verVideo: boolean = true;
   @ViewChild('fileInput') fileInput: any;
   constructor(
     private servicioPersona: PersonaInfoService,
@@ -81,7 +82,7 @@ export class GaleriaModelComponent implements OnInit {
     });
 
     this.cargaTraducciones();
-    this.spinner.show('spupload');
+    this.spinner.show('loading');
     this.traerMedios();
   }
 
@@ -162,6 +163,13 @@ export class GaleriaModelComponent implements OnInit {
   bntEliminar(id: any) {
     this.spinner.show('loading');
     const foto = this.fotos.find((f) => f.id == id);
+    if (id == null) {
+      this.toastService.error(this.T['fotos.foto-gen-error'], {
+        position: 'bottom-center',
+      });
+      this.spinner.hide('loading');
+      return;
+    }
     if (foto.principal) {
       this.toastService.warning(this.T['fotos.foto-delprin-error'], {
         position: 'bottom-center',
@@ -296,7 +304,7 @@ export class GaleriaModelComponent implements OnInit {
     this.uploadUrl = '';
     this.uploadProgress = 0;
     this.working = true;
-    this.spinner.show('spupload');
+    this.spinner.show('loading');
 
     const formData: FileParameter = {
       fileName: this.uploadFile.name,
@@ -319,7 +327,7 @@ export class GaleriaModelComponent implements OnInit {
           });
           this.uploadFile = null;
           this.uploadFileLabel = null;
-          this.spinner.hide('spupload');
+          this.spinner.hide('loading');
           this.uploadProgress = 0;
           this.working = false;
           this.addElementoView(this.toLink(e));
@@ -332,7 +340,7 @@ export class GaleriaModelComponent implements OnInit {
           });
           this.uploadFile = null;
           this.uploadFileLabel = '';
-          this.spinner.hide('spupload');
+          this.spinner.hide('loading');
           this.uploadProgress = 0;
           this.working = false;
           console.error(err);
@@ -357,10 +365,10 @@ export class GaleriaModelComponent implements OnInit {
           media.elementos.forEach((e) => {
             this.addElementoView(this.toLink(e));
           });
-          this.spinner.hide('spupload');
+          this.spinner.hide('loading');
         },
         (err) => {
-          this.spinner.hide('spupload');
+          this.spinner.hide('loading');
           console.error(err);
         }
       );
@@ -375,5 +383,8 @@ export class GaleriaModelComponent implements OnInit {
   volver() {
     this.volverMisModelos.emit(null);
     this.uid = undefined;
+  }
+  manejarError(): void {
+    this.verVideo = false;
   }
 }
