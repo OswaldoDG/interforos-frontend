@@ -5,7 +5,7 @@
 >
   <div class="container">
     <div class="page-title-content">
-      <h2>{{ this.pageTitleContent[0].title}}</h2>
+      <h2>{{ this.pageTitleContent[0].title }}</h2>
       <!-- <ul>
                 <li><a routerLink="/">Home</a></li>
                 <li>{{Content.title}}</li>
@@ -13,9 +13,17 @@
     </div>
   </div>
 </div>
-<div *ngIf="miPerfil == false"class="container">
+<ngx-spinner
+  name="spperfil"
+  [fullScreen]="true"
+  type="ball-scale-multiple"
+  size="medium"
+>
+  <p class="loading">...</p>
+</ngx-spinner>
+<div *ngIf="miPerfil == false" class="container">
   <div class="page-title-content">
-    <h2>{{ this.pageTitleContent[0].title}}</h2>
+    <h2>{{ this.pageTitleContent[0].title }}</h2>
     <!-- <ul>
               <li><a routerLink="/">Home</a></li>
               <li>{{Content.title}}</li>
@@ -52,8 +60,15 @@
             </h6>
             <ng-template #otro>
               <span>
-                <alert type="warning" [dismissible]="dismissible" (onClosed) = "onClosed(alert)">
-                  <strong>{{ "perfil.datosCompletos-snap" | translate }}</strong> {{ "perfil.datosCompletos-msj" | translate }}
+                <alert
+                  type="warning"
+                  [dismissible]="dismissible"
+                  (onClosed)="onClosed(alert)"
+                >
+                  <strong>{{
+                    "perfil.datosCompletos-snap" | translate
+                  }}</strong>
+                  {{ "perfil.datosCompletos-msj" | translate }}
                 </alert>
               </span>
             </ng-template>
@@ -69,7 +84,7 @@
               [Documento]="doc"
               [Instancias]="instanciasDocumento"
               [personaId]="persona.id"
-              (enviandoDoc)="EnviandoDoc($event.target)"
+              (enviandoDoc)="EnviandoDoc($event)"
               [estadoBoton]="enviadoEstado"
             ></app-documento-persona>
           </div>
@@ -858,7 +873,10 @@
                   />
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="!miPerfil || agenciaId">
+              <div
+                class="col-lg-6 col-md-6 col-sm-12"
+                *ngIf="!miPerfil || agenciaId"
+              >
                 <label for="email">{{ "perfil.email" | translate }}</label>
                 <div class="input-group">
                   <input

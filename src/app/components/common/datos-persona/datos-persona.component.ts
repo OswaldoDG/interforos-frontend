@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { first, ignoreElements, takeUntil } from 'rxjs/operators';
 import {
   AccesoInformacion,
   CatalogoBase,
@@ -883,6 +883,14 @@ export class DatosPersonaComponent implements OnInit {
   }
 
   EnviandoDoc(estadoEnvio: boolean) {
+    if(estadoEnvio)
+      {
+        this.spinner.show('spperfil');
+      }
+      else
+      {
+        this.spinner.hide('spperfil');
+      }
     this.enviadoEstado = estadoEnvio;
   }
 

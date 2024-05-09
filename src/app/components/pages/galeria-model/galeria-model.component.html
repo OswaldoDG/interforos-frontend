@@ -14,39 +14,32 @@
     </div>
   </div>
 </div>
-<div *ngIf="uid != undefined" class="container">
+<div *ngIf="uid != undefined" class="container pt-5">
   <div class="page-title-content">
     <h2>{{ this.pageTitleContent[0].title }}</h2>
-    <!-- <ul>
-              <li><a routerLink="/">Home</a></li>
-              <li>{{Content.title}}</li>
-          </ul> -->
   </div>
 </div>
 <!-- End Page Title Area -->
 
 <!-- Start Gallery Area -->
-
+<ngx-spinner
+name="loading"
+[fullScreen]="true"
+type="ball-scale-multiple"
+size="medium"
+>
+<p class="loading">...</p>
+</ngx-spinner>
 <section class="gallery-area bg-f9f9f9 pt-4 pb-70">
-
   <div class="container">
-    <ngx-spinner
-      name="spupload"
-      [fullScreen]="false"
-      type="ball-scale-multiple"
-      size="medium"
-    >
-      <p class="loading">...</p>
-    </ngx-spinner>
-    <div class="col-lg-4 col-md-6 col-sm12 pt-4" *ngIf="uid">
-      <i
-        class="bi bi-arrow-return-left"
-        style="font-size: 2em"
-        (click)="volver()"
-      ></i>
-    </div>
-
     <div class="row pt-2">
+      <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="uid">
+        <i
+          class="bi bi-arrow-return-left"
+          style="font-size: 2em"
+          (click)="volver()"
+        ></i>
+      </div>
       <div class="col-lg-6 col-md-6 col-sm-12 pt-2">
         <label>{{ "fotos.titulo" | translate }}</label>
         <form [formGroup]="datosimagen" #formDir="ngForm">
@@ -147,58 +140,14 @@
     </div>
     <div class="row">
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of fotos">
-        <div *ngIf="l.extension == '.mp4' && !l.castingId; else otraExtension">
-          <h5>{{ l.titulo }}</h5>
-          <div class="single-gallery-item">
-            <ngx-spinner
-            name="loading"
-            [fullScreen]="false"
-            type="ball-scale-multiple"
-            size="medium"
-            bdColor="rgba(0,0,0,0.1)"
-          >
-            <p class="loading">...</p>
-          </ngx-spinner>
-            <mux-player attr.playback-id="{{ l.url }}"></mux-player>
-            <a
-              *ngIf="!l.video"
-              [routerLink]=""
-              (click)="bntPrincipal(l.id)"
-              class="principal-bnt"
-              [ngClass]="{ checked: l.principal == true }"
-              ><i class="bx bxs-heart"></i
-            ></a>
-            <div *ngIf="!l.castingId">
-              <a
-                [routerLink]=""
-                (click)="bntEliminar(l.id)"
-                class="eliminar-btn"
-                ><i class="bx bx-x"></i
-              ></a>
-            </div>
-            <a
-              [routerLink]=""
-              (click)="bntPin(l.id)"
-              class="principal-bnt"
-              [ngClass]="{ checked: l.permanente == true }"
-              ><i class="bx bxs-lock-alt"></i
-            ></a>
-          </div>
-        </div>
-        <ng-template #otraExtension>
-          <div *ngIf="!l.castingId">
+        <div *ngIf="!l.castingId">
+          <div *ngIf="l.video && l.url != null && verVideo; else otraExtension">
             <h5>{{ l.titulo }}</h5>
-            <div class="container single-gallery-item">
-              <ngx-spinner
-              name="loading"
-              [fullScreen]="false"
-              type="ball-scale-multiple"
-              size="medium"
-              bdColor="rgba(0,0,0,0.1)"
-            >
-              <p class="loading">...</p>
-            </ngx-spinner>
-              <img style="width: 100%" [src]="l.url" alt="image" onerror="this.src='assets/img/profile-404.png'"/>
+            <div class="single-gallery-item">
+              <mux-player
+                attr.playback-id="{{ l.url }}"
+                (error)="manejarError()"
+              ></mux-player>
               <a
                 *ngIf="!l.video"
                 [routerLink]=""
@@ -207,12 +156,45 @@
                 [ngClass]="{ checked: l.principal == true }"
                 ><i class="bx bxs-heart"></i
               ></a>
-                <a
-                  [routerLink]=""
-                  (click)="bntEliminar(l.id)"
-                  class="eliminar-btn"
-                  ><i class="bx bx-x"></i
-                ></a>
+
+              <a
+                [routerLink]=""
+                (click)="bntEliminar(l.id)"
+                class="eliminar-btn"
+                ><i class="bx bx-x"></i
+              ></a>
+              <a
+                [routerLink]=""
+                (click)="bntPin(l.id)"
+                class="principal-bnt"
+                [ngClass]="{ checked: l.permanente == true }"
+                ><i class="bx bxs-lock-alt"></i
+              ></a>
+            </div>
+          </div>
+          <ng-template #otraExtension>
+            <h5>{{ l.titulo }}</h5>
+            <div class="single-gallery-item">
+              <img
+                style="width: 100%"
+                [src]="l.url"
+                alt="image"
+                onerror="this.src='assets/img/profile-404.png'"
+              />
+              <a
+                *ngIf="!l.video"
+                [routerLink]=""
+                (click)="bntPrincipal(l.id)"
+                class="principal-bnt"
+                [ngClass]="{ checked: l.principal == true }"
+                ><i class="bx bxs-heart"></i
+              ></a>
+              <a
+                [routerLink]=""
+                (click)="bntEliminar(l.id)"
+                class="eliminar-btn"
+                ><i class="bx bx-x"></i
+              ></a>
               <a
                 [routerLink]=""
                 (click)="bntPin(l.id)"
@@ -221,8 +203,8 @@
                 ><i class="bx bxs-lock-alt"></i
               ></a>
             </div>
-          </div>
-        </ng-template>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>

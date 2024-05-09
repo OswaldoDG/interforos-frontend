@@ -19,7 +19,7 @@
           <div class="d-flex gy-2">
             <div class="col">
               <i
-                class="bi bi-arrow-return-left"
+                class="bi bi-arrow-return-left noDisplay"
                 style="font-size: 2.6em"
                 (click)="volver()"
               ></i>
@@ -122,7 +122,10 @@
         </div>
       </div>
 
-      <div class="contenedor" *ngIf="personasDesplegables.length > 0; else templateNohayModelos">
+      <div
+        class="contenedor"
+        *ngIf="personasDesplegables.length > 0; else templateNohayModelos"
+      >
         <br />
         <br />
         <div class="row">
