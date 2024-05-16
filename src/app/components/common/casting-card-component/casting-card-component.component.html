@@ -1,37 +1,67 @@
-<div class="card" style="height: 650px;">
-  <div class="card-header" style="height: 100px;">
+<div class="card" style="height: 650px">
+  <div class="card-header" style="height: 100px">
     <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
-      <div class="center align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
+      <div
+        class="center align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+      >
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
           <h6 class="centered-text">{{ Casting.nombre }}</h6>
         </div>
       </div>
-      <div class="row justify-content-center"> <!-- Agregamos esta clase para centrar las columnas -->
-        <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin"> <!-- Añadimos text-center -->
+      <div class="row justify-content-center">
+        <!-- Agregamos esta clase para centrar las columnas -->
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 text-center"
+          *ngIf="esStaff || esAdmin"
+        >
+          <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button"  class="btn btn-outline-secondary no-outline"(click)="confirmar()">
-              <i class="bi bi-trash-fill" ></i>
+            <button
+              type="button"
+              class="btn btn-outline-secondary no-outline"
+              (click)="confirmar()"
+            >
+              <i class="bi bi-trash-fill"></i>
             </button>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin || esRevisor"> <!-- Añadimos text-center -->
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 text-center"
+          *ngIf="esStaff || esAdmin || esRevisor"
+        >
+          <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button" class="btn btn-outline-secondary no-outline" (click)="colaborar()">
-              <i class="bi bi-eye-fill" ></i>
+            <button
+              type="button"
+              class="btn btn-outline-secondary no-outline"
+              (click)="colaborar()"
+            >
+              <i class="bi bi-eye-fill"></i>
             </button>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin"> <!-- Añadimos text-center -->
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 text-center"
+          *ngIf="esStaff || esAdmin"
+        >
+          <!-- Añadimos text-center -->
           <div class="m-1">
-            <button type="button" class="btn btn-outline-secondary no-outline" (click)="editarCasting()">
-              <i class="bi bi-pencil-fill" ></i>
+            <button
+              type="button"
+              class="btn btn-outline-secondary no-outline"
+              (click)="editarCasting()"
+            >
+              <i class="bi bi-pencil-fill"></i>
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="d-block card-body col-lg-12 col-md-12 col-sm-12" style="height: 100px;">
+  <div
+    class="d-block card-body col-lg-12 col-md-12 col-sm-12"
+    style="height: 100px"
+  >
     <div
       class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
     >
@@ -39,7 +69,7 @@
         <img [src]="urlImage" class="responsive" />
       </div>
     </div>
-    <div class="mt-2" style="height: 200px;">
+    <div class="mt-2" style="height: 200px">
       <div class="hideScroll">
         <table class="table">
           <tbody>
@@ -49,11 +79,11 @@
             </tr>
             <tr>
               <th scope="row">{{ "proyectos.tabla-Apertura" | translate }}</th>
-              <td>{{ Casting.fechaApertura | date:"dd/MM/yyyy" }}</td>
+              <td>{{ Casting.fechaApertura | date : "dd/MM/yyyy" }}</td>
             </tr>
             <tr>
               <th scope="row">{{ "proyectos.tabla-Cierre" | translate }}</th>
-              <td>{{ Casting.fechaCierre | date:"dd/MM/yyyy" }}</td>
+              <td>{{ Casting.fechaCierre | date : "dd/MM/yyyy" }}</td>
             </tr>
             <tr>
               <th scope="row">
@@ -114,62 +144,69 @@
   <div class="textResponsive text-center">
     <h6>
       <div
-      class="d-block card-body col-lg-12 col-md-12 col-sm-12"
-      *ngIf="esStaff || esAdmin"
-    >
-      <div
-        class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
-        *ngIf="!esRevisor"
+        class="d-block card-body col-lg-12 col-md-12 col-sm-12"
+        *ngIf="esStaff || esAdmin"
       >
-        <div class="m-1">
-          <select
-            class="btn btn-warning btn-sm"
-            [(ngModel)]="valoresdisponibles"
-            (change)="btnActivar()"
-          >
-            <option
-              class="deplegable"
-              value="{{ 'proyectos.casting-estado-EnEdicion' | translate }}"
-              selected
+        <div
+          class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
+          *ngIf="!esRevisor"
+        >
+          <div class="m-1">
+            <select
+              class="btn btn-warning btn-sm"
+              [(ngModel)]="valoresdisponibles"
+              (change)="btnActivar()"
             >
-              {{ "proyectos.casting-estado-EnEdicion" | translate }}
-            </option>
-            <option
-              class="deplegable"
-              value="{{ 'proyectos.casting-estado-Abierto' | translate }}"
+              <option
+                class="deplegable"
+                value="{{ 'proyectos.casting-estado-EnEdicion' | translate }}"
+                selected
+              >
+                {{ "proyectos.casting-estado-EnEdicion" | translate }}
+              </option>
+              <option
+                class="deplegable"
+                value="{{ 'proyectos.casting-estado-Abierto' | translate }}"
+              >
+                {{ "proyectos.casting-estado-Abierto" | translate }}
+              </option>
+              <option
+                class="deplegable"
+                value="{{ 'proyectos.casting-estado-Cerrado' | translate }}"
+              >
+                {{ "proyectos.casting-estado-Cerrado" | translate }}
+              </option>
+              <option
+                class="deplegable"
+                value="{{ 'proyectos.casting-estado-Cancelado' | translate }}"
+              >
+                {{ "proyectos.casting-estado-Cancelado" | translate }}
+              </option>
+            </select>
+          </div>
+          <div class="m-1">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="cambiarEstado()"
+              [disabled]="disable"
             >
-              {{ "proyectos.casting-estado-Abierto" | translate }}
-            </option>
-            <option
-              class="deplegable"
-              value="{{ 'proyectos.casting-estado-Cerrado' | translate }}"
-            >
-              {{ "proyectos.casting-estado-Cerrado" | translate }}
-            </option>
-            <option
-              class="deplegable"
-              value="{{ 'proyectos.casting-estado-Cancelado' | translate }}"
-            >
-              {{ "proyectos.casting-estado-Cancelado" | translate }}
-            </option>
-          </select>
-        </div>
-        <div class="m-1">
-          <button
-            type="button"
-            class="btn btn-primary btn-sm"
-            (click)="cambiarEstado()"
-            [disabled]="disable"
-          >
-            {{ "proyectos.tabla-cambiar" | translate }}
-          </button>
+              {{ "proyectos.tabla-cambiar" | translate }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </h6>
   </div>
   <app-modal-eliminar-casting
     (modalConfirm)="recibidoDelModal($event)"
   ></app-modal-eliminar-casting>
-
 </div>
+<ngx-spinner
+  name="load"
+  [fullScreen]="true"
+  type="ball-scale-multiple"
+  size="medium"
+>
+  <p class="loading">...</p>
+</ngx-spinner>

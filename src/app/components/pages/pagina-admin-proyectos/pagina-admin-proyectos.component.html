@@ -52,8 +52,8 @@
         *ngFor="let cast of castingsFiltrados"
       >
         <app-casting-card-component
-          (refrescarCast)="recibidoDelModal($event)"
           [Casting]="cast"
+          (refrescarCast)="recibidoDelModal($event)"
           (logoCargado) = "logoCargadoEvnt($event)"
         ></app-casting-card-component>
       </div>

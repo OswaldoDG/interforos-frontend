@@ -101,12 +101,12 @@ export class CastingCardComponentComponent implements OnInit {
 
   // Auxiliares UI
   recibidoDelModal(r: string) {
-    this.spinner.show('loadCastings');
+    this.spinner.show('load');
     if (r == 'Y') {
       this.clientApi.castingDelete(this.Casting.id).subscribe(
         (e) => {
           this.refrescarCast.emit('Y');
-          this.spinner.hide('loadCastings');
+          this.spinner.hide('load');
           this.toastService.success(
             this.T['proyectos.succes-mensaje-eliminacion'],
             {
@@ -115,7 +115,7 @@ export class CastingCardComponentComponent implements OnInit {
           );
         },
         (err) => {
-          this.spinner.hide('loadCastings');
+          this.spinner.hide('load');
           this.toastService.error(
             this.T['proyectos.error-mensaje-eliminacion'],
             { position: 'bottom-center' }
@@ -133,7 +133,7 @@ export class CastingCardComponentComponent implements OnInit {
   }
 
   refrescarCasting() {
-    this.spinner.show('loadCastings');
+    this.spinner.show('load');
     this.clientApi.id(this.Casting.id).subscribe((e) => {
       const mapeo: CastingListElement = {
         id: e.id,
@@ -150,12 +150,12 @@ export class CastingCardComponentComponent implements OnInit {
       };
 
       this.Casting = mapeo;
-      this.spinner.hide('loadCastings');
+      this.spinner.hide('load');
     });
   }
 
   cambiarEstado() {
-    this.spinner.show('loadCastings');
+    this.spinner.show('load');
     switch (this.valoresdisponibles) {
       case this.T['proyectos.casting-estado-EnEdicion']:
         this.valoresdisponibles = EstadoCasting.EnEdicion;
@@ -174,7 +174,7 @@ export class CastingCardComponentComponent implements OnInit {
       .estadocasting(this.Casting.id, this.valoresdisponibles)
       .subscribe((e) => {
         this.clientApi.id(this.Casting.id).subscribe((e) => {
-          this.spinner.hide('loadCastings');
+          this.spinner.hide('load');
           this.estadoCasting = this.T['proyectos.casting-estado-' + e.status];
           this.toastService.success(this.T['proyectos.succes-estadocast'],{position:'bottom-center'});
           this.valoresdisponibles = this.estadoCasting;
