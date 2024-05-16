@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -24,6 +26,7 @@ import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirma
 })
 export class CategoriasCastingComponent implements OnInit {
   @Input() Casting: Casting = null;
+  @Output() guardarCasting: EventEmitter<boolean> = new EventEmitter();
 
   // Forma para la captura de contactos
   formCategorias: FormGroup;
@@ -39,14 +42,12 @@ export class CategoriasCastingComponent implements OnInit {
   editar: boolean = false;
 
   //Modal
-  @ViewChild( ModalConfirmacionComponent) componenteModal;
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
 
   //variable para capturar el id del contacto seleccionado a eliminar.
-  protected idSeleccinadoEliminar:any;
+  protected idSeleccinadoEliminar: any;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.formCategorias = this.formBuilder.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -81,6 +82,7 @@ export class CategoriasCastingComponent implements OnInit {
     this.limpiar();
     this.gridApi.setRowData(this.categoriasCasting);
     this.listaModificada = true;
+    this.guardarCasting.emit(true);
   }
   //limpia el form
   public limpiar() {
@@ -98,6 +100,7 @@ export class CategoriasCastingComponent implements OnInit {
       this.gridApi.setRowData(this.categoriasCasting);
     }
     this.listaModificada = true;
+    this.guardarCasting.emit(false);
   }
 
   onGridReady(params: GridReadyEvent<CategoriaCasting>) {
@@ -105,8 +108,8 @@ export class CategoriasCastingComponent implements OnInit {
   }
 
   // Auxiliares UI
-  recibidoDelModal(r : string){
-    if(r == 'Y'){
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
       this.eliminaCategoria(this.idSeleccinadoEliminar);
     }
     this.idSeleccinadoEliminar = '';
@@ -118,8 +121,8 @@ export class CategoriasCastingComponent implements OnInit {
     autoHeaderHeight: false,
     sortable: false,
     filter: false,
-    suppressMovable:true,
-    resizable:false,
+    suppressMovable: true,
+    resizable: false,
   };
 
   public rowSelection: 'single' | 'multiple' = 'single';
@@ -133,7 +136,10 @@ export class CategoriasCastingComponent implements OnInit {
       cellRenderer: BtnCloseRenderer,
       cellRendererParams: {
         clicked: (field: any) => {
-          this.componenteModal.openModal(this.componenteModal.myTemplate, 'la categoría');
+          this.componenteModal.openModal(
+            this.componenteModal.myTemplate,
+            'la categoría'
+          );
           this.idSeleccinadoEliminar = field;
         },
       },
@@ -183,8 +189,8 @@ export class CategoriasCastingComponent implements OnInit {
     this.editar = false;
     this.gridApi.setRowData(this.categoriasCasting);
     this.limpiar();
+    this.guardarCasting.emit(true);
   }
-
 
   //AUXILIARES
   public modulesQuill = {

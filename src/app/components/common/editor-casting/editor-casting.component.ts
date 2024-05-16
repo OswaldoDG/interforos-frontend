@@ -91,7 +91,15 @@ export class EditorCastingComponent implements OnInit {
     });
     this.dateTimeAdapter.setLocale('es-ES');
     this.translate
-      .get(['casting.guardar', 'casting.crear', 'casting.error'])
+      .get([
+        'casting.guardar',
+        'casting.crear',
+        'casting.error',
+        'casting.categoria-guardar',
+        'casting.categoria-eliminar',
+        'casting.categoria-eliminar-error',
+        'casting.categoria-guardar-error',
+      ])
       .subscribe((ts) => {
         this.T = ts;
       });
@@ -267,9 +275,6 @@ export class EditorCastingComponent implements OnInit {
                     });
                 });
             });
-            this.toastService.success(this.T['casting.guardar'], {
-              position: 'bottom-center',
-            });
             this.spinner.hide('loadCasting');
           }
         });
@@ -412,5 +417,38 @@ export class EditorCastingComponent implements OnInit {
       this.esLogoNuevo = true;
       this.isImageLoading = true;
     };
+  }
+
+  recibidoGuardar(guardar: boolean) {
+    var b = this.componenteCategorias.categoriasCasting;
+    this.clientApi.categoriasPut(this.CastingId, b).subscribe(
+      (data2) => {
+        this.componenteCategorias.gridApi.setRowData(b);
+        this.componenteCategorias.categoriasCasting = [...b];
+        if (guardar) {
+          this.toastService.success(this.T['casting.categoria-guardar'], {
+            position: 'bottom-center',
+          });
+        } else {
+          this.toastService.success(this.T['casting.categoria-eliminar'], {
+            position: 'bottom-center',
+          });
+        }
+      },
+      (err) => {
+        if (guardar) {
+          this.toastService.success(this.T['casting.categoria-guardar-error'], {
+            position: 'bottom-center',
+          });
+        } else {
+          this.toastService.success(
+            this.T['casting.categoria-eliminar-error'],
+            {
+              position: 'bottom-center',
+            }
+          );
+        }
+      }
+    );
   }
 }

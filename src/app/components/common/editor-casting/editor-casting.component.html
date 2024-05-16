@@ -237,6 +237,7 @@
         <app-categorias-casting
           #categorias
           [Casting]="CastingActual"
+          (guardarCasting)="recibidoGuardar($event)"
         ></app-categorias-casting>
       </div>
       <div class="row mt-4">
