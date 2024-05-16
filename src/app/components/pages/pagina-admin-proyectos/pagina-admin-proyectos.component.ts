@@ -1,4 +1,4 @@
-import {Component,OnInit,} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -28,13 +28,13 @@ export class PaginaAdminProyectosComponent implements OnInit {
   staff: boolean = false;
   admin: boolean = false;
   form: FormGroup;
-  estadoLogo : boolean = true;
+  estadoLogo: boolean = true;
   constructor(
     private castingClient: CastingClient,
     private ruta: Router,
     private translate: TranslateService,
     private session: SessionQuery,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -60,7 +60,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
         this.form.get('buscar').valueChanges.subscribe((v) => {
           this.filtrarCasting(v);
         });
-        if(this.estadoLogo == false){
+        if (this.estadoLogo == false) {
           this.spinner.hide('loadCastings');
           this.estadoLogo = false;
         }
@@ -86,20 +86,23 @@ export class PaginaAdminProyectosComponent implements OnInit {
 
   recibidoDelModal(r: string) {
     if (r == 'Y') {
+      this.spinner.show('loadCastings');
       this.castingClient.castingGet(true).subscribe((data) => {
         this.casting = data;
         this.castingsFiltrados = data;
+        this.spinner.hide('loadCastings');
       });
     }
   }
 
-  logoCargadoEvnt(r : boolean){
+  logoCargadoEvnt(r: boolean) {
     this.estadoLogo = r;
   }
 
   filtrarCasting(buscar: string) {
     if (buscar) {
-      this.castingsFiltrados = this.casting.filter((c) =>c.nombre.toLocaleLowerCase().includes(buscar.toLocaleLowerCase())
+      this.castingsFiltrados = this.casting.filter((c) =>
+        c.nombre.toLocaleLowerCase().includes(buscar.toLocaleLowerCase())
       );
     } else {
       this.castingsFiltrados = this.casting;
