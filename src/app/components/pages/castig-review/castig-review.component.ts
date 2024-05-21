@@ -267,7 +267,6 @@ export class CastigReviewComponent implements OnInit {
     const a = document.createElement('a');
     document.body.appendChild(a);
     a.href = url;
-    console.log('ntes');
     if (a.download != null || a.download != '') {
       a.download = filename;
       this.btnExcelDescarga = false;

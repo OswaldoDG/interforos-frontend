@@ -188,10 +188,6 @@ export class PersonaCardComponent implements OnInit {
         this.personaCargada.emit(false);
       });
   }
-
-  hola() {
-    console.log('hizo click');
-  }
   getNombreModelo() {
     var nombre =
       this.persona.nombre +

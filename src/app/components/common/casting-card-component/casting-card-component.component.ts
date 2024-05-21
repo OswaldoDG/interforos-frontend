@@ -28,8 +28,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class CastingCardComponentComponent implements OnInit {
   @Input() Casting: any;
-  @Output() refrescarCast : EventEmitter<string> = new EventEmitter();
-  @Output() logoCargado : EventEmitter<boolean> = new EventEmitter();
+  @Output() refrescarCast: EventEmitter<string> = new EventEmitter();
+  @Output() logoCargado: EventEmitter<boolean> = new EventEmitter();
   urlImage: string;
   valoresdisponibles: any;
   T: any;
@@ -39,8 +39,8 @@ export class CastingCardComponentComponent implements OnInit {
   esRevisor: boolean;
   esAdmin: boolean;
   disable: boolean = true;
-  fechaApertura : Date;
-  fechaCierre : Date;
+  fechaApertura: Date;
+  fechaCierre: Date;
   //Modal
   @ViewChild(ModalEliminarCastingComponent) componenteModal;
   constructor(
@@ -64,23 +64,29 @@ export class CastingCardComponentComponent implements OnInit {
         'proyectos.succes-mensaje-eliminacion',
         'proyectos.error-mensaje-eliminacion',
         'proyectos.succes-estadocast',
-        'proyectos.err-estadocast'
+        'proyectos.err-estadocast',
       ])
       .subscribe((ts) => {
         this.T = ts;
         this.estadoCasting =
           this.T['proyectos.casting-estado-' + this.Casting.status];
-          this.valoresdisponibles = this.estadoCasting;
+        this.valoresdisponibles = this.estadoCasting;
       });
 
     this.validarRol();
   }
 
   ngAfterViewInit(): void {
-    this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
-      this.urlImage = data;
-      this.logoCargado.emit(false);
-    });
+    if (this.Casting == null) {
+      this.logoCargado.emit(true);
+    } else {
+      this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
+        this.urlImage = data;
+        if (data) {
+          this.logoCargado.emit(true);
+        }
+      });
+    }
   }
 
   validarRol() {
@@ -172,20 +178,26 @@ export class CastingCardComponentComponent implements OnInit {
     }
     this.clientApi
       .estadocasting(this.Casting.id, this.valoresdisponibles)
-      .subscribe((e) => {
-        this.clientApi.id(this.Casting.id).subscribe((e) => {
-          this.spinner.hide('load');
-          this.estadoCasting = this.T['proyectos.casting-estado-' + e.status];
-          this.toastService.success(this.T['proyectos.succes-estadocast'],{position:'bottom-center'});
-          this.valoresdisponibles = this.estadoCasting;
-          this.disable = true;
-        });
-      } ,(err) => {
-        this.toastService.error(
-          this.T['proyectos.err-estadocast'],
-          { position: 'bottom-center' }
-        );
-      });
+      .subscribe(
+        (e) => {
+          this.clientApi.id(this.Casting.id).subscribe((e) => {
+            this.spinner.hide('load');
+            this.estadoCasting = this.T['proyectos.casting-estado-' + e.status];
+            this.toastService.success(this.T['proyectos.succes-estadocast'], {
+              position: 'bottom-center',
+            });
+            this.valoresdisponibles = this.estadoCasting;
+            this.disable = true;
+            this.refrescarCasting();
+            this.refrescarCast.emit('Y');
+          });
+        },
+        (err) => {
+          this.toastService.error(this.T['proyectos.err-estadocast'], {
+            position: 'bottom-center',
+          });
+        }
+      );
   }
 
   editarCasting() {
