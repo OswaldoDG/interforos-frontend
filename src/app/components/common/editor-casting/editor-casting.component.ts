@@ -437,11 +437,11 @@ export class EditorCastingComponent implements OnInit {
       },
       (err) => {
         if (guardar) {
-          this.toastService.success(this.T['casting.categoria-guardar-error'], {
+          this.toastService.error(this.T['casting.categoria-guardar-error'], {
             position: 'bottom-center',
           });
         } else {
-          this.toastService.success(
+          this.toastService.error(
             this.T['casting.categoria-eliminar-error'],
             {
               position: 'bottom-center',

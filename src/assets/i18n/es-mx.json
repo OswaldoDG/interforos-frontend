@@ -131,12 +131,13 @@
     "casting-estado-Abierto":"Abierto",
     "casting-estado-Cerrado":"Cerrado",
     "casting-estado-Cancelado":"Cancelado",
-    "eliminar-casting-mensaje": "Introduzca el nombre del Casting para confirmar:",
+    "eliminar-casting-mensaje": "Para confirmar introduzca:",
     "eliminar-introduzca-nombre": "Nombre del Casting aquí",
     "eliminar-casting-confirmar": "Confirmar",
     "eliminar-casting-cancelar": "Cancelar",
     "succes-mensaje-eliminacion" : "Se eliminó correctamente el casting.",
     "error-mensaje-eliminacion" : "Ocurrió un error al eliminar el casting, intente más tarde",
+    "error-confirmacion" : "Error al Confirmar.",
     "VerRedesSociales" : "Redes Sociales",
     "VerTelefono" : "Teléfono",
     "VerEmail" : "E-mail",
@@ -147,7 +148,8 @@
     "VerDireccion":"Dirección",
     "externospuedenver": "Los externos pueden ver:",
     "succes-estadocast":"Estado del Casting Actualizado.",
-    "err-estadocast":"Ocurrió algo mal al actualizar el estado, intente más tarde."
+    "err-estadocast":"Ocurrió algo mal al actualizar el estado, intente más tarde.",
+    "inactivos":"Ver Inactivos"
   },
   "navbar": {
     "salir": "Salir",
