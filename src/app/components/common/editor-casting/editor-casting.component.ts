@@ -74,6 +74,7 @@ export class EditorCastingComponent implements OnInit {
     this.formProyecto = this.formBuilder.group({
       nombre: ['', Validators.required],
       nombreCliente: ['', Validators.required],
+      casaProductora: ['', Validators.required],
       fechaApertura: [null],
       fechaCierre: [null],
       descripcion: [null],
@@ -146,6 +147,7 @@ export class EditorCastingComponent implements OnInit {
     const datos: Casting = {
       nombre: this.formProyecto.value.nombre,
       nombreCliente: this.formProyecto.value.nombreCliente,
+      casaProductora: this.formProyecto.value.casaProductora,
       fechaApertura: this.formProyecto.value.fechaApertura,
       fechaCierre: this.formProyecto.value.fechaCierre,
       descripcion: this.formProyecto.value.descripcion,
@@ -215,6 +217,8 @@ export class EditorCastingComponent implements OnInit {
     (this.CastingActual.nombre = this.formProyecto.value.nombre),
       (this.CastingActual.nombreCliente =
         this.formProyecto.value.nombreCliente),
+        (this.CastingActual.casaProductora =
+          this.formProyecto.value.casaProductora),
       (this.CastingActual.fechaApertura =
         this.formProyecto.value.fechaApertura),
       (this.CastingActual.fechaCierre = this.formProyecto.value.fechaCierre),
@@ -290,6 +294,9 @@ export class EditorCastingComponent implements OnInit {
         this.formProyecto
           .get('nombreCliente')
           .setValue(this.CastingActual.nombreCliente);
+        this.formProyecto
+          .get('casaProductora')
+          .setValue(this.CastingActual.casaProductora);
         this.formProyecto
           .get('fechaApertura')
           .setValue(this.CastingActual.fechaApertura);
@@ -420,7 +427,6 @@ export class EditorCastingComponent implements OnInit {
   }
 
   recibidoGuardar(guardar: boolean) {
-    if (this.CastingId) {
       var b = this.componenteCategorias.categoriasCasting;
       this.clientApi.categoriasPut(this.CastingId, b).subscribe(
         (data2) => {
@@ -452,5 +458,4 @@ export class EditorCastingComponent implements OnInit {
         }
       );
     }
-  }
 }
