@@ -5626,6 +5626,7 @@ export interface BusquedaPersonas {
     idiomasIds?: string[] | undefined;
     habilidadesIds?: string[] | undefined;
     ids?: string[] | undefined;
+    agenciasIds?: string[] | undefined;
 }
 
 export interface BusquedaPersonasId {
@@ -5661,6 +5662,7 @@ export interface Casting {
     nombre?: string | undefined;
     status?: EstadoCasting;
     nombreCliente?: string | undefined;
+    casaProductora?: string | undefined;
     fechaCreacionTicks?: number | undefined;
     usuarioId?: string | undefined;
     fechaApertura?: Date | undefined;
@@ -5684,6 +5686,7 @@ export interface CastingListElement {
     id?: string | undefined;
     nombre?: string | undefined;
     nombreCliente?: string | undefined;
+    casaProductora?: string | undefined;
     fechaApertura?: Date | undefined;
     fechaCierre?: Date | undefined;
     status?: EstadoCasting;

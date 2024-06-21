@@ -6,7 +6,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -19,7 +18,6 @@ import {
   ElementoCatalogo,
   Persona,
   PersonaClient,
-  PersonaResponsePaginado,
   SelectorCastingCategoria,
   SelectorCategoria,
   TipoCuerpo,
@@ -28,7 +26,6 @@ import { BusquedaPersonasService } from 'src/app/services/busqueda-personas.serv
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { SessionQuery } from 'src/app/state/session.query';
-import { SessionService } from 'src/app/state/session.service';
 
 @Component({
   selector: 'app-buscar-persona',
@@ -72,6 +69,9 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
 
   castings: SelectorCastingCategoria[] = [];
   categorias: SelectorCategoria[] = [];
+
+  dataAgencias: ElementoCatalogo[] = [];
+  selectedAgencias: ElementoCatalogo[] = [];
 
   formBuscarCasting: FormGroup = this.fb.group({
     casting: [null],
@@ -125,6 +125,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     colorCabello: [null],
     idioma: [null],
     habilidades: [null],
+    agencias: [null],
   });
 
   buscar() {
@@ -153,6 +154,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         colorCabelloIds: this.GetIdsDeFormField('colorCabello'),
         idiomasIds: this.GetIdsDeFormField('idioma'),
         habilidadesIds: this.GetIdsDeFormField('habilidades'),
+        agenciasIds: this.GetIdsDeFormField('agencias'),
       },
       ordernarASC: this.ordenASC,
       ordenarPor: this.orden,
@@ -162,7 +164,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
   ordenChange(event) {
     this.orden = event;
-    this.buscar()
+    this.buscar();
   }
   private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
     let personas: string[] = [];
@@ -295,6 +297,9 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
                 this.dataIdiomas = catalogos.catalogos.find(
                   (x) => x.tipoPropiedad == 'idiomas'
                 ).elementos;
+                this.dataAgencias = catalogos.catalogos.find(
+                  (x) => x.tipoPropiedad == 'agencias'
+                ).elementos;
 
                 const TipoCouerpo = CatalogoTipoCuerpo();
                 TipoCouerpo[0].texto = this.T['buscar.tipocuerpo-delgado'];
@@ -332,7 +337,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   }
   onChangeOrden() {
     this.ordenASC = !this.ordenASC;
-    this.buscar()
+    this.buscar();
   }
   cargarCategorias() {
     this.categorias = this.servicio.CategoriasCastingActual();

@@ -20,6 +20,7 @@
     "tipocabello": "Tipo cabello",
     "colorcabello": "Color cabello",
     "habilidades": "Habilidades",
+    "agencias":"Agencias",
     "idiomas": "Idiomas",
     "nombre": "Nombre",
     "tipocuerpo": "Tipo cuerpo",
@@ -149,7 +150,9 @@
     "externospuedenver": "Los externos pueden ver:",
     "succes-estadocast":"Estado del Casting Actualizado.",
     "err-estadocast":"Ocurrió algo mal al actualizar el estado, intente más tarde.",
-    "inactivos":"Ver Inactivos"
+    "inactivos":"Ver Inactivos",
+    "form-casaproductora":"Casa productora",
+    "tabla-CasaProductora":"Casa Productora"
   },
   "navbar": {
     "salir": "Salir",

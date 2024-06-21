@@ -21,6 +21,12 @@
             class="form-control"
             formControlName="nombreCliente"
           />
+          <label>{{ "proyectos.form-casaproductora" | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="casaProductora"
+          />
           <label>{{ "proyectos.form-apertura" | translate }}</label>
           <input class="form-control"  formControlName="fechaApertura" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"/>
           <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
