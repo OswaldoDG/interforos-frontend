@@ -5626,6 +5626,7 @@ export interface BusquedaPersonas {
     idiomasIds?: string[] | undefined;
     habilidadesIds?: string[] | undefined;
     ids?: string[] | undefined;
+    agenciasIds?: string[] | undefined;
 }
 
 export interface BusquedaPersonasId {
