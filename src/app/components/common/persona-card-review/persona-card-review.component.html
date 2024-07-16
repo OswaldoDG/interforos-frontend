@@ -3,30 +3,33 @@
     <div class="col-lg-10 col-md-10 col-sm-10">
       <div class="card" style="height: 250px">
         <ngx-spinner
-        name="loadMedios"
-        [fullScreen]="false"
-        type="ball-scale-multiple"
-        size="medium"
-        bdColor="rgba(0,0,0,0.1)"
-      >
-        <p class="loading">...</p>
-      </ngx-spinner>
+          name="loadMedios"
+          [fullScreen]="false"
+          type="ball-scale-multiple"
+          size="medium"
+          bdColor="rgba(0,0,0,0.1)"
+        >
+          <p class="loading">...</p>
+        </ngx-spinner>
         <div class="row">
           <div class="col-6">
-            <div style="max-height: 248px; max-width: 200px" >
+            <div style="max-height: 248px; max-width: 200px">
               <ng-image-slider
                 [images]="imageObject"
                 [manageImageRatio]="true"
               ></ng-image-slider>
             </div>
-            </div>
-
-            <div class="col-6" *ngIf="tieneVideo">
-              <div style="height: 230px; width: 180px" *ngIf="tieneVideo">
+          </div>
+            <div class="col-6 hijo" *ngIf="tieneVideo">
+              <div
+                class="hijo"
+                style="height: 230px; width: 180px"
+                *ngIf="tieneVideo"
+              >
                 <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
               </div>
             </div>
-            <div class="col-6" *ngIf="!tieneVideo">
+            <div class="col-6 hijo" *ngIf="!tieneVideo">
               <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
                 <ng-image-slider
                   [images]="notFoundURL"

@@ -98,9 +98,9 @@ export class CategoriasCastingComponent implements OnInit {
     if (index > -1) {
       this.categoriasCasting.splice(index, 1);
       this.gridApi.setRowData(this.categoriasCasting);
+      this.listaModificada = true;
+      this.guardarCasting.emit(false);
     }
-    this.listaModificada = true;
-    this.guardarCasting.emit(false);
   }
 
   onGridReady(params: GridReadyEvent<CategoriaCasting>) {

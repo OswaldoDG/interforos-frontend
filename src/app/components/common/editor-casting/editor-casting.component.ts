@@ -217,8 +217,8 @@ export class EditorCastingComponent implements OnInit {
     (this.CastingActual.nombre = this.formProyecto.value.nombre),
       (this.CastingActual.nombreCliente =
         this.formProyecto.value.nombreCliente),
-        (this.CastingActual.casaProductora =
-          this.formProyecto.value.casaProductora),
+      (this.CastingActual.casaProductora =
+        this.formProyecto.value.casaProductora),
       (this.CastingActual.fechaApertura =
         this.formProyecto.value.fechaApertura),
       (this.CastingActual.fechaCierre = this.formProyecto.value.fechaCierre),
@@ -427,6 +427,7 @@ export class EditorCastingComponent implements OnInit {
   }
 
   recibidoGuardar(guardar: boolean) {
+    if (this.esUpdate) {
       var b = this.componenteCategorias.categoriasCasting;
       this.clientApi.categoriasPut(this.CastingId, b).subscribe(
         (data2) => {
@@ -457,5 +458,16 @@ export class EditorCastingComponent implements OnInit {
           }
         }
       );
+    } else {
+      if (guardar) {
+        this.toastService.success(this.T['casting.categoria-guardar'], {
+          position: 'bottom-center',
+        });
+      } else {
+        this.toastService.success(this.T['casting.categoria-eliminar'], {
+          position: 'bottom-center',
+        });
+      }
     }
+  }
 }
