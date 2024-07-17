@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { SessionQuery } from 'src/app/state/session.query';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editor-casting',
@@ -100,6 +101,8 @@ export class EditorCastingComponent implements OnInit {
         'casting.categoria-eliminar',
         'casting.categoria-eliminar-error',
         'casting.categoria-guardar-error',
+        'proyectos.form-compartir-notificacion',
+        'proyectos.form-compartir-notificacion-error',
       ])
       .subscribe((ts) => {
         this.T = ts;
@@ -469,5 +472,26 @@ export class EditorCastingComponent implements OnInit {
         });
       }
     }
+  }
+  getLink() {
+    var rutaFinal = `${window.location.origin}/casting/${this.CastingId}`;
+    navigator.clipboard
+      .writeText(rutaFinal)
+      .then(() => {
+        this.toastService.success(
+          this.T['proyectos.form-compartir-notificacion'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      })
+      .catch((err) => {
+        this.toastService.success(
+          this.T['proyectos.form-compartir-notificacion-error'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      });
   }
 }

@@ -132,7 +132,6 @@ const routes: Routes = [
   {
     path: 'casting/:id',
     component: CastigReviewComponent,
-    canActivate: [PagesRevisorGuard],
   },
   {
     path: 'staff/perfil',

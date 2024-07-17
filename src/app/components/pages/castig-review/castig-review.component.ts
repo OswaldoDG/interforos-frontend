@@ -7,9 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   CastingClient,
-  ModeloCastingReview,
   PermisosCasting,
-  Persona,
   PersonaClient,
   SelectorCastingCategoria,
   SelectorCategoria,
@@ -44,6 +42,7 @@ export class CastigReviewComponent implements OnInit {
   puedeAgregarModelo: boolean = true;
   categoriaSeleccionada: boolean = false;
   CategoriaActual: string;
+  EsAnonimo: boolean = false;
   T: any;
   formAgregarModelo: FormGroup;
   permisosCast: PermisosCasting = {
@@ -58,6 +57,7 @@ export class CastigReviewComponent implements OnInit {
   };
   ModeloIdEliminar: string;
   btnExcelDescarga: boolean = false;
+  roles = [];
   constructor(
     private rutaActiva: ActivatedRoute,
     private castingClient: CastingClient,
@@ -69,8 +69,8 @@ export class CastigReviewComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private excelDescargaServicio: DownloadExcelService,
-    ) {
+    private excelDescargaServicio: DownloadExcelService
+  ) {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
@@ -118,12 +118,17 @@ export class CastigReviewComponent implements OnInit {
   ngOnInit(): void {
     this.servicio.PutModoTrabajo(true);
     this.servicio.obtieneCatalogoCliente().subscribe((done) => {
+      this.roles = this.session.GetRoles;
       if (
-        this.session.GetRoles.indexOf(
-          TipoRolCliente.RevisorExterno.toLocaleLowerCase()
-        ) >= 0
+        this.roles.indexOf(TipoRolCliente.RevisorExterno.toLocaleLowerCase()) >=
+        0
       ) {
         this.puedeAgregarModelo = false;
+      }
+      if (this.roles.length == 0) {
+        this.puedeAgregarModelo = false;
+        this.EsAnonimo = true;
+        this.permisosCast.verComentarios = false;
       }
       this.translate
         .get([
@@ -149,7 +154,7 @@ export class CastigReviewComponent implements OnInit {
     });
   }
   onChangeCategoria(id: string) {
-    this.CategoriaActual=id;
+    this.CategoriaActual = id;
     this.diaActual = 0;
     this.spinner.show('loadCategorias');
     this.servicio.ActualizarCategoria(id);
