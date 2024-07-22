@@ -75,7 +75,7 @@
     "error-409":"Modelo ya se encuentra en la categoria",
     "modelo":"Se agrego el modelo correctamente",
     "edad":" años",
-    "excel-status-suc":"Archivo excel descargado.",
+    "excel-status-suc":"Archivo PDF descargado.",
     "excel-status-err":"No se pudo descargar, intente más tarde.",
     "perfil-detalles":"Ver Detalles..."
   },
