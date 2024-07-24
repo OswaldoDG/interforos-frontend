@@ -88,7 +88,7 @@ export class PersonaCardComponent implements OnInit {
     this.servicio.CategoriaSub().subscribe((e) => {
       this.validarExiste();
     });
-    this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
+    this.translate.get(['buscar.categorias-error','comun.copiar','comun.copiar-error']).subscribe((ts) => {
       this.T = ts;
     });
     this.getNombreModelo();
@@ -225,5 +225,20 @@ export class PersonaCardComponent implements OnInit {
 
   resaltarImagen(resaltar: boolean) {
     this.isResaltada = resaltar;
+  }
+
+  copiarPortapapeles(dato: string) {
+    navigator.clipboard
+      .writeText(dato)
+      .then(() => {
+        this.toastService.success(this.T['comun.copiar'], {
+          position: 'bottom-center',
+        });
+      })
+      .catch((err) => {
+        this.toastService.error(this.T['comun.copiar-error'], {
+          position: 'bottom-center',
+        });
+      });
   }
 }

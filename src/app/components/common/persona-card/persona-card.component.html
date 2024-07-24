@@ -199,19 +199,19 @@
                       <div class="user-contact-info">
                         <ul class="user-contact">
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(ppersona.contacto?.telefono)"
                               ><i class="bx bx-phone-call"></i>
                               {{ persona.contacto?.telefono }}</a
                             >
                           </li>
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(persona.contacto?.email)"
                               ><i class="bx bx-envelope"></i>
                               {{ persona.contacto?.email }}</a
                             >
                           </li>
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles( persona.contacto?.direccion)"
                               ><i class="bx bx-map"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.direccion
@@ -222,7 +222,7 @@
 
                         <ul class="social-profiles">
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(persona.contacto?.faceBook)"
                               ><i class="bx bxl-facebook"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.faceBook
@@ -231,7 +231,7 @@
                           </li>
 
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(persona.contacto?.twitter)"
                               ><i class="bx bxl-twitter"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.twitter
@@ -240,7 +240,7 @@
                           </li>
 
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(ersona.contacto?.instagram)"
                               ><i class="bx bxl-instagram"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.instagram
@@ -249,7 +249,7 @@
                           </li>
 
                           <li>
-                            <a href="#"
+                            <a (click)="copiarPortapapeles(persona.contacto?.linkedIn)"
                               ><i class="bx bxl-linkedin"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.linkedIn

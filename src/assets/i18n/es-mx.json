@@ -7,7 +7,9 @@
     "select-clear": "Borrar",
     "select-search": "Buscar",
     "select-nodata": "No se encuetra el tipo",
-    "logOut":"Cerrar Sesion"
+    "logOut":"Cerrar Sesion",
+    "copiar":"Se ha copiado al Portapapeles",
+    "copiar-error":"No se ha podido copiar"
   },
   "buscar": {
     "btn-buscar": "Buscar",

@@ -20,23 +20,23 @@
               ></ng-image-slider>
             </div>
           </div>
-            <div class="col-6 hijo" *ngIf="tieneVideo">
-              <div
-                class="hijo"
-                style="height: 230px; width: 180px"
-                *ngIf="tieneVideo"
-              >
-                <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
-              </div>
+          <div class="col-6 hijo" *ngIf="tieneVideo">
+            <div
+              class="hijo"
+              style="height: 230px; width: 180px"
+              *ngIf="tieneVideo"
+            >
+              <mux-player attr.playback-id="{{ videoCasting }}"></mux-player>
             </div>
-            <div class="col-6 hijo" *ngIf="!tieneVideo">
-              <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
-                <ng-image-slider
-                  [images]="notFoundURL"
-                  [manageImageRatio]="true"
-                ></ng-image-slider>
-              </div>
+          </div>
+          <div class="col-6 hijo" *ngIf="!tieneVideo">
+            <div style="height: 248px; width: 200px" *ngIf="!tieneVideo">
+              <ng-image-slider
+                [images]="notFoundURL"
+                [manageImageRatio]="true"
+              ></ng-image-slider>
             </div>
+          </div>
         </div>
       </div>
       <hr />
@@ -137,7 +137,7 @@
           <div class="user-contact-info">
             <ul *ngIf="verTelefono" class="user-contact">
               <li *ngIf="persona.contacto?.telefono" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.telefono)"
                   ><i class="bx bx-phone-call"></i>
                   {{ persona.contacto?.telefono }}</a
                 >
@@ -145,7 +145,7 @@
             </ul>
             <ul *ngIf="verEmail" class="user-contact">
               <li *ngIf="persona.contacto?.email" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.email)"
                   ><i class="bx bx-envelope"></i>
                   {{ persona.contacto?.email }}</a
                 >
@@ -153,7 +153,7 @@
             </ul>
             <ul *ngIf="verDireccion" class="user-contact">
               <li *ngIf="persona.contacto?.direccion" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.direccion)"
                   ><i class="bx bx-map"></i>
                   <span style="text-align: justify">{{
                     persona.contacto?.direccion
@@ -163,7 +163,7 @@
             </ul>
             <ul *ngIf="verRedesSociales" class="user-contact social-profiles">
               <li *ngIf="persona.contacto?.faceBook" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.faceBook)"
                   ><i class="bx bxl-facebook"></i>
                   <span style="text-align: justify">{{
                     persona.contacto?.faceBook
@@ -171,7 +171,7 @@
                 </a>
               </li>
               <li *ngIf="persona.contacto?.twitter" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.twitter)"
                   ><i class="bx bxl-twitter"></i>
                   <span style="text-align: justify">{{
                     persona.contacto?.twitter
@@ -179,7 +179,7 @@
                 </a>
               </li>
               <li *ngIf="persona.contacto?.instagram" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.instagram)"
                   ><i class="bx bxl-instagram"></i>
                   <span style="text-align: justify">{{
                     persona.contacto?.instagram
@@ -187,7 +187,7 @@
                 </a>
               </li>
               <li *ngIf="persona.contacto?.linkedIn" style="text-align: left">
-                <a href="#"
+                <a (click)="copiarPortapapeles(persona.contacto?.linkedIn)"
                   ><i class="bx bxl-linkedin"></i>
                   <span style="text-align: justify">{{
                     persona.contacto?.linkedIn

@@ -7,10 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import {
-  CastingClient,
-  Persona,
-} from 'src/app/services/api/api-promodel';
+import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
@@ -116,7 +113,6 @@ export class PersonaCardReviewComponent implements OnInit {
           if (medios.videoPortadaId) {
             this.videoCasting = medios.videoPortadaId;
             this.tieneVideo = true;
-
           }
           if (medios.imagenPortadaId) {
             this.fotoCasting = `https://storage.googleapis.com/interforos/modelos/${this.persona.id}/foto/${medios.imagenPortadaId}`;
@@ -132,7 +128,6 @@ export class PersonaCardReviewComponent implements OnInit {
             this.fotoCasting = this.notFoundURL;
             this.spinner.hide('loadMedios');
           }
-
         },
         (err) => {
           this.fotoCasting = this.notFoundURL;
@@ -140,9 +135,11 @@ export class PersonaCardReviewComponent implements OnInit {
         }
       );
 
-    this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
-      this.T = ts;
-    });
+    this.translate
+      .get(['buscar.categorias-error', 'comun.copiar', 'comun.copiar-error'])
+      .subscribe((ts) => {
+        this.T = ts;
+      });
     const nombreModelo =
       this.persona.nombre +
       ' ' +
@@ -179,6 +176,21 @@ export class PersonaCardReviewComponent implements OnInit {
           }
         });
         this.personaCargada.emit(false);
+      });
+  }
+
+  copiarPortapapeles(dato: string) {
+    navigator.clipboard
+      .writeText(dato)
+      .then(() => {
+        this.toastService.success(this.T['comun.copiar'], {
+          position: 'bottom-center',
+        });
+      })
+      .catch((err) => {
+        this.toastService.error(this.T['comun.copiar-error'], {
+          position: 'bottom-center',
+        });
       });
   }
 }
