@@ -267,7 +267,7 @@ export class CastigReviewComponent implements OnInit {
       .getUTCDate()
       .toString()
       .padStart(2, '0')}`;
-    const filename: string = `${formattedDate}__${this.casting.nombre}.xlsx`;
+    const filename: string = `${formattedDate}__${this.casting.nombre}.pdf`;
     const url = window.URL.createObjectURL(blobData);
     const a = document.createElement('a');
     document.body.appendChild(a);
