@@ -78,7 +78,9 @@
               <td>{{ Casting.nombreCliente }}</td>
             </tr>
             <tr>
-              <th scope="row">{{ "proyectos.tabla-CasaProductora" | translate }}</th>
+              <th scope="row">
+                {{ "proyectos.tabla-CasaProductora" | translate }}
+              </th>
               <td>{{ Casting.casaProductora }}</td>
             </tr>
             <tr>
@@ -155,7 +157,7 @@
           class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
           *ngIf="!esRevisor"
         >
-          <div class="m-1">
+          <div class="m-2">
             <select
               class="btn btn-warning btn-sm"
               [(ngModel)]="valoresdisponibles"
@@ -188,7 +190,7 @@
               </option>
             </select>
           </div>
-          <div class="m-1">
+          <div class="m-2">
             <button
               type="button"
               class="btn btn-primary btn-sm"
@@ -196,6 +198,11 @@
               [disabled]="disable"
             >
               {{ "proyectos.tabla-cambiar" | translate }}
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-info btn-sm" (click)="getLink()">
+              <label>{{ "proyectos.form-compartir" | translate }}</label>
             </button>
           </div>
         </div>

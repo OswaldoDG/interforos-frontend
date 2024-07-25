@@ -1,6 +1,6 @@
 <div class="pt-5">
   <br />
-    <app-navbar-promodel></app-navbar-promodel>
+  <app-navbar-promodel></app-navbar-promodel>
   <div
     class="container text-center"
     *ngIf="casting != null && hayCategorias; else templateNohayCategorias"
@@ -17,7 +17,7 @@
       <div class="container" style="margin-top: 1%">
         <div class="container" style="margin-top: 1%">
           <div class="d-flex gy-1">
-            <div class="col">
+            <div class="col" *ngIf="!EsAnonimo">
               <i
                 class="bi bi-arrow-return-left noDisplay"
                 style="font-size: 2.6em"
@@ -27,7 +27,7 @@
             <div class="col" style="text-align: left">
               <h1>{{ casting.nombre }}</h1>
             </div>
-            <div class="col" style="text-align: left">
+            <div class="col" style="text-align: left" *ngIf="!EsAnonimo">
               <button
                 type="button"
                 (click)="excelDescarga(castingId)"
@@ -40,7 +40,7 @@
           </div>
           <div class="contenedor2">
             <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
-              <div class="col">
+              <div class="col" *ngIf="!EsAnonimo">
                 <i
                   class="bi bi-arrow-return-left"
                   style="font-size: 2.6em"
@@ -71,7 +71,9 @@
               <div
                 [formGroup]="formAgregarModelo"
                 class="col col-lg-4 container text-center"
-                *ngIf="puedeAgregarModelo && categoriaSeleccionada"
+                *ngIf="
+                  puedeAgregarModelo && categoriaSeleccionada && !EsAnonimo
+                "
               >
                 <div class="row justify-content-md-center">
                   <div class="col-lg-4 col-md-12 col-sm-12">
@@ -100,10 +102,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-1 p-1">
+              <div class="col-1 p-1" *ngIf="!EsAnonimo">
                 <label>{{ "buscar.fechas" | translate }}</label>
               </div>
-              <div class="col-2">
+              <div class="col-2" *ngIf="!EsAnonimo">
                 <select
                   class="form-select"
                   id="categoriaSelect"
@@ -153,7 +155,7 @@
                     {{ modelo.modelo.consecutivo }}
                   </h5>
                 </div>
-                <div class="p-1">
+                <div class="p-1" *ngIf="!EsAnonimo">
                   <app-voto-modelo-component [personaId]="modelo.modelo.id">
                   </app-voto-modelo-component>
                 </div>
@@ -180,7 +182,7 @@
                 [verTelefono]="permisosCast.verTelefono"
                 [verEmail]="permisosCast.verEmail"
                 [verDireccion]="permisosCast.verDireccion"
-                [verComentarios]="permisosCast.verComentarios"
+                [verComentarios]="permisosCast.verComentarios && !EsAnonimo"
                 [verRedesSociales]="permisosCast.verRedesSociales"
                 (personaCargada)="personaCargadaEvnt($event)"
               >

@@ -27,7 +27,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./casting-card-component.component.scss'],
 })
 export class CastingCardComponentComponent implements OnInit {
-  @Input() Casting: any;
+  @Input() Casting: CastingListElement ;
   @Output() refrescarCast: EventEmitter<string> = new EventEmitter();
   @Output() logoCargado: EventEmitter<boolean> = new EventEmitter();
   urlImage: string;
@@ -65,6 +65,8 @@ export class CastingCardComponentComponent implements OnInit {
         'proyectos.error-mensaje-eliminacion',
         'proyectos.succes-estadocast',
         'proyectos.err-estadocast',
+        'proyectos.form-compartir-notificacion',
+        'proyectos.form-compartir-notificacion-error',
       ])
       .subscribe((ts) => {
         this.T = ts;
@@ -209,5 +211,27 @@ export class CastingCardComponentComponent implements OnInit {
 
   colaborar() {
     this.ruta.navigateByUrl('casting/' + this.Casting.id);
+  }
+
+  getLink() {
+    var rutaFinal = `${window.location.origin}/casting/${this.Casting.id}`;
+    navigator.clipboard
+      .writeText(rutaFinal)
+      .then(() => {
+        this.toastService.success(
+          this.T['proyectos.form-compartir-notificacion'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      })
+      .catch((err) => {
+        this.toastService.success(
+          this.T['proyectos.form-compartir-notificacion-error'],
+          {
+            position: 'bottom-center',
+          }
+        );
+      });
   }
 }
