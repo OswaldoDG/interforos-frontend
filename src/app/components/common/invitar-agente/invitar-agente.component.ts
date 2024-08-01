@@ -82,7 +82,10 @@ export class InvitarAgenteComponent implements OnInit {
           this.formAgencias.get('correos').setValue('');
           this.toastService.success(this.T['invitar-agente.invitar-correos-enviados'], { position: 'bottom-center'});
 
-        },(err) => {this.toastService.error(this.T['invitar-agente.invitar-correos-error'], { position: 'bottom-center'}); });
+        },(err) => {
+          this.spinner.hide('spinner-invitaciones');
+          this.toastService.error(this.T['invitar-agente.invitar-correos-error'], { position: 'bottom-center'}); 
+        });
       });
     }else{
       this.spinner.hide('spinner-invitaciones');
