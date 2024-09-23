@@ -33,7 +33,10 @@ export class ConfirmacionComponent implements OnInit {
   showPass: boolean = false;
   consentimiento: Consentimiento;
   rutaConfirmacion: string;
-  logOutFlag : boolean = false;
+  logOutFlag: boolean = false;
+  showError: string = '';
+
+
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -93,7 +96,7 @@ export class ConfirmacionComponent implements OnInit {
     private sesion: SessionQuery,
     private sesionService: SessionService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -116,14 +119,14 @@ export class ConfirmacionComponent implements OnInit {
     this.route.params.pipe(first()).subscribe((params) => {
       this.id = params['id'];
       this.rutaConfirmacion = '/confirmacion/' + this.id;
-      if(this.sesion.UserId != undefined){
+      if (this.sesion.UserId != undefined) {
         this.logOut(this.rutaConfirmacion);
       }
       this.validarConfirmacion(this.id);
     });
   }
 
-  logOut(id: string){
+  logOut(id: string) {
     this.sesionService.logOut();
     this.router.navigateByUrl(this.rutaConfirmacion).then(() => {
       window.location.reload();
@@ -191,6 +194,7 @@ export class ConfirmacionComponent implements OnInit {
           this.confirmando = false;
           this.confirmacionValida = false;
           this.spinner.hide('spregistro');
+          this.showError = 'show';
         }
       );
   }
@@ -200,6 +204,7 @@ export class ConfirmacionComponent implements OnInit {
     {
       title: 'confirmacion.titulo',
       backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+      error: 'confirmacion.error'
     },
   ];
 }

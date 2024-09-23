@@ -1,11 +1,8 @@
 <app-navbar-promodel></app-navbar-promodel>
 
 <!-- Start Page Title Area -->
-<div
-  class="page-title-area"
-  *ngFor="let Content of pageTitleContent"
-  style="background-image: url({{ Content.backgroundImage }});"
->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent"
+  style="background-image: url({{ Content.backgroundImage }});">
   <div class="container">
     <div class="page-title-content">
       <h2>{{ Content.title | translate }}</h2>
@@ -14,23 +11,23 @@
         <li>{{ Content.title | translate }}</li>
       </ul>
     </div>
+
+    <!-- Start -->
+    &nbsp;
+    <div class="notification-alert alert alert-success alert-dismissible fade" [ngClass]="showError" role="alert">
+      {{Content.error | translate}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <!-- End -->
   </div>
 </div>
 <!-- End Page Title Area -->
 
 <!-- Start Confirmations Area -->
 <section class="error-area bg-f9f9f9 ptb-100">
-  <app-aceptacion-consentimiento
-    [LlamarBackend]="LlamarBackend"
-    [consentimiento]="consentimiento"
-  >
+  <app-aceptacion-consentimiento [LlamarBackend]="LlamarBackend" [consentimiento]="consentimiento">
     <div>
-      <ngx-spinner
-        name="spregistro"
-        [fullScreen]="true"
-        type="ball-scale-multiple"
-        size="medium"
-      >
+      <ngx-spinner name="spregistro" [fullScreen]="true" type="ball-scale-multiple" size="medium">
         <p class="loading">...</p>
       </ngx-spinner>
 
@@ -39,7 +36,7 @@
           <!-- <img [src]="Content.img" alt="image"> -->
           <h3>
             {{ "confirmacion.cuenta-activada-titulo" | translate }}&nbsp;{{
-              invitacion.registro.nombre
+            invitacion.registro.nombre
             }}
           </h3>
           <p>{{ "confirmacion.cuenta-activada" | translate }}</p>
@@ -47,10 +44,7 @@
         </div>
       </div>
 
-      <div
-        *ngIf="!confirmacionValida && !confirmando && !activada"
-        class="container"
-      >
+      <div *ngIf="!confirmacionValida && !confirmando && !activada" class="container">
         <div class="error-content" *ngFor="let Content of errorContent">
           <!-- <img [src]="Content.img" alt="image"> -->
           <h3>{{ Content.title }}</h3>
@@ -59,13 +53,10 @@
         </div>
       </div>
 
-      <div
-        *ngIf="confirmacionValida && !confirmando && !activada"
-        class="container"
-      >
+      <div *ngIf="confirmacionValida && !confirmando && !activada" class="container">
         <h3>
           {{ "confirmacion.bienvenido" | translate }}&nbsp;{{
-            invitacion.registro.nombre
+          invitacion.registro.nombre
           }}
         </h3>
         <p>{{ "confirmacion.completar-registro" | translate }}</p>
@@ -73,37 +64,24 @@
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
               <div class="input-group">
-                <input
-                  [type]="text"
-                  placeholder="{{ 'confirmacion.nombre-usuario' | translate }}"
-                  class="form-control"
-                  formControlName="nombreUsuario"
-                />
+                <input [type]="text" placeholder="{{ 'confirmacion.nombre-usuario' | translate }}" class="form-control"
+                  formControlName="nombreUsuario" />
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="input-group">
-                <input
-                  [type]="showPass ? 'text' : 'password'"
-                  placeholder="{{ 'confirmacion.password' | translate }}"
-                  class="form-control"
-                  formControlName="contrasena"
-                />
+                <input [type]="showPass ? 'text' : 'password'" placeholder="{{ 'confirmacion.password' | translate }}"
+                  class="form-control" formControlName="contrasena" />
                 <span class="input-group-text" (click)="swapShowPass()">
-                  <i
-                    [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"
-                  ></i>
+                  <i [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"></i>
                 </span>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="input-group">
-                <input
-                  [type]="showPass ? 'text' : 'password'"
-                  placeholder="{{ 'confirmacion.password-conf' | translate }}"
-                  class="form-control"
-                  formControlName="confcontrasena"
-                />
+                <input [type]="showPass ? 'text' : 'password'"
+                  placeholder="{{ 'confirmacion.password-conf' | translate }}" class="form-control"
+                  formControlName="confcontrasena" />
               </div>
             </div>
           </div>

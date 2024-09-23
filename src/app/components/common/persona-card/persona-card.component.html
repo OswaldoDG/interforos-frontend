@@ -7,17 +7,10 @@
             {{ nombrePersona }}
           </label>
         </div>
-        <div
-          class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex"
-          *ngIf="mostrarBandera"
-        >
+        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="mostrarBandera">
           <div class="form-check">
             <label class="star-checkbox">
-              <input
-                type="checkbox"
-                [(ngModel)]="enCasting"
-                (change)="onChangeCheckBox(persona.id)"
-              />
+              <input type="checkbox" [(ngModel)]="enCasting" (change)="onChangeCheckBox(persona.id)" />
               <span class="star"></span>
             </label>
           </div>
@@ -38,29 +31,18 @@
                     <i class="bi bi-camera-fill" (click)="verMedios()"></i>
                   </div>
                   <div class="col-4">
-                    <i
-                      class="bi bi-person-x-fill"
-                      (click)="removerPersona()"
-                    ></i>
+                    <i class="bi bi-person-x-fill" (click)="removerPersona()"></i>
                   </div>
                 </div>
                 <hr />
               </div>
 
               <div class="col-5">
-                <div
-                  class="user-profile"
-                  (mouseenter)="resaltarImagen(true)"
-                  (mouseleave)="resaltarImagen(false)"
-                  [ngClass]="{ resaltada: isResaltada }"
-                >
+                <div class="user-profile" (mouseenter)="resaltarImagen(true)" (mouseleave)="resaltarImagen(false)"
+                  [ngClass]="{ resaltada: isResaltada }">
                   <div class="d-flex align-items-center">
-                    <img
-                      [src]="avatarUrl"
-                      onerror="this.src='assets/img/errorMedio.jpg'"
-                      alt="image"
-                      (click)="openModalWithClass(template)"
-                    />
+                    <img [src]="avatarUrl" onerror="this.src='assets/img/errorMedio.jpg'" alt="image"
+                      (click)="openModalWithClass(template)" />
                   </div>
                 </div>
               </div>
@@ -70,17 +52,22 @@
                     <div class="title">
                       <span class="sub-title">{{
                         persona.nombreArtistico
-                      }}</span>
+                        }}</span>
                       <p>
                         {{ persona.generoId }},&nbsp;{{
-                          persona.edadString
+                        persona.edadString
                         }}&nbsp;{{ "modelo.perfil-anos" | translate }}
                         <br />
                         {{ "modelo.t-clavemodelo" | translate }}
                         <span style="color: red; font-weight: bold">{{
                           persona.consecutivo
-                        }}</span>
+                          }}</span>
+                        &nbsp;
+
                       </p>
+                      <span class="text-bold">
+                        {{persona.nombreAgencia}}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -94,15 +81,8 @@
                 <h4 class="modal-title pull-left">
                   <span class="sub-title">{{ persona.nombreArtistico }}</span>
                 </h4>
-                <button
-                  type="button"
-                  class="close btn-close pull-right"
-                  aria-label="Close"
-                  (click)="modalRef?.hide()"
-                >
-                  <span aria-hidden="true" class="visually-hidden"
-                    >&times;</span
-                  >
+                <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+                  <span aria-hidden="true" class="visually-hidden">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
@@ -112,10 +92,7 @@
                       <div class="user-contact-info">
                         <table>
                           <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{ "modelo.perfil-nacionalidad" | translate }}
                             </td>
                             <td class="ps-2 fw-light">
@@ -123,10 +100,7 @@
                             </td>
                           </tr>
                           <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{ "modelo.perfil-pais-residencia" | translate }}
                             </td>
                             <td class="ps-2 fw-light">
@@ -134,12 +108,9 @@
                             </td>
                           </tr>
                           <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{
-                                "modelo.perfil-estado-residencia" | translate
+                              "modelo.perfil-estado-residencia" | translate
                               }}
                             </td>
                             <td class="ps-2 fw-light">
@@ -147,48 +118,37 @@
                             </td>
                           </tr>
                           <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{ "modelo.perfil-extranjero" | translate }}
                             </td>
                             <td class="ps-2 fw-light">
                               <span *ngIf="persona.extranjero">{{
                                 "comun.si" | translate
-                              }}</span>
+                                }}</span>
                               <span *ngIf="!persona.extranjero">{{
                                 "comun.no" | translate
-                              }}</span>
+                                }}</span>
                             </td>
                           </tr>
                           <tr *ngIf="persona.extranjero">
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{ "modelo.perfil-permisotrabajo" | translate }}
                             </td>
                             <td class="ps-2 fw-light">
                               <span *ngIf="persona.permisoTrabajo">{{
                                 "comun.si" | translate
-                              }}</span>
+                                }}</span>
                               <span *ngIf="!persona.permisoTrabajo">{{
                                 "comun.no" | translate
-                              }}</span>
+                                }}</span>
                             </td>
                           </tr>
                           <tr>
-                            <td
-                              class="fw-normal pe-2"
-                              style="border-right: 1px solid gainsboro"
-                            >
+                            <td class="fw-normal pe-2" style="border-right: 1px solid gainsboro">
                               {{ "modelo.perfil-idiomas" | translate }}
                             </td>
                             <td class="ps-2 fw-light">
-                              <span *ngFor="let a of persona.idiomasIds"
-                                >{{ a }}&nbsp;</span
-                              >
+                              <span *ngFor="let a of persona.idiomasIds">{{ a }}&nbsp;</span>
                             </td>
                           </tr>
                         </table>
@@ -199,61 +159,52 @@
                       <div class="user-contact-info">
                         <ul class="user-contact">
                           <li>
-                            <a href="#"
-                              ><i class="bx bx-phone-call"></i>
-                              {{ persona.contacto?.telefono }}</a
-                            >
+                            <a href="#"><i class="bx bx-phone-call"></i>
+                              {{ persona.contacto?.telefono }}</a>
                           </li>
                           <li>
-                            <a href="#"
-                              ><i class="bx bx-envelope"></i>
-                              {{ persona.contacto?.email }}</a
-                            >
+                            <a href="#"><i class="bx bx-envelope"></i>
+                              {{ persona.contacto?.email }}</a>
                           </li>
                           <li>
-                            <a href="#"
-                              ><i class="bx bx-map"></i>
+                            <a href="#"><i class="bx bx-map"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.direccion
-                              }}</span>
+                                }}</span>
                             </a>
                           </li>
                         </ul>
 
                         <ul class="social-profiles">
                           <li>
-                            <a href="#"
-                              ><i class="bx bxl-facebook"></i>
+                            <a href="#"><i class="bx bxl-facebook"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.faceBook
-                              }}</span>
+                                }}</span>
                             </a>
                           </li>
 
                           <li>
-                            <a href="#"
-                              ><i class="bx bxl-twitter"></i>
+                            <a href="#"><i class="bx bxl-twitter"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.twitter
-                              }}</span>
+                                }}</span>
                             </a>
                           </li>
 
                           <li>
-                            <a href="#"
-                              ><i class="bx bxl-instagram"></i>
+                            <a href="#"><i class="bx bxl-instagram"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.instagram
-                              }}</span>
+                                }}</span>
                             </a>
                           </li>
 
                           <li>
-                            <a href="#"
-                              ><i class="bx bxl-linkedin"></i>
+                            <a href="#"><i class="bx bxl-linkedin"></i>
                               <span style="text-align: justify">{{
                                 persona.contacto?.linkedIn
-                              }}</span>
+                                }}</span>
                             </a>
                           </li>
                         </ul>
@@ -267,12 +218,9 @@
                           <tr>
                             <td class="ps-2 fw-light">
                               <div class="scrollcontenedor">
-                                <p
-                                  *ngFor="let a of persona.actividadesIds"
-                                  style="
+                                <p *ngFor="let a of persona.actividadesIds" style="
                                     font-family: Arial, Helvetica, sans-serif;
-                                  "
-                                >
+                                  ">
                                   &#8226; {{ a | titlecase }}
                                 </p>
                               </div>
@@ -289,13 +237,8 @@
                         </div>
                       </div>
                       <div *ngIf="imagenes.length > 0" class="col-lg-12 pt-5">
-                        <ng-image-slider
-                          [images]="imagenes"
-                          slideImage="3"
-                          [manageImageRatio]="true"
-                          [infinite]="true"
-                          [imageSize]="configCarousel"
-                        >
+                        <ng-image-slider [images]="imagenes" slideImage="3" [manageImageRatio]="true" [infinite]="true"
+                          [imageSize]="configCarousel">
                         </ng-image-slider>
                       </div>
                     </tab>
@@ -306,15 +249,9 @@
                         </div>
                       </div>
                       <div *ngIf="videos.length > 0" class="col-lg-12 pt-5">
-                        <ng-image-slider
-                          [images]="videos"
-                          slideImage="3"
-                          [manageImageRatio]="true"
-                          [infinite]="false"
-                          [imageSize]="configCarousel"
-                          (imageClick)="openModalMux(templateNested, $event)"
-                          [imagePopup]="false"
-                        >
+                        <ng-image-slider [images]="videos" slideImage="3" [manageImageRatio]="true" [infinite]="false"
+                          [imageSize]="configCarousel" (imageClick)="openModalMux(templateNested, $event)"
+                          [imagePopup]="false">
                         </ng-image-slider>
                       </div>
                     </tab>
@@ -323,21 +260,12 @@
               </div>
               <ng-template #templateNested>
                 <div class="modal-header">
-                  <button
-                    type="button"
-                    class="close btn-close pull-right"
-                    aria-label="Close"
-                    (click)="modalRefMux?.hide()"
-                  >
-                    <span aria-hidden="true" class="visually-hidden"
-                      >&times;</span
-                    >
+                  <button type="button" class="close btn-close pull-right" aria-label="Close"
+                    (click)="modalRefMux?.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
                   </button>
                 </div>
-                <mux-player
-                  autoplay
-                  attr.playback-id="{{ playbackId }}"
-                ></mux-player>
+                <mux-player autoplay attr.playback-id="{{ playbackId }}"></mux-player>
               </ng-template>
             </ng-template>
           </div>

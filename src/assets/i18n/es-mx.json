@@ -7,7 +7,7 @@
     "select-clear": "Borrar",
     "select-search": "Buscar",
     "select-nodata": "No se encuetra el tipo",
-    "logOut":"Cerrar Sesion"
+    "logOut": "Cerrar Sesion"
   },
   "buscar": {
     "btn-buscar": "Buscar",
@@ -20,7 +20,7 @@
     "tipocabello": "Tipo cabello",
     "colorcabello": "Color cabello",
     "habilidades": "Habilidades",
-    "agencias":"Agencias",
+    "agencias": "Agencias",
     "idiomas": "Idiomas",
     "nombre": "Nombre",
     "tipocuerpo": "Tipo cuerpo",
@@ -28,21 +28,21 @@
     "tipocuerpo-normal": "Normal",
     "tipocuerpo-sobrepeso": "Sobrepeso",
     "tipocuerpo-obeso": "Obeso",
-    "por-categoria":"Por Categorías",
-    "orden-decendente":" Ordenar Decendente",
-    "casting":"Casting",
-    "categorias":"Categorías",
-    "categorias-error":"Elija una categoria",
-    "categoria-selecionar":"Seleccionar..",
-    "ordenar":"Ordenar Por",
-    "ordenar-consecutivo":"Id",
-    "ordenar-nombre":"Nombre",
-    "ordenar-nombreArtistico":"Nombre Artistico",
-    "ordenar-edad":"Edad",
-    "next":"Siguiente",
-    "before":"Anterior",
-    "agregarModelo":"Agregar a Casting",
-    "fechas":"Fechas"
+    "por-categoria": "Por Categorías",
+    "orden-decendente": " Ordenar Decendente",
+    "casting": "Casting",
+    "categorias": "Categorías",
+    "categorias-error": "Elija una categoria",
+    "categoria-selecionar": "Seleccionar..",
+    "ordenar": "Ordenar Por",
+    "ordenar-consecutivo": "Id",
+    "ordenar-nombre": "Nombre",
+    "ordenar-nombreArtistico": "Nombre Artistico",
+    "ordenar-edad": "Edad",
+    "next": "Siguiente",
+    "before": "Anterior",
+    "agregarModelo": "Agregar a Casting",
+    "fechas": "Fechas"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
@@ -51,6 +51,7 @@
     "fecha-cierre": "Fecha final"
   },
   "modelo": {
+    "agencia": "Agencia",
     "t-clavemodelo": "Clave modelo",
     "t-modelo": "Mi Perfil",
     "t-contacto": "Contacto",
@@ -69,15 +70,15 @@
     "perfil-permisotrabajo": "Tiene permiso laboral",
     "perfil-pais-residencia": "País residencia",
     "perfil-estado-residencia": "Estado residencia",
-    "perfil-validacion-mensaje-guard":"Complete su perfil",
-    "error-400":"No se pudo agregar al modelo, Intentelo mas tarde.",
-    "error-404":"No existe modelo",
-    "error-409":"Modelo ya se encuentra en la categoria",
-    "modelo":"Se agrego el modelo correctamente",
-    "edad":" años",
-    "excel-status-suc":"Archivo PDF descargado.",
-    "excel-status-err":"No se pudo descargar, intente más tarde.",
-    "perfil-detalles":"Ver Detalles..."
+    "perfil-validacion-mensaje-guard": "Complete su perfil",
+    "error-400": "No se pudo agregar al modelo, Intentelo mas tarde.",
+    "error-404": "No existe modelo",
+    "error-409": "Modelo ya se encuentra en la categoria",
+    "modelo": "Se agrego el modelo correctamente",
+    "edad": " años",
+    "excel-status-suc": "Archivo PDF descargado.",
+    "excel-status-err": "No se pudo descargar, intente más tarde.",
+    "perfil-detalles": "Ver Detalles..."
   },
   "proyectos": {
     "header": "Administrador de castings",
@@ -102,8 +103,8 @@
     "form-invitar": "Invitar Contacto",
     "form-eliminar": "Eliminar Contacto",
     "form-cambiarRol": "Cambiar Rol del Contacto",
-    "form-eventos":"Eventos",
-    "form-notas":"Notas",
+    "form-eventos": "Eventos",
+    "form-notas": "Notas",
     "form-link": "Link",
     "form-lugar": "Lugar",
     "form-agregarEvento": "Agregar Evento",
@@ -114,48 +115,48 @@
     "form-compartir": "Compartir",
     "form-compartir-notificacion": "Se ha copiado link a PortaPapeles",
     "form-compartir-notificacion-error": "No se ha podido copiar link a PortaPapeles",
-    "refrescar":"Actualizar Lista",
+    "refrescar": "Actualizar Lista",
     "form-acepta-autoinscripcion": "Los modelos pueden inscribirse",
     "form-cierre-automatico": "El casting se cierra automáticamente en la fecha",
     "form-apertura-automatica": "El casting se abre automáticamente en la fecha",
     "casting-estado-ok": "El casting ha sido actualziado",
-    "casting-estado-error":"El usuario no tiene acceso al casting",
+    "casting-estado-error": "El usuario no tiene acceso al casting",
     "tabla-Cliente": "Cliente",
     "tabla-Estado": "Estado",
     "tabla-Apertura": "Apertura",
     "tabla-Cierre": "Cierre",
-    "tabla-AceptaAutoInscripcion":"Acepta Autoinscripción",
+    "tabla-AceptaAutoInscripcion": "Acepta Autoinscripción",
     "tabla-Activo": "Activo",
     "tabla-AperturaAutomatica": "Apertura Automática",
     "tabla-CierreAutomatico": "Cierre Automático",
     "tabla-cambiar-estado": "Estado del Casting:",
     "tabla-colaborar": "Colaborar",
     "tabla-cambiar": "Cambiar",
-    "casting-estado-EnEdicion":"En Edición",
-    "casting-estado-Abierto":"Abierto",
-    "casting-estado-Cerrado":"Cerrado",
-    "casting-estado-Cancelado":"Cancelado",
+    "casting-estado-EnEdicion": "En Edición",
+    "casting-estado-Abierto": "Abierto",
+    "casting-estado-Cerrado": "Cerrado",
+    "casting-estado-Cancelado": "Cancelado",
     "eliminar-casting-mensaje": "Para confirmar introduzca:",
     "eliminar-introduzca-nombre": "Nombre del Casting aquí",
     "eliminar-casting-confirmar": "Confirmar",
     "eliminar-casting-cancelar": "Cancelar",
-    "succes-mensaje-eliminacion" : "Se eliminó correctamente el casting.",
-    "error-mensaje-eliminacion" : "Ocurrió un error al eliminar el casting, intente más tarde",
-    "error-confirmacion" : "Error al Confirmar.",
-    "VerRedesSociales" : "Redes Sociales",
-    "VerTelefono" : "Teléfono",
-    "VerEmail" : "E-mail",
+    "succes-mensaje-eliminacion": "Se eliminó correctamente el casting.",
+    "error-mensaje-eliminacion": "Ocurrió un error al eliminar el casting, intente más tarde",
+    "error-confirmacion": "Error al Confirmar.",
+    "VerRedesSociales": "Redes Sociales",
+    "VerTelefono": "Teléfono",
+    "VerEmail": "E-mail",
     "VerHabilidades": "Habilidades",
     "VerDatosGenerales": "Datos apariencia",
     "VerGaleriaPersonal": "Galería personal",
-    "VerComentarios" : "Comentarios",
-    "VerDireccion":"Dirección",
+    "VerComentarios": "Comentarios",
+    "VerDireccion": "Dirección",
     "externospuedenver": "Los externos pueden ver:",
-    "succes-estadocast":"Estado del Casting Actualizado.",
-    "err-estadocast":"Ocurrió algo mal al actualizar el estado, intente más tarde.",
-    "inactivos":"Ver Inactivos",
-    "form-casaproductora":"Casa productora",
-    "tabla-CasaProductora":"Casa Productora"
+    "succes-estadocast": "Estado del Casting Actualizado.",
+    "err-estadocast": "Ocurrió algo mal al actualizar el estado, intente más tarde.",
+    "inactivos": "Ver Inactivos",
+    "form-casaproductora": "Casa productora",
+    "tabla-CasaProductora": "Casa Productora"
   },
   "navbar": {
     "salir": "Salir",
@@ -165,8 +166,8 @@
     "ingreso-password": "Contraseña",
     "ingreso-password-actual": "Contraseña Actual",
     "ingreso-password-nuevo": "Contraseña Nueva",
-    "ingreso-password-confirmar":"Confirmar Contraseña",
-    "ingreso-password-confirmar-error":"La Contraseña no coincide",
+    "ingreso-password-confirmar": "Confirmar Contraseña",
+    "ingreso-password-confirmar-error": "La Contraseña no coincide",
     "ingreso-email": "E-mail",
     "registro-titulo": "Regístrese ahora",
     "registro-nombre": "Nombre",
@@ -179,7 +180,7 @@
     "datos-incorrectos-login": "Los datos de acceso no son correctos",
     "login-incorrecto": "Usuario o contraseña incorectos",
     "menu-modelo": "Perfil Público",
-    "menu-mismodelos":"Mis Modelos",
+    "menu-mismodelos": "Mis Modelos",
     "menu-staff": "Inicio Staff",
     "menu-admin": "Inicio Administradores",
     "menu-agencia": "Inicio Agencia",
@@ -208,7 +209,7 @@
     "salir": "Salir",
     "proyectos": "Castings",
     "agencia": "Agencia",
-    "misModelos":"Mis Modelos"
+    "misModelos": "Mis Modelos"
   },
   "staff-search": {
     "titulo": "Buscar talento"
@@ -227,13 +228,14 @@
     "prin-lbl": "Establece la foto como principal del perfil",
     "pin-lbl": "Marca la foto como permanente, las no permanentes son eliminadas después de un tiempo",
     "help": "Ayuda",
-    "origen-general":"Perfil General",
-    "origen":"Categoria",
-    "titulo":"Título del archivo"
+    "origen-general": "Perfil General",
+    "origen": "Categoria",
+    "titulo": "Título del archivo"
   },
   "confirmacion": {
     "titulo": "Confirmación",
-    "no-encontrada": "La invitación no ha sido localizada",
+    "no-encontrada": "La invitación no ha sido localizada o ya ha sido",
+    "error": "La invitación no existe o ya ha sido utilizada previamente",
     "crear-invitacion": "Para crear una nueva invitación utilice la opción de registro",
     "bienvenido": "Bienvenido",
     "completar-registro": "Llene los datos requeridos para completar su registro",
@@ -245,7 +247,7 @@
     "cuenta-activada-titulo": "Felicitaciones",
     "cuenta-activada": "Su cuenta ha sido activada puede utilizarla para ingresar con la contraseña definida",
     "error-activada": "Ocurrió un error al realizar la activación, intente más tarde",
-    "nombre-usuario":"Nombre Usuario"
+    "nombre-usuario": "Nombre Usuario"
   },
   "perfil": {
     "t-doctype": ", añada solo documentos PDF o fotos.",
@@ -300,7 +302,7 @@
     "select-search": "Buscar",
     "select-nodata": "No se encuetra el tipo",
     "btn-save": "Guardar datos",
-    "btn-cancel":"Cancelar",
+    "btn-cancel": "Cancelar",
     "datos-incorrectos": "Todos los campos son obligatorios, complete la información faltante.",
     "documentos-incompletos": "No ha cargado todos los documentos obligatorios",
     "datos-ok": "Los datos del perfil han sido almacenados",
@@ -327,23 +329,23 @@
     "otroHabilidad": "Otra habilidad",
     "ok-envio-documento": "El documento ha sido almacenado",
     "error-envio-documento": "El documento no pudo ser enviado",
-    "campos-faltantes":"Los siguientes campos son requeridos:",
-    "colaborador-datos":"Detalles Perfil",
-    "colaborador-nombre":"Nombre",
-    "colaborador-avatar":"Subir",
-    "colaborador-guardar":"Guardar Datos",
-    "colaborador-datos-no-guardados":"No se pudo guardar la Información",
-    "colaborador-datos-guardados":"La información se guardo",
-    "colaborador-cancelar":"Cancelar",
-    "email":"Email",
-    "datosCompletos-snap":"Nota!",
-    "datosCompletos-msj":"Complete sus datos para generar su clave única de modelo.",
-    "perfil.titulo" : "Mi Perfil",
-    "perfil.alta.titulo":"Alta de Nuevo Modelo",
-    "perfil.fotos":"Mis fotos",
-    "perfil.fotos.alta":"Fotos y Videos"
+    "campos-faltantes": "Los siguientes campos son requeridos:",
+    "colaborador-datos": "Detalles Perfil",
+    "colaborador-nombre": "Nombre",
+    "colaborador-avatar": "Subir",
+    "colaborador-guardar": "Guardar Datos",
+    "colaborador-datos-no-guardados": "No se pudo guardar la Información",
+    "colaborador-datos-guardados": "La información se guardo",
+    "colaborador-cancelar": "Cancelar",
+    "email": "Email",
+    "datosCompletos-snap": "Nota!",
+    "datosCompletos-msj": "Complete sus datos para generar su clave única de modelo.",
+    "perfil.titulo": "Mi Perfil",
+    "perfil.alta.titulo": "Alta de Nuevo Modelo",
+    "perfil.fotos": "Mis fotos",
+    "perfil.fotos.alta": "Fotos y Videos"
   },
-  "recuperacion":{
+  "recuperacion": {
     "titulo": "Restablecer Contraseña",
     "no-encontrada": "La solicitud para restablecer su contraseña no ha sido localizada",
     "crear-invitacion": "Para crear una nueva solicitud utilice la opción restablecer contraseña",
@@ -358,11 +360,11 @@
     "cuenta-activada": "Ahora puede ingresar con su nueva contraseña",
     "error-activada": "Ocurrió un error al restablecer la contraseña, intente más tarde"
   },
-  "solicitud":{
+  "solicitud": {
     "solicitud-enviada": "Su solicitud ha sido enviada a su correo",
     "solicitud-conflicto": "No se encontró el Email proporcionado",
-    "solicitud-cambio-contrasenia":"Se ha Cambiado la contraseña con exito",
-    "solicitud-cambio-contrasenia-error":"Contraseña Actual incorrecta "
+    "solicitud-cambio-contrasenia": "Se ha Cambiado la contraseña con exito",
+    "solicitud-cambio-contrasenia-error": "Contraseña Actual incorrecta "
   },
   "casting": {
     "nombre": "Nombre",
@@ -378,32 +380,30 @@
     "eventos-notas": "Notas",
     "eventos-lugar": "Lugar",
     "eventos-link": "Link",
-    "sin-acceso":"Sin Acceso a Casting.",
+    "sin-acceso": "Sin Acceso a Casting.",
     "abandonar": "Abandonar",
-    "mensaje-inscripcion" : "Inscripción exitosa a la categoría.",
-    "mensaje-abandonar" : "Usted ha abandonado la categoría.",
-    "mensaje-inscripcion-error" : "Ha ocurrido un error al inscribirse a la categoría, intente más tarde.",
-    "mensaje-abandonar-error" : "Ha ocurrido un error al abandonar la categoría, intente más tarde.",
-    "guardar":"Se han Guardado los datos Correctamente",
-    "categoria-guardar":"Se ha Agregado la categoria",
-    "categoria-eliminar":"Se ha Eliminado la categoria",
-    "categoria-guardar-error":"No se ha podido Agregar la categoria",
-    "categoria-eliminar-error":"No se ha podido eliminar la categoria",
-    "crear":"Se ha creado  el Casting Correctamente",
-    "error":"No se ha podido guardar los datos.",
-    "noCategorias":"No hay categorías en el Casting.",
-    "noModelos":"No hay modelos en la categoria."
-
+    "mensaje-inscripcion": "Inscripción exitosa a la categoría.",
+    "mensaje-abandonar": "Usted ha abandonado la categoría.",
+    "mensaje-inscripcion-error": "Ha ocurrido un error al inscribirse a la categoría, intente más tarde.",
+    "mensaje-abandonar-error": "Ha ocurrido un error al abandonar la categoría, intente más tarde.",
+    "guardar": "Se han Guardado los datos Correctamente",
+    "categoria-guardar": "Se ha Agregado la categoria",
+    "categoria-eliminar": "Se ha Eliminado la categoria",
+    "categoria-guardar-error": "No se ha podido Agregar la categoria",
+    "categoria-eliminar-error": "No se ha podido eliminar la categoria",
+    "crear": "Se ha creado  el Casting Correctamente",
+    "error": "No se ha podido guardar los datos.",
+    "noCategorias": "No hay categorías en el Casting.",
+    "noModelos": "No hay modelos en la categoria."
   },
   "comentarios": {
     "titulo": "Comentarios",
-    "escriba":"Escriba Comentario"
-
+    "escriba": "Escriba Comentario"
   },
-  "votos":{
+  "votos": {
     "titulo": "Votos"
   },
-  "tabla":{
+  "tabla": {
     "revisor": "Revisor",
     "no": "No",
     "nose": "No sé",
@@ -411,42 +411,40 @@
     "mucho": "Mucho",
     "persona-voto": "Votos de"
   },
-  "persona":
-  {
-    "crear":"crear",
-    "crear-ayuda":"Presione sobre el boton crear para añadir otras personas."
+  "persona": {
+    "crear": "crear",
+    "crear-ayuda": "Presione sobre el boton crear para añadir otras personas."
   },
-  "revisor-casting":{
+  "revisor-casting": {
     "perfil": "Modelo",
     "galeria": "Galería",
-    "galeria-vacia":"No hay elementos de galería",
+    "galeria-vacia": "No hay elementos de galería",
     "contacto": "Contacto",
     "habilidades": "Habilidades",
     "generales": "Generales",
     "comentarios": "Comentarios"
   },
-  "invitar-agente":{
-    "invitar-agente-invitaciones" :"Crear Invitaciones",
-    "invitar-agente-agencias" :"Agencias",
-    "invitar-agente-modelo" :"Enviar Invitaciones",
-    "invitar-agente-correo" :"Emails:",
-    "invitar-correos-enviados" : "Invitaciones Enviadas",
+  "invitar-agente": {
+    "invitar-agente-invitaciones": "Crear Invitaciones",
+    "invitar-agente-agencias": "Agencias",
+    "invitar-agente-modelo": "Enviar Invitaciones",
+    "invitar-agente-correo": "Emails:",
+    "invitar-correos-enviados": "Invitaciones Enviadas",
     "invitar-correos-novalidos": "Ocurrió un problema, verifique los emails proporcionados",
     "invitar-correos-error": "Ocurrió un problema, intentelo más tarde",
-    "invitar-correos-requiere" : "Se requiere la selección de alguna agencia."
-},
-"invitar-modelo":{
-  "titulo": "Invitar Modelos",
-  "enviar": "Enviar invitaciones",
-  "correos": "Emails:",
-  "confirmacion-enviadas": "Las invitaciones fueron enviadas.",
-  "error-envio":"Ocurrio un problema, intente más tarde.",
-  "invalido-correos": "Hubo un error con los correos, corrobore la información.",
-  "mensaje": "Te invito a Interforos",
-  "titulo-mensaje": "Escribir mensaje:"
-},
-"consentimiento":
-{
-  "aceptar":"Aceptar"
-}
+    "invitar-correos-requiere": "Se requiere la selección de alguna agencia."
+  },
+  "invitar-modelo": {
+    "titulo": "Invitar Modelos",
+    "enviar": "Enviar invitaciones",
+    "correos": "Emails:",
+    "confirmacion-enviadas": "Las invitaciones fueron enviadas.",
+    "error-envio": "Ocurrio un problema, intente más tarde.",
+    "invalido-correos": "Hubo un error con los correos, corrobore la información.",
+    "mensaje": "Te invito a Interforos",
+    "titulo-mensaje": "Escribir mensaje:"
+  },
+  "consentimiento": {
+    "aceptar": "Aceptar"
+  }
 }

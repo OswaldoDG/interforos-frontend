@@ -1,18 +1,22 @@
 :host ::ng-deep .card {
   //min-height: 100px;
 }
+
 hr {
   border-top: 3px solid black;
 }
 
-.divCard
-{
+.divCard {
   padding: 20px;
 }
-.card{
-  border: none; /* Elimina el borde */
-  box-shadow: none/* Elimina cualquier sombra */
+
+.card {
+  border: none;
+  /* Elimina el borde */
+  box-shadow: none
+    /* Elimina cualquier sombra */
 }
+
 .user-profile {
   img {
     width: 110px;
@@ -171,7 +175,7 @@ hr {
 
 
 .star-checkbox {
-  position:static;
+  position: static;
   display: flex;
   width: 30px;
   height: 30px;
@@ -189,29 +193,30 @@ hr {
   height: 100%;
   clip-path: polygon(11.25% 0%, 81.5% 0%, 83.75% 100%, 47.5% 63.75%, 11.25% 100%);
 
-  background-color:rgba(0, 0, 0, 0.267);
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Agregar transición para el borde */
+  background-color: rgba(0, 0, 0, 0.267);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  /* Agregar transición para el borde */
 }
 
-.star-checkbox input[type="checkbox"]:checked + .star {
-  background-color: var(--mainColor); /* Color dorado para la estrella llena */
-  border-color: var(--mainColor);/* Color dorado para el borde cuando está llena */
+.star-checkbox input[type="checkbox"]:checked+.star {
+  background-color: var(--mainColor);
+  /* Color dorado para la estrella llena */
+  border-color: var(--mainColor);
+  /* Color dorado para el borde cuando está llena */
 }
 
-.marcador
-{
+.marcador {
   width: 50px;
   height: auto;
 }
 
-.scrollcontenedor{
+.scrollcontenedor {
   height: 300px;
-  overflow:auto;
+  overflow: auto;
 }
 
-.bi
-{
- font-size: 1.1em;
+.bi {
+  font-size: 1.1em;
 }
 
 .name {
@@ -221,22 +226,23 @@ hr {
   font-weight: bold;
   color: #333;
 }
-.btnDetalles {
-    display: block;
-    background-color: var(--mainColor);
-    color: var(--whiteColor);
-    border: none;
-    font-weight: 600;
-    display: block;
-    width: 100%;
-    border-radius: 5px;
-    padding: 7px 6px 6px;
-    transition: var(--transition);
 
-    &:hover {
-        background-color: var(--blackColor);
-        color: var(--whiteColor);
-    }
+.btnDetalles {
+  display: block;
+  background-color: var(--mainColor);
+  color: var(--whiteColor);
+  border: none;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  padding: 7px 6px 6px;
+  transition: var(--transition);
+
+  &:hover {
+    background-color: var(--blackColor);
+    color: var(--whiteColor);
+  }
 }
 
 .resaltada {
@@ -247,4 +253,8 @@ hr {
     box-shadow: 0 9px 26px var(--mainColor);
     border: .5px solid var(--whiteColor);
   }
+}
+
+.text-bold {
+  font-weight: bold;
 }
