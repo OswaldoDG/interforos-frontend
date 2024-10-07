@@ -14,47 +14,122 @@
     >
       <p class="loading">...</p>
     </ngx-spinner>
+
     <div class="containe55">
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-12">
           <div class="my-profile-box">
-            <h3>{{ "invitar-agente.invitar-agente-invitaciones" | translate }}</h3>
-            <form [formGroup]="formAgencias">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="container col-lg-12 col-md-12 col-sm-12 align-items-center justify-content-center">
-                  <h3 for="agencias">{{ "invitar-agente.invitar-agente-agencias" | translate }}</h3>
-                  <div class="d-flex col-lg-6">
-                    <div class="d-flex col-lg-12 col-md-12 col-sm-12">
-                      <select class="btn btn-light" formControlName="agencia">
-                        <option *ngFor="let agencia of agencias" [value]="agencia.texto">{{ agencia.texto }}</option>
-                      </select>
+            <div class="card">
+              <div class="card-header">
+                <h3 for="agencias">{{ "crea-actualiza-agente.titulo-proceso-agencia" | translate }}</h3>
+               </div>
+              <div class="card-body">
+                <div class="accordion" id="accordionExample">
+                  <div class="card-body">
+                    <div class="my-2 accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          {{ "crea-actualiza-agente.agencia-registro" | translate }}
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          <form [formGroup]="formAgenciasRegistro">
+                            <div class="col-lg-12 col-md-12">
+                              <div class="d-block form-group">
+                                <label class="m-1">{{ "crea-actualiza-agente.registro-agencia" | translate }}</label>
+                                <input type="text" class="my-2 btn btn-light" formControlName="nombreRegistro" [style]="{'width':'100%'}"
+                                placeholder="{{ 'crea-actualiza-agente.nombre-agencia' | translate }}">
+                              </div>
+                              <div class="d-flex col-lg-12 col-md-12">
+                                <button class="btn btn-dark" [disabled]="!formAgenciasRegistro.valid"  (click)="registraAgencia()">{{ "crea-actualiza-agente.guardar-agencia" | translate }}</button>
+                              </div>
+                            </div>
+                          </form>
+                      </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="d-block col-lg-12 col-md-12 col-sm-12">
-                    <div class="col-md-6 col-sm-6">
-                      <h3 for="agencias">{{ "invitar-agente.invitar-agente-correo" | translate }}</h3>
-                      <textarea type="text" class="btn btn-light" formControlName="correos" rows="5" cols="40"
-                      placeholder="Escriba aquí los correos separados por comas"></textarea>
+                  <div class="card-body" >
+                    <div class="my-2 accordion-item">
+                      <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          {{ "crea-actualiza-agente.agencia-update" | translate }}
+                        </button>
+                      </h2>
+                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          <form [formGroup]="formAgenciasActualiza">
+                            <div class="col-lg-12 col-md-12">
+                              <div class="d-block">
+                                <label class="m-1"> {{ "crea-actualiza-agente.admin-listaAgencias" | translate }}</label>
+                                <select [value]="" class="d-block btn btn-light" formControlName="agenciaActualiza" [style]="{'width':'100%'}">
+                                  <option *ngFor="let agencia of agencias" [value]="agencia.texto">{{ agencia.texto }}</option>
+                                </select>
+                              </div>
+                              <div class="d-block col-lg-12 col-md-12">
+                                <label>{{ "crea-actualiza-agente.registro-agencia" | translate }}</label>
+                                <input type="text" class="my-2 btn btn-light" formControlName="nombreActualiza" [style]="{'width':'100%'}"
+                                placeholder="{{ 'crea-actualiza-agente.nombre-agencia' | translate }}">
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="formAgenciasActualiza.get('agenciaActualiza').hasError('required')" class="error-message">{{"crea-actualiza-agente.actualiza-agencia" | translate}}</div>
+                              <div class="d-flex col-lg-12 col-md-12">
+                                <button class="btn btn-dark" [disabled]="!formAgenciasActualiza.valid"  (click)="actualizaAgencia()">{{ "crea-actualiza-agente.guardar-agencia" | translate }}</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="formAgencias.get('agencia').hasError('required')" class="error-message">{{"invitar-agente.invitar-correos-requiere" | translate}}</div>
                   </div>
-                  <br>
-                  <div class="d-block">
-                    <div class="m-1">
-                      <button class="btn btn-dark" [disabled]="!formAgencias.valid" (click)="enviarInvitaciones()">{{ "invitar-agente.invitar-agente-modelo" | translate }}</button>
+                  <div class="card-body" >
+                    <div class="my-2 accordion-item">
+                      <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          {{ "invitar-agente.invitar-agente-invitaciones" | translate }}
+                        </button>
+                      </h2>
+                      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          <form [formGroup]="formAgenciasInvitacion">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                              <div class="container col-lg-12 col-md-12 col-sm-12 align-items-center justify-content-center">
+                                <h3 for="agencias">{{ "invitar-agente.invitar-agente-agencias" | translate }}</h3>
+                                <div class="d-flex col-lg-6">
+                                  <div class="d-flex col-lg-12 col-md-12 col-sm-12">
+                                    <select class="btn btn-light" formControlName="agencia">
+                                      <option *ngFor="let agencia of agencias" [value]="agencia.texto">{{ agencia.texto }}</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="d-block col-lg-12 col-md-12 col-sm-12">
+                                  <div class="col-md-6 col-sm-6">
+                                    <h3 for="agencias">{{ "invitar-agente.invitar-agente-correo" | translate }}</h3>
+                                    <textarea type="text" class="btn btn-light" formControlName="correos" rows="5" cols="40"
+                                    placeholder="Escriba aquí los correos separados por comas"></textarea>
+                                  </div>
+                                  <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="formAgenciasInvitacion.get('agencia').hasError('required')" class="error-message">{{"invitar-agente.invitar-correos-requiere" | translate}}</div>
+                                </div>
+                                <br>
+                                <div class="d-block">
+                                  <div class="m-1">
+                                    <button class="btn btn-dark" [disabled]="!formAgenciasInvitacion.valid" (click)="enviarInvitaciones()">{{ "invitar-agente.invitar-agente-modelo" | translate }}</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
-
+            </div>
           </div>
         </div>
-
-
       </div>
     </div>
-  </div>
   <!-- End -->
 
   <div class="flex-grow-1"></div>

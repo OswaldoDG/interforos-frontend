@@ -432,19 +432,36 @@
     "invitar-correos-enviados": "Invitaciones Enviadas",
     "invitar-correos-novalidos": "Ocurrió un problema, verifique los emails proporcionados",
     "invitar-correos-error": "Ocurrió un problema, intentelo más tarde",
-    "invitar-correos-requiere": "Se requiere la selección de alguna agencia."
+    "invitar-correos-requiere" : "Se requiere la selección de alguna agencia."
   },
-  "invitar-modelo": {
+  "crea-actualiza-agente":{
+    "titulo-proceso-agencia":"Administrador de Agencias",
+    "nombre-agencia":"Nombre Agencia",
+    "clave-agencia":"Clave",
+    "guardar-agencia":"Guardar",
+    "mensaje-update":"Nombre de Agencia Actualizado",
+    "mensaje-inserta":"Agencia registrada correctamente",
+    "registro-agencia":"Ingrese el nombre de la Agencia",
+    "actualiza-agencia":"Se requiere la selección de alguna agencia para actualizar",
+    "admin-listaAgencias":"Lista de Agencias",
+    "agencia-update":"Actualizar Agencia",
+    "agencia-registro":"Registro Agencia",
+    "elimina-agencia":"Eliminar Agencia",
+    "registro-agencia-exito":"Agencia registrada",
+    "actualiza-agencia-exito": "Agencia actualizada"
+  },
+  "invitar-modelo":{
     "titulo": "Invitar Modelos",
     "enviar": "Enviar invitaciones",
     "correos": "Emails:",
     "confirmacion-enviadas": "Las invitaciones fueron enviadas.",
-    "error-envio": "Ocurrio un problema, intente más tarde.",
+    "error-envio":"Ocurrio un problema, intente más tarde.",
     "invalido-correos": "Hubo un error con los correos, corrobore la información.",
     "mensaje": "Te invito a Interforos",
     "titulo-mensaje": "Escribir mensaje:"
   },
-  "consentimiento": {
-    "aceptar": "Aceptar"
+  "consentimiento":
+  {
+    "aceptar":"Aceptar"
   }
 }
