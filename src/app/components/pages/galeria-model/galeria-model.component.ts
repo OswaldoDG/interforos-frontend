@@ -41,6 +41,7 @@ export class GaleriaModelComponent implements OnInit {
   errorMedio: string = 'assets/img/errorMedio.jpg';
   working = false;
   uploadFile: File | null;
+  uploadFiles : FileList;
   uploadFileLabel: string | undefined = 'Choose an image to upload';
   uploadProgress: number;
   uploadUrl: string;
@@ -288,13 +289,15 @@ export class GaleriaModelComponent implements OnInit {
 
   handleFileInput(files: FileList) {
     if (files.length > 0) {
-      this.uploadFile = files.item(0);
-      this.uploadFileLabel = this.uploadFile?.name;
+      this.uploadFiles = files;
+      console.log(this.uploadFiles);
+      //this.uploadFile = files;
+      //this.uploadFileLabel = this.uploadFile?.name;
     }
   }
 
   upload() {
-    if (!this.uploadFile) {
+    if (!this.uploadFiles) {
       this.toastService.warning(this.T['fotos.no-file'], {
         position: 'bottom-center',
       });
@@ -306,46 +309,55 @@ export class GaleriaModelComponent implements OnInit {
     this.working = true;
     this.spinner.show('loading');
 
-    const formData: FileParameter = {
-      fileName: this.uploadFile.name,
-      data: this.uploadFile,
-    };
+
+    for(let i = 0; i<this.uploadFiles.length; i++){
+      const formData: FileParameter = {
+        fileName: this.uploadFiles[i].name,
+        data: this.uploadFiles[i],
+      };
+
+      this.cargarArchivos(formData);
+
+    }
+  }
+
+  cargarArchivos(formData : FileParameter){
     this.apiContenido
-      .carga(
-        this.uid,
-        'galeria',
-        formData,
-        this.datosimagen.get('titulo').value,
-        this.castingId
-      )
-      .pipe(first())
-      .subscribe(
-        (e) => {
-          this.fileInput.nativeElement.value = '';
-          this.toastService.success(this.T['fotos.foto-ok'], {
-            position: 'bottom-center',
-          });
-          this.uploadFile = null;
-          this.uploadFileLabel = null;
-          this.spinner.hide('loading');
-          this.uploadProgress = 0;
-          this.working = false;
-          this.addElementoView(this.toLink(e));
-          this.datosimagen.get('titulo').setValue('');
-        },
-        (err) => {
-          this.fileInput.nativeElement.value = '';
-          this.toastService.error(this.T['fotos.foto-error'], {
-            position: 'bottom-center',
-          });
-          this.uploadFile = null;
-          this.uploadFileLabel = '';
-          this.spinner.hide('loading');
-          this.uploadProgress = 0;
-          this.working = false;
-          console.error(err);
-        }
-      );
+    .carga(
+      this.uid,
+      'galeria',
+      formData,
+      this.datosimagen.get('titulo').value,
+      this.castingId
+    )
+    .pipe(first())
+    .subscribe(
+      (e) => {
+        this.fileInput.nativeElement.value = '';
+        this.toastService.success(this.T['fotos.foto-ok'], {
+          position: 'bottom-center',
+        });
+        this.uploadFile = null;
+        this.uploadFileLabel = null;
+        this.spinner.hide('loading');
+        this.uploadProgress = 0;
+        this.working = false;
+        this.addElementoView(this.toLink(e));
+        this.datosimagen.get('titulo').setValue('');
+      },
+      (err) => {
+        this.fileInput.nativeElement.value = '';
+        this.toastService.error(this.T['fotos.foto-error'], {
+          position: 'bottom-center',
+        });
+        this.uploadFile = null;
+        this.uploadFileLabel = '';
+        this.spinner.hide('loading');
+        this.uploadProgress = 0;
+        this.working = false;
+        console.error(err);
+      }
+    );
   }
 
   onChangeCategoria(id: string) {
