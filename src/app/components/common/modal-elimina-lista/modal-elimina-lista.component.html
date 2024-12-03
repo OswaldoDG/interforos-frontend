@@ -1,0 +1,18 @@
+<div [formGroup]="formModalListas">
+    <div class="modal-body">
+        <div class="row">
+            <br><br>
+            <ng-template #contactoModalListas>
+                <div class="modal-body text-center">
+                    <h6>{{'proyectos.eliminar-casting-mensaje' | translate}} <h5>{{ELIMINAR}}</h5>
+                    </h6>
+                    <input type="text" class="btn btn-light" formControlName="nombre">
+                    <button class="btn btn-default" (click)="decline()">{{'proyectos.eliminar-casting-cancelar' |
+                        translate}}</button>
+                    <button class="btn btn-primary" (click)="confirm()">{{'proyectos.eliminar-casting-confirmar' |
+                        translate}}</button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

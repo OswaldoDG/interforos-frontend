@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import {
   CatalogoBase,
   ClienteView,
+  ListaTalento,
   Persona,
   PersonaClient,
   SelectorCastingCategoria,
@@ -29,6 +30,9 @@ export class CastingStaffServiceService {
   private personaNombre: string;
   public catalogos: CatalogosCliente[] = [];
   public cliente: ClienteView;
+  private listaActual: ListaTalento = null;
+  idListaActual: EventEmitter<string> = new EventEmitter();
+  lista: EventEmitter<object> = new EventEmitter();
 
   constructor(
     sessionQuery: SessionQuery,
@@ -89,7 +93,16 @@ export class CastingStaffServiceService {
         (c) => c.id == this.categoriaActual
       );
 
-      return this.casting.categorias[indexC].modelos.findIndex(_=>_.personaId==idPersona);
+      return this.casting.categorias[indexC].modelos.findIndex(_ => _.personaId == idPersona);
+    } else {
+      return -1;
+    }
+  }
+
+  //verifica si una persona esta en la lista actual
+  public personaEnLista(idPersona: string): number {
+    if (this.listaActual) {
+      return this.listaActual.idPersonas.findIndex(p => p == idPersona);
     } else {
       return -1;
     }
@@ -100,7 +113,7 @@ export class CastingStaffServiceService {
     const tmp: string[] = [];
     if (this.casting) {
       this.casting.categorias.forEach((c) => {
-        if (c.modelos.findIndex(_=>_.personaId==idPersona) >= 0) {
+        if (c.modelos.findIndex(_ => _.personaId == idPersona) >= 0) {
           tmp.push(c.id);
         }
       });
@@ -126,13 +139,13 @@ export class CastingStaffServiceService {
   //agregar un modelo
   public agregarModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    var consecutivo = Math.max(...this.casting.categorias[indexC].modelos.map(_=>_.consecutivo));
-    this.casting.categorias[indexC].modelos.push({consecutivo:consecutivo,personaId:modeloId});
+    var consecutivo = Math.max(...this.casting.categorias[indexC].modelos.map(_ => _.consecutivo));
+    this.casting.categorias[indexC].modelos.push({ consecutivo: consecutivo, personaId: modeloId });
   }
   //remueve un modelo
   public removerModelo(modeloId: string, categoriaId: string) {
     var indexC = this.casting.categorias.findIndex((c) => c.id == categoriaId);
-    var indexM = this.casting.categorias[indexC].modelos.findIndex(_=>_.personaId==modeloId);
+    var indexM = this.casting.categorias[indexC].modelos.findIndex(_ => _.personaId == modeloId);
     this.casting.categorias[indexC].modelos.splice(indexM, 1);
   }
 
@@ -141,6 +154,12 @@ export class CastingStaffServiceService {
       this.casting = castingNuevo;
     }
   }
+
+  public ActualizaLista(id: string, l?: ListaTalento) {
+    this.idListaActual.emit(id);
+    this.lista.emit(l);
+  }
+
   public ActualizarCategoria(categoria: string) {
     if (categoria != null) {
       this.categoriaActual = categoria;

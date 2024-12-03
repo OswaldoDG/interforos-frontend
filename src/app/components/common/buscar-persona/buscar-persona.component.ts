@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   OnDestroy,
@@ -16,6 +17,8 @@ import {
   BusquedaPersonasRequestPaginado,
   CastingClient,
   ElementoCatalogo,
+  ListasClient,
+  ListaTalento,
   Persona,
   PersonaClient,
   SelectorCastingCategoria,
@@ -29,6 +32,7 @@ import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-buscar-persona',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './buscar-persona.component.html',
   styleUrls: ['./buscar-persona.component.scss'],
 })
@@ -38,7 +42,10 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   private catalogos: CatalogosCliente[] = [];
   private T: any;
+  resListas: ListaTalento[];
   inCall: boolean = false;
+  isList: boolean = false;
+  miembrosListas: boolean = true;
 
   dropdownSettings: any;
 
@@ -78,6 +85,11 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     categorias: [null],
   });
 
+  formListas: FormGroup = this.fb.group({
+    listas: [null]
+  });
+
+  listaId: string = null;
   categoriaId: string = null;
   porCategorias: boolean = false;
   orden = 'consecutivo';
@@ -93,12 +105,16 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     private castingClient: CastingClient,
     private formBuilder: FormBuilder,
     private servicio: CastingStaffServiceService,
-    private servicioBusqueda: BusquedaPersonasService
+    private servicioBusqueda: BusquedaPersonasService,
+    private apiListas: ListasClient
   ) {
     this.formBuscarCasting = this.formBuilder.group({
       casting: ['', Validators.required],
       categorias: ['', Validators.required],
       porCategorias: [this.porCategorias],
+    });
+    this.formListas = formBuilder.group({
+      listas: ['', Validators.required]
     });
   }
 
@@ -111,6 +127,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     this.servicio.PutModoTrabajo(true);
     this.cargarCastings();
     this.CargaTraducciones();
+    this.cargarListas();
   }
 
   formBuscar: FormGroup = this.fb.group({
@@ -322,7 +339,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         );
     });
   }
-  ngOnChanges(): void {}
+  ngOnChanges(): void { }
 
   onChangeCasting(id: any) {
     this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
@@ -358,5 +375,21 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       }
     });
     this.castings = temp;
+  }
+  cargarListas(): void {
+    this.apiListas.listasGet(this.miembrosListas).subscribe({
+      next: res => this.resListas = res,
+      error: e => console.log(e)
+    });
+  }
+  onChangeListas(id: string): void {
+    let listaActual = this.resListas.find((l) => l.id == id);
+    this.servicio.ActualizaLista(id, listaActual);
+  }
+  onDestroyCategorias(): void {
+    console.log('categorias destruido');
+  }
+  buscarModelosLista(): void {
+
   }
 }

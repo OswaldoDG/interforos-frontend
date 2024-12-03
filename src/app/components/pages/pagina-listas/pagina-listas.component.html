@@ -1,0 +1,68 @@
+<app-promodel-sidemenu></app-promodel-sidemenu>
+
+<!-- Start Main Content Wrapper Area -->
+<div class="main-content d-flex flex-column">
+    <app-navbar-staff></app-navbar-staff>
+
+    <ngx-spinner name="loadListas" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+        <p class="loading">...</p>
+    </ngx-spinner>
+
+    <!-- Start -->
+
+    <h3>{{ "proyectos.header-listas" | translate }}</h3>
+    <ngx-spinner name="loadCastings" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+        <p class="loading">...</p>
+    </ngx-spinner>
+
+    <div class="container">
+        <div>
+            <div class="row justify-content-center">
+                <form [formGroup]="formCrearLista" *ngIf="crearLista">
+                    <div class="row">
+                        <div class="col col-lg-8 col-md-8 col-sm-8 p-3">
+                            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreLista"
+                                required>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 p-4">
+                            <button type="button" class="ms-3 btn btn-primary"
+                                (click)=" crearEditar == 'C' ? postListas() : putListas() ">
+                                {{ crearEditar == 'C' ? ('proyectos.crear-lista' | translate) :
+                                ('proyectos.editar-lista'
+                                | translate)}}
+                            </button>
+                            <button type="button" class="ms-3 btn btn-danger" (click)="muestraForm()">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-lg-12 col-md-12 col-sm-12 p-3" *ngIf="!crearLista">
+                    <button type="button" class="ms-3 btn btn-primary" (click)="muestraForm('C'); creaForm()">
+                        {{ "proyectos.crear" | translate }}
+                    </button>
+
+                    <button class="ms-3 btn btn-primary" (click)="obtieneListas()">
+                        {{ "proyectos.refrescar" | translate }}
+                    </button>
+                </div>
+
+                <div class="col col-lg-8 col-md-8 col-sm-8 p-3">
+                    <div [formGroup]="formBusquedaListas">
+                        <input type="text" class="form-control" placeholder="Buscar" formControlName="buscarLista" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bookings-listings-box"></div>
+        </div>
+
+        <div class="row">
+            <div class="d-block col-lg-3 col-md-6 col-sm-12 pt-2" *ngFor="let lista of listasFiltradas">
+                <app-list-card [listaTalento]="lista" (lista)="editarLista($event)"
+                    (modalOk)="eliminaDeModal($event)"></app-list-card>
+            </div>
+        </div>
+
+    </div>
