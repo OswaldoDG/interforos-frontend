@@ -54,7 +54,7 @@ export class PaginaListasComponent implements OnInit {
   }
 
   obtieneTraducciones() {
-    this.translate.get(['proyectos.error-lista-crear', 'proyectos.error-lista-actualizar']).subscribe((ts) => {
+    this.translate.get(['proyectos.error-lista-crear', 'proyectos.error-lista-actualizar','proyectos.error-lista-actualizar-409']).subscribe((ts) => {
       this.T = ts;
     })
   }
@@ -113,9 +113,15 @@ export class PaginaListasComponent implements OnInit {
         },
         error: e => {
           this.muestraForm();
-          this.toastService.error(this.T['proyectos.error-lista-actualizar'], {
-            position: 'bottom-center'
-          });
+          if(e.status == 409) {
+            this.toastService.warning(this.T['proyectos.error-lista-actualizar-409'], {
+              position: 'bottom-center'
+            });
+          } else {
+            this.toastService.error(this.T['proyectos.error-lista-actualizar'], {
+              position: 'bottom-center'
+            });            
+          }
         }
       })
     }

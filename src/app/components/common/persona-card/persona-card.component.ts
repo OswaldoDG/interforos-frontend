@@ -6,18 +6,15 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CastingClient, ListasClient, ListaTalento, Persona } from 'src/app/services/api/api-promodel';
-import { environment } from 'src/environments/environment';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
-import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { CastingStaffServiceService, DatosSeleccion } from 'src/app/services/casting-staff-service.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-persona-card',
@@ -47,15 +44,18 @@ export class PersonaCardComponent implements OnInit {
     height: '250px',
     space: 1,
   };
-  enCasting: boolean = null;
   enLista: boolean = false;
-  idLista: string = '';
+  
   T: any;
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
   nombrePersona: string;
   playbackId: string = null;
   verVideo: boolean = false;
+
+  banderaCasting: boolean = false;
+  banderaLista: boolean = false;
+
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -75,8 +75,6 @@ export class PersonaCardComponent implements OnInit {
       if (this.persona?.elementoMedioPrincipalId) {
         this.avatarUrl = `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
       }
-      this.validarExiste();
-
     }
   }
 
@@ -91,83 +89,60 @@ export class PersonaCardComponent implements OnInit {
           this.mobile = true;
         }
       });
-    this.servicio.CategoriaSub().subscribe((e) => {
-      this.validarExiste();
-    });
 
+      this.servicio.DatosSeleccionSub().subscribe((e) => {
+        this.ConfiguraSelectores(e);
+      });
+  
+
+  
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
+
     this.getNombreModelo();
-    const nombreModelo =
-      this.persona.nombre +
-      ' ' +
-      this.persona.apellido1 +
-      ' ' +
-      this.persona.apellido2;
+    const nombreModelo = this.persona.nombre + ' ' + this.persona.apellido1 +' ' + this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
-    this.ValidarLista();
-  }
-  validarExiste() {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      this.mostrarBandera = true;
-    }
-    this.enCasting =
-      this.servicio
-        .CastingsPersona(this.persona.id)
-        .indexOf(this.servicio.CategoriActual()) >= 0;
-    if (this.servicio.personaEnCategoria(this.persona.id) >= 0) {
-      this.enCategoria = true;
-    } else {
-      this.enCategoria = false;
-    }
+    this.ConfiguraSelectores(this.servicio.SeleccionActual());
   }
 
-  ValidarLista() {
-    this.spinner.show('loadMedios');
-    this.servicio.idListaActual.subscribe((id) => {
-      this.lista = true;
-      this.idLista = id;
 
-    })
+  ConfiguraSelectores(e:  DatosSeleccion) {
+    this.banderaCasting = e.casting && e.id != null  &&  e.id != '' && e.subid != null  &&  e.subid != '' ;
+    this.banderaLista = e.lista && e.id != null  &&  e.id != '';
+    this.enLista = false;
+    this.enCategoria = false;
 
-    this.servicio.lista.subscribe((l: ListaTalento) => {
-      if (l.idPersonas.find(_ => _ == this.persona.id)) {
-        this.enLista = true;
-      } else {
-        this.enLista = false;
-      }
-    })
-    this.spinner.hide('loadMedios');
+    if (this.banderaCasting) {
+      this.enCategoria = this.servicio.personaEnCategoria(this.persona.id) >= 0;
+    }
+
+    if (this.banderaLista) {
+        this.enLista = this.servicio.personaEnLista(this.persona.id) >= 0;
+    }
   }
 
   onChangeCheckBox(id: string) {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      if (this.enCasting) {
+    if (this.servicio.SeleccionActual().casting) {
+      if (!this.enCategoria) {
         this.castingService
-          .modeloPut(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
+          .modeloPut(this.servicio.SeleccionActual().id, id, this.servicio.SeleccionActual().subid
           )
           .subscribe((d) => {
-            this.servicio.agregarModelo(id, this.servicio.CategoriActual());
+            this.servicio.agregarModelo(id, this.servicio.SeleccionActual().subid);
             this.enCategoria = !this.enCategoria;
           });
       } else {
         this.castingService
           .modeloDelete(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
+            this.servicio.SeleccionActual().id, id, this.servicio.SeleccionActual().subid
           )
           .subscribe((d) => {
-            this.servicio.removerModelo(id, this.servicio.CategoriActual());
+            this.servicio.removerModelo(id, this.servicio.SeleccionActual().subid);
             this.enCategoria = !this.enCategoria;
           });
       }
     } else {
-      this.enCasting = !this.enCasting;
       this.enCategoria = !this.enCategoria;
       this.toastService.warning(this.T['buscar.categorias-error'], {
         position: 'bottom-center',
@@ -177,16 +152,18 @@ export class PersonaCardComponent implements OnInit {
 
   onChangeListaCheckBox(idPersona: string) {
     if (!this.enLista) {
-      this.listasService.miembroPost(this.idLista, idPersona).subscribe({
+      this.listasService.miembroPost(this.servicio.SeleccionActual().id, idPersona).subscribe({
         next: res => {
+          this.servicio.agregarModeloLista(idPersona);
           this.enLista = !this.enLista;
         },
         error: e => {
         }
       })
     } else {
-      this.listasService.miembroDelete(this.idLista, idPersona).subscribe({
+      this.listasService.miembroDelete(this.servicio.SeleccionActual().id, idPersona).subscribe({
         next: res => {
+          this.servicio.removerModeloLista(idPersona);
           this.enLista = !this.enLista
         },
         error: e => {

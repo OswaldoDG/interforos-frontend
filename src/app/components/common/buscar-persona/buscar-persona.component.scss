@@ -12,7 +12,7 @@ form {
         padding: 0.6rem 0.75rem;
      }
 
-    button {
+    .buttonGold {
         display: block;
         background-color: var(--mainColor);
         color: var(--whiteColor);
@@ -29,4 +29,5 @@ form {
             color: var(--whiteColor);
         }
     }
+
 }

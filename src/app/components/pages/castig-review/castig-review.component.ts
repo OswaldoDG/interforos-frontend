@@ -239,13 +239,19 @@ export class CastigReviewComponent implements OnInit {
     this.ModeloIdEliminar = null;
   }
 
-  excelDescarga(castingId: string): void {
+  excelDescarga(castingId: string, formato: string): void {
     this.spinner.show('loadCategorias');
     this.btnExcelDescarga = true;
-    this.excelDescargaServicio.descargarArchivoExcel2(castingId).subscribe(
+    this.excelDescargaServicio.descargarArchivoExcel2(castingId, formato).subscribe(
       (response: HttpResponse<Blob>) => {
+        var extension = ".pdf";
+        if(formato == "excel") {
+          extension = ".xslx";
+        }
+
+        console.log(extension);
         const blobData: Blob = response.body;
-        this.descargarArchivo(blobData);
+        this.descargarArchivo(blobData, extension);
       },
       (err) => {
         this.spinner.hide('loadCategorias');
@@ -257,7 +263,7 @@ export class CastigReviewComponent implements OnInit {
     );
   }
 
-  private descargarArchivo(blobData: Blob): void {
+  private descargarArchivo(blobData: Blob, extension: string ): void {
     const currentDate: Date = new Date();
     const formattedDate: string = `${currentDate.getUTCFullYear()}-${(
       currentDate.getUTCMonth() + 1
@@ -267,7 +273,7 @@ export class CastigReviewComponent implements OnInit {
       .getUTCDate()
       .toString()
       .padStart(2, '0')}`;
-    const filename: string = `${formattedDate}__${this.casting.nombre}.pdf`;
+    const filename: string = `${formattedDate}__${this.casting.nombre}.${extension}`;
     const url = window.URL.createObjectURL(blobData);
     const a = document.createElement('a');
     document.body.appendChild(a);
