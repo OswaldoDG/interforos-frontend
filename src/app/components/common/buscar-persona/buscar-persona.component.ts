@@ -94,7 +94,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   castingId:string = null;
   listaId: string = null;
   categoriaId: string = null;
-  
+
   porCategorias: boolean = false;
   orden = 'consecutivo';
   ordenModelos = ['consecutivo', 'nombre', 'nombreArtistico', 'edad'];
@@ -374,7 +374,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     this.ordenASC = !this.ordenASC;
     this.buscar();
   }
-  
+
   MostrarCategoriasCasting() {
     this.categorias = this.castings.find((c) => c.id == this.castingId).categorias;
     if(this.categorias.length> 0) {
@@ -400,25 +400,25 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     });
     this.castings = temp;
   }
-  
+
   cargarListas(): void {
     this.apiListas.listasGet(this.miembrosListas).subscribe({
       next: res => this.resListas = res,
       error: e => console.log(e)
     });
   }
-  
+
   onChangeListas(id: string): void {
     this.listaId = id;
     this.setListaData();
   }
-  
+
   onDestroyCategorias(): void {
     console.log('categorias destruido');
   }
-  
+
   buscarModelosLista(): void {
-    if(this.listaId) { 
+    if(this.listaId) {
       this.EstadoBusqueda.emit(true);
         this.servicioBusqueda.solicitudBusquedaPersonasId(
           this.BusquedListaIds()
@@ -476,12 +476,12 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     this.descargarLista = true;
     this.excelDescargaServicio.descargarArchivoExcel2(castingId, formato).subscribe(
       (response: HttpResponse<Blob>) => {
-        
+
         var extension = ".pdf";
         if(formato == "excel") {
-          extension = ".xslx";
+          extension = ".xlsx";
         }
-        
+
         const blobData: Blob = response.body;
         this.descargarArchivo(blobData,this.servicio.SeleccionActual().castingData.nombre, extension);
       },
@@ -504,12 +504,12 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       (response: HttpResponse<Blob>) => {
 
         var contentype = response.headers.get('content-type');
-        
+
         var extension = ".pdf";
         if(formato == "excel") {
-          extension = ".xslx";
+          extension = ".xlsx";
         }
-        
+
         const blobData: Blob = response.body;
         this.descargarArchivo(blobData,this.servicio.SeleccionActual().listData.nombre, extension);
       },
@@ -534,7 +534,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       .getUTCDate()
       .toString()
       .padStart(2, '0')}`;
-    const filename: string = `${formattedDate}__${nombre}.${extension}`;
+    const filename: string = `${formattedDate}__${nombre}${extension}`;
     const url = window.URL.createObjectURL(blobData);
     const a = document.createElement('a');
     document.body.appendChild(a);

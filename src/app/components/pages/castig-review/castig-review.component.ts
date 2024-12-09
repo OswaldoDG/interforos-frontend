@@ -246,7 +246,7 @@ export class CastigReviewComponent implements OnInit {
       (response: HttpResponse<Blob>) => {
         var extension = ".pdf";
         if(formato == "excel") {
-          extension = ".xslx";
+          extension = ".xlsx";
         }
 
         console.log(extension);
@@ -273,7 +273,7 @@ export class CastigReviewComponent implements OnInit {
       .getUTCDate()
       .toString()
       .padStart(2, '0')}`;
-    const filename: string = `${formattedDate}__${this.casting.nombre}.${extension}`;
+    const filename: string = `${formattedDate}__${this.casting.nombre}${extension}`;
     const url = window.URL.createObjectURL(blobData);
     const a = document.createElement('a');
     document.body.appendChild(a);
