@@ -534,7 +534,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       .getUTCDate()
       .toString()
       .padStart(2, '0')}`;
-    const filename: string = `${formattedDate}__${nombre}${extension}`;
+    const filename: string = `${formattedDate}-${nombre}${extension}`;
     const url = window.URL.createObjectURL(blobData);
     const a = document.createElement('a');
     document.body.appendChild(a);
