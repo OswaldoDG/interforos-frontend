@@ -163,6 +163,9 @@ import { PersonaCardReviewComponent } from './components/common/persona-card-rev
 import { DatePipe } from '@angular/common';
 defineLocale('es', esLocale);
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-listas.component';
+import { ListCardComponent } from './components/common/list-card/list-card.component';
+import { ModalEliminaListaComponent } from './components/common/modal-elimina-lista/modal-elimina-lista.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -284,8 +287,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     PromodelAgenciaComponent,
     GaleriaPersonaComponent,
     PersonaCardReviewComponent,
+    PaginaListasComponent,
+    ListCardComponent,
+    ModalEliminaListaComponent,
   ],
   imports: [
+    TabsModule,
     PopoverModule.forRoot(),
     AppRoutingModule,
     RecaptchaV3Module,
@@ -348,4 +355,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

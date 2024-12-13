@@ -46,6 +46,7 @@ export class PaginadoPersonasComponent implements OnInit {
       this.total = this.personas.total;
       this.gridListings = this.personas.pagina;
       this.personaService.obtieneCatalogoCliente().subscribe((done) => {
+        this.datosValidos = false;
         if (this.personas?.elementos) {
           const tmp: Persona[] = [];
           this.personas.elementos.forEach((p) => {
@@ -71,6 +72,7 @@ export class PaginadoPersonasComponent implements OnInit {
   }
   ngOnInit(): void {
     this.servicioBusqueda.personaSub().subscribe((data) => {
+      console.log(data);
       this.personas = data;
       this.procesaPersonas();
     });

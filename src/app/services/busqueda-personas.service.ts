@@ -20,6 +20,10 @@ export class BusquedaPersonasService {
 
   constructor(private personaApi: PersonaClient) {}
 
+  clearLista() {
+    this.personasEncontradas.next( { elementos: [], total: 0, pagina: 0, tamano: 0});
+  } 
+
   solicitudBusquedaPersonas(busqueda: BusquedaPersonasRequestPaginado) {
     this.personasBuscarActual = busqueda;
     if (busqueda) {

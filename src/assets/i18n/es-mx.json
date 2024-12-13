@@ -10,7 +10,11 @@
     "logOut": "Cerrar Sesion"
   },
   "buscar": {
+    "btn-mostrar": "Mostrar",
     "btn-buscar": "Buscar",
+    "btn-descargar": "Descargar",
+    "btn-descargar-pdf": "PDF",
+    "btn-descargar-excel": "Excel",
     "genero": "Género",
     "edad": "Rango de edad",
     "edad-min": "Mínima",
@@ -42,7 +46,8 @@
     "next": "Siguiente",
     "before": "Anterior",
     "agregarModelo": "Agregar a Casting",
-    "fechas": "Fechas"
+    "fechas": "Fechas",
+    "listas": "Listas"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
@@ -76,13 +81,19 @@
     "error-409": "Modelo ya se encuentra en la categoria",
     "modelo": "Se agrego el modelo correctamente",
     "edad": " años",
-    "excel-status-suc": "Archivo PDF descargado.",
+    "excel-status-suc": "Archivo descargado satisfactoriamente.",
     "excel-status-err": "No se pudo descargar, intente más tarde.",
     "perfil-detalles": "Ver Detalles..."
   },
   "proyectos": {
     "header": "Administrador de castings",
+    "header-listas": "Administrador de listas",
     "crear": "Nuevo",
+    "crear-lista": "Crear lista",
+    "editar-lista": "Renombrar",
+    "error-lista-crear": "Ocurrio un error al crear la lista",
+    "error-lista-actualizar": "Ocurrio un error al actualizar la lista",
+    "error-lista-actualizar-409": "El nombre de la lista ya está en uso",
     "edita": "Modificar",
     "eliminar": "Eliminar",
     "form-Generales": "Generales",
@@ -115,7 +126,7 @@
     "form-compartir": "Compartir",
     "form-compartir-notificacion": "Se ha copiado link a PortaPapeles",
     "form-compartir-notificacion-error": "No se ha podido copiar link a PortaPapeles",
-    "refrescar": "Actualizar Lista",
+    "refrescar": "Refrescar",
     "form-acepta-autoinscripcion": "Los modelos pueden inscribirse",
     "form-cierre-automatico": "El casting se cierra automáticamente en la fecha",
     "form-apertura-automatica": "El casting se abre automáticamente en la fecha",
@@ -132,6 +143,7 @@
     "tabla-cambiar-estado": "Estado del Casting:",
     "tabla-colaborar": "Colaborar",
     "tabla-cambiar": "Cambiar",
+    "tabla-talentos": "Talentos",
     "casting-estado-EnEdicion": "En Edición",
     "casting-estado-Abierto": "Abierto",
     "casting-estado-Cerrado": "Cerrado",
@@ -141,7 +153,9 @@
     "eliminar-casting-confirmar": "Confirmar",
     "eliminar-casting-cancelar": "Cancelar",
     "succes-mensaje-eliminacion": "Se eliminó correctamente el casting.",
+    "succes-mensaje-elimina-lista": "Se eliminó correctamente la lista",
     "error-mensaje-eliminacion": "Ocurrió un error al eliminar el casting, intente más tarde",
+    "error-mensaje-elimina-lista": "Ocurrió un error al eliminar la lista, intente más tarde",
     "error-confirmacion": "Error al Confirmar.",
     "VerRedesSociales": "Redes Sociales",
     "VerTelefono": "Teléfono",
@@ -209,7 +223,8 @@
     "salir": "Salir",
     "proyectos": "Castings",
     "agencia": "Agencia",
-    "misModelos": "Mis Modelos"
+    "misModelos": "Mis Modelos",
+    "listas": "Listas"
   },
   "staff-search": {
     "titulo": "Buscar talento"
@@ -432,36 +447,35 @@
     "invitar-correos-enviados": "Invitaciones Enviadas",
     "invitar-correos-novalidos": "Ocurrió un problema, verifique los emails proporcionados",
     "invitar-correos-error": "Ocurrió un problema, intentelo más tarde",
-    "invitar-correos-requiere" : "Se requiere la selección de alguna agencia."
+    "invitar-correos-requiere": "Se requiere la selección de alguna agencia."
   },
-  "crea-actualiza-agente":{
-    "titulo-proceso-agencia":"Administrador de Agencias",
-    "nombre-agencia":"Nombre Agencia",
-    "clave-agencia":"Clave",
-    "guardar-agencia":"Guardar",
-    "mensaje-update":"Nombre de Agencia Actualizado",
-    "mensaje-inserta":"Agencia registrada correctamente",
-    "registro-agencia":"Ingrese el nombre de la Agencia",
-    "actualiza-agencia":"Se requiere la selección de alguna agencia para actualizar",
-    "admin-listaAgencias":"Lista de Agencias",
-    "agencia-update":"Actualizar Agencia",
-    "agencia-registro":"Registro Agencia",
-    "elimina-agencia":"Eliminar Agencia",
-    "registro-agencia-exito":"Agencia registrada",
+  "crea-actualiza-agente": {
+    "titulo-proceso-agencia": "Administrador de Agencias",
+    "nombre-agencia": "Nombre Agencia",
+    "clave-agencia": "Clave",
+    "guardar-agencia": "Guardar",
+    "mensaje-update": "Nombre de Agencia Actualizado",
+    "mensaje-inserta": "Agencia registrada correctamente",
+    "registro-agencia": "Ingrese el nombre de la Agencia",
+    "actualiza-agencia": "Se requiere la selección de alguna agencia para actualizar",
+    "admin-listaAgencias": "Lista de Agencias",
+    "agencia-update": "Actualizar Agencia",
+    "agencia-registro": "Registro Agencia",
+    "elimina-agencia": "Eliminar Agencia",
+    "registro-agencia-exito": "Agencia registrada",
     "actualiza-agencia-exito": "Agencia actualizada"
   },
-  "invitar-modelo":{
+  "invitar-modelo": {
     "titulo": "Invitar Modelos",
     "enviar": "Enviar invitaciones",
     "correos": "Emails:",
     "confirmacion-enviadas": "Las invitaciones fueron enviadas.",
-    "error-envio":"Ocurrio un problema, intente más tarde.",
+    "error-envio": "Ocurrio un problema, intente más tarde.",
     "invalido-correos": "Hubo un error con los correos, corrobore la información.",
     "mensaje": "Te invito a Interforos",
     "titulo-mensaje": "Escribir mensaje:"
   },
-  "consentimiento":
-  {
-    "aceptar":"Aceptar"
+  "consentimiento": {
+    "aceptar": "Aceptar"
   }
 }

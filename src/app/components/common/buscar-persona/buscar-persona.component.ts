@@ -1,4 +1,6 @@
+import { HttpResponse } from '@angular/common/http';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   OnDestroy,
@@ -6,39 +8,43 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
+import { TabDirective } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { CatalogoTipoCuerpo } from 'src/app/modelos/entidades-vacias';
-import { CatalogosCliente } from 'src/app/modelos/locales/catalogos-cliente';
 import {
   BusquedaPersonasRequestPaginado,
   CastingClient,
   ElementoCatalogo,
-  Persona,
-  PersonaClient,
+  ListasClient,
+  ListaTalento,
   SelectorCastingCategoria,
   SelectorCategoria,
   TipoCuerpo,
 } from 'src/app/services/api/api-promodel';
 import { BusquedaPersonasService } from 'src/app/services/busqueda-personas.service';
 import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { DownloadExcelService } from 'src/app/services/Files/download-excel.service';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { SessionQuery } from 'src/app/state/session.query';
 
 @Component({
   selector: 'app-buscar-persona',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './buscar-persona.component.html',
   styleUrls: ['./buscar-persona.component.scss'],
 })
 export class BuscarPersonaComponent implements OnInit, OnDestroy {
   @Output() EstadoBusqueda: EventEmitter<boolean> = new EventEmitter();
-  private personas: Persona[] = [];
   private destroy$ = new Subject();
-  private catalogos: CatalogosCliente[] = [];
   private T: any;
+  resListas: ListaTalento[];
   inCall: boolean = false;
+  isList: boolean = false;
+  miembrosListas: boolean = true;
 
   dropdownSettings: any;
 
@@ -78,27 +84,47 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     categorias: [null],
   });
 
+  formListas: FormGroup = this.fb.group({
+    listas: [null]
+  });
+
+  filtrarPorLista: boolean = false;
+  filtrarPorProyecto: boolean = false;
+
+  castingId:string = null;
+  listaId: string = null;
   categoriaId: string = null;
+
   porCategorias: boolean = false;
   orden = 'consecutivo';
   ordenModelos = ['consecutivo', 'nombre', 'nombreArtistico', 'edad'];
   ordenASC: boolean = true;
+
+
+  descargarCasting: boolean = false;
+  descargarLista: boolean = false;
+
   constructor(
-    private personaApi: PersonaClient,
     private personaService: PersonaInfoService,
-    private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private fb: FormBuilder,
     private session: SessionQuery,
     private castingClient: CastingClient,
     private formBuilder: FormBuilder,
     private servicio: CastingStaffServiceService,
-    private servicioBusqueda: BusquedaPersonasService
+    private servicioBusqueda: BusquedaPersonasService,
+    private apiListas: ListasClient,
+    private excelDescargaServicio: DownloadExcelService,
+    private spinner: NgxSpinnerService,
+    private toastService: HotToastService
   ) {
     this.formBuscarCasting = this.formBuilder.group({
       casting: ['', Validators.required],
       categorias: ['', Validators.required],
       porCategorias: [this.porCategorias],
+    });
+    this.formListas = formBuilder.group({
+      listas: ['', Validators.required]
     });
   }
 
@@ -111,6 +137,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     this.servicio.PutModoTrabajo(true);
     this.cargarCastings();
     this.CargaTraducciones();
+    this.cargarListas();
   }
 
   formBuscar: FormGroup = this.fb.group({
@@ -162,10 +189,12 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       tamano: 20,
     };
   }
+
   ordenChange(event) {
     this.orden = event;
     this.buscar();
   }
+
   private BusquedaDesdeFormaIds(): BusquedaPersonasRequestPaginado {
     let personas: string[] = [];
     if (this.porCategorias) {
@@ -197,7 +226,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
     };
   }
 
-  private ATipoCuerpos(ids: string[]): TipoCuerpo[] {
+    private ATipoCuerpos(ids: string[]): TipoCuerpo[] {
     if (ids != null) {
       const tipos = [];
       ids.forEach((id) => {
@@ -239,6 +268,7 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
   private CargaTraducciones() {
     this.translate
       .get([
+        'modelo.excel-status-suc',
         'comun.select-all',
         'comun.select-clear',
         'comun.select-search',
@@ -322,30 +352,41 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
         );
     });
   }
-  ngOnChanges(): void {}
+
+  ngOnChanges(): void { }
 
   onChangeCasting(id: any) {
-    this.servicio.ActualizarCasting(this.castings.find((c) => c.id == id));
-    this.cargarCategorias();
-    //this.servicio.ActualizarCategoria(this.categorias[0].id);
+    this.castingId = id;
+    this.MostrarCategoriasCasting();
   }
+
   onChangeCategoria(id: string) {
-    this.servicio.ActualizarCategoria(id);
+    this.categoriaId = id;
+    this.setCastingData();
   }
+
   onChangeCheckBox() {
     this.porCategorias = !this.porCategorias;
+    this.setCastingData();
   }
+
   onChangeOrden() {
     this.ordenASC = !this.ordenASC;
     this.buscar();
   }
-  cargarCategorias() {
-    this.categorias = this.servicio.CategoriasCastingActual();
-    this.servicio.ActualizarCategoria(this.categorias[0].id);
-    this.categoriaId = this.categorias[0].id;
+
+  MostrarCategoriasCasting() {
+    this.categorias = this.castings.find((c) => c.id == this.castingId).categorias;
+    if(this.categorias.length> 0) {
+      this.categoriaId = this.categorias[0].id;
+    } else {
+      this.categoriaId = null;
+    }
+    this.setCastingData();
   }
+
   cargarCastings() {
-    const temp: SelectorCastingCategoria[] = [];
+    const temp: SelectorCastingCategoria[] = [ { id: '', nombre: '', categorias: [] , participantes: [] } ];
     this.castingClient.castingGet(false).subscribe((data) => {
       if (data) {
         data.forEach((casting) => {
@@ -358,5 +399,157 @@ export class BuscarPersonaComponent implements OnInit, OnDestroy {
       }
     });
     this.castings = temp;
+  }
+
+  cargarListas(): void {
+    this.apiListas.listasGet(this.miembrosListas).subscribe({
+      next: res => this.resListas = res,
+      error: e => console.log(e)
+    });
+  }
+
+  onChangeListas(id: string): void {
+    this.listaId = id;
+    this.setListaData();
+  }
+
+  onDestroyCategorias(): void {
+    console.log('categorias destruido');
+  }
+
+  buscarModelosLista(): void {
+    if(this.listaId) {
+      this.EstadoBusqueda.emit(true);
+        this.servicioBusqueda.solicitudBusquedaPersonasId(
+          this.BusquedListaIds()
+      );
+    }
+  }
+
+
+  private BusquedListaIds(): BusquedaPersonasRequestPaginado {
+    let listaActual = this.resListas.find((l) => l.id == this.listaId);
+      return {
+        request: {
+          ids: listaActual.idPersonas,
+        },
+        ordernarASC: this.ordenASC,
+        ordenarPor: this.orden,
+        pagina: 1,
+        tamano: 20,
+      };
+  }
+
+  onSelectTab(data: TabDirective, id: string): void {
+    switch(id) {
+      case 'l':
+        this.setListaData();
+        break;
+
+      case 'c':
+        this.setCastingData()
+        break;
+    }
+  }
+
+  setCastingData() {
+    var c = this.castings.find(c=>c.id == this.castingId);
+    this.servicio.SetTabCasting(this.castingId, this.categoriaId, this.porCategorias, c);
+  }
+
+  setListaData() {
+    var l = this.resListas.find(c=>c.id == this.listaId);
+    this.servicio.SetTabLista(this.listaId, l);
+  }
+
+  descargarArchivoCasting(formato: string) {
+    this.excelDescargaCasting(this.castingId, formato);
+  }
+
+  descargarArchivoLista(formato: string) {
+    this.excelDescargaLista(this.listaId, formato);
+  }
+
+  excelDescargaCasting(castingId: string, formato: string): void {
+    this.spinner.show('loadCategorias');
+    this.descargarCasting = true;
+    this.descargarLista = true;
+    this.excelDescargaServicio.descargarArchivoExcel2(castingId, formato).subscribe(
+      (response: HttpResponse<Blob>) => {
+
+        var extension = ".pdf";
+        if(formato == "excel") {
+          extension = ".xlsx";
+        }
+
+        const blobData: Blob = response.body;
+        this.descargarArchivo(blobData,this.servicio.SeleccionActual().castingData.nombre, extension);
+      },
+      (err) => {
+        this.spinner.hide('loadCategorias');
+        this.descargarCasting = false;
+        this.descargarLista = false;
+        this.toastService.error(this.T['modelo.excel-status-err'], {
+          position: 'bottom-center',
+        });
+      }
+    );
+  }
+
+  excelDescargaLista(castingId: string, formato: string): void {
+    this.spinner.show('loadCategorias');
+    this.descargarCasting = true;
+    this.descargarLista = true;
+    this.excelDescargaServicio.descargarArchivoLista(castingId, formato).subscribe(
+      (response: HttpResponse<Blob>) => {
+
+        var contentype = response.headers.get('content-type');
+
+        var extension = ".pdf";
+        if(formato == "excel") {
+          extension = ".xlsx";
+        }
+
+        const blobData: Blob = response.body;
+        this.descargarArchivo(blobData,this.servicio.SeleccionActual().listData.nombre, extension);
+      },
+      (err) => {
+        this.spinner.hide('loadCategorias');
+        this.descargarCasting = false;
+        this.descargarLista = false;
+        this.toastService.error(this.T['modelo.excel-status-err'], {
+          position: 'bottom-center',
+        });
+      }
+    );
+  }
+
+  private descargarArchivo(blobData: Blob,nombre: string, extension: string ): void {
+    const currentDate: Date = new Date();
+    const formattedDate: string = `${currentDate.getUTCFullYear()}-${(
+      currentDate.getUTCMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getUTCDate()
+      .toString()
+      .padStart(2, '0')}`;
+    const filename: string = `${formattedDate}-${nombre}${extension}`;
+    const url = window.URL.createObjectURL(blobData);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = url;
+    if (a.download != null || a.download != '') {
+      a.download = filename;
+      this.descargarCasting = false;
+      this.descargarLista = false;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.spinner.hide('loadCategorias');
+      this.toastService.success(this.T['modelo.excel-status-suc'], {
+        position: 'bottom-center',
+      });
+    }
   }
 }

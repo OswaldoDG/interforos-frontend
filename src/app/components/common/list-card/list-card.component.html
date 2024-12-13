@@ -1,0 +1,61 @@
+<div class="card" style="height: 250px">
+    <div class="card-header" style="height: 130px">
+        <div class="d-block card-body col-lg-12 col-md-12 col-sm-12">
+            <div class="center align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                    <h6 class="centered-text">{{listaTalento.nombre}}</h6>
+                </div>
+            </div>
+            <div class="center-buttons">
+                <!-- Agregamos esta clase para centrar las columnas -->
+                <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin">
+                    <!-- Añadimos text-center -->
+                    <div class="m-1">
+                        <button type="button" class="btn btn-outline-secondary no-outline" (click)="confirmar()">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin || esRevisor">
+                    <div class="m-1">
+                        <button type="button" class="btn btn-outline-secondary no-outline" (click)="colaborar()">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                    </div>
+                </div> -->
+                <div class="col-lg-3 col-md-3 col-sm-3 text-center" *ngIf="esStaff || esAdmin">
+                    <!-- Añadimos text-center -->
+                    <div class="m-1">
+                        <button type="button" class="btn btn-outline-secondary no-outline"
+                            (click)="editarCasting(listaTalento)">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-block card-body col-lg-12 col-md-12 col-sm-12" style="height: 100px">
+        <div class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex">
+            <div class="responsive mb-2">
+                <img [src]="urlImage" class="responsive" />
+            </div>
+        </div>
+        <div class="mt-2" style="height: 200px">
+            <div class="hideScroll">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ "proyectos.tabla-talentos" | translate }}</th>
+                            <td>{{listaTalento.idPersonas.length}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <app-modal-elimina-lista (modalConfirm)="reciboDelModal($event)"></app-modal-elimina-lista>
+</div>
+<ngx-spinner name="load" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+    <p class="loading">...</p>
+</ngx-spinner>

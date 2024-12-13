@@ -64,6 +64,7 @@ import { validaPerfilGuard } from './services/guards/validaPerfilGuard';
 import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/promodel-agencia.component';
 import { PagesAgenciaGuard } from './services/guards/pagesAgencia-guard';
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
+import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-listas.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -86,6 +87,11 @@ const routes: Routes = [
     path: 'castings',
     component: PaginaAdminProyectosComponent,
     canActivate: [PagesStaffGuard],
+  },
+  {
+    path: 'listas',
+    component: PaginaListasComponent,
+    canActivate: [PagesStaffGuard]
   },
   {
     path: 'castings/:id',
@@ -209,4 +215,4 @@ const routes: Routes = [
 
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

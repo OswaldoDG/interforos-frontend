@@ -20,7 +20,7 @@
           <span class="icon"><i class="bx bx-search-alt"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.buscar" | translate
-          }}</span>
+            }}</span>
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin || revisor">
@@ -28,7 +28,7 @@
           <span class="icon"><i class="bx bx-briefcase"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.proyectos" | translate
-          }}</span>
+            }}</span>
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active mm-active" *ngIf="agencia||admin">
@@ -36,7 +36,15 @@
           <span class="icon"><i class="bx bxs-user-rectangle"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.misModelos" | translate
-          }}</span>
+            }}</span>
+        </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin">
+        <a routerLink="/listas" class="nav-link">
+          <span class="icon"><i class="bx bx-list-ol"></i></span>
+          <span class="menu-title">{{
+            "side-menu-staff.listas" | translate
+            }}</span>
         </a>
       </li>
       <!-- <li class="nav-item" routerLinkActive="active mm-active">
@@ -114,12 +122,12 @@
       <li class="nav-item-title">
         {{ "side-menu-staff.mi-cuenta" | translate }}
       </li>
-      <li class="nav-item" routerLinkActive="active mm-active"*ngIf="staff || admin">
+      <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin">
         <a routerLink="/staff/invitaragente" class="nav-link">
           <span class="icon"><i class="bi bi-folder-fill"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.agencia" | translate
-          }}</span>
+            }}</span>
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active mm-active">
@@ -127,19 +135,17 @@
           <span class="icon"><i class="bx bxs-user-circle"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.perfil" | translate
-          }}</span>
+            }}</span>
         </a>
       </li>
       <li class="nav-item nav-link" (click)="confirmar()">
-        <div  class="nav-link">
+        <div class="nav-link">
           <span class="icon"><i class="bx bx-log-out"></i></span>
           <span class="menu-title">{{
             "side-menu-staff.salir" | translate
-          }}</span>
-          </div>
-          <app-modal-confirmacion
-          (modalConfirm)="recibidoDelModal($event)"
-        ></app-modal-confirmacion>
+            }}</span>
+        </div>
+        <app-modal-confirmacion (modalConfirm)="recibidoDelModal($event)"></app-modal-confirmacion>
       </li>
     </ul>
   </div>

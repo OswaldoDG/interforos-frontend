@@ -7,14 +7,24 @@
             {{ nombrePersona }}
           </label>
         </div>
-        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="mostrarBandera">
+        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="banderaCasting">
           <div class="form-check">
             <label class="star-checkbox">
-              <input type="checkbox" [(ngModel)]="enCasting" (change)="onChangeCheckBox(persona.id)" />
+              <input type="checkbox" [(ngModel)]="enCategoria" (change)="onChangeCheckBox(persona.id)" />
               <span class="star"></span>
             </label>
           </div>
         </div>
+
+        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="banderaLista">
+          <div class="form-check">
+            <label class="star-checkbox">
+              <input type="checkbox" [checked]="enLista" (change)="onChangeListaCheckBox(persona.id)" />
+              <span class="star"></span>
+            </label>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="card-body">

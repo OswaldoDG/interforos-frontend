@@ -6,13 +6,11 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CastingClient, Persona } from 'src/app/services/api/api-promodel';
-import { environment } from 'src/environments/environment';
+import { CastingClient, ListasClient, ListaTalento, Persona } from 'src/app/services/api/api-promodel';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
-import { CastingStaffServiceService } from 'src/app/services/casting-staff-service.service';
+import { CastingStaffServiceService, DatosSeleccion } from 'src/app/services/casting-staff-service.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,7 +23,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
-  @Input() mostarControlesMisModelos:boolean;
+  @Input() mostarControlesMisModelos: boolean;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
   @Output() personaCargada: EventEmitter<boolean> = new EventEmitter();
@@ -41,17 +39,23 @@ export class PersonaCardComponent implements OnInit {
   tabHome = '';
   tabHomeBtn = '';
   mostrarBandera: boolean = false;
+  lista: boolean = false;
   configCarousel = {
     height: '250px',
     space: 1,
   };
-  enCasting: boolean = null;
+  enLista: boolean = false;
+  
   T: any;
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
   nombrePersona: string;
   playbackId: string = null;
-  verVideo:boolean=false;
+  verVideo: boolean = false;
+
+  banderaCasting: boolean = false;
+  banderaLista: boolean = false;
+
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -60,8 +64,9 @@ export class PersonaCardComponent implements OnInit {
     private toastService: HotToastService,
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
-    private modalService: BsModalService
-  ) {}
+    private modalService: BsModalService,
+    private listasService: ListasClient
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
@@ -70,7 +75,6 @@ export class PersonaCardComponent implements OnInit {
       if (this.persona?.elementoMedioPrincipalId) {
         this.avatarUrl = `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
       }
-      this.validarExiste();
     }
   }
 
@@ -85,66 +89,86 @@ export class PersonaCardComponent implements OnInit {
           this.mobile = true;
         }
       });
-    this.servicio.CategoriaSub().subscribe((e) => {
-      this.validarExiste();
-    });
+
+      this.servicio.DatosSeleccionSub().subscribe((e) => {
+        this.ConfiguraSelectores(e);
+      });
+  
+
+  
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
+
     this.getNombreModelo();
-    const nombreModelo =
-      this.persona.nombre +
-      ' ' +
-      this.persona.apellido1 +
-      ' ' +
-      this.persona.apellido2;
+    const nombreModelo = this.persona.nombre + ' ' + this.persona.apellido1 +' ' + this.persona.apellido2;
     this.servicio.setNombreModelo(nombreModelo);
+    this.ConfiguraSelectores(this.servicio.SeleccionActual());
   }
-  validarExiste() {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      this.mostrarBandera = true;
+
+
+  ConfiguraSelectores(e:  DatosSeleccion) {
+    this.banderaCasting = e.casting && e.id != null  &&  e.id != '' && e.subid != null  &&  e.subid != '' ;
+    this.banderaLista = e.lista && e.id != null  &&  e.id != '';
+    this.enLista = false;
+    this.enCategoria = false;
+
+    if (this.banderaCasting) {
+      this.enCategoria = this.servicio.personaEnCategoria(this.persona.id) >= 0;
     }
-    this.enCasting =
-      this.servicio
-        .CastingsPersona(this.persona.id)
-        .indexOf(this.servicio.CategoriActual()) >= 0;
-    if (this.servicio.personaEnCategoria(this.persona.id) >= 0) {
-      this.enCategoria = true;
-    } else {
-      this.enCategoria = false;
+
+    if (this.banderaLista) {
+        this.enLista = this.servicio.personaEnLista(this.persona.id) >= 0;
     }
   }
+
   onChangeCheckBox(id: string) {
-    if (this.servicio.CastingIdActual() && this.servicio.CategoriActual()) {
-      if (this.enCasting) {
+    if (this.servicio.SeleccionActual().casting) {
+      if (!this.enCategoria) {
         this.castingService
-          .modeloPut(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
+          .modeloPut(this.servicio.SeleccionActual().id, id, this.servicio.SeleccionActual().subid
           )
           .subscribe((d) => {
-            this.servicio.agregarModelo(id, this.servicio.CategoriActual());
+            this.servicio.agregarModelo(id, this.servicio.SeleccionActual().subid);
             this.enCategoria = !this.enCategoria;
           });
       } else {
         this.castingService
           .modeloDelete(
-            this.servicio.CastingIdActual(),
-            id,
-            this.servicio.CategoriActual()
+            this.servicio.SeleccionActual().id, id, this.servicio.SeleccionActual().subid
           )
           .subscribe((d) => {
-            this.servicio.removerModelo(id, this.servicio.CategoriActual());
+            this.servicio.removerModelo(id, this.servicio.SeleccionActual().subid);
             this.enCategoria = !this.enCategoria;
           });
       }
     } else {
-      this.enCasting = !this.enCasting;
       this.enCategoria = !this.enCategoria;
       this.toastService.warning(this.T['buscar.categorias-error'], {
         position: 'bottom-center',
       });
+    }
+  }
+
+  onChangeListaCheckBox(idPersona: string) {
+    if (!this.enLista) {
+      this.listasService.miembroPost(this.servicio.SeleccionActual().id, idPersona).subscribe({
+        next: res => {
+          this.servicio.agregarModeloLista(idPersona);
+          this.enLista = !this.enLista;
+        },
+        error: e => {
+        }
+      })
+    } else {
+      this.listasService.miembroDelete(this.servicio.SeleccionActual().id, idPersona).subscribe({
+        next: res => {
+          this.servicio.removerModeloLista(idPersona);
+          this.enLista = !this.enLista
+        },
+        error: e => {
+        }
+      })
     }
   }
 
@@ -213,7 +237,7 @@ export class PersonaCardComponent implements OnInit {
     );
   }
 
-  openModalMux(template: TemplateRef<void>,index:number) {
+  openModalMux(template: TemplateRef<void>, index: number) {
     this.playbackId = this.videos[index].video;
     this.modalRefMux = this.modalService.show(
       template,

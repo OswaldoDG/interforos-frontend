@@ -29,8 +29,16 @@ export class DownloadExcelService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
-  descargarArchivoExcel2(castingId: string): Observable<HttpResponse<Blob>> {
-    const url = `${this.apiBaseUrl}/api/Casting/${castingId}/excel`;
+  descargarArchivoExcel2(castingId: string, formato: string): Observable<HttpResponse<Blob>> {
+    const url = `${this.apiBaseUrl}/api/Casting/${castingId}/excel?formato=${formato}`;
+    return this.http.get(url, {
+      responseType: 'blob',
+      observe: 'response',
+    });
+  }
+
+  descargarArchivoLista(listaId: string, formato: string): Observable<HttpResponse<Blob>> {
+    const url = `${this.apiBaseUrl}/api/Casting/${listaId}/excel/lista?formato=${formato}`;
     return this.http.get(url, {
       responseType: 'blob',
       observe: 'response',
