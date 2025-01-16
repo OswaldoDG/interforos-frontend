@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnInit,
   Output,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
+  API_BASE_URL,
   CastingClient,
   Persona,
 } from 'src/app/services/api/api-promodel';
@@ -81,6 +83,8 @@ export class PersonaCardReviewComponent implements OnInit {
   ];
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
+  apiBaseUrl: string = '';
+
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -89,8 +93,12 @@ export class PersonaCardReviewComponent implements OnInit {
     private toastService: HotToastService,
     private translate: TranslateService,
     private session: SessionQuery,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    @Inject(API_BASE_URL) baseUrl?: string
+    ) { 
+  
+      this.apiBaseUrl = baseUrl?? '';
+    }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
@@ -119,10 +127,10 @@ export class PersonaCardReviewComponent implements OnInit {
 
           }
           if (medios.imagenPortadaId) {
-            this.fotoCasting = `https://storage.googleapis.com/interforos/modelos/${this.persona.id}/foto/${medios.imagenPortadaId}`;
+            this.fotoCasting = `${this.apiBaseUrl}/contenido/bucket/modelos/${this.persona.id}/foto/${medios.imagenPortadaId}`;
             this.imageObject = [
               {
-                image: this.fotoCasting,
+                image: `${this.fotoCasting}`,
                 thumbImage: this.fotoCasting,
                 title: '',
               },

@@ -109,7 +109,7 @@ export class DatosPersonaComponent implements OnInit {
     dateTimeAdapter.setLocale(session.lang);
     this.mostrarOpcion = environment.catalogosAbiertos == false;
     session.cliente$.pipe(first()).subscribe((c) => {
-      this.documentos = c.documentacion;
+      this.documentos = []; // c.documentacion;
     });
   }
 
@@ -902,18 +902,18 @@ export class DatosPersonaComponent implements OnInit {
   }
 
   docsOK(): boolean {
-    if (this.validarDocumentos) {
-      for (var i: number = 0; i < this.documentos.length; i++) {
-        if (
-          this.documentos[i].obligatorio &&
-          this.persona.documentos.findIndex(
-            (d) => d.id == this.documentos[i].id
-          ) < 0
-        ) {
-          return false;
-        }
-      }
-    }
+    // if (this.validarDocumentos) {
+    //   for (var i: number = 0; i < this.documentos.length; i++) {
+    //     if (
+    //       this.documentos[i].obligatorio &&
+    //       this.persona.documentos.findIndex(
+    //         (d) => d.id == this.documentos[i].id
+    //       ) < 0
+    //     ) {
+    //       return false;
+    //     }
+    //   }
+    // }
     return true;
   }
 

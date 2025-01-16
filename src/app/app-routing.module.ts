@@ -65,9 +65,13 @@ import { PromodelAgenciaComponent } from './components/pages/promodel-agencia/pr
 import { PagesAgenciaGuard } from './services/guards/pagesAgencia-guard';
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
 import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-listas.component';
+import { APComponent } from './components/pages/aviso-privacidad/ap.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
+  {
+    path: 'aviso', component: APComponent
+  },
   {
     path: 'staff',
     component: PromodelStaffComponent,
