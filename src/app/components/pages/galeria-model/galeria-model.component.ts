@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   InjectionToken,
   Input,
   OnInit,
@@ -15,6 +16,7 @@ import {
   PersonaClient,
   CastingPersonaCompleto,
   MediaCliente,
+  API_BASE_URL,
 } from 'src/app/services/api/api-promodel';
 import { first } from 'rxjs/operators';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -26,8 +28,6 @@ import { PersonaInfoService } from 'src/app/services/persona/persona-info.servic
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { FormControl, FormGroup } from '@angular/forms';
 import '@mux/mux-player';
-
-export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Component({
   selector: 'app-galeria-model',
@@ -57,6 +57,8 @@ export class GaleriaModelComponent implements OnInit {
   castingsActuales: CastingPersonaCompleto[] = [];
   castingId: string = '';
   verVideo: boolean = true;
+  apiBaseUrl: string = '';
+
   @ViewChild('fileInput') fileInput: any;
   constructor(
     private servicioPersona: PersonaInfoService,
@@ -64,8 +66,12 @@ export class GaleriaModelComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private personaApi: PersonaClient
-  ) {}
+    private personaApi: PersonaClient,
+      @Inject(API_BASE_URL) baseUrl?: string
+      ) { 
+    
+        this.apiBaseUrl = baseUrl?? '';
+      }
 
   get titulo() {
     return this.datosimagen.get('titulo')!;
@@ -100,8 +106,8 @@ export class GaleriaModelComponent implements OnInit {
         principal: e.principal,
         landscape: e.landscape,
         titulo: e.titulo,
-        url: `https://storage.googleapis.com/interforos/modelos/${this.usuarioId}/foto/${e.id}${e.extension}`,
-        urlFull: `https://storage.googleapis.com/interforos/modelos/${this.usuarioId}/foto/${e.id}-mini${e.extension}`,
+        url: `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioId}/foto/${e.id}${e.extension}`,
+        urlFull: `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioId}/foto/${e.id}-mini${e.extension}`,
         castingId: e.castingId,
       };
     } else {

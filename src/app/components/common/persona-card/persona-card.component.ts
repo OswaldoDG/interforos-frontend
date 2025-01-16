@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnInit,
   Output,
@@ -8,7 +9,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CastingClient, ListasClient, ListaTalento, Persona } from 'src/app/services/api/api-promodel';
+import { API_BASE_URL, CastingClient, ListasClient, ListaTalento, Persona } from 'src/app/services/api/api-promodel';
 import { PersonaInfoService } from 'src/app/services/persona/persona-info.service';
 import { CastingStaffServiceService, DatosSeleccion } from 'src/app/services/casting-staff-service.service';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -56,6 +57,8 @@ export class PersonaCardComponent implements OnInit {
   banderaCasting: boolean = false;
   banderaLista: boolean = false;
 
+  apiBaseUrl: string = '';
+  
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -65,15 +68,19 @@ export class PersonaCardComponent implements OnInit {
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
-    private listasService: ListasClient
-  ) { }
+    private listasService: ListasClient,
+    @Inject(API_BASE_URL) baseUrl?: string
+  ) { 
+
+    this.apiBaseUrl = baseUrl?? '';
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null) {
       this.usuarioFinal = this.persona.id;
 
       if (this.persona?.elementoMedioPrincipalId) {
-        this.avatarUrl = `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
+        this.avatarUrl = `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioFinal}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
       }
     }
   }
@@ -197,14 +204,14 @@ export class PersonaCardComponent implements OnInit {
         m.elementos.forEach((e) => {
           if (e.imagen) {
             this.imagenes.push({
-              image: `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/foto/${e.id}${e.extension}`,
-              thumbImage: `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/foto/${e.id}-mini.png`,
+              image: `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioFinal}/foto/${e.id}${e.extension} `,
+              thumbImage: `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioFinal}/foto/${e.id}-mini.png`,
             });
           } else {
             if (e.video) {
               this.videos.push({
                 video: e.playBackId,
-                posterImage: `https://storage.googleapis.com/interforos/modelos/${this.usuarioFinal}/video/${e.id}-mini.jpg`,
+                posterImage: `${this.apiBaseUrl}/contenido/bucket/modelos/${this.usuarioFinal}/video/${e.id}-mini.jpg`,
               });
             }
           }

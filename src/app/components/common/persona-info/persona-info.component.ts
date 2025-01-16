@@ -24,7 +24,7 @@ export class PersonaInfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null && this.persona?.elementoMedioPrincipalId) {
-      this.avatarUrl = `https://storage.googleapis.com/interforos/modelos/${this.persona.id}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
+      this.avatarUrl = `https://apis.com/interforos/modelos/${this.persona.id}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
     }
   }
 
