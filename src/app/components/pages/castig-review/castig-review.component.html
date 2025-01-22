@@ -84,40 +84,17 @@
                   </ng-container>
                 </select>
               </div>
-              <div
-                [formGroup]="formAgregarModelo"
-                class="col col-lg-4 container text-center"
-                *ngIf="
-                  puedeAgregarModelo && categoriaSeleccionada && !EsAnonimo
-                "
-              >
-                <div class="row justify-content-md-center">
-                  <div class="col-lg-4 col-md-12 col-sm-12">
-                    <label>{{ "buscar.agregarModelo" | translate }}</label>
-                  </div>
-                  <div class="col-lg-6 col-md-8 col-sm-8">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Numero Modelo"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                      formControlName="consecutivo"
-                      onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
-                    />
-                  </div>
-                  <div class="col-lg-1 col-md-1 col-sm-2 p-1">
-                    <button
-                      type="button"
-                      [disabled]="formAgregarModelo.invalid"
-                      class="btn btn-primary"
-                      (click)="agregarModelo()"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
+
+              <app-modal-agregar-modelo class="container"
+                (EstadoAdicionModelo)="EstadoAdicionModelo($event)"
+                [puedeAgregarModelo] = "puedeAgregarModelo"
+                [categoriaSeleccionada] = "categoriaSeleccionada"
+                [EsAnonimo] = "EsAnonimo"
+                [castingId] = "castingId"
+                >
+              </app-modal-agregar-modelo>
+
+
               <div class="col-1 p-1" *ngIf="!EsAnonimo">
                 <label>{{ "buscar.fechas" | translate }}</label>
               </div>

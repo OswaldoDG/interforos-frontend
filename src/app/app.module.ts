@@ -166,6 +166,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-listas.component';
 import { ListCardComponent } from './components/common/list-card/list-card.component';
 import { ModalEliminaListaComponent } from './components/common/modal-elimina-lista/modal-elimina-lista.component';
+import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -290,6 +291,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaListasComponent,
     ListCardComponent,
     ModalEliminaListaComponent,
+    ModalAgregarModeloComponent,
   ],
   imports: [
     TabsModule,

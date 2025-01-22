@@ -41,13 +41,16 @@
     "ordenar": "Ordenar Por",
     "ordenar-consecutivo": "Id",
     "ordenar-nombre": "Nombre",
-    "ordenar-nombreArtistico": "Nombre Artistico",
+    "ordenar-nombreArtistico": "Nombre Artístico",
     "ordenar-edad": "Edad",
     "next": "Siguiente",
     "before": "Anterior",
-    "agregarModelo": "Agregar a Casting",
+    "agregarModelo": "Agregar Modelo a Categoría",
     "fechas": "Fechas",
-    "listas": "Listas"
+    "listas": "Listas",
+    "agregar":"Agregar",
+    "buscar-por-nombre":"Buscar por nombre",
+    "consecutivo-modelo":"Buscar por consecutivo"
   },
   "buscar-proyecto": {
     "btn-buscar": "Buscar",
@@ -83,7 +86,9 @@
     "edad": " años",
     "excel-status-suc": "Archivo descargado satisfactoriamente.",
     "excel-status-err": "No se pudo descargar, intente más tarde.",
-    "perfil-detalles": "Ver Detalles..."
+    "perfil-detalles": "Ver Detalles...",
+    "error-coincidencias-404":"No se encontraron coincidencias",
+    "error-coincidencias-400":"Ocurrió un problema inesperado, intente más tarde"
   },
   "proyectos": {
     "header": "Administrador de castings",

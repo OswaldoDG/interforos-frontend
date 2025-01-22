@@ -183,6 +183,7 @@ export class CastingReviewService {
       }
     }
   }
+  
   public setNombreModelo(nombrePersona: string) {
     this.personaNombre = nombrePersona;
   }

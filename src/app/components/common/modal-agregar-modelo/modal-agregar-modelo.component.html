@@ -1,0 +1,92 @@
+<button type="button" class="btn btn-warning" (click)="openModal(template)">Agregar Modelo a Categoria</button>
+
+<ng-template  #template>
+  <div class="">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{ "buscar.agregarModelo" | translate }}</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="justify-content-md-center">
+        <div class="card-body">
+          <div [formGroup]="formAgregarModelo">
+
+            <div class="row mb-3">
+              <div class="col-lg-9 col-md-8 col-sm-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder='{{ "buscar.consecutivo-modelo" | translate }}'
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="consecutivo"
+                  onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
+                />
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-4 d-flex align-items-center justify-content-center">
+                <button
+                  type="button"
+                  [disabled]="formAgregarModelo.invalid"
+                  class="btn btn-primary"
+                  (click)="agregarModelo()"
+                >
+                {{ "buscar.agregar" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div [formGroup]="formBusquedaModelo">
+            <div class="row mb-3">
+              <div class="col-lg-9 col-md-8 col-sm-8">
+                <input
+                  class="form-control"
+                  formControlName="nombreBuscado"
+                  placeholder='{{ "buscar.buscar-por-nombre" | translate }}'
+                />
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-4 d-flex align-items-center justify-content-center">
+                <button
+                  class="btn btn-primary"
+                  [disabled]="formBusquedaModelo.invalid"
+                  (click)="buscarCoincidencias()"
+                >
+                {{ "buscar-proyecto.btn-buscar" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive" *ngIf="personas.length > 0">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="table-light">
+                  <th scope="col">{{ "buscar-proyecto.nombre" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let persona of personas"
+                  [class.selected]="persona === personaSeleccionada"
+                  (click)="seleccionarPersona(persona)">
+                  <td style="text-align: center;">
+                     {{persona.nombre}} {{persona.apellido1}} <span>{{ formatEmail(persona.contacto.email) }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="agregarModeloCoincidencia()"
+                >
+                Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
