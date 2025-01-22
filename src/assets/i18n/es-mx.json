@@ -81,7 +81,7 @@
     "perfil-validacion-mensaje-guard": "Complete su perfil",
     "error-400": "No se pudo agregar al modelo, Intentelo mas tarde.",
     "error-404": "No existe modelo",
-    "error-409": "Modelo ya se encuentra en la categoria",
+    "error-409": "Modelo ya se encuentra en la categoría",
     "modelo": "Se agrego el modelo correctamente",
     "edad": " años",
     "excel-status-suc": "Archivo descargado satisfactoriamente.",

@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-warning" (click)="openModal(template)">Agregar Modelo a Categoria</button>
+<button type="button" class="btn btn-warning" (click)="openModal(template)">{{ "buscar.agregarModelo" | translate }}</button>
 
 <ng-template  #template>
   <div class="">
@@ -81,7 +81,7 @@
                 class="btn btn-primary btn-sm"
                 (click)="agregarModeloCoincidencia()"
                 >
-                Agregar
+                {{ "buscar.agregar" | translate }}
               </button>
             </div>
           </div>
