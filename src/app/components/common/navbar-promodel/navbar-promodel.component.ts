@@ -318,7 +318,6 @@ export class NavbarPromodelComponent implements OnInit {
 
   //confirma  el remover un comentario
   confirmar() {
-    console.log("LLEGA");
     this.componenteModal.openModal(this.componenteModal.myTemplate);
   }
 

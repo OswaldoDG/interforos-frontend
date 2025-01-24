@@ -248,8 +248,6 @@ export class CastigReviewComponent implements OnInit {
         if(formato == "excel") {
           extension = ".xlsx";
         }
-
-        console.log(extension);
         const blobData: Blob = response.body;
         this.descargarArchivo(blobData, extension);
       },

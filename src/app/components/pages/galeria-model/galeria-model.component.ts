@@ -68,8 +68,8 @@ export class GaleriaModelComponent implements OnInit {
     private toastService: HotToastService,
     private personaApi: PersonaClient,
       @Inject(API_BASE_URL) baseUrl?: string
-      ) { 
-    
+      ) {
+
         this.apiBaseUrl = baseUrl?? '';
       }
 
@@ -296,9 +296,6 @@ export class GaleriaModelComponent implements OnInit {
   handleFileInput(files: FileList) {
     if (files.length > 0) {
       this.uploadFiles = files;
-      console.log(this.uploadFiles);
-      //this.uploadFile = files;
-      //this.uploadFileLabel = this.uploadFile?.name;
     }
   }
 

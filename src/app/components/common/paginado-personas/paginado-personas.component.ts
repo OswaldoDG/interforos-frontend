@@ -72,7 +72,6 @@ export class PaginadoPersonasComponent implements OnInit {
   }
   ngOnInit(): void {
     this.servicioBusqueda.personaSub().subscribe((data) => {
-      console.log(data);
       this.personas = data;
       this.procesaPersonas();
     });
