@@ -207,6 +207,7 @@
     "menu-sesion": "Sesión",
     "menu-casting": "Mis castings",
     "recuperar-password": "Restablecer Contraseña",
+    "modo-login":"Login",
     "recuperar-passwordText": "Se requiere de su Email para restablecer contraseña, por favor ingrese su Email"
   },
   "navbar-staff": {
@@ -379,7 +380,8 @@
     "solicitud-enviada": "Su solicitud ha sido enviada a su correo",
     "solicitud-conflicto": "No se encontró el Email proporcionado",
     "solicitud-cambio-contrasenia": "Se ha Cambiado la contraseña con exito",
-    "solicitud-cambio-contrasenia-error": "Contraseña Actual incorrecta "
+    "solicitud-cambio-contrasenia-error": "Contraseña Actual incorrecta ",
+    "solicitud-recupera-contrasena":"Enviar solicitud"
   },
   "casting": {
     "nombre": "Nombre",
@@ -477,5 +479,14 @@
   },
   "consentimiento": {
     "aceptar": "Aceptar"
+  },
+  "pagina-registro":{
+    "pagina-registro-titulo":"Registro"
+  },
+  "pagina-login":{
+    "pagina-login-titulo":"Ingresar",
+    "pagina-login-titulo-secundario":"Ingrese ahora",
+    "pagina-login-restablece":"Restablecer Contraseña",
+    "pagina-login-restablece-email":"Ingrese su E-mail"
   }
 }

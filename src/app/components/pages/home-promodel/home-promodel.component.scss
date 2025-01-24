@@ -2,3 +2,39 @@
 {
   display: none;
 }
+
+.button-custom {
+  display: block;
+  background-color: var(--mainColor);
+  color: var(--whiteColor);
+  border: none;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  padding: 14px 30px 13px;
+  transition: var(--transition);
+
+  &:hover {
+      background-color: var(--blackColor);
+      color: var(--whiteColor);
+  }
+}
+
+.button-custom2 {
+display: block;
+background-color: #000000;
+color: var(--whiteColor);
+border: none;
+font-weight: 600;
+display: block;
+width: 100%;
+border-radius: 5px;
+padding: 14px 30px 13px;
+transition: var(--transition);
+
+&:hover {
+    background-color: #1170d5;
+    color: var(--whiteColor);
+}
+}

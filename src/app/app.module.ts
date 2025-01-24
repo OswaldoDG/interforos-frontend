@@ -167,6 +167,8 @@ import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-l
 import { ListCardComponent } from './components/common/list-card/list-card.component';
 import { ModalEliminaListaComponent } from './components/common/modal-elimina-lista/modal-elimina-lista.component';
 import { UseHttpImageSourcePipe } from './pipes/AuthImagePipe';
+import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagina-registro.component';
+import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -292,6 +294,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaListasComponent,
     ListCardComponent,
     ModalEliminaListaComponent,
+    PaginaRegistroComponent,
+    PaginaLoginComponent,
   ],
   imports: [
     TabsModule,

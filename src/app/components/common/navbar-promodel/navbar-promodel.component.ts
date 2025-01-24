@@ -84,7 +84,6 @@ export class NavbarPromodelComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private ruta: Router,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
     this.token = undefined;
@@ -290,9 +289,9 @@ export class NavbarPromodelComponent implements OnInit {
   navegarRutaRol(){
     this.query.getValue().perfil.roles.forEach(e=>{
       if(e == TipoRolCliente.Administrador || e == TipoRolCliente.Staff || e == TipoRolCliente.RevisorExterno){
-        this.ruta.navigateByUrl('/castings');
+        this.router.navigateByUrl('/castings');
       }else{
-        this.ruta.navigateByUrl('/agencia');
+        this.router.navigateByUrl('/agencia');
       }
     });
   }
@@ -319,12 +318,14 @@ export class NavbarPromodelComponent implements OnInit {
 
   //confirma  el remover un comentario
   confirmar() {
+    console.log("LLEGA");
     this.componenteModal.openModal(this.componenteModal.myTemplate);
   }
 
   navegarRutas(){
     this.router.navigateByUrl('/staff');
   }
+
   // Auxiliares UI
   recibidoDelModal(r: string) {
     if (r == 'Y') {

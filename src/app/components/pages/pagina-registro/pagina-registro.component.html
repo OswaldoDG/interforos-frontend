@@ -1,0 +1,77 @@
+<app-navbar-promodel></app-navbar-promodel>
+
+
+<ngx-spinner
+  name="spregistro"
+  [fullScreen]="true"
+  type="ball-scale-multiple"
+  size="medium"
+  >
+  <p class="loading">...</p>
+</ngx-spinner>
+
+
+<!-- Start Page Title Area -->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent"
+  style="background-image: url({{ Content.backgroundImage }});">
+  <div class="container">
+    <div class="page-title-content">
+      <h2>{{ Content.title | translate }}</h2>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li>{{ Content.title | translate }}</li>
+      </ul>
+    </div>
+    <br>
+  </div>
+
+  <div class="container">
+    <form [formGroup]="registroForm" #form="ngForm">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input
+              type="text"
+              placeholder="{{ 'navbar.registro-nombre' | translate }}"
+              class="form-control"
+              formControlName="nombre"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input
+              type="email"
+              placeholder="{{ 'navbar.registro-email' | translate }}"
+              class="form-control"
+              formControlName="email"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+          <button class="button-custom " [disabled]="inCall" (click)="send()" type="submit">
+            {{ "navbar.registro-btn-registrar" | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="mt-1 row justify-content-md-center">
+        <div class="col-lg-6">
+          <div class="col-md-auto mt-2">
+            <div class="alert alert-info">
+              <span class="already-account">
+                {{ "navbar.cuenta-existente" | translate }}
+                <a href="/login">{{ "pagina-login.pagina-login-titulo-secundario" | translate }}</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer-style-one></app-footer-style-one>
