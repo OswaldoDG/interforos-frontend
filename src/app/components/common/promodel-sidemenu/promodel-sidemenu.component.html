@@ -1,9 +1,9 @@
 <!-- Start Sidemenu Area -->
 <div class="sidemenu-area">
   <div class="sidemenu-header">
-    <a routerLink="/" class="navbar-brand d-flex align-items-center">
+    <div class="navbar-brand d-flex align-items-center">
       <img [src]="cliente.webLogoBase64" alt="image" />
-    </a>
+    </div>
     <div class="responsive-burger-menu d-block d-lg-none">
       <span class="top-bar"></span>
       <span class="middle-bar"></span>
@@ -145,9 +145,25 @@
             "side-menu-staff.salir" | translate
             }}</span>
         </div>
-        <app-modal-confirmacion (modalConfirm)="recibidoDelModal($event)"></app-modal-confirmacion>
+
+      </li>
+      <li class="nav-item nav-link" (click)="cambiaPassword()">
+        <div class="nav-link">
+          <span class="icon"><i class="bi bi-house-lock"></i></span>
+          <span class="menu-title">
+            {{ "solicitud.cambiar-contrasena-titulo" | translate }}
+          </span>
+        </div>
       </li>
     </ul>
   </div>
 </div>
 <!-- End Sidemenu Area -->
+<app-modal-confirmacion
+  (modalConfirm)="recibidoDelModalLogOut($event)">
+</app-modal-confirmacion>
+
+<app-modal-cambiar-password
+#modalCambiarPassword
+(modalConfirm)="recibidoDelModal($event)"
+></app-modal-cambiar-password>

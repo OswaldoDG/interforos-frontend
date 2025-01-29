@@ -169,6 +169,8 @@ import { ModalEliminaListaComponent } from './components/common/modal-elimina-li
 import { UseHttpImageSourcePipe } from './pipes/AuthImagePipe';
 import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagina-registro.component';
 import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
+import { FooterBotonesComponent } from './components/common/footer-botones/footer-botones.component';
+import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-modelo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -296,6 +298,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalEliminaListaComponent,
     PaginaRegistroComponent,
     PaginaLoginComponent,
+    FooterBotonesComponent,
+    PerfilModeloComponent,
   ],
   imports: [
     TabsModule,

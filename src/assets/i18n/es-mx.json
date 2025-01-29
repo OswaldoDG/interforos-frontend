@@ -381,7 +381,8 @@
     "solicitud-conflicto": "No se encontró el Email proporcionado",
     "solicitud-cambio-contrasenia": "Se ha Cambiado la contraseña con exito",
     "solicitud-cambio-contrasenia-error": "Contraseña Actual incorrecta ",
-    "solicitud-recupera-contrasena":"Enviar solicitud"
+    "solicitud-recupera-contrasena":"Enviar solicitud",
+    "cambiar-contrasena-titulo": "Cambiar Contraseña"
   },
   "casting": {
     "nombre": "Nombre",

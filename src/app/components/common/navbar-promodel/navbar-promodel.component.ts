@@ -54,6 +54,8 @@ export class NavbarPromodelComponent implements OnInit {
   autenticado: boolean = false;
   documentosCompletos : boolean = false;
   existeEmail: boolean = false;
+  private getScreenWidth: any;
+  private getScreenHeight: any;
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -141,7 +143,8 @@ export class NavbarPromodelComponent implements OnInit {
         this.documentosCompletos = this.query.getValue().perfil.datosCompletos;
       }
 
-
+      this.getScreenWidth = window.innerWidth;
+      this.getScreenHeight = window.innerHeight;
   }
 
   ngOnDestroy() {
@@ -150,6 +153,20 @@ export class NavbarPromodelComponent implements OnInit {
     let element = document.getElementsByClassName('grecaptcha-badge');
     element[0].setAttribute('id', 'grecaptcha_badge');
     document.getElementById('grecaptcha_badge').style.display = 'none';
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
+  permitirVer():boolean{
+    if(this.getScreenWidth<= 1199){
+      return false;
+    }
+
+    return true;
   }
 
   runRegistro(running: boolean) {

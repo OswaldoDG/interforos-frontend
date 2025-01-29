@@ -20,13 +20,15 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 @Component({
   selector: 'app-navbar-staff',
   templateUrl: './navbar-staff.component.html',
   styleUrls: ['./navbar-staff.component.scss'],
 })
 export class NavbarStaffComponent implements OnInit {
-  @ViewChild(ModalCambiarPasswordComponent) componenteModal;
+  @ViewChild(ModalCambiarPasswordComponent) componenteModalPassword;
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
   private destroy$ = new Subject();
   mobile: boolean = false;
   cliente: ClienteView = ClienteViewVacio();
@@ -44,14 +46,7 @@ export class NavbarStaffComponent implements OnInit {
     private bks: BreakpointObserver,
     private router: Router,
     private query: SessionQuery,
-    private session: SessionService,
-    private registro: RegistroClient,
-    private acceso: AccesoClient,
-    private persona: PersonaClient,
-    private spinner: NgxSpinnerService,
-    private fb: FormBuilder,
-    private translate: TranslateService,
-    private toastService: HotToastService
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -66,13 +61,16 @@ export class NavbarStaffComponent implements OnInit {
         }
       });
 
-    this.translate
+      this.translate
       .get([
-        'navbar-staff.mi-cuenta',
-        'navbar-staff.salir',
-        'navbar-staff.inicio',
+        'side-menu-staff.opciones',
+        'side-menu-staff.buscar',
+        'side-menu-staff.mi-cuenta',
+        'side-menu-staff.salir',
+        'comun.logOut',
         'solicitud.solicitud-cambio-contrasenia',
         'solicitud.solicitud-cambio-contrasenia-error',
+        'solicitud.cambiar-contrasena-titulo'
       ])
       .subscribe((trads) => {
         this.T = trads;
@@ -99,30 +97,31 @@ export class NavbarStaffComponent implements OnInit {
   }
   //confirma  el remover un comentario
   confirmar() {
-    this.componenteModal.openModal(this.componenteModal.myTemplate);
+    this.componenteModal.openModal(
+      this.componenteModal.myTemplate,
+      this.T['comun.logOut'],
+    );
+  }
+
+  cambiaPassword(){
+    this.componenteModalPassword.openModal(
+      this.componenteModalPassword.myTemplate
+    );
   }
 
   navegarRoot(){
     this.router.navigateByUrl("/");
   }
-  // Auxiliares UI
-  recibidoDelModal(r: string) {
-    if (r == 'Y') {
-      this.toastService.success(
-        this.T['solicitud.solicitud-cambio-contrasenia'],
-        {
-          position: 'bottom-center',
-        }
-      );
-    } else {
-      if (r == 'E0') {
-        this.toastService.error(
-          this.T['solicitud.solicitud-cambio-contrasenia-error'],
-          {
-            position: 'bottom-center',
-          }
-        );
-      }
+
+  recibidoDelModalLogOut(r: string) {
+    if (r === 'Y') {
+      this.persistStorage.forEach((s) => {
+        s.clearStore();
+      });
+
+      this.router.navigateByUrl('/').then(() => {
+        window.location.reload();
+      });
     }
   }
 }

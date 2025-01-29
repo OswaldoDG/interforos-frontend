@@ -84,7 +84,7 @@ export class PaginaAdminProyectosComponent implements OnInit {
   refrescar() {
     this.traerCasting();
   }
-
+  
   recibidoDelModal(r: string) {
     if (r == 'Y') {
       this.refrescar();
@@ -131,4 +131,11 @@ export class PaginaAdminProyectosComponent implements OnInit {
     this.form.get('buscar').setValue('');
     this.refrescar();
   }
+  pageTitleContent = [
+    {
+      title: 'pagina-login.pagina-login-titulo',
+      backgroundImage: 'assets/img/page-title/page-title2-d.jpg',
+      error: 'confirmacion.error'
+    },
+  ];
 }

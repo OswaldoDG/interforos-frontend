@@ -1,0 +1,60 @@
+<ngx-spinner name="persona" [fullScreen]="true" type="ball-scale-multiple" size="medium">
+  <p class="loading">...</p>
+</ngx-spinner>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="container col-lg-12 col-md-12 col-sm-12 align-items-center justify-content-center">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Start Page Title Area -->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent;"
+  style="background-image: url({{Content.backgroundImage}});">
+  <div class="container">
+      <div class="page-title-content">
+          <h2>{{ Content.title | translate}}</h2>
+          <!-- <ul>
+              <li><a routerLink="/">Home</a></li>
+              <li>{{Content.title}}</li>
+          </ul> -->
+      </div>
+  </div>
+</div>
+
+
+<div class="container" *ngIf="!inCall && perfilOk">
+  <app-persona-info [persona]="persona" ></app-persona-info>
+</div>
+
+
+<!-- Start Confirmations Area -->
+<section >
+  <ngx-spinner name="spinner" [fullScreen]="false" type="ball-scale-multiple" size="medium">
+      <p class="loading">...</p>
+  </ngx-spinner>
+  <app-invitar-modelo [persona]="persona"></app-invitar-modelo>
+</section>
+<!-- End Confirmations Error Area -->
+
+<!-- End Page Title Area -->
+<div class="container" *ngIf="!inCall && !perfilOk">
+  <div class="row">
+      <div class="col-lg.6 col-md-6 col-sm-12 pb-2 pt-4">
+          <div class="text-center">
+              <h4> {{ 'modelo.perfil-404' | translate }}</h4>
+              <a routerLink="/perfil" class="btn btn-primary">{{ 'modelo.perfil-404-btn' | translate }}</a>
+          </div>
+      </div>
+      <div class="col-1g-6 col-md-6 col-sm-12 pt-4 pb-4">
+          <div class="text-center">
+              <img src="../../../../assets/img/profile-404.png" width="150">
+          </div>
+      </div>
+  </div>
+</div>
+
