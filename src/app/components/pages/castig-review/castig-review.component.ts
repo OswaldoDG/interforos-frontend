@@ -1,6 +1,6 @@
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,6 +29,8 @@ import { DownloadExcelService } from 'src/app/services/Files/download-excel.serv
 })
 export class CastigReviewComponent implements OnInit {
   @ViewChild(ModalConfirmacionComponent) componenteModal;
+  puedeAgregarModelo: boolean = true;
+  categoriaSeleccionada: boolean = false;
   castingId: string = null;
   public diaActual: number = 0;
   dias: number[] = [];
@@ -39,12 +41,9 @@ export class CastigReviewComponent implements OnInit {
   tBusqueda: boolean = false;
   hayCategorias: boolean = false;
   estadoPersona: boolean = true;
-  puedeAgregarModelo: boolean = true;
-  categoriaSeleccionada: boolean = false;
   CategoriaActual: string;
   EsAnonimo: boolean = false;
   T: any;
-  formAgregarModelo: FormGroup;
   permisosCast: PermisosCasting = {
     verRedesSociales: true,
     verTelefono: true,
@@ -74,9 +73,6 @@ export class CastigReviewComponent implements OnInit {
     this.spinner.show('loadCategorias');
     this.rutaActiva.params.subscribe((params: Params) => {
       this.castingId = params['id'];
-    });
-    this.formAgregarModelo = this.fb.group({
-      consecutivo: ['', Validators.required],
     });
 
     this.servicio.CastingSub().subscribe((c) => {
@@ -139,6 +135,7 @@ export class CastigReviewComponent implements OnInit {
           'modelo.excel-status-suc',
           'modelo.excel-status-err',
           'modelo.error-500',
+          'modelo.error-coincidencias'
         ])
         .subscribe((ts) => {
           this.T = ts;
@@ -174,36 +171,7 @@ export class CastigReviewComponent implements OnInit {
     this.estadoPersona = r;
   }
 
-  agregarModelo() {
-    this.spinner.show('loadCategorias');
-    this.castingClient
-      .consecutivo(
-        this.castingId,
-        this.formAgregarModelo.get('consecutivo').value,
-        this.servicio.CategoriActual()
-      )
-      .subscribe(
-        (data) => {
-          this.servicio.agregarModelo(data, this.servicio.CategoriActual());
-          this.toastService.success(this.T['modelo.modelo'], {
-            position: 'bottom-center',
-          });
-        },
-        (err) => {
-          this.spinner.hide('loadCategorias');
-          if (parseInt(err.status) >= 400 && parseInt(err.status) < 500) {
-            this.toastService.error(this.T[`modelo.error-${err.status}`], {
-              position: 'bottom-center',
-            });
-          } else {
-            this.toastService.error(this.T['modelo.error-400'], {
-              position: 'bottom-center',
-            });
-          }
-        }
-      );
-    this.formAgregarModelo.get('consecutivo').setValue(null);
-  }
+
   removerModelo() {
     this.spinner.show('loadCategorias');
     this.castingClient
@@ -288,4 +256,13 @@ export class CastigReviewComponent implements OnInit {
       });
     }
   }
+
+  EstadoAdicionModelo(agregando: boolean) {
+    if (agregando) {
+      this.spinner.show('loadCategorias');
+    } else {
+      this.spinner.hide('loadCategorias');
+    }
+  }
+
 }

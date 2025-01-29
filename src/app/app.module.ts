@@ -171,6 +171,7 @@ import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagi
 import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
 import { FooterBotonesComponent } from './components/common/footer-botones/footer-botones.component';
 import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-modelo.component';
+import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -300,6 +301,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaLoginComponent,
     FooterBotonesComponent,
     PerfilModeloComponent,
+    ModalAgregarModeloComponent,
   ],
   imports: [
     TabsModule,

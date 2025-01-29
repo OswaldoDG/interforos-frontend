@@ -64,14 +64,12 @@ td:hover{
   color: black;
 }
 
-.tabla-con-scroll {
-  max-height: 200px;
-  overflow-y: auto;
+.tr-custom{
+  background-color: #cca300;
+  color: black;
 }
 
 tr.selected {
   background-color: #1170d5 !important;
   color: white;
 }
-
-
