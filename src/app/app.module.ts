@@ -167,6 +167,10 @@ import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-l
 import { ListCardComponent } from './components/common/list-card/list-card.component';
 import { ModalEliminaListaComponent } from './components/common/modal-elimina-lista/modal-elimina-lista.component';
 import { UseHttpImageSourcePipe } from './pipes/AuthImagePipe';
+import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagina-registro.component';
+import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
+import { FooterBotonesComponent } from './components/common/footer-botones/footer-botones.component';
+import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-modelo.component';
 import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -293,6 +297,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginaListasComponent,
     ListCardComponent,
     ModalEliminaListaComponent,
+    PaginaRegistroComponent,
+    PaginaLoginComponent,
+    FooterBotonesComponent,
+    PerfilModeloComponent,
     ModalAgregarModeloComponent,
   ],
   imports: [

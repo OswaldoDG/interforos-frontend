@@ -66,6 +66,8 @@ import { PagesAgenciaGuard } from './services/guards/pagesAgencia-guard';
 import { GaleriaPersonaComponent } from './components/pages/galeria-persona/galeria-persona.component';
 import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-listas.component';
 import { APComponent } from './components/pages/aviso-privacidad/ap.component';
+import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagina-registro.component';
+import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -118,6 +120,8 @@ const routes: Routes = [
     component: GaleriaPersonaComponent,
     canActivate: [PagesModeloGuard],
   },
+  { path: 'registro', component: PaginaRegistroComponent},
+  { path: 'login', component: PaginaLoginComponent},
   { path: 'confirmacion/:id', component: ConfirmacionComponent },
   { path: 'password/:id', component: RecuperarPasswordComponent },
   { path: 'index-2', component: HomeDemoTwoComponent },

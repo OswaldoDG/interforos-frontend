@@ -54,6 +54,8 @@ export class NavbarPromodelComponent implements OnInit {
   autenticado: boolean = false;
   documentosCompletos : boolean = false;
   existeEmail: boolean = false;
+  private getScreenWidth: any;
+  private getScreenHeight: any;
   swapShowPass() {
     this.showPass = !this.showPass;
   }
@@ -84,7 +86,6 @@ export class NavbarPromodelComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private toastService: HotToastService,
-    private ruta: Router,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
     this.token = undefined;
@@ -142,7 +143,8 @@ export class NavbarPromodelComponent implements OnInit {
         this.documentosCompletos = this.query.getValue().perfil.datosCompletos;
       }
 
-
+      this.getScreenWidth = window.innerWidth;
+      this.getScreenHeight = window.innerHeight;
   }
 
   ngOnDestroy() {
@@ -151,6 +153,20 @@ export class NavbarPromodelComponent implements OnInit {
     let element = document.getElementsByClassName('grecaptcha-badge');
     element[0].setAttribute('id', 'grecaptcha_badge');
     document.getElementById('grecaptcha_badge').style.display = 'none';
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
+  permitirVer():boolean{
+    if(this.getScreenWidth<= 1199){
+      return false;
+    }
+
+    return true;
   }
 
   runRegistro(running: boolean) {
@@ -290,9 +306,9 @@ export class NavbarPromodelComponent implements OnInit {
   navegarRutaRol(){
     this.query.getValue().perfil.roles.forEach(e=>{
       if(e == TipoRolCliente.Administrador || e == TipoRolCliente.Staff || e == TipoRolCliente.RevisorExterno){
-        this.ruta.navigateByUrl('/castings');
+        this.router.navigateByUrl('/castings');
       }else{
-        this.ruta.navigateByUrl('/agencia');
+        this.router.navigateByUrl('/agencia');
       }
     });
   }
@@ -325,6 +341,7 @@ export class NavbarPromodelComponent implements OnInit {
   navegarRutas(){
     this.router.navigateByUrl('/staff');
   }
+
   // Auxiliares UI
   recibidoDelModal(r: string) {
     if (r == 'Y') {

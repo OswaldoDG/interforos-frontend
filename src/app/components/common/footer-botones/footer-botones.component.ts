@@ -1,33 +1,24 @@
-import { PersistState } from '@datorama/akita';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HotToastService } from '@ngneat/hot-toast';
-import { TranslateService } from '@ngx-translate/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { first, takeUntil } from 'rxjs/operators';
-import {
-  AccesoClient,
-  ClienteView,
-  PersonaClient,
-  RegistroClient,
-  TipoRolCliente,
-} from 'src/app/services/api/api-promodel';
-import { SessionQuery } from 'src/app/state/session.query';
-import { SessionService } from 'src/app/state/session.service';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Title } from '@angular/platform-browser';
-import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
 import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 import { ModalCambiarPasswordComponent } from '../modal-cambiar-password/modal-cambiar-password.component';
+import { TranslateService } from '@ngx-translate/core';
+import { SessionService } from 'src/app/state/session.service';
+import { SessionQuery } from 'src/app/state/session.query';
+import { takeUntil } from 'rxjs/operators';
+import { ClienteView, TipoRolCliente } from 'src/app/services/api/api-promodel';
+import { Subject } from 'rxjs';
+import { ClienteViewVacio } from 'src/app/modelos/entidades-vacias';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { HotToastService } from '@ngneat/hot-toast';
+import { PersistState } from '@datorama/akita';
 
 @Component({
-  selector: 'app-promodel-sidemenu',
-  templateUrl: './promodel-sidemenu.component.html',
-  styleUrls: ['./promodel-sidemenu.component.scss'],
+  selector: 'app-footer-botones',
+  templateUrl: './footer-botones.component.html',
+  styleUrls: ['./footer-botones.component.scss']
 })
-export class PromodelSidemenuComponent implements OnInit {
+export class FooterBotonesComponent implements OnInit {
   private destroy$ = new Subject();
   mobile: boolean = false;
   cliente: ClienteView = ClienteViewVacio();
@@ -42,33 +33,19 @@ export class PromodelSidemenuComponent implements OnInit {
   @ViewChild(ModalConfirmacionComponent) componenteModal;
   @ViewChild(ModalCambiarPasswordComponent) componenteModalPassword;
   constructor(
-    @Inject('persistStorage') private persistStorage: PersistState[],
-    private titleService: Title,
-    private bks: BreakpointObserver,
-    private router: Router,
-    private query: SessionQuery,
-    private translate: TranslateService,
-    private toastService: HotToastService,
-  ) {}
+              @Inject('persistStorage') private persistStorage: PersistState[],
+              private titleService: Title,
+              private toastService: HotToastService,
+              private translate: TranslateService,
+              private query: SessionQuery,
+              private ruta: Router)
+  {
+
+  }
 
   ngOnInit(): void {
-    this.bks
-      .observe(['(min-width: 500px)'])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.mobile = false;
-        } else {
-          this.mobile = true;
-        }
-      });
-
     this.translate
       .get([
-        'side-menu-staff.opciones',
-        'side-menu-staff.buscar',
-        'side-menu-staff.mi-cuenta',
-        'side-menu-staff.salir',
         'comun.logOut',
         'solicitud.solicitud-cambio-contrasenia',
         'solicitud.solicitud-cambio-contrasenia-error',
@@ -99,21 +76,20 @@ export class PromodelSidemenuComponent implements OnInit {
     });
   }
 
-
-
   recibidoDelModalLogOut(r: string) {
-    if (r === 'Y') {
+    if (r == 'Y') {
       this.persistStorage.forEach((s) => {
         s.clearStore();
       });
-      this.router.navigateByUrl('/').then(() => {
+
+      this.ruta.navigateByUrl('/').then(() => {
         window.location.reload();
       });
     }
   }
 
   recibidoDelModal(r: string) {
-    if (r === 'Y') {
+    if (r == 'Y') {
       this.toastService.success(
         this.T['solicitud.solicitud-cambio-contrasenia'],
         {
@@ -121,7 +97,7 @@ export class PromodelSidemenuComponent implements OnInit {
         }
       );
     } else {
-      if (r === 'E0') {
+      if (r == 'E0') {
         this.toastService.error(
           this.T['solicitud.solicitud-cambio-contrasenia-error'],
           {
@@ -144,4 +120,5 @@ export class PromodelSidemenuComponent implements OnInit {
       this.componenteModalPassword.myTemplate
     );
   }
+
 }

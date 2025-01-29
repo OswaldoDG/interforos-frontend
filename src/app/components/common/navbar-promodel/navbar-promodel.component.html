@@ -9,7 +9,6 @@
       </div>
     </div>
   </div>
-
   <div class="vesax-nav">
     <div class="container-fluid">
       <nav class="navbar navbar-expand-md navbar-light">
@@ -56,23 +55,26 @@
                 >{{ "navbar.menu-mismodelos" | translate }}</a
               >
             </li>
-            <li *ngIf="autenticado && !mobile && !staff && !!revisor && !!agencia || modelo" class="nav-item">
-              <a href="javascript:void(0)" class="dropdown-toggle nav-link">{{
-                "navbar.menu-sesion" | translate
-              }}</a>
-              <ul class="dropdown-menu">
-                <li class="nav-item">
-                  <a class="nav-link" [routerLink]="" (click)="confirmar()">{{
-                    "navbar.menu-chpass" | translate
-                  }}</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" [routerLink]="" (click)="logout()">{{
-                    "navbar.menu-logout" | translate
-                  }}</a>
-                </li>
-              </ul>
-            </li>
+            <div *ngIf="permitirVer() == true">
+              <li *ngIf="autenticado && !mobile && !staff && !!revisor && !!agencia || modelo" class="nav-item">
+                <a href="javascript:void(0)" class="dropdown-toggle nav-link">{{
+                  "navbar.menu-sesion" | translate
+                }}</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="" (click)="confirmar()">{{
+                      "navbar.menu-chpass" | translate
+                    }}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="" (click)="logout()">{{
+                      "navbar.menu-logout" | translate
+                    }}</a>
+                  </li>
+                </ul>
+              </li>
+            </div>
+
           </ul>
 
           <div
@@ -148,7 +150,7 @@
     </div>
   </div>
 
-  <div class="others-option-for-responsive">
+  <!-- <div class="others-option-for-responsive">
     <div class="container">
       <div class="dot-menu">
         <div class="inner">
@@ -184,7 +186,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 <!-- End Navbar Area -->
 

@@ -1,5 +1,4 @@
 <app-navbar-promodel></app-navbar-promodel>
-
 <app-hometwo-banner></app-hometwo-banner>
 
 <!-- <section class="category-area pt-100 pb-70">
@@ -10,9 +9,32 @@
 
 <app-hometwo-destinations></app-hometwo-destinations> -->
 
-<section class="how-it-works-area pt-100 pb-70 bg-f9f9f9">
+<section class="how-it-works-area pt-60 pb-60 bg-f9f9f9">
+
+  <div class="container" *ngIf="autenticado==false">
+    <div class="row justify-content-md-center m-1">
+      <div class="col-lg-6">
+        <div class="col-md-auto m-2">
+          <button class="button-custom2"
+          (click)="paginaRegistro()"
+          ><span class="sub-title"
+          ><span>{{ "navbar.registro-titulo" | translate }}</span></span></button>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="col-md-auto m-2">
+          <button class="button-custom"
+          (click)="paginaLogin()"
+          ><span class="sub-title"
+          ><span>{{ "navbar.ingreso-titulo" | translate }}</span></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <app-how-it-works></app-how-it-works>
 </section>
+
 <section id="eventos">
   <app-hometwo-events></app-hometwo-events>
 </section>
@@ -23,6 +45,9 @@
 <!-- <app-hometwo-blog></app-hometwo-blog> -->
 
 <!-- <app-app-download></app-app-download> -->
+
+<app-footer-botones *ngIf="autenticado == true" ></app-footer-botones>
+
 <section id="fin">
   <app-footer-style-one></app-footer-style-one>
 </section>

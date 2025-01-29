@@ -31,7 +31,6 @@ export class ModalConfirmacionComponent implements OnInit {
 
   decline():void{
     this.modalRef?.hide();
-
   }
 
 }

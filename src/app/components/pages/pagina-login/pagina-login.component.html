@@ -1,0 +1,168 @@
+<app-navbar-promodel></app-navbar-promodel>
+
+<ngx-spinner
+  name="splogin"
+  [fullScreen]="true"
+  type="ball-scale-multiple"
+  size="medium"
+  >
+  <p class="loading">...</p>
+</ngx-spinner>
+
+
+<!-- Start Page Title Area -->
+<div *ngIf="modoLogin == true">
+  <div class="page-title-area" *ngFor="let Content of pageTitleContent"
+  style="background-image: url({{ Content.backgroundImage }});">
+  <div>
+    <div class="container">
+      <div class="page-title-content">
+        <h2>{{ Content.title | translate }}</h2>
+        <ul>
+          <li><a routerLink="/">Home</a></li>
+          <li>{{ Content.title | translate }}</li>
+        </ul>
+      </div>
+      <br>
+    </div>
+
+    <div class="container">
+      <form [formGroup]="loginForm">
+        <div class="row justify-content-md-center">
+          <div class="col-lg-6">
+            <div class="input-group">
+              <input
+              type="text"
+              placeholder="{{ 'navbar.ingreso-email' | translate }}"
+              class="form-control"
+              formControlName="usuario"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-lg-6">
+            <div class="input-group">
+              <input
+                [type]="showPass ? 'text' : 'password'"
+                placeholder="{{ 'navbar.ingreso-password' | translate }}"
+                class="form-control"
+                formControlName="contrasena"
+              />
+              <span class="input-group-text" (click)="swapShowPass()">
+                <i
+                  [ngClass]="showPass ? 'bx bxs-low-vision' : 'bx bxs-show'"
+                ></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-lg-3">
+            <button
+            class="mt-2 button-custom2"
+            [disabled]="!loginForm.invalid"
+            (click)="restablecerPassword()"
+            type="submit"
+          >
+            {{ "navbar.recuperar-password" | translate }}
+          </button>
+          </div>
+          <div class="col-lg-3">
+            <button
+            class="mt-2 button-custom "
+            [disabled]="inCall"
+            (click)="login()"
+            type="submit"
+          >
+            {{ "navbar.login-btn" | translate }}
+          </button>
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-lg-6">
+            <div class="mt-2 col-md-auto">
+              <div class="alert alert-info" role="alert">
+                <span class="mt-1dont-account">
+                  {{ "navbar.cuenta-inexistente" | translate }}
+                  <a href="/registro">
+                    {{ "navbar.registro" | translate }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div *ngIf="modoRestablecerContrasena == true">
+  <div class="page-title-area" *ngFor="let Content of pageTitleContentRestablece"
+  style="background-image: url({{ Content.backgroundImage }});">
+  <div>
+    <div class="container">
+      <div class="page-title-content">
+        <h2>{{ Content.title | translate }}</h2>
+        <ul>
+          <li><a routerLink="/">Home</a></li>
+          <li>{{ Content.title | translate }}</li>
+        </ul>
+      </div>
+      <br>
+    </div>
+  </div>
+  <div class="container">
+    <form [formGroup] = "restableceForm">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input
+            type="text"
+            placeholder="{{ 'pagina-login.pagina-login-restablece-email' | translate }}"
+            class="form-control"
+            formControlName="email"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-lg-3 ">
+          <button
+          class="mt-2 button-custom2"
+          type="button"
+          [disabled]="!restableceForm.invalid"
+          (click)="modLogin()"
+        >
+          {{ "pagina-login.pagina-login-titulo-secundario" | translate }}
+        </button>
+        </div>
+        <div class="col-lg-3 ">
+          <button
+          class="mt-2 button-custom"
+          type="button"
+          (click)="solicitudPassword()"
+          >
+            {{ "solicitud.solicitud-recupera-contrasena" | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+          <div class="col-md-auto mt-2">
+            <p *ngIf="existeEmail" class="alert alert-danger">
+              {{ "navbar.recuperar-passwordText" | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+
+</div>
+
+<app-footer-style-one></app-footer-style-one>
