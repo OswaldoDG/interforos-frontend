@@ -61,7 +61,6 @@
           <div class="col-lg-3">
             <button
             class="mt-2 button-custom2"
-            [disabled]="!loginForm.invalid"
             (click)="restablecerPassword()"
             type="submit"
           >
@@ -134,7 +133,6 @@
           <button
           class="mt-2 button-custom2"
           type="button"
-          [disabled]="!restableceForm.invalid"
           (click)="modLogin()"
         >
           {{ "pagina-login.pagina-login-titulo-secundario" | translate }}
