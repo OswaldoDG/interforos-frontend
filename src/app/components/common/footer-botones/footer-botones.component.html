@@ -1,43 +1,24 @@
 <footer>
-  <div class="accordion">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <span class="text-center">
-            {{ "side-menu-staff.salir" | translate }} / {{ "solicitud.cambiar-contrasena-titulo" | translate }}
-          </span>
-        </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="container" >
-            <div class="row justify-content-center">
-              <div class="col-lg-6 ">
-                <button
-                class="mt-2 button-custom"
-                type="button"
-                (click)="cambiaPassword()"
-                >
-                  {{ "solicitud.cambiar-contrasena-titulo" | translate }}
-                </button>
-              </div>
-              <div class="col-lg-6 ">
-                <button
-                class="mt-2 button-custom2"
-                type="button"
-                (click)="confirmar()"
-              >
-                {{ "side-menu-staff.salir" | translate }}
-              </button>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
+<div class="row">
+  <div class="col-lg-6 ">
+    <button
+    class="mt-2 button-custom"
+    type="button"
+    (click)="cambiaPassword()"
+    >
+      {{ "solicitud.cambiar-contrasena-titulo" | translate }}
+    </button>
   </div>
+  <div class="col-lg-6 ">
+    <button
+    class="mt-2 button-custom2"
+    type="button"
+    (click)="confirmar()"
+  >
+    {{ "side-menu-staff.salir" | translate }}
+  </button>
+  </div>
+</div>
 </footer>
 
 <app-modal-confirmacion

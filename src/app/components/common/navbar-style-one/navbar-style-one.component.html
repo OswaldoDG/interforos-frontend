@@ -149,7 +149,8 @@
 
                     <div *ngIf="!autenticado" class="others-option d-flex align-items-center">
                         <div class="option-item">
-                            <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span>
+                            <!-- <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span> -->
+                             &nbsp;
                         </div>
 
                         <!-- <div class="option-item">
@@ -195,7 +196,8 @@
                         </div> -->
 
                         <div *ngIf="!autenticado" class="option-item">
-                            <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span>
+                            &nbsp;
+                            <!-- <span data-bs-toggle="modal" data-bs-target="#loginRegisterModal"><i class="flaticon-user"></i> {{ 'navbar.acceso' | translate }} / {{ 'navbar.registro' | translate }}</span> -->
                         </div>
                         <div *ngIf="autenticado" class="option-item">
                             <span><i class='bx bx-key'></i> {{ 'navbar.menu-chpass' | translate }}</span>
