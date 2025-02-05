@@ -163,34 +163,35 @@
             </ul>
             <ul *ngIf="verRedesSociales" class="user-contact social-profiles">
               <li *ngIf="persona.contacto?.faceBook" style="text-align: left">
-                <a href="#"
+                <a href="https://www.facebook.com/{{FBUsername(persona.contacto?.faceBook)}}"
                   ><i class="bx bxl-facebook"></i>
                   <span style="text-align: justify">{{
-                    persona.contacto?.faceBook
+                    FBUsername(persona.contacto?.faceBook)
                   }}</span>
                 </a>
               </li>
               <li *ngIf="persona.contacto?.twitter" style="text-align: left">
-                <a href="#"
+                <a href="https://www.x.com/{{XUsername(persona.contacto?.twitter)}}"
                   ><i class="bx bxl-twitter"></i>
                   <span style="text-align: justify">{{
-                    persona.contacto?.twitter
+                    XUsername(persona.contacto?.twitter)
                   }}</span>
                 </a>
               </li>
               <li *ngIf="persona.contacto?.instagram" style="text-align: left">
-                <a href="#"
+                <a href="https://www.instagram.com/{{IGUsername(persona.contacto.instagram)}}"
                   ><i class="bx bxl-instagram"></i>
                   <span style="text-align: justify">{{
-                    persona.contacto?.instagram
-                  }}</span>
+                    IGUsername(persona.contacto.instagram)
+                  }}
+                </span>
                 </a>
               </li>
               <li *ngIf="persona.contacto?.linkedIn" style="text-align: left">
-                <a href="#"
+                <a href="https://www.linkedin.com/in/{{INUsername(persona.contacto?.linkedIn)}}"
                   ><i class="bx bxl-linkedin"></i>
                   <span style="text-align: justify">{{
-                    persona.contacto?.linkedIn
+                    INUsername(persona.contacto?.linkedIn)
                   }}</span>
                 </a>
               </li>
