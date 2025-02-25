@@ -1,5 +1,6 @@
 import {
   Component,
+  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -8,7 +9,7 @@ import {
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
-import { Persona } from 'src/app/services/api/api-promodel';
+import { API_BASE_URL, Persona } from 'src/app/services/api/api-promodel';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -20,11 +21,15 @@ export class PersonaInfoComponent implements OnInit, OnChanges {
   @Input() persona: Persona = null;
   mobile: boolean = false;
   avatarUrl: string = 'assets/img/avatar-404.png';
-  constructor(private bks: BreakpointObserver) {}
+  apiBaseUrl: string = '';
+
+  constructor(private bks: BreakpointObserver, @Inject(API_BASE_URL) baseUrl?: string) {
+    this.apiBaseUrl = baseUrl ?? '';
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.persona != null && this.persona?.elementoMedioPrincipalId) {
-      this.avatarUrl = `https://apis.com/interforos/modelos/${this.persona.id}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
+      this.avatarUrl = `${this.apiBaseUrl}/contenido/bucket/modelos/${this.persona.id}/foto/${this.persona.elementoMedioPrincipalId}-mini.png`;
     }
   }
 

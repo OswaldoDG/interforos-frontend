@@ -35,7 +35,7 @@ export class ConfirmacionComponent implements OnInit {
   rutaConfirmacion: string;
   logOutFlag: boolean = false;
   showError: string = '';
-
+  
 
   swapShowPass() {
     this.showPass = !this.showPass;
@@ -160,6 +160,7 @@ export class ConfirmacionComponent implements OnInit {
           });
           this.spinner.hide('spregistro');
           this.inCall = false;
+          this.router.navigateByUrl('/login');
         },
         (err) => {
           this.toastService.error(this.T['confirmacion.error-activada'], {
