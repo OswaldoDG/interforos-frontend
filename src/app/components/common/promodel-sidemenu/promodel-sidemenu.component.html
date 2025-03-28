@@ -13,6 +13,9 @@
   <div class="sidemenu-body">
     <ul class="sidemenu-nav metisMenu h-100" id="sidemenu-nav" data-simplebar>
       <li class="nav-item-title">
+        <app-language-switcher></app-language-switcher>
+    </li>
+      <li class="nav-item-title">
         {{ "side-menu-staff.opciones" | translate }}
       </li>
       <li class="nav-item" routerLinkActive="active mm-active" *ngIf="staff || admin">

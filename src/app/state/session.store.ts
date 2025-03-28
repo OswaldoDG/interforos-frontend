@@ -20,7 +20,7 @@ export function createInitialState(): SessionState {
     auth: null,
     autenticado: false,
     perfil: null,
-    lang: "es-MX",
+    lang: "es-mx",
     cliente: null,
     userId: null,
     rolesUsuario:[],

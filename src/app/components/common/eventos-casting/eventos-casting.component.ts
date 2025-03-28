@@ -54,7 +54,7 @@ export class EventosCastingComponent implements OnInit {
       notas : [null],
       link : [null]
     });
-    this.dateTimeAdapter.setLocale('es-MX');
+    this.dateTimeAdapter.setLocale('es-mx');
   }
 
   ngOnInit(): void {

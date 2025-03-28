@@ -169,6 +169,11 @@ export class NavbarPromodelComponent implements OnInit {
     return true;
   }
 
+  switchLanguage(languageCode: string): void {
+    this.translate.use(languageCode);
+    this.session.actualizaIdioma(languageCode);
+  }
+
   runRegistro(running: boolean) {
     this.inCall = running;
     if (running) {

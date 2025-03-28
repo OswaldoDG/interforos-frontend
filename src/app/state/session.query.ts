@@ -27,6 +27,11 @@ export class SessionQuery extends Query<SessionState> {
   userId$ = this.select((state) => state.userId);
   cliente$ = this.select((state) => state.cliente);
   alias$ = this.select((state) => state.perfil.alias);
+  idioma$ = this.select((state) => state.lang);
+
+  get Idioma(){
+    return this.getValue().lang;
+  }
 
   get DatosCompletos(){
     return !!this.getValue().perfil.datosCompletos;

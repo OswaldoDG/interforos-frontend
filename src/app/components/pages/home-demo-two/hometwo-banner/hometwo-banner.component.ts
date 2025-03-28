@@ -15,7 +15,7 @@ export class HometwoBannerComponent implements OnInit {
 
     bannerContent = [
         {
-            title: 'Interforos Castings',
+            title: 'Interforos Casting',
             paragraph: 'En busca de talento',
             popularSearchList: [
                 // {

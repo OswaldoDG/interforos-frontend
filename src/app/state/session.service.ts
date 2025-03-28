@@ -65,6 +65,10 @@ export class SessionService {
 
   }
 
+  actualizaIdioma(idioma: string) {
+    this.sessionStore.update({ lang: idioma });
+  }
+
   actualizaCliente(cliente: ClienteView) {
     this.sessionStore.update({ cliente: cliente });
   }

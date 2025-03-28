@@ -172,6 +172,7 @@ import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-log
 import { FooterBotonesComponent } from './components/common/footer-botones/footer-botones.component';
 import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-modelo.component';
 import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
+import { LanguageSwitcherComponent } from './components/common/langselector/language-switcher.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -208,6 +209,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TeamComponent,
     FunfactsComponent,
     HowItWorksPageComponent,
+    LanguageSwitcherComponent,
     PricingComponent,
     GalleryComponent,
     FaqComponent,
@@ -350,7 +352,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       useClass: TokenRefreshInterceptor,
       multi: true,
     },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'es-MX' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'es-mx' },
     UserGuard,
     DatePipe,
     BsModalService,
