@@ -150,6 +150,7 @@ export class DatosPersonaComponent implements OnInit {
         'perfil.tipoCabelloId',
         'perfil.etniaId',
         'perfil.email',
+        'perfil.telefono',
         'perfil.perfil.titulo',
         'perfil.perfil.alta.titulo'
       ])
@@ -203,7 +204,7 @@ export class DatosPersonaComponent implements OnInit {
 
   formContacto: FormGroup = this.fb.group({
     direccion: [null],
-    telefono: [null, Validators.pattern('^[0-9]{10}$')],
+    telefono: [null, [ Validators.required, Validators.pattern('^[0-9]{10}$')]],
     email: [null, Validators.required],
     twitter: [null],
     faceBook: [null],
@@ -480,7 +481,7 @@ export class DatosPersonaComponent implements OnInit {
     }
     this.selectedItemsAgencias = agencias;
     this.dropdownSettingsAgencias = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'clave',
       textField: 'texto',
       selectAllText: this.T['perfil.select-all'],
@@ -489,6 +490,7 @@ export class DatosPersonaComponent implements OnInit {
       allowSearchFilter: true,
       enableCheckAll: false,
       clearSearchFilter: true,
+      dropdownSettingsAgencias: 1
     };
   }
 
@@ -747,11 +749,17 @@ export class DatosPersonaComponent implements OnInit {
       });
       return false;
     }
-    if (this.agenciaId) {
+  
+    if(this.agenciaId){
       if (!this.formContacto.get('email').valid) {
         return false;
       }
     }
+
+    if (!this.formContacto.get('telefono').valid) {
+      return false;
+    }
+
 
     return true;
   }
@@ -869,6 +877,7 @@ export class DatosPersonaComponent implements OnInit {
         }
       }
     }
+
     if (this.agenciaId) {
       if (!this.formContacto.get('email').value) {
         this.toastService.warning(this.T['perfil.email'], {
@@ -876,6 +885,12 @@ export class DatosPersonaComponent implements OnInit {
         });
       }
     }
+
+      if (!this.formContacto.get('telefono').value) {
+        this.toastService.warning(this.T['perfil.telefono'], {
+          position: 'bottom-center',
+        });
+      }
   }
 
   DocUploaded(docId: string) {

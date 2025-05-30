@@ -236,7 +236,7 @@
     "titulo": "Search talent"
   },
   "fotos": {
-    "t-upload": "Chosoe a file for the gallery",
+    "t-upload": "Chosoe a file for the gallery, must be less than a year old",
     "enviar": "Send",
     "seleccionado": "File",
     "no-file": "Please selecta  file",

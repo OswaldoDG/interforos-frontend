@@ -26,7 +26,7 @@
     "habilidades": "Habilidades",
     "agencias": "Agencias",
     "idiomas": "Idiomas",
-    "nombre": "Nombre",
+    "nombre": "Nombre/Folios",
     "tipocuerpo": "Tipo cuerpo",
     "tipocuerpo-delgado": "Delgado",
     "tipocuerpo-normal": "Normal",
@@ -236,7 +236,7 @@
     "titulo": "Buscar talento"
   },
   "fotos": {
-    "t-upload": "Seleccione un archivo para la galería",
+    "t-upload": "Seleccione una foto o video, debe ser menor a 1 año de antigüedad",
     "enviar": "Enviar",
     "seleccionado": "Archivo",
     "no-file": "Debe selecionar un archivo para enviar",
