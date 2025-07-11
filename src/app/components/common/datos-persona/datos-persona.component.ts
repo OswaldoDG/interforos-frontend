@@ -481,7 +481,7 @@ export class DatosPersonaComponent implements OnInit {
     }
     this.selectedItemsAgencias = agencias;
     this.dropdownSettingsAgencias = {
-      singleSelection: true,
+      singleSelection: false,
       idField: 'clave',
       textField: 'texto',
       selectAllText: this.T['perfil.select-all'],
@@ -490,7 +490,6 @@ export class DatosPersonaComponent implements OnInit {
       allowSearchFilter: true,
       enableCheckAll: false,
       clearSearchFilter: true,
-      dropdownSettingsAgencias: 1
     };
   }
 
