@@ -125,48 +125,55 @@
       >
         <br />
         <br />
-        <div class="row">
-          <div *ngFor="let modelo of personasDesplegables">
-            <div class="col-lg-12">
-              <div class="d-flex flex-row col-lg-12 col-md-12 col-sm-12">
-                <div class="p-3">
-                  <h5 style="color: gold; font-weight: bold">
-                    {{ modelo.consecutivo }})
-                  </h5>
-                </div>
-                <div class="p-3" *ngIf="puedeAgregarModelo">
-                  <button
-                    type="button"
-                    class="btn btn-danger btn-sm exit noDisplay"
-                    (click)="confirmar(modelo.modelo.id)"
-                  >
-                    x
-                  </button>
-                </div>
-                <div class="p-3">
-                  <h5 style="color: red; font-weight: bold">
-                    {{ modelo.modelo.consecutivo }}
-                  </h5>
-                </div>
-                <div class="p-1" *ngIf="!EsAnonimo">
-                  <app-voto-modelo-component [personaId]="modelo.modelo.id">
-                  </app-voto-modelo-component>
-                </div>
-                <div id="nombre" class="p-3">
-                  <spam>{{ modelo.modelo.nombreArtistico }}</spam>
-                </div>
-                <div id="genero" class="p-3">
-                  <h5>{{ modelo.modelo.generoId }}</h5>
-                </div>
-                <div id="edad" class="p-3">
-                  <h5>
-                    {{ modelo.modelo.edadString
-                    }}{{ "modelo.edad" | translate }}
-                  </h5>
-                </div>
-              </div>
+      <div class="row">
+        <div class="col-12" *ngFor="let modelo of personasDesplegables">
+
+          <div class="d-flex flex-wrap align-items-center mb-2">
+
+            <div class="p-2">
+              <h5 class="fw-bold text-warning mb-0">
+                {{ modelo.consecutivo }})
+              </h5>
             </div>
-            <div class="col-lg-15 col-md-5 col-sm-12">
+
+            <div class="p-2">
+              <h5 class="fw-bold text-danger mb-0">
+                {{ modelo.modelo.consecutivo }}
+              </h5>
+            </div>
+
+            <div class="p-2" *ngIf="!EsAnonimo">
+              <app-voto-modelo-component [personaId]="modelo.modelo.id"></app-voto-modelo-component>
+            </div>
+
+            <div class="p-2">
+              <span>{{ modelo.modelo.nombreArtistico }}</span>
+            </div>
+
+            <div class="p-2">
+              <h5 class="mb-0">{{ modelo.modelo.generoId }}</h5>
+            </div>
+
+            <div class="p-2">
+              <h5 class="mb-0">
+                {{ modelo.modelo.edadString }}{{ "modelo.edad" | translate }}
+              </h5>
+            </div>
+
+            <div class="p-2" *ngIf="puedeAgregarModelo">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="confirmar(modelo.modelo.id)"
+                aria-label="Eliminar"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-10 col-lg-9">
               <app-persona-card-review
                 [persona]="modelo.modelo"
                 [mostrarGenerales]="permisosCast.verDatosGenerales"
@@ -182,7 +189,10 @@
               </app-persona-card-review>
             </div>
           </div>
+
         </div>
+      </div>
+
       </div>
     </div>
   </div>

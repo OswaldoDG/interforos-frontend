@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { API_BASE_URL, CastingClient, ListasClient, ListaTalento, Persona } from 'src/app/services/api/api-promodel';
@@ -16,6 +17,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalConfirmacionComponent } from '../modal-confirmacion/modal-confirmacion.component';
 
 @Component({
   selector: 'app-persona-card',
@@ -25,10 +27,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class PersonaCardComponent implements OnInit {
   @Input() persona: Persona = null;
   @Input() mostarControlesMisModelos: boolean;
+  @Input() modoStaff : boolean = true;
   @Output() personaEditar: EventEmitter<string> = new EventEmitter();
   @Output() personaRemover: EventEmitter<string> = new EventEmitter();
   @Output() personaCargada: EventEmitter<boolean> = new EventEmitter();
   @Output() uid: EventEmitter<string> = new EventEmitter();
+  @Output() EstadoEliminacion: EventEmitter<boolean> = new EventEmitter();
   mobile: boolean = false;
   notFoundURL: string = 'assets/img/errorMedio.jpg';
   avatarUrl: string = 'assets/img/errorMedio.jpg';
@@ -46,7 +50,7 @@ export class PersonaCardComponent implements OnInit {
     space: 1,
   };
   enLista: boolean = false;
-  
+
   T: any;
   enCategoria: boolean = null;
   usuarioFinal: string = undefined;
@@ -58,7 +62,8 @@ export class PersonaCardComponent implements OnInit {
   banderaLista: boolean = false;
 
   apiBaseUrl: string = '';
-  
+  personaIdEliminar: string = null;
+  @ViewChild(ModalConfirmacionComponent) componenteModal;
   constructor(
     private bks: BreakpointObserver,
     private personaService: PersonaInfoService,
@@ -70,7 +75,7 @@ export class PersonaCardComponent implements OnInit {
     private modalService: BsModalService,
     private listasService: ListasClient,
     @Inject(API_BASE_URL) baseUrl?: string
-  ) { 
+  ) {
 
     this.apiBaseUrl = baseUrl?? '';
   }
@@ -86,6 +91,7 @@ export class PersonaCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.modoStaff);
     this.spinner.show('loadMedios');
     this.bks
       .observe(['(min-width: 500px)'])
@@ -100,9 +106,9 @@ export class PersonaCardComponent implements OnInit {
       this.servicio.DatosSeleccionSub().subscribe((e) => {
         this.ConfiguraSelectores(e);
       });
-  
 
-  
+
+
     this.translate.get(['buscar.categorias-error']).subscribe((ts) => {
       this.T = ts;
     });
@@ -131,7 +137,7 @@ export class PersonaCardComponent implements OnInit {
 
   onChangeCheckBox(id: string) {
     if (this.servicio.SeleccionActual().casting) {
-      if (!this.enCategoria) {
+      if (this.enCategoria) {
         this.castingService
           .modeloPut(this.servicio.SeleccionActual().id, id, this.servicio.SeleccionActual().subid
           )
@@ -257,4 +263,33 @@ export class PersonaCardComponent implements OnInit {
   resaltarImagen(resaltar: boolean) {
     this.isResaltada = resaltar;
   }
+
+  eliminar(p) {
+    if(this.modoStaff){
+      this.personaIdEliminar = p;
+      this.componenteModal.openModal(
+      this.componenteModal.myTemplate,
+      'eliminar el modelo'
+    );
+    }else{
+      this.removerPersona();
+    }
+  }
+
+  eliminarPersona(persona: string){
+    console.log(persona);
+    this.personaService.eliminaPersonaPorId(persona).subscribe(e => {
+      console.log(e);
+      this.EstadoEliminacion.emit(true);
+    });
+  }
+
+    // Auxiliares UI
+  recibidoDelModal(r: string) {
+    if (r == 'Y') {
+      this.eliminarPersona(this.personaIdEliminar);
+    }
+    this.personaIdEliminar = null;
+  }
+
 }

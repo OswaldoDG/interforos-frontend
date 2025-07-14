@@ -140,14 +140,7 @@ export class CastigReviewComponent implements OnInit {
         .subscribe((ts) => {
           this.T = ts;
         });
-
-      this.servicio.ActualizarCasting(this.castingId);
-      this.servicio.CastingSub().subscribe((c) => {
-        if (c != null && c.categorias.length > 0) {
-          this.onChangeCategoria(c.categorias[0].id);
-          this.CategoriaActual = c.categorias[0].id;
-        }
-      });
+        this.actualizarCastingReview();
     });
   }
   onChangeCategoria(id: string) {
@@ -163,6 +156,17 @@ export class CastigReviewComponent implements OnInit {
     this.servicio.ActualizarDia(dia);
     this.categoriaSeleccionada = true;
   }
+
+  actualizarCastingReview(){
+      this.servicio.ActualizarCasting(this.castingId);
+      this.servicio.CastingSub().subscribe((c) => {
+        if (c != null && c.categorias.length > 0) {
+          this.onChangeCategoria(c.categorias[0].id);
+          this.CategoriaActual = c.categorias[0].id;
+        }
+      });
+  }
+
   volver() {
     this.ruta.navigateByUrl('/castings');
   }
@@ -188,6 +192,7 @@ export class CastigReviewComponent implements OnInit {
         this.diaActual = 0;
         this.categoriaSeleccionada = true;
         this.ModeloIdEliminar = null;
+        this.actualizarCastingReview();
       });
   }
 
