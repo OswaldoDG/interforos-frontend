@@ -29,7 +29,9 @@
               }
       "
     >
-      <app-persona-card [persona]="persona"></app-persona-card>
+      <app-persona-card [persona]="persona"
+                          (EstadoEliminacion)="EstadoEliminacion($event)"
+      ></app-persona-card>
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12" *ngIf="datosValidos">
       <div class="pagination-area text-center">

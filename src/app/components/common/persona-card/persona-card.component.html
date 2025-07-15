@@ -1,32 +1,40 @@
 <div class="col-lg-12 col-md-12 col-sm-12 pt-2">
   <div class="d-flex card" style="width: 100%">
-    <div class="card-header">
-      <div class="row justify-content-left">
-        <div class="col-lg-10 col-md-10 col-sm-10 col-align-self-star d-flex">
-          <label class="name">
-            {{ nombrePersona }}
+  <div class="card-header">
+    <div class="row align-items-center">
+
+      <div class="col d-flex align-items-center">
+        <label class="name mb-0">
+          {{ nombrePersona }}
+        </label>
+      </div>
+
+      <div class="col-auto ms-auto d-flex align-items-center gap-2">
+        <div *ngIf="banderaCasting" class="form-check m-0">
+          <label class="star-checkbox">
+            <input type="checkbox" [(ngModel)]="enCategoria" (change)="onChangeCheckBox(persona.id)" />
+            <span class="star"></span>
           </label>
         </div>
-        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="banderaCasting">
-          <div class="form-check">
-            <label class="star-checkbox">
-              <input type="checkbox" [(ngModel)]="enCategoria" (change)="onChangeCheckBox(persona.id)" />
-              <span class="star"></span>
-            </label>
-          </div>
+
+        <div *ngIf="banderaLista" class="form-check m-0">
+          <label class="star-checkbox">
+            <input type="checkbox" [checked]="enLista" (change)="onChangeListaCheckBox(persona.id)" />
+            <span class="star"></span>
+          </label>
         </div>
 
-        <div class="c1 col-lg-2 col-md-2 col-sm-2 align-self-center d-flex" *ngIf="banderaLista">
-          <div class="form-check">
-            <label class="star-checkbox">
-              <input type="checkbox" [checked]="enLista" (change)="onChangeListaCheckBox(persona.id)" />
-              <span class="star"></span>
-            </label>
-          </div>
-        </div>
-
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="eliminar(persona.id)"
+          aria-label="Eliminar"
+        >
+          ✕
+        </button>
       </div>
     </div>
+  </div>
     <div class="card-body">
       <div class="container text-center">
         <div class="row">
@@ -283,4 +291,8 @@
       </div>
     </div>
   </div>
+  <app-modal-confirmacion
+    #modalContactos
+    (modalConfirm)="recibidoDelModal($event)"
+  ></app-modal-confirmacion>
 </div>

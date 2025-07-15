@@ -114,6 +114,32 @@ export class PersonaInfoService {
     });
   }
 
+  obtieneUsuarioIdPorPersonaId(personaId: string): Observable<string>{
+    return new Observable((subscriber) => {
+      this.apiPersona.idGet(personaId).subscribe(
+        (p) => {
+            subscriber.next(p.usuarioId);
+            subscriber.complete();
+          },
+          (error) => {
+            subscriber.error(error);
+          });
+    });
+  }
+
+  eliminaPersonaPorId(personaId: string): Observable<void>{
+    return new Observable((subscriber) => {
+      this.apiPersona.personaDelete(personaId).subscribe(
+        (p) => {
+            subscriber.next();
+            subscriber.complete();
+          },
+          (error) => {
+            subscriber.error(error);
+          });
+    });
+  }
+
   // Cambia los IDs de las propiedades al texto disponible en el catálogo
   PersonaDesplegable(persona: Persona): Persona {
     const pv = this.personasView.find((p) => p.id == persona.id);
