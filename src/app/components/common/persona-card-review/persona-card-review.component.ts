@@ -190,99 +190,141 @@ export class PersonaCardReviewComponent implements OnInit {
       });
   }
 
-  IGUsername(input : string): string | null{
-    if (input.startsWith("https://www.instagram.com/")) {
-      const instagramRegex = /https:\/\/(?:www\.)?instagram\.com\/([^\/]+)/;
-      const match = input.match(instagramRegex);
+
+  IGUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    if (input.startsWith("https://www.instagram.com/") || input.startsWith("https://instagram.com/")) {
+      const regex = /https:\/\/(?:www\.)?instagram\.com\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
       if (match && match[1]) {
         return match[1];
       }
-    }else if(input.startsWith("instagram.com/")) {
-      const instagramSimpleRegex = /instagram\.com\/([^\/]+)/;
-      const match = input.match(instagramSimpleRegex);
+
+    } else if (input.startsWith("instagram.com/")) {
+      const regex = /instagram\.com\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
       if (match && match[1]) {
         return match[1];
       }
-    }else if(input.startsWith("@")) {
-      const atSymbolRegex = /@([a-zA-Z0-9_]+)/;
-      const match = input.match(atSymbolRegex);
+
+    } else if (input.startsWith("@")) {
+      const regex = /@([a-zA-Z0-9_.]+)/;
+      const match = input.match(regex);
+
       if (match && match[1]) {
         return match[1];
       }
+
+    }
+    return null;
+  }
+
+  INUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    const fullUrlRegex = /https:\/\/(?:[a-zA-Z0-9\-]+\.)?linkedin\.com\/in\/([^\/\?\s]+)/;
+    const match1 = input.match(fullUrlRegex);
+
+    if (match1 && match1[1]) {
+      return match1[1];
+    }
+
+    const simpleUrlRegex = /(?:www\.)?linkedin\.com\/in\/([^\/\?\s]+)/;
+    const match2 = input.match(simpleUrlRegex);
+
+    if (match2 && match2[1]) {
+      return match2[1];
+    }
+
+    const usernameOnlyRegex = /^@?([a-zA-Z0-9\-_]+)$/;
+    const match3 = input.match(usernameOnlyRegex);
+
+    if (match3 && match3[1]) {
+      return match3[1];
     }
 
     return null;
   }
 
-  INUsername(input : string): string | null{
-    const regex = /https:\/\/(?:[a-zA-Z0-9\-]+\.)?linkedin\.com\/in\/([^\/]+)/;
-    const match = input.match(regex);
 
-    if (match && match[1]) {
-      return match[1];
+  XUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    if (input.startsWith("https://www.twitter.com/") || input.startsWith("https://twitter.com/") || input.startsWith("https://x.com/")) {
+      const regex = /https:\/\/(?:www\.)?(?:twitter\.com|x\.com)\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("twitter.com/") || input.startsWith("x.com/")) {
+      const regex = /(?:twitter\.com|x\.com)\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("@")) {
+      const regex = /@([a-zA-Z0-9_]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
     }
 
     return null;
   }
 
-  XUsername(input : string): string | null{
-    if (input.startsWith("https://www.twitter.com/") || input.startsWith("https://x.com/")) {
-      const twitterRegex = /https:\/\/(?:www\.)?twitter\.com|x\.com\/([^\/\?]+)/;
-      const match = input.match(twitterRegex);
-      if (match && match[1]) {
-        return match[1];
-      }
-    }else if (input.startsWith("twitter.com/") || input.startsWith("x.com/")) {
-      const twitterSimpleRegex = /(?:twitter\.com|x\.com)\/([^\/\?]+)/;
-      const match = input.match(twitterSimpleRegex);
-      if (match && match[1]) {
-        return match[1];
-      }
-    }else if (input.startsWith("@")) {
-      const atSymbolRegex = /@([a-zA-Z0-9_]+)/;
-      const match = input.match(atSymbolRegex);
-      if (match && match[1]) {
-        return match[1]; 
-      }
+
+  FBUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
     }
 
-    return null;
-  }
+    input = input.trim();
 
-  FBUsername(input : string): string | null{
     if (input.startsWith("https://www.facebook.com/")) {
-      const facebookRegex = /https:\/\/www\.facebook\.com\/([^\/\?]+)/;
-      const match = input.match(facebookRegex);
+      const regexes = [
+        /https:\/\/www\.facebook\.com\/([^\/\?\s]+)/,
+        /https:\/\/www\.facebook\.com\/share\/([^\/\s]+)/,
+        /https:\/\/www\.facebook\.com\/profile\.php\?id=(\d+)/
+      ];
+
+      for (const regex of regexes) {
+        const match = input.match(regex);
+        if (match && match[1]) {
+          return match[1];
+        }
+      }
+
+    } else if (input.startsWith("facebook.com/")) {
+      const match = input.match(/facebook\.com\/([^\/\?\s]+)/);
+
       if (match && match[1]) {
         return match[1];
       }
 
-      const facebookShareRegex = /https:\/\/www\.facebook\.com\/share\/([^\/]+)/;
-      const match2 = input.match(facebookShareRegex);
-      if (match2 && match2[1]) {
-        return match2[1];
-      }
-      
-      const profileIdRegex = /https:\/\/www\.facebook\.com\/profile\.php\?id=(\d+)/;
-      const match3 = input.match(profileIdRegex);
-    
-      if (match3 && match3[1]) {
-        return match3[1];
-      }
-
-    }else if (input.startsWith("facebook.com/")) {
-      const facebookSimpleRegex = /facebook\.com\/([^\/\?]+)/;
-      const match = input.match(facebookSimpleRegex);
-      if (match && match[1]) {
-        console.log(match[1]);
-        return match[1];
-      }
     }
 
     return null;
   }
-
-
-
-
 }

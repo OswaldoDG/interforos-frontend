@@ -91,7 +91,6 @@ export class PersonaCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.modoStaff);
     this.spinner.show('loadMedios');
     this.bks
       .observe(['(min-width: 500px)'])
@@ -292,4 +291,140 @@ export class PersonaCardComponent implements OnInit {
     this.personaIdEliminar = null;
   }
 
+  IGUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    if (input.startsWith("https://www.instagram.com/") || input.startsWith("https://instagram.com/")) {
+      const regex = /https:\/\/(?:www\.)?instagram\.com\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("instagram.com/")) {
+      const regex = /instagram\.com\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("@")) {
+      const regex = /@([a-zA-Z0-9_.]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    }
+    return null;
+  }
+
+  INUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    const fullUrlRegex = /https:\/\/(?:[a-zA-Z0-9\-]+\.)?linkedin\.com\/in\/([^\/\?\s]+)/;
+    const match1 = input.match(fullUrlRegex);
+
+    if (match1 && match1[1]) {
+      return match1[1];
+    }
+
+    const simpleUrlRegex = /(?:www\.)?linkedin\.com\/in\/([^\/\?\s]+)/;
+    const match2 = input.match(simpleUrlRegex);
+
+    if (match2 && match2[1]) {
+      return match2[1];
+    }
+
+    const usernameOnlyRegex = /^@?([a-zA-Z0-9\-_]+)$/;
+    const match3 = input.match(usernameOnlyRegex);
+
+    if (match3 && match3[1]) {
+      return match3[1];
+    }
+
+    return null;
+  }
+
+
+  XUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    if (input.startsWith("https://www.twitter.com/") || input.startsWith("https://twitter.com/") || input.startsWith("https://x.com/")) {
+      const regex = /https:\/\/(?:www\.)?(?:twitter\.com|x\.com)\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("twitter.com/") || input.startsWith("x.com/")) {
+      const regex = /(?:twitter\.com|x\.com)\/([^\/\?\s]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    } else if (input.startsWith("@")) {
+      const regex = /@([a-zA-Z0-9_]+)/;
+      const match = input.match(regex);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    }
+
+    return null;
+  }
+
+
+  FBUsername(input: string | null | undefined): string | null {
+    if (!input || typeof input !== 'string') {
+      return null;
+    }
+
+    input = input.trim();
+
+    if (input.startsWith("https://www.facebook.com/")) {
+      const regexes = [
+        /https:\/\/www\.facebook\.com\/([^\/\?\s]+)/,
+        /https:\/\/www\.facebook\.com\/share\/([^\/\s]+)/,
+        /https:\/\/www\.facebook\.com\/profile\.php\?id=(\d+)/
+      ];
+
+      for (const regex of regexes) {
+        const match = input.match(regex);
+        if (match && match[1]) {
+          return match[1];
+        }
+      }
+
+    } else if (input.startsWith("facebook.com/")) {
+      const match = input.match(/facebook\.com\/([^\/\?\s]+)/);
+
+      if (match && match[1]) {
+        return match[1];
+      }
+
+    }
+
+    return null;
+  }
 }
