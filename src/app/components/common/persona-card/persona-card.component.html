@@ -194,35 +194,40 @@
                         </ul>
 
                         <ul class="social-profiles">
-                          <li>
-                            <a href="#"><i class="bx bxl-facebook"></i>
+                          <li *ngIf="FBUsername(persona.contacto?.faceBook)">
+                            <a href="https://www.facebook.com/{{FBUsername(persona.contacto?.faceBook)}}"
+                              target="_blank" rel="noopener"><i class="bx bxl-facebook"></i>
                               <span style="text-align: justify">{{
-                                persona.contacto?.faceBook
-                                }}</span>
+                                FBUsername(persona.contacto?.faceBook)
+                              }}</span>
                             </a>
                           </li>
 
-                          <li>
-                            <a href="#"><i class="bx bxl-twitter"></i>
+                          <li *ngIf="XUsername(persona.contacto?.twitter)">
+                            <a href="https://www.x.com/{{XUsername(persona.contacto?.twitter)}}"
+                              target="_blank" rel="noopener"><i class="bx bxl-twitter"></i>
                               <span style="text-align: justify">{{
-                                persona.contacto?.twitter
-                                }}</span>
+                                XUsername(persona.contacto?.twitter)
+                              }}</span>
                             </a>
                           </li>
 
-                          <li>
-                            <a href="#"><i class="bx bxl-instagram"></i>
+                          <li *ngIf="IGUsername(persona.contacto.instagram)">
+                            <a href="https://www.instagram.com/{{IGUsername(persona.contacto.instagram)}}"
+                              target="_blank" rel="noopener"><i class="bx bxl-instagram"></i>
                               <span style="text-align: justify">{{
-                                persona.contacto?.instagram
-                                }}</span>
+                                IGUsername(persona.contacto.instagram)
+                              }}
+                            </span>
                             </a>
                           </li>
 
-                          <li>
-                            <a href="#"><i class="bx bxl-linkedin"></i>
+                          <li *ngIf="INUsername(persona.contacto?.linkedIn)">
+                            <a href="https://www.linkedin.com/in/{{INUsername(persona.contacto?.linkedIn)}}"
+                              target="_blank" rel="noopener"><i class="bx bxl-linkedin"></i>
                               <span style="text-align: justify">{{
-                                persona.contacto?.linkedIn
-                                }}</span>
+                                INUsername(persona.contacto?.linkedIn)
+                              }}</span>
                             </a>
                           </li>
                         </ul>
