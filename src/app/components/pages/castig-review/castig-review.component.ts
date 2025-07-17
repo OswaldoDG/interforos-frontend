@@ -193,7 +193,11 @@ export class CastigReviewComponent implements OnInit {
         this.categoriaSeleccionada = true;
         this.ModeloIdEliminar = null;
         this.actualizarCastingReview();
-      });
+        this.spinner.hide('loadCategorias');
+      },
+          (err) => {
+        this.spinner.hide('loadCategorias');
+          });
   }
 
   //confirma  el remover un comentario
