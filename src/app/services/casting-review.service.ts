@@ -225,7 +225,6 @@ export class CastingReviewService {
   }
   //agregar un modelo
   public agregarModelo(modelo: ModeloCastingReview, categoriaId: string) {
-    console.log(modelo);
     this.personaClient.idGet(modelo.personaId).subscribe((p) => {
       var indexC = this.casting.categorias.findIndex(
         c=> c.id == categoriaId);
