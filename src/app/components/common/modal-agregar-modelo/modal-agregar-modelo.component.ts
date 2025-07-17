@@ -80,6 +80,7 @@ export class ModalAgregarModeloComponent implements OnInit {
           this.toastService.success(this.T['modelo.modelo'], {
             position: 'bottom-center',
           });
+          this.EstadoAdicionModelo.emit(false);
         },
         (err) => {
           this.EstadoAdicionModelo.emit(false);
@@ -170,6 +171,7 @@ export class ModalAgregarModeloComponent implements OnInit {
           this.toastService.success(this.T['modelo.modelo'], {
             position: 'bottom-center',
           });
+          this.EstadoAdicionModelo.emit(false);
         },
         (err) => {
           this.EstadoAdicionModelo.emit(false);
