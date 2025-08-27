@@ -15,11 +15,14 @@ import {
   CastingClient,
   CastingListElement,
   EstadoCasting,
+  TipoLogoCasting,
   TipoRolCliente,
 } from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 import { ModalEliminarCastingComponent } from '../modal-eliminar-casting/modal-eliminar-casting.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-casting-card-component',
@@ -27,10 +30,21 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./casting-card-component.component.scss'],
 })
 export class CastingCardComponentComponent implements OnInit {
+  private destroy$ = new Subject();
   @Input() Casting: CastingListElement ;
   @Output() refrescarCast: EventEmitter<string> = new EventEmitter();
   @Output() logoCargado: EventEmitter<boolean> = new EventEmitter();
-  urlImage: string;
+  // VariablesLogo
+  logoCasting: string;
+  esLogoNuevo: boolean;
+  nameImg: string;
+  isImageLoading: boolean = false;
+  //Variables logo promotora
+  logoPromotora: string;
+  esLogoPromotoraNuevo: boolean;
+  nameImgPromotora: string;
+  isImageLoadingPromotora: boolean = false;
+  logoDefault = './../../assets/img/casting/camera-icon.png';
   valoresdisponibles: any;
   T: any;
   estadoCasting: any;
@@ -76,18 +90,35 @@ export class CastingCardComponentComponent implements OnInit {
       });
 
     this.validarRol();
+        this.servicio.cliente$.pipe(takeUntil(this.destroy$)).subscribe((cl) => {
+          this.logoDefault = cl.webLogoBase64;
+          console.log(this.logoDefault);
+        });
   }
 
   ngAfterViewInit(): void {
     if (this.Casting == null) {
       this.logoCargado.emit(true);
     } else {
-      this.clientApi.logoGet(this.Casting.id).subscribe((data) => {
-        this.urlImage = data;
-        if (data) {
-          this.logoCargado.emit(true);
-        }
-      });
+        this.clientApi.logoGet(this.Casting.id, TipoLogoCasting.LogoCasting).subscribe((data) => {
+          if (data != null) {
+            this.logoCasting = data;
+            this.isImageLoading = !!this.logoCasting && this.logoCasting.trim().length > 0;
+          } else {
+            this.isImageLoading = false;
+          }
+        });
+
+        this.clientApi.logoGet(this.Casting.id, TipoLogoCasting.LogoPromotora).subscribe((data) => {
+          if(data != null){
+            this.logoPromotora = data;
+            this.isImageLoadingPromotora = !!this.logoPromotora && this.logoPromotora.trim().length > 0;
+          } else {
+            this.isImageLoadingPromotora = false;
+          }
+        });
+        this.logoCargado.emit(true);
+
     }
   }
 

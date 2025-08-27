@@ -173,64 +173,72 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-md-6 col-sm-6 d-flex align-items-center justify-content-center"
-        >
-          <div class="row m-3">
-            <div class="text-center">
-              <div class="custom-file fileInputProfileWrap">
-                <div class="img-space">
-                  <ng-container
-                    class="responsive"
-                    *ngIf="isImageLoading; else elseTemplate"
-                  >
-                    <img [src]="logoCasting" class="responsive" />
-                  </ng-container>
-                  <ng-template #elseTemplate>
-                    <img [src]="logoDefault" class="responsive" />
-                  </ng-template>
-                </div>
-              </div>
-              <div
-                class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center"
-              >
-                <div class="row justify-content-md-center align-items-center">
-                  <div *ngIf="nameImg == null">
-                    <span></span>
-                  </div>
-                  <!-- <span>{{ nameImg }}</span> -->
-                  <input
-                    #file
-                    type="file"
-                    (click)="$event.target.value = null"
-                    (change)="handleUpload($event)"
-                    accept=".png, .jpg, .jpeg, .gif"
-                    class="d-none"
-                  />
-                  <alert type="danger" *ngIf="logoCasting == null">
-                    <strong>{{
-                      "proyectos.form-logo-error" | translate
-                    }}</strong>
-                  </alert>
-                </div>
-              </div>
-              <div
-                class="col-md-12 col-sm-12 d-flex align-items-center justify-content-center"
-              >
-                <div class="row align-items-center justify-content-center">
-                  <br />
-                  <button
-                    class="btn btn-primary col-md-12"
-                    (click)="file.click()"
-                    style="max-width: 300px"
-                  >
-                    {{ "proyectos.form-logo" | translate }}
-                  </button>
-                </div>
-              </div>
+      <div class="col-md-6 col-sm-6 d-flex flex-column align-items-center justify-content-start">
+        <div class="w-100 d-flex flex-column align-items-center">
+
+          <!-- Logo Casting -->
+          <div class="mb-4 text-center" style="max-width: 300px; width: 100%;">
+            <div class="img-space mb-2">
+              <ng-container *ngIf="isImageLoading; else elseTemplate">
+                <img [src]="logoCasting" class="responsive" />
+              </ng-container>
+              <ng-template #elseTemplate>
+                <img [src]="logoDefault" class="responsive" />
+              </ng-template>
             </div>
+
+            <input
+              #file
+              type="file"
+              (click)="$event.target.value = null"
+              (change)="handleUpload($event)"
+              accept=".png, .jpg, .jpeg, .gif"
+              class="d-none"
+            />
+            <alert type="danger" *ngIf="logoCasting == null">
+              <strong>{{ "proyectos.form-logo-error" | translate }}</strong>
+            </alert>
+
+            <button
+              class="btn btn-primary w-100 mt-2"
+              (click)="file.click()"
+              style="max-width: 300px;"
+            >
+              {{ "proyectos.form-logo" | translate }}
+            </button>
           </div>
+
+          <!-- Logo Promotora -->
+          <div class="mb-4 text-center" style="max-width: 300px; width: 100%;">
+            <div class="img-space mb-2">
+              <ng-container *ngIf="isImageLoadingPromotora; else elseTemplate2">
+                <img [src]="logoPromotora" class="responsive" />
+              </ng-container>
+              <ng-template #elseTemplate2>
+                <img [src]="logoDefault" class="responsive" />
+              </ng-template>
+            </div>
+
+            <input
+              #filePromotora
+              type="file"
+              (click)="$event.target.value = null"
+              (change)="handleUploadPromotora($event)"
+              accept=".png, .jpg, .jpeg, .gif"
+              class="d-none"
+            />
+            <button
+              class="btn btn-primary w-100 mt-2"
+              (click)="filePromotora.click()"
+              style="max-width: 300px;"
+            >
+              {{ "proyectos.form-logo-promotora" | translate }}
+            </button>
+          </div>
+
         </div>
+      </div>
+
       </div>
       <br />
       <div class="row mb-5">

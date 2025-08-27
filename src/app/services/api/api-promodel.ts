@@ -17,31 +17,31 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAccesoClient {
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     login(body: SolicitudAcceso | undefined): Observable<RespuestaLogin>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     passwordPost(body: string | undefined): Observable<Respuesta>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     id(id: string, body: string | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     passwordGet(id: string): Observable<SolicitudSoporteUsuario>;
     /**
-     * @return Success
+     * @return OK
      */
     tokenRefresh(token: string): Observable<RespuestaLogin>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     establecer(body: EstablecerContrasena | undefined): Observable<void>;
 }
@@ -60,8 +60,8 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     login(body: SolicitudAcceso | undefined, httpContext?: HttpContext): Observable<RespuestaLogin> {
         let url_ = this.baseUrl + "/acceso/login";
@@ -122,8 +122,8 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     passwordPost(body: string | undefined, httpContext?: HttpContext): Observable<Respuesta> {
         let url_ = this.baseUrl + "/acceso/password";
@@ -184,8 +184,8 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     id(id: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/acceso/password/id/{id}";
@@ -252,7 +252,7 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     passwordGet(id: string, httpContext?: HttpContext): Observable<SolicitudSoporteUsuario> {
         let url_ = this.baseUrl + "/acceso/password/{id}";
@@ -312,7 +312,7 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     tokenRefresh(token: string, httpContext?: HttpContext): Observable<RespuestaLogin> {
         let url_ = this.baseUrl + "/acceso/token-refresh/{token}";
@@ -372,8 +372,8 @@ export class AccesoClient implements IAccesoClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     establecer(body: EstablecerContrasena | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/acceso/password/establecer";
@@ -439,141 +439,145 @@ export class AccesoClient implements IAccesoClient {
 
 export interface ICastingClient {
     /**
-     * @param inactivos (optional) 
-     * @return Success
+     * @param inactivos (optional)
+     * @return OK
      */
     castingGet(inactivos: boolean | undefined): Observable<CastingListElement[]>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     castingPost(body: Casting | undefined): Observable<Casting>;
     /**
-     * @return Success
+     * @return OK
      */
     actuales(): Observable<CastingListElement[]>;
     /**
-     * @return Success
+     * @return OK
      */
     id(id: string): Observable<Casting>;
     /**
-     * @return Success
+     * @return OK
+     */
+    procesarmedios(id: string): Observable<Casting>;
+    /**
+     * @return OK
      */
     anonimo(id: string): Observable<Casting>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     castingPut(id: string, body: Casting | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     castingDelete(castingId: string): Observable<CastingListElement>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     contactos(castingId: string, body: ContactoUsuario[] | undefined): Observable<ContactoUsuario[]>;
     /**
-     * @return Success
+     * @return OK
      */
-    logoGet(castingId: string): Observable<string>;
+    logoGet(castingId: string, tipoLogo: TipoLogoCasting): Observable<string>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
-    logoPut(castingId: string, body: string | undefined): Observable<void>;
+    logoPut(castingId: string, tipoLogo: TipoLogoCasting, body: string | undefined): Observable<void>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     eventos(castingId: string, body: EventoCasting[] | undefined): Observable<void>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     categoriasPut(castingId: string, body: CategoriaCasting[] | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     modeloPut(castingId: string, modeloId: string, categoriaId: string): Observable<ModeloCastingReview>;
     /**
-     * @return Success
+     * @return OK
      */
     modeloDelete(castingId: string, modeloId: string, categoriaId: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     consecutivo(castingId: string, numModelo: number, categoriaId: string): Observable<ModeloCastingReview>;
     /**
-     * @return Success
+     * @return OK
      */
     revisor(castingId: string): Observable<SelectorCastingCategoria>;
     /**
-     * @return Success
+     * @return OK
      */
     selector(castingId: string): Observable<SelectorCastingCategoria>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     comentariosPut(castingId: string, body: string | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     comentariosDelete(castingId: string, comentarioId: string): Observable<void>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     comentarioPost(castingId: string, categoriaId: string, modeloId: string, body: string | undefined): Observable<ComentarioCategoriaModeloCasting>;
     /**
-     * @return Success
+     * @return OK
      */
     comentarioDelete(castingId: string, categoriaId: string, modeloId: string, comentarioId: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     like(castingId: string, categoriaId: string, modeloId: string, nivel: string): Observable<VotoModeloCategoria>;
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     categoriasGet(castingId: string, personaId: string | undefined): Observable<string[]>;
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     inscribir(castingId: string, categoriaId: string, personaId: string | undefined): Observable<void>;
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     abandonar(castingId: string, categoriaId: string, personaId: string | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     estadocasting(castingId: string, estado: EstadoCasting): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     bitacora(id: string): Observable<BitacoraCasting[]>;
     /**
-     * @return Success
+     * @return OK
      */
     medios(castingId: string, modeloId: string, categoriaId: string): Observable<ModeloCasting>;
     /**
-     * @return Success
+     * @return OK
      */
     modelos(castingId: string, categoriaId: string): Observable<Persona[]>;
     /**
-     * @param formato (optional) 
-     * @return Success
+     * @param formato (optional)
+     * @return OK
      */
     excel(castingId: string, formato: string | undefined): Observable<void>;
     /**
-     * @param formato (optional) 
-     * @return Success
+     * @param formato (optional)
+     * @return OK
      */
     lista(castingId: string, formato: string | undefined): Observable<void>;
 }
@@ -592,8 +596,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param inactivos (optional) 
-     * @return Success
+     * @param inactivos (optional)
+     * @return OK
      */
     castingGet(inactivos: boolean | undefined, httpContext?: HttpContext): Observable<CastingListElement[]> {
         let url_ = this.baseUrl + "/api/Casting?";
@@ -660,8 +664,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     castingPost(body: Casting | undefined, httpContext?: HttpContext): Observable<Casting> {
         let url_ = this.baseUrl + "/api/Casting";
@@ -728,7 +732,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     actuales(httpContext?: HttpContext): Observable<CastingListElement[]> {
         let url_ = this.baseUrl + "/api/Casting/actuales";
@@ -785,7 +789,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     id(id: string, httpContext?: HttpContext): Observable<Casting> {
         let url_ = this.baseUrl + "/api/Casting/id/{id}";
@@ -857,7 +861,79 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
+     */
+    procesarmedios(id: string, httpContext?: HttpContext): Observable<Casting> {
+        let url_ = this.baseUrl + "/api/Casting/procesarmedios/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processProcesarmedios(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processProcesarmedios(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Casting>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Casting>;
+        }));
+    }
+
+    protected processProcesarmedios(response: HttpResponseBase): Observable<Casting> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Casting;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Casting>(null as any);
+    }
+
+    /**
+     * @return OK
      */
     anonimo(id: string, httpContext?: HttpContext): Observable<Casting> {
         let url_ = this.baseUrl + "/api/Casting/anonimo/{id}";
@@ -923,8 +999,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     castingPut(id: string, body: Casting | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{Id}";
@@ -991,7 +1067,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     castingDelete(castingId: string, httpContext?: HttpContext): Observable<CastingListElement> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}";
@@ -1063,8 +1139,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     contactos(castingId: string, body: ContactoUsuario[] | undefined, httpContext?: HttpContext): Observable<ContactoUsuario[]> {
         let url_ = this.baseUrl + "/api/Casting/contactos/{castingId}";
@@ -1134,13 +1210,16 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
-    logoGet(castingId: string, httpContext?: HttpContext): Observable<string> {
-        let url_ = this.baseUrl + "/api/Casting/{CastingId}/logo";
+    logoGet(castingId: string, tipoLogo: TipoLogoCasting, httpContext?: HttpContext): Observable<string> {
+        let url_ = this.baseUrl + "/api/Casting/{CastingId}/logo/{TipoLogo}";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{CastingId}", encodeURIComponent("" + castingId));
+        if (tipoLogo === undefined || tipoLogo === null)
+            throw new Error("The parameter 'tipoLogo' must be defined.");
+        url_ = url_.replace("{TipoLogo}", encodeURIComponent("" + tipoLogo));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1194,14 +1273,17 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
-    logoPut(castingId: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
-        let url_ = this.baseUrl + "/api/Casting/{castingId}/logo";
+    logoPut(castingId: string, tipoLogo: TipoLogoCasting, body: string | undefined, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/api/Casting/{castingId}/logo/{TipoLogo}";
         if (castingId === undefined || castingId === null)
             throw new Error("The parameter 'castingId' must be defined.");
         url_ = url_.replace("{castingId}", encodeURIComponent("" + castingId));
+        if (tipoLogo === undefined || tipoLogo === null)
+            throw new Error("The parameter 'tipoLogo' must be defined.");
+        url_ = url_.replace("{tipoLogo}", encodeURIComponent("" + tipoLogo));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -1250,8 +1332,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     eventos(castingId: string, body: EventoCasting[] | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/eventos";
@@ -1306,8 +1388,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     categoriasPut(castingId: string, body: CategoriaCasting[] | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categorias";
@@ -1368,7 +1450,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     modeloPut(castingId: string, modeloId: string, categoriaId: string, httpContext?: HttpContext): Observable<ModeloCastingReview> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}";
@@ -1446,7 +1528,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     modeloDelete(castingId: string, modeloId: string, categoriaId: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}";
@@ -1521,7 +1603,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     consecutivo(castingId: string, numModelo: number, categoriaId: string, httpContext?: HttpContext): Observable<ModeloCastingReview> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{numModelo}/consecutivo";
@@ -1599,7 +1681,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     revisor(castingId: string, httpContext?: HttpContext): Observable<SelectorCastingCategoria> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}/selector/revisor";
@@ -1677,7 +1759,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     selector(castingId: string, httpContext?: HttpContext): Observable<SelectorCastingCategoria> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}/selector";
@@ -1755,8 +1837,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     comentariosPut(castingId: string, body: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/comentarios";
@@ -1817,7 +1899,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     comentariosDelete(castingId: string, comentarioId: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/comentarios/{comentarioId}";
@@ -1877,8 +1959,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     comentarioPost(castingId: string, categoriaId: string, modeloId: string, body: string | undefined, httpContext?: HttpContext): Observable<ComentarioCategoriaModeloCasting> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/comentario";
@@ -1954,7 +2036,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     comentarioDelete(castingId: string, categoriaId: string, modeloId: string, comentarioId: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/comentario/{comentarioId}";
@@ -2026,7 +2108,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     like(castingId: string, categoriaId: string, modeloId: string, nivel: string, httpContext?: HttpContext): Observable<VotoModeloCategoria> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/like/{nivel}";
@@ -2095,8 +2177,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     categoriasGet(castingId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<string[]> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/modelo/categorias?";
@@ -2166,8 +2248,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     inscribir(castingId: string, categoriaId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/inscribir?";
@@ -2237,8 +2319,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param personaId (optional) 
-     * @return Success
+     * @param personaId (optional)
+     * @return OK
      */
     abandonar(castingId: string, categoriaId: string, personaId: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/abandonar?";
@@ -2308,7 +2390,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     estadocasting(castingId: string, estado: EstadoCasting, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/estadocasting/{castingId}/{estado}";
@@ -2368,7 +2450,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     bitacora(id: string, httpContext?: HttpContext): Observable<BitacoraCasting[]> {
         let url_ = this.baseUrl + "/api/Casting/bitacora/{Id}";
@@ -2428,7 +2510,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     medios(castingId: string, modeloId: string, categoriaId: string, httpContext?: HttpContext): Observable<ModeloCasting> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelo/{modeloId}/medios";
@@ -2506,7 +2588,7 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     modelos(castingId: string, categoriaId: string, httpContext?: HttpContext): Observable<Persona[]> {
         let url_ = this.baseUrl + "/api/Casting/{castingId}/categoria/{categoriaId}/modelos";
@@ -2575,8 +2657,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param formato (optional) 
-     * @return Success
+     * @param formato (optional)
+     * @return OK
      */
     excel(castingId: string, formato: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}/excel?";
@@ -2643,8 +2725,8 @@ export class CastingClient implements ICastingClient {
     }
 
     /**
-     * @param formato (optional) 
-     * @return Success
+     * @param formato (optional)
+     * @return OK
      */
     lista(castingId: string, formato: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Casting/{CastingId}/excel/lista?";
@@ -2713,20 +2795,20 @@ export class CastingClient implements ICastingClient {
 
 export interface IClientesClient {
     /**
-     * @return Success
+     * @return OK
      */
     faltantes(id: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     config(): Observable<ClienteView>;
     /**
-     * @param url (optional) 
-     * @return Success
+     * @param url (optional)
+     * @return OK
      */
     porurl(url: string | undefined): Observable<Cliente>;
     /**
-     * @return Success
+     * @return OK
      */
     contactos(): Observable<ContactoUsuario[]>;
 }
@@ -2745,7 +2827,7 @@ export class ClientesClient implements IClientesClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     faltantes(id: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/clientes/reporte/faltantes/{id}";
@@ -2796,7 +2878,7 @@ export class ClientesClient implements IClientesClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     config(httpContext?: HttpContext): Observable<ClienteView> {
         let url_ = this.baseUrl + "/clientes/config";
@@ -2853,8 +2935,8 @@ export class ClientesClient implements IClientesClient {
     }
 
     /**
-     * @param url (optional) 
-     * @return Success
+     * @param url (optional)
+     * @return OK
      */
     porurl(url: string | undefined, httpContext?: HttpContext): Observable<Cliente> {
         let url_ = this.baseUrl + "/clientes/porurl?";
@@ -2909,7 +2991,7 @@ export class ClientesClient implements IClientesClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     contactos(httpContext?: HttpContext): Observable<ContactoUsuario[]> {
         let url_ = this.baseUrl + "/clientes/contactos";
@@ -2962,54 +3044,58 @@ export class ClientesClient implements IClientesClient {
 
 export interface IContenidoClient {
     /**
-     * @param uid (optional) 
-     * @param body (optional) 
-     * @return Success
+     * @return OK
+     */
+    modelos(usuarioId: string, tipo: string, archivo: string): Observable<void>;
+    /**
+     * @param uid (optional)
+     * @param body (optional)
+     * @return OK
      */
     mi(uid: string | undefined, body: string | undefined): Observable<MediaCliente>;
     /**
-     * @return Success
+     * @return OK
      */
     medios(id: string): Observable<MediaCliente>;
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     principal(uid: string | undefined, id: string): Observable<MediaCliente>;
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     bloqueo(uid: string | undefined, id: string): Observable<MediaCliente>;
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     contenidoDelete(uid: string | undefined, id: string): Observable<MediaCliente>;
     /**
-     * @return Success
+     * @return OK
      */
     stream(usuarioid: string, id: string, tipo: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     contenidoGet(usuarioid: string, id: string, tipo: string): Observable<void>;
     /**
-     * @param uid (optional) 
-     * @param id (optional) 
-     * @param formFile (optional) 
-     * @param titulo (optional) 
-     * @param castingId (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @param id (optional)
+     * @param formFile (optional)
+     * @param titulo (optional)
+     * @param castingId (optional)
+     * @return OK
      */
     documentacion(uid: string | undefined, id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, castingId: string | undefined): Observable<ElementoMediaCliente>;
     /**
-     * @param uid (optional) 
-     * @param id (optional) 
-     * @param formFile (optional) 
-     * @param titulo (optional) 
-     * @param castingId (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @param id (optional)
+     * @param formFile (optional)
+     * @param titulo (optional)
+     * @param castingId (optional)
+     * @return OK
      */
     carga(uid: string | undefined, id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, castingId: string | undefined): Observable<ElementoMediaCliente>;
 }
@@ -3028,9 +3114,66 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @param body (optional) 
-     * @return Success
+     * @return OK
+     */
+    modelos(usuarioId: string, tipo: string, archivo: string, httpContext?: HttpContext): Observable<void> {
+        let url_ = this.baseUrl + "/contenido/bucket/modelos/{usuarioId}/{tipo}/{archivo}";
+        if (usuarioId === undefined || usuarioId === null)
+            throw new Error("The parameter 'usuarioId' must be defined.");
+        url_ = url_.replace("{usuarioId}", encodeURIComponent("" + usuarioId));
+        if (tipo === undefined || tipo === null)
+            throw new Error("The parameter 'tipo' must be defined.");
+        url_ = url_.replace("{tipo}", encodeURIComponent("" + tipo));
+        if (archivo === undefined || archivo === null)
+            throw new Error("The parameter 'archivo' must be defined.");
+        url_ = url_.replace("{archivo}", encodeURIComponent("" + archivo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processModelos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processModelos(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processModelos(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @param uid (optional)
+     * @param body (optional)
+     * @return OK
      */
     mi(uid: string | undefined, body: string | undefined, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/mi?";
@@ -3101,7 +3244,7 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     medios(id: string, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/medios/{id}";
@@ -3167,8 +3310,8 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     principal(uid: string | undefined, id: string, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/principal/{id}?";
@@ -3238,8 +3381,8 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     bloqueo(uid: string | undefined, id: string, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/bloqueo/{id}?";
@@ -3309,8 +3452,8 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     contenidoDelete(uid: string | undefined, id: string, httpContext?: HttpContext): Observable<MediaCliente> {
         let url_ = this.baseUrl + "/contenido/{id}?";
@@ -3380,7 +3523,7 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     stream(usuarioid: string, id: string, tipo: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/contenido/stream/{usuarioid}/{id}/{tipo}";
@@ -3449,7 +3592,7 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     contenidoGet(usuarioid: string, id: string, tipo: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/contenido/{usuarioid}/{id}/{tipo}";
@@ -3518,12 +3661,12 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @param id (optional) 
-     * @param formFile (optional) 
-     * @param titulo (optional) 
-     * @param castingId (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @param id (optional)
+     * @param formFile (optional)
+     * @param titulo (optional)
+     * @param castingId (optional)
+     * @return OK
      */
     documentacion(uid: string | undefined, id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, castingId: string | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
         let url_ = this.baseUrl + "/contenido/documentacion?";
@@ -3596,7 +3739,7 @@ export class ContenidoClient implements IContenidoClient {
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("Server Error", status, _responseText, _headers);
+            return throwException("Internal Server Error", status, _responseText, _headers);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3613,12 +3756,12 @@ export class ContenidoClient implements IContenidoClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @param id (optional) 
-     * @param formFile (optional) 
-     * @param titulo (optional) 
-     * @param castingId (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @param id (optional)
+     * @param formFile (optional)
+     * @param titulo (optional)
+     * @param castingId (optional)
+     * @return OK
      */
     carga(uid: string | undefined, id: string | undefined, formFile: FileParameter | undefined, titulo: string | undefined, castingId: string | undefined, httpContext?: HttpContext): Observable<ElementoMediaCliente> {
         let url_ = this.baseUrl + "/contenido/carga?";
@@ -3691,7 +3834,7 @@ export class ContenidoClient implements IContenidoClient {
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("Server Error", status, _responseText, _headers);
+            return throwException("Internal Server Error", status, _responseText, _headers);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3710,7 +3853,7 @@ export class ContenidoClient implements IContenidoClient {
 
 export interface IDemoClient {
     /**
-     * @return Success
+     * @return OK
      */
     demo(): Observable<void>;
 }
@@ -3729,7 +3872,7 @@ export class DemoClient implements IDemoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     demo(httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/demo";
@@ -3779,7 +3922,7 @@ export class DemoClient implements IDemoClient {
 
 export interface IDiagnosticoClient {
     /**
-     * @return Success
+     * @return OK
      */
     diagnostico(): Observable<void>;
 }
@@ -3798,7 +3941,7 @@ export class DiagnosticoClient implements IDiagnosticoClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     diagnostico(httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Diagnostico";
@@ -3848,31 +3991,31 @@ export class DiagnosticoClient implements IDiagnosticoClient {
 
 export interface IGoogleWebhooksClient {
     /**
-     * @return Success
+     * @return OK
      */
     token(): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     echo(): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     eventoDelete(id: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     eventoGet(id: string): Observable<void>;
     /**
-     * @param x_Goog_Channel_ID (optional) 
-     * @param x_Goog_Channel_Token (optional) 
-     * @param x_Goog_Channel_Expiration (optional) 
-     * @param x_Goog_Resource_ID (optional) 
-     * @param x_Goog_Resource_URI (optional) 
-     * @param x_Goog_Resource_State (optional) 
-     * @param x_Goog_Message_Number (optional) 
-     * @param x_Goog_Changed (optional) 
-     * @return Success
+     * @param x_Goog_Channel_ID (optional)
+     * @param x_Goog_Channel_Token (optional)
+     * @param x_Goog_Channel_Expiration (optional)
+     * @param x_Goog_Resource_ID (optional)
+     * @param x_Goog_Resource_URI (optional)
+     * @param x_Goog_Resource_State (optional)
+     * @param x_Goog_Message_Number (optional)
+     * @param x_Goog_Changed (optional)
+     * @return OK
      */
     drivechange(x_Goog_Channel_ID: string | undefined, x_Goog_Channel_Token: string | undefined, x_Goog_Channel_Expiration: string | undefined, x_Goog_Resource_ID: string | undefined, x_Goog_Resource_URI: string | undefined, x_Goog_Resource_State: string | undefined, x_Goog_Message_Number: string | undefined, x_Goog_Changed: string | undefined): Observable<void>;
 }
@@ -3891,7 +4034,7 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     token(httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/GoogleWebhooks/token";
@@ -3939,7 +4082,7 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     echo(httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/GoogleWebhooks/echo";
@@ -3987,7 +4130,7 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     eventoDelete(id: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/GoogleWebhooks/evento/{id}";
@@ -4038,7 +4181,7 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     eventoGet(id: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/GoogleWebhooks/evento/{id}";
@@ -4089,15 +4232,15 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
     }
 
     /**
-     * @param x_Goog_Channel_ID (optional) 
-     * @param x_Goog_Channel_Token (optional) 
-     * @param x_Goog_Channel_Expiration (optional) 
-     * @param x_Goog_Resource_ID (optional) 
-     * @param x_Goog_Resource_URI (optional) 
-     * @param x_Goog_Resource_State (optional) 
-     * @param x_Goog_Message_Number (optional) 
-     * @param x_Goog_Changed (optional) 
-     * @return Success
+     * @param x_Goog_Channel_ID (optional)
+     * @param x_Goog_Channel_Token (optional)
+     * @param x_Goog_Channel_Expiration (optional)
+     * @param x_Goog_Resource_ID (optional)
+     * @param x_Goog_Resource_URI (optional)
+     * @param x_Goog_Resource_State (optional)
+     * @param x_Goog_Message_Number (optional)
+     * @param x_Goog_Changed (optional)
+     * @return OK
      */
     drivechange(x_Goog_Channel_ID: string | undefined, x_Goog_Channel_Token: string | undefined, x_Goog_Channel_Expiration: string | undefined, x_Goog_Resource_ID: string | undefined, x_Goog_Resource_URI: string | undefined, x_Goog_Resource_State: string | undefined, x_Goog_Message_Number: string | undefined, x_Goog_Changed: string | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/GoogleWebhooks/drivechange";
@@ -4155,30 +4298,30 @@ export class GoogleWebhooksClient implements IGoogleWebhooksClient {
 
 export interface IListasClient {
     /**
-     * @param miembros (optional) 
-     * @return Success
+     * @param miembros (optional)
+     * @return OK
      */
     listasGet(miembros: boolean | undefined): Observable<ListaTalento[]>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     listasPost(body: ListaTalentoInsertar | undefined): Observable<ListaTalento>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     listasPut(id: string, body: ListaTalento | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     listasDelete(id: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     miembroPost(id: string, idpersona: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     miembroDelete(id: string, idpersona: string): Observable<void>;
 }
@@ -4197,8 +4340,8 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @param miembros (optional) 
-     * @return Success
+     * @param miembros (optional)
+     * @return OK
      */
     listasGet(miembros: boolean | undefined, httpContext?: HttpContext): Observable<ListaTalento[]> {
         let url_ = this.baseUrl + "/api/Listas?";
@@ -4265,8 +4408,8 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     listasPost(body: ListaTalentoInsertar | undefined, httpContext?: HttpContext): Observable<ListaTalento> {
         let url_ = this.baseUrl + "/api/Listas";
@@ -4333,8 +4476,8 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     listasPut(id: string, body: ListaTalento | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Listas/{id}";
@@ -4401,7 +4544,7 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     listasDelete(id: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Listas/{id}";
@@ -4464,7 +4607,7 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     miembroPost(id: string, idpersona: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Listas/{id}/miembro/{idpersona}";
@@ -4530,7 +4673,7 @@ export class ListasClient implements IListasClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     miembroDelete(id: string, idpersona: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/api/Listas/{id}/miembro/{idpersona}";
@@ -4598,101 +4741,101 @@ export class ListasClient implements IListasClient {
 
 export interface IPersonaClient {
     /**
-     * @return Success
+     * @return OK
      */
     newPerfil(): Observable<Persona>;
     /**
-     * @return Success
+     * @return OK
      */
     mi(): Observable<Persona>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     buscar(body: BusquedaPersonasRequestPaginado | undefined): Observable<PersonaResponsePaginado>;
     /**
-     * @param nombre (optional) 
-     * @return Success
+     * @param nombre (optional)
+     * @return OK
      */
     buscarPersonaCoincidencias(nombre: string | undefined): Observable<Persona[]>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     idPost(body: BusquedaPersonasIdRequestPaginado | undefined): Observable<PersonaResponsePaginado>;
     /**
-     * @return Success
+     * @return OK
      */
     personaGet(usuarioid: string): Observable<Persona>;
     /**
-     * @return Success
+     * @return OK
      */
     idGet(personaid: string): Observable<Persona>;
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Created
      */
     personaPost(body: Persona | undefined): Observable<Persona>;
     /**
-     * @param texto (optional) 
-     * @return Success
+     * @param texto (optional)
+     * @return OK
      */
     inserta(texto: string | undefined): Observable<CatalogoBase>;
     /**
-     * @param texto (optional) 
-     * @param clave (optional) 
-     * @return Success
+     * @param texto (optional)
+     * @param clave (optional)
+     * @return OK
      */
     actualiza(texto: string | undefined, clave: string | undefined): Observable<CatalogoBase>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     personaPut(id: string, body: Persona | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     personaDelete(id: string): Observable<void>;
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     activos(uid: string | undefined): Observable<CastingPersonaCompleto[]>;
     /**
-     * @return Success
+     * @return OK
      */
     catalogo(tipo: string): Observable<CatalogoBase>;
     /**
-     * @return Success
+     * @return OK
      */
     perfil(): Observable<CatalogoBase[]>;
     /**
-     * @return Success
+     * @return OK
      */
     perfilusuario(): Observable<InformacionPerfil>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     perfilpublicoPost(body: PerfilPublicoUsuario | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     perfilpublicoGet(usuarioId: string): Observable<PerfilPublicoUsuario>;
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioPost(personaid: string): Observable<PersonasUsuario>;
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioDelete(personaid: string): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioGet(): Observable<MapaUsuarioNombre[]>;
     /**
-     * @return Success
+     * @return OK
      */
     consentimiento(consentimientoId: string): Observable<AceptacionConsentimiento>;
 }
@@ -4711,7 +4854,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     newPerfil(httpContext?: HttpContext): Observable<Persona> {
         let url_ = this.baseUrl + "/persona/NewPerfil";
@@ -4774,7 +4917,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     mi(httpContext?: HttpContext): Observable<Persona> {
         let url_ = this.baseUrl + "/persona/mi";
@@ -4837,8 +4980,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     buscar(body: BusquedaPersonasRequestPaginado | undefined, httpContext?: HttpContext): Observable<PersonaResponsePaginado> {
         let url_ = this.baseUrl + "/persona/buscar";
@@ -4905,8 +5048,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param nombre (optional) 
-     * @return Success
+     * @param nombre (optional)
+     * @return OK
      */
     buscarPersonaCoincidencias(nombre: string | undefined, httpContext?: HttpContext): Observable<Persona[]> {
         let url_ = this.baseUrl + "/persona/BuscarPersonaCoincidencias?";
@@ -4961,8 +5104,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     idPost(body: BusquedaPersonasIdRequestPaginado | undefined, httpContext?: HttpContext): Observable<PersonaResponsePaginado> {
         let url_ = this.baseUrl + "/persona/buscar/id";
@@ -5029,7 +5172,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     personaGet(usuarioid: string, httpContext?: HttpContext): Observable<Persona> {
         let url_ = this.baseUrl + "/persona/{usuarioid}";
@@ -5095,7 +5238,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     idGet(personaid: string, httpContext?: HttpContext): Observable<Persona> {
         let url_ = this.baseUrl + "/persona/persona/id/{personaid}";
@@ -5161,7 +5304,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return Created
      */
     personaPost(body: Persona | undefined, httpContext?: HttpContext): Observable<Persona> {
@@ -5229,8 +5372,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param texto (optional) 
-     * @return Success
+     * @param texto (optional)
+     * @return OK
      */
     inserta(texto: string | undefined, httpContext?: HttpContext): Observable<CatalogoBase> {
         let url_ = this.baseUrl + "/persona/agencia/inserta?";
@@ -5297,9 +5440,9 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param texto (optional) 
-     * @param clave (optional) 
-     * @return Success
+     * @param texto (optional)
+     * @param clave (optional)
+     * @return OK
      */
     actualiza(texto: string | undefined, clave: string | undefined, httpContext?: HttpContext): Observable<CatalogoBase> {
         let url_ = this.baseUrl + "/persona/agencia/actualiza?";
@@ -5370,8 +5513,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     personaPut(id: string, body: Persona | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/persona/{Id}";
@@ -5444,7 +5587,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     personaDelete(id: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/persona/{Id}";
@@ -5507,8 +5650,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param uid (optional) 
-     * @return Success
+     * @param uid (optional)
+     * @return OK
      */
     activos(uid: string | undefined, httpContext?: HttpContext): Observable<CastingPersonaCompleto[]> {
         let url_ = this.baseUrl + "/persona/castings/activos?";
@@ -5569,7 +5712,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     catalogo(tipo: string, httpContext?: HttpContext): Observable<CatalogoBase> {
         let url_ = this.baseUrl + "/persona/catalogo/{tipo}";
@@ -5641,7 +5784,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     perfil(httpContext?: HttpContext): Observable<CatalogoBase[]> {
         let url_ = this.baseUrl + "/persona/catalogo/perfil";
@@ -5710,7 +5853,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     perfilusuario(httpContext?: HttpContext): Observable<InformacionPerfil> {
         let url_ = this.baseUrl + "/persona/perfilusuario";
@@ -5773,8 +5916,8 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     perfilpublicoPost(body: PerfilPublicoUsuario | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/persona/perfilpublico";
@@ -5838,7 +5981,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     perfilpublicoGet(usuarioId: string, httpContext?: HttpContext): Observable<PerfilPublicoUsuario> {
         let url_ = this.baseUrl + "/persona/perfilpublico/{UsuarioId}";
@@ -5904,7 +6047,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioPost(personaid: string, httpContext?: HttpContext): Observable<PersonasUsuario> {
         let url_ = this.baseUrl + "/persona/porusuario/{personaid}";
@@ -5964,7 +6107,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioDelete(personaid: string, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/persona/porusuario/{personaid}";
@@ -6033,7 +6176,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     porusuarioGet(httpContext?: HttpContext): Observable<MapaUsuarioNombre[]> {
         let url_ = this.baseUrl + "/persona/porusuario";
@@ -6096,7 +6239,7 @@ export class PersonaClient implements IPersonaClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     consentimiento(consentimientoId: string, httpContext?: HttpContext): Observable<AceptacionConsentimiento> {
         let url_ = this.baseUrl + "/persona/consentimiento/{consentimientoId}";
@@ -6164,17 +6307,17 @@ export class PersonaClient implements IPersonaClient {
 
 export interface IRegistroClient {
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     registroPost(body: RegistroUsuario | undefined): Observable<void>;
     /**
-     * @return Success
+     * @return OK
      */
     registroGet(id: string): Observable<InvitacionRegistro>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     completar(id: string, body: CreacionUsuario | undefined): Observable<void>;
 }
@@ -6193,8 +6336,8 @@ export class RegistroClient implements IRegistroClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     registroPost(body: RegistroUsuario | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/registro";
@@ -6258,7 +6401,7 @@ export class RegistroClient implements IRegistroClient {
     }
 
     /**
-     * @return Success
+     * @return OK
      */
     registroGet(id: string, httpContext?: HttpContext): Observable<InvitacionRegistro> {
         let url_ = this.baseUrl + "/registro/{id}";
@@ -6324,8 +6467,8 @@ export class RegistroClient implements IRegistroClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @param body (optional)
+     * @return OK
      */
     completar(id: string, body: CreacionUsuario | undefined, httpContext?: HttpContext): Observable<void> {
         let url_ = this.baseUrl + "/registro/completar/{id}";
@@ -6450,6 +6593,10 @@ export interface Casting {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     clienteId?: string | undefined;
     nombre?: string | undefined;
@@ -6470,9 +6617,11 @@ export interface Casting {
     cierreAutomatico?: boolean;
     categorias?: CategoriaCasting[] | undefined;
     logoCasting?: string | undefined;
+    dias?: DiaCasting[] | undefined;
     pernisosEcternos?: PermisosCasting;
     eventos?: EventoCasting[] | undefined;
     folderId?: string | undefined;
+    ultimoRefreshWehook?: number | undefined;
 }
 
 export interface CastingListElement {
@@ -6489,6 +6638,7 @@ export interface CastingListElement {
     cierreAutomatico?: boolean;
     rol?: TipoRolCliente;
     logo?: string | undefined;
+    logoPromotora?: string | undefined;
 }
 
 export interface CastingPersona {
@@ -6496,6 +6646,7 @@ export interface CastingPersona {
     castingId?: string | undefined;
     declinado?: boolean;
     fechaAdicion?: Date;
+    diaCasting?: DiaCasting;
     folderId?: string | undefined;
     channelId?: string | undefined;
     resourceId?: string | undefined;
@@ -6506,6 +6657,7 @@ export interface CastingPersonaCompleto {
     castingId?: string | undefined;
     declinado?: boolean;
     fechaAdicion?: Date;
+    diaCasting?: DiaCasting;
     folderId?: string | undefined;
     channelId?: string | undefined;
     resourceId?: string | undefined;
@@ -6517,6 +6669,10 @@ export interface CatalogoBase {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     tipoPropiedad?: string | undefined;
     clienteId?: string | undefined;
@@ -6527,6 +6683,7 @@ export interface CategoriaCasting {
     id?: string | undefined;
     nombre?: string | undefined;
     descripcion?: string | undefined;
+    folderId?: string | undefined;
     busquedaDefault?: BusquedaPersonas;
     modelos?: ModeloCasting[] | undefined;
 }
@@ -6536,6 +6693,10 @@ export interface Cliente {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     nombre?: string | undefined;
     url?: string | undefined;
@@ -6627,12 +6788,19 @@ export interface CouchAttachment {
     readonly digest?: string | undefined;
     readonly length?: number | undefined;
     readonly revPos?: number | undefined;
+    readonly encodedLength?: number | undefined;
+    readonly data?: string | undefined;
 }
 
 export interface CreacionUsuario {
     email: string;
     contrasena: string;
     nombreUsuario: string;
+}
+
+export interface DiaCasting {
+    fechaId?: number;
+    dia?: number;
 }
 
 export interface Documento {
@@ -6717,6 +6885,10 @@ export interface InvitacionRegistro {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     emitida?: Date;
     limiteUso?: Date;
@@ -6728,6 +6900,10 @@ export interface ListaTalento {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     nombre?: string | undefined;
     clienteId?: string | undefined;
@@ -6801,6 +6977,10 @@ export interface Persona {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     clientes?: string[] | undefined;
     consecutivo?: number | undefined;
@@ -6864,6 +7044,10 @@ export interface PersonasUsuario {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     usuarioId?: string | undefined;
     clienteId?: string | undefined;
@@ -6922,6 +7106,16 @@ export interface RespuestaLogin {
     utcExpiration?: Date;
 }
 
+export interface RevisionInfo {
+    readonly rev?: string | undefined;
+    readonly status?: string | undefined;
+}
+
+export interface Revisions {
+    readonly start?: number;
+    readonly iDs?: string[] | undefined;
+}
+
 export interface SelectorCastingCategoria {
     id?: string | undefined;
     nombre?: string | undefined;
@@ -6948,6 +7142,10 @@ export interface SolicitudSoporteUsuario {
     rev?: string | undefined;
     readonly deleted?: boolean;
     readonly conflicts?: string[] | undefined;
+    readonly deletedConflicts?: string[] | undefined;
+    readonly localSequence?: number;
+    readonly revisionsInfo?: RevisionInfo[] | undefined;
+    revisions?: Revisions;
     readonly attachments?: CouchAttachment[] | undefined;
     usuarioId?: string | undefined;
     tipo?: TipoServicio;
@@ -6961,6 +7159,11 @@ export enum TipoCuerpo {
     Normal = "Normal",
     Sobrepeso = "Sobrepeso",
     Obeso = "Obeso",
+}
+
+export enum TipoLogoCasting {
+    LogoCasting = "LogoCasting",
+    LogoPromotora = "LogoPromotora",
 }
 
 export enum TipoMedio {

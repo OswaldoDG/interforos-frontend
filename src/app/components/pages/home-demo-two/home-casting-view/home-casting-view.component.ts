@@ -6,6 +6,7 @@ import {
   CastingClient,
   MapaUsuarioNombre,
   PersonaClient,
+  TipoLogoCasting,
 } from 'src/app/services/api/api-promodel';
 import { SessionQuery } from 'src/app/state/session.query';
 
@@ -19,6 +20,8 @@ export class HomeCastingViewComponent implements OnInit {
   casting: Casting;
   logoCasting: string;
   isImageLoading = false;
+  logoPromotora : string;
+  isImagePromotoraLoading = false;
   esModelo: boolean = false;
   rol: string;
   listCategorias: string[] = [];
@@ -51,9 +54,13 @@ export class HomeCastingViewComponent implements OnInit {
         this.esModelo = false;
       }
     });
-    this.castingClient.logoGet(this.castingId).subscribe((logo) => {
+    this.castingClient.logoGet(this.castingId, TipoLogoCasting.LogoCasting).subscribe((logo) => {
       this.logoCasting = logo;
       this.isImageLoading = true;
+    });
+    this.castingClient.logoGet(this.casting.id, TipoLogoCasting.LogoPromotora).subscribe((logo) => {
+      this.logoPromotora = logo;
+      this.isImagePromotoraLoading = true;
     });
   }
   regresar(): void {

@@ -28,6 +28,17 @@
               <img [src]="logoDefault" class="responsive" />
             </ng-template>
           </div>
+          <div class="img-space">
+            <ng-container
+              class="responsive"
+              *ngIf="isImagePromotoraLoading; else elseTemplate2"
+            >
+              <img [src]="logoPromotora" class="responsive" />
+            </ng-container>
+            <ng-template #elseTemplate2>
+              <img [src]="logoDefault" class="responsive" />
+            </ng-template>
+          </div>
         </div>
         <div
           class="titulo col-lg-3 col-md-3 col-sm-3 justify-content-start p-3"

@@ -7,6 +7,7 @@ import {
   ContactoCasting,
   ContactoUsuario,
   PermisosCasting,
+  TipoLogoCasting,
 } from 'src/app/services/api/api-promodel';
 import { ContactosClienteComponent } from '../contactos-cliente/contactos-cliente.component';
 import { EventosCastingComponent } from '../eventos-casting/eventos-casting.component';
@@ -49,11 +50,17 @@ export class EditorCastingComponent implements OnInit {
   esLogoNuevo: boolean;
   nameImg: string;
   isImageLoading: boolean = false;
+  //Variables logo promotora
+  logoPromotora: string;
+  esLogoPromotoraNuevo: boolean;
+  nameImgPromotora: string;
+  isImageLoadingPromotora: boolean = false;
   logoDefault = './../../assets/img/casting/camera-icon.png';
   inscripcionAutomatica: boolean = false;
   cierreAuto: boolean = false;
   aperturaAuto: boolean = false;
   logoGuardado: boolean = false;
+  logoPromotoraGuardado: boolean = false;
   //permisos
   verredesSociales: boolean = false;
   vertelefono: boolean = false;
@@ -130,6 +137,7 @@ export class EditorCastingComponent implements OnInit {
         this.altaCasting();
       } else {
         this.esLogoNuevo = false;
+        this.esLogoPromotoraNuevo = false;
       }
     }
   }
@@ -192,6 +200,7 @@ export class EditorCastingComponent implements OnInit {
                     this.CastingActual = data1;
                     this.CastingId = data1.id;
                     this.actualizarLogo(data1.id);
+                    this.actualizarLogoPromotora(data1.id);
                   });
               });
           });
@@ -276,6 +285,7 @@ export class EditorCastingComponent implements OnInit {
                         this.componenteContactos.contactosCasting
                       );
                       this.actualizarLogo(this.CastingActual.id);
+                      this.actualizarLogoPromotora(this.CastingActual.id);
                       this.toastService.success(this.T['casting.guardar'], {
                         position: 'bottom-center',
                       });
@@ -343,14 +353,24 @@ export class EditorCastingComponent implements OnInit {
           .get('verDireccion')
           .setValue(this.CastingActual.pernisosEcternos.verDireccion);
         //Obtine el logo Relacionado al casting
-        this.clientApi.logoGet(this.CastingActual.id).subscribe((data) => {
+        this.clientApi.logoGet(this.CastingActual.id, TipoLogoCasting.LogoCasting).subscribe((data) => {
           if (data != null) {
             this.logoCasting = data;
-            this.isImageLoading = true;
+            this.isImageLoading = !!this.logoCasting && this.logoCasting.trim().length > 0;
           } else {
             this.isImageLoading = false;
           }
         });
+
+        this.clientApi.logoGet(this.CastingActual.id, TipoLogoCasting.LogoPromotora).subscribe((data) => {
+          if(data != null){
+            this.logoPromotora = data;
+            this.isImageLoadingPromotora = !!this.logoPromotora && this.logoPromotora.trim().length > 0;
+          } else {
+            this.isImageLoadingPromotora = false;
+          }
+        });
+
         this.spinner.hide('loadCasting');
       }
     });
@@ -370,7 +390,7 @@ export class EditorCastingComponent implements OnInit {
   //agregar o actuliza el log del casting
   actualizarLogo(castignId?: string) {
     if (this.esLogoNuevo && castignId != null) {
-      this.clientApi.logoPut(castignId, this.logoCasting).subscribe(
+      this.clientApi.logoPut(castignId, TipoLogoCasting.LogoCasting,this.logoCasting).subscribe(
         (data) => {
           this.logoGuardado = true;
         },
@@ -380,6 +400,20 @@ export class EditorCastingComponent implements OnInit {
       );
     }
     this.esLogoNuevo = false;
+  }
+
+  actualizarLogoPromotora(castingId?: string){
+    if(this.esLogoPromotoraNuevo && castingId != null){
+      this.clientApi.logoPut(castingId, TipoLogoCasting.LogoPromotora, this.logoPromotora).subscribe(
+        (data) => {
+          this.logoPromotoraGuardado = true;
+        },
+        (error) => {
+          this.logoPromotoraGuardado = false;
+        }
+      );
+    }
+    this.esLogoPromotoraNuevo = false;
   }
 
   onChangeInscripcionAutomatica() {
@@ -428,6 +462,19 @@ export class EditorCastingComponent implements OnInit {
       this.isImageLoading = true;
     };
   }
+
+  handleUploadPromotora(event){
+    const file = event.target.files[0];
+    this.nameImgPromotora = event.target.files[0].name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.logoPromotora = reader.result.toString();
+      this.esLogoPromotoraNuevo = true;
+      this.isImageLoadingPromotora = true;
+    }
+  }
+
 
   recibidoGuardar(guardar: boolean) {
     if (this.esUpdate) {
