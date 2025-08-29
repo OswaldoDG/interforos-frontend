@@ -108,7 +108,6 @@ export class CastingCardComponentComponent implements OnInit {
             this.isImageLoading = false;
           }
         });
-
         this.clientApi.logoGet(this.Casting.id, TipoLogoCasting.LogoPromotora).subscribe((data) => {
           if(data != null){
             this.logoPromotora = data;

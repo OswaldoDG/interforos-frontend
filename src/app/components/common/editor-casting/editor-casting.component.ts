@@ -68,7 +68,7 @@ export class EditorCastingComponent implements OnInit {
   verhabilidades: boolean = false;
   verdatosGenerales: boolean = false;
   vergaleriaPersonal: boolean = true;
-  verComentarios: boolean = false;
+  verComentarios: boolean = false; 
   verdireccion: boolean = false;
   private T: any;
   constructor(
