@@ -75,6 +75,9 @@ const routes: Routes = [
     path: 'aviso', component: APComponent
   },
   {
+    path: 'acerca', component: AboutUsComponent
+  },
+  {
     path: 'staff',
     component: PromodelStaffComponent,
     canActivate: [PagesStaffGuard],

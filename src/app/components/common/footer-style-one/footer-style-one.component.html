@@ -4,22 +4,22 @@
     <div class="row">
       <div class="col-lg-3 col-sm-6 col-md-6">
         <div class="single-footer-widget">
-          <h3>Acera de nosotros</h3>
+          <h3>{{ "footer-one.titulo-uno" | translate }}</h3>
 
           <ul class="link-list">
             <li>
-              <a routerLink="/"
-                ><i class="flaticon-left-chevron"></i> Acerca de interforos</a
+              <a routerLink="/acerca"
+                ><i class="flaticon-left-chevron"></i> {{ "footer-one.acerca" | translate }}</a
               >
             </li>
             <li>
               <a routerLink="/aviso"
-                ><i class="flaticon-left-chevron"></i> Términos y aviso de privacidad </a
+                ><i class="flaticon-left-chevron"></i> {{ "footer-one.terminos" | translate }} </a
               >
             </li>
             <li>
               <a routerLink="/"
-                ><i class="flaticon-left-chevron"></i> Noticias</a
+                ><i class="flaticon-left-chevron"></i> {{ "footer-one.noticias" | translate }}</a
               >
             </li>
             <!-- <li><a routerLink="/"><i class="flaticon-left-chevron"></i> Investor Relations</a></li>
@@ -64,7 +64,7 @@
 
       <div class="col-lg-3 col-sm-6 col-md-6">
         <div class="single-footer-widget">
-          <h3>Información de contacto</h3>
+          <h3>{{ "footer-one.info" | translate }}</h3>
 
           <ul class="footer-contact-info">
             <li><i class="bx bx-map"></i>{{ c.contacto.direccion }}</li>
