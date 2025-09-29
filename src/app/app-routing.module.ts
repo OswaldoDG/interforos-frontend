@@ -68,6 +68,7 @@ import { PaginaListasComponent } from './components/pages/pagina-listas/pagina-l
 import { APComponent } from './components/pages/aviso-privacidad/ap.component';
 import { PaginaRegistroComponent } from './components/pages/pagina-registro/pagina-registro.component';
 import { PaginaLoginComponent } from './components/pages/pagina-login/pagina-login.component';
+import { PaginaVideosComponent } from './components/pages/pagina-videos/pagina-videos.component';
 
 const routes: Routes = [
   { path: '', component: HomePromodelComponent },
@@ -207,6 +208,7 @@ const routes: Routes = [
   { path: 'dashboard-my-listings', component: DashboardMyListingsComponent },
   { path: 'voto-modelo-component', component: VotoModeloComponentComponent },
   { path: 'staff/invitaragente', component: InvitarAgenteComponent },
+  { path: 'proyectos/videos', component: PaginaVideosComponent},
   // Here add new pages component
 
   { path: '**', component: NotFoundComponent }, // This line will remain down from the whole pages component list

@@ -17,6 +17,8 @@ export class HometwoBannerComponent implements OnInit {
         {
             title: 'Interforos Casting',
             paragraph: 'En busca de talento',
+            linkLabel: 'Nuestro trabajo',
+            linkUrl: '/proyectos/videos',
             popularSearchList: [
                 // {
                 //     title: 'Televisión',

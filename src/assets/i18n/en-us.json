@@ -494,5 +494,8 @@
     "pagina-login-titulo-secundario":"Login now",
     "pagina-login-restablece":"Password reset",
     "pagina-login-restablece-email":"Type your E-mail"
+  },
+  "videos-modelos":{
+    "titulo": "Proyectos"
   }
 }

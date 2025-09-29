@@ -9,7 +9,15 @@
                             <span class="typing"></span>
                         </ngx-typed-js>
                     </h1>
-                    <p>{{Content.paragraph}}</p>
+                    <h5>{{Content.paragraph}}</h5>
+                    <a
+                      *ngIf="Content.linkUrl"
+                      [routerLink]="Content.linkUrl"
+                      class="btn btn-primary mt-2">
+                      {{ Content.linkLabel }}
+                    </a>
+
+
                     <!-- <form>
                         <div class="row m-0 align-items-center">
                             <div class="col-lg-4 col-md-12 p-0">
