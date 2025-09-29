@@ -9,14 +9,10 @@
 }
 
 .img-space {
-  border: dashed 1px #d3d3d3;
-  border-radius: 8px;
-  background-color: #f2f2f2;
-  height: 600;
-  width: 100%;
-  max-width: 230px;
+  border: 1px dashed #ccc;
   padding: 10px;
-
+  min-height: 150px;
+  background-color: #f8f9fa;
 }
 
 .img-space img {
@@ -49,10 +45,13 @@
 }
 
 .responsive {
-  width: 100%;
-  max-width: 249px;
+  max-width: 100%;
   height: auto;
+  display: block;
+  margin: 0 auto;
 }
+
+
 
 .abc{
     font: {
