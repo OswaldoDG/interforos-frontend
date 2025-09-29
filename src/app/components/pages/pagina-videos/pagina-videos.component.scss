@@ -1,0 +1,85 @@
+.video-placeholder {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-placeholder:hover {
+  transform: scale(1.03);
+}
+
+.video-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  color: #cca300;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.video-placeholder:hover .video-title {
+  background-color: rgba(204, 163, 0, 0.85);
+  color: #ffffff;
+}
+
+.modal-content {
+    border: 0;
+    border-radius: 0;
+}
+
+.modal-header {
+    border-bottom: 0;
+}
+
+.instagram-preview {
+  color: #E1306C;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.instagram-modal-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+#instagram-embed-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#instagram-embed-content[style*="visibility: hidden"] {
+  position: absolute;
+}
+
+#instagram-embed-content .instagram-media {
+  min-width: 100% !important;
+  width: 100% !important;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #fff;
+  z-index: 10;
+}

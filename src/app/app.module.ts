@@ -173,6 +173,7 @@ import { FooterBotonesComponent } from './components/common/footer-botones/foote
 import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-modelo.component';
 import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
 import { LanguageSwitcherComponent } from './components/common/langselector/language-switcher.component';
+import { PaginaVideosComponent } from './components/pages/pagina-videos/pagina-videos.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -304,6 +305,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterBotonesComponent,
     PerfilModeloComponent,
     ModalAgregarModeloComponent,
+    PaginaVideosComponent,
   ],
   imports: [
     TabsModule,

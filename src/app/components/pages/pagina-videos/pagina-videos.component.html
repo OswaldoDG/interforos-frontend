@@ -1,0 +1,56 @@
+<div class="banner-area">
+  <div class="container mt-4">
+    <div>
+      <h1 class="fw-bold row justify-content-center">{{ "videos-modelos.titulo" | translate }}</h1>
+    </div>
+    <div class="row">
+      <div *ngFor="let video of videos" class="col-lg-4 col-md-6 mb-4 py-5">
+        <div class="video-placeholder ratio ratio-16x9 bg-light rounded shadow-sm" (click)="openVideo(video, modalTemplate)">
+          <div *ngIf="video.fuente === 'youtube' && video.thumbnailUrl; else instagramTemplate">
+            <img [src]="video.thumbnailUrl" class="img-fluid h-100 w-100" style="object-fit: cover;" [alt]="video.titulo">
+            <div class="video-title">
+              <h5 class="fw-bold m-0">{{ video.titulo }}</h5>
+            </div>
+          </div>
+          <ng-template #instagramTemplate>
+            <div *ngIf="video.fuente === 'instagram'">
+              <img *ngIf="video.thumbnailUrl" [src]="video.thumbnailUrl" class="img-fluid h-100 w-100" style="object-fit: cover;" [alt]="video.titulo">
+              <div *ngIf="!video.thumbnailUrl" class="instagram-preview">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </div>
+              <div class="video-title">
+                <h5 class="fw-bold m-0">{{ video.titulo }}</h5>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #modalTemplate>
+    <div class="modal-header">
+      <h5 class="modal-title pull-left">{{ videoActivoTitulo }}</h5>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-0">
+      <ng-container [ngSwitch]="videoActivoFuente">
+        <div *ngSwitchCase="'youtube'" class="ratio ratio-16x9">
+          <iframe [src]="videoActivoYoutubeUrl" class="embed-responsive-item" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div *ngSwitchCase="'instagram'" class="instagram-modal-content">
+          <div id="instagram-spinner-container" class="spinner-container">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+          <div id="instagram-embed-content" style="visibility: hidden;"></div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+</div>
+
+<app-footer-style-one></app-footer-style-one>
