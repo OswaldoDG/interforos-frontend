@@ -497,5 +497,14 @@
   },
   "videos-modelos":{
     "titulo": "Proyectos"
+  "about-us":{
+    "titulo":"About us"
+  },
+  "footer-one":{
+    "titulo-uno": "About Us",
+    "acerca": "About Interforos",
+    "terminos": "Terms and Notice and Privacy",
+    "noticias": "News",
+    "info": "Contact information"
   }
 }

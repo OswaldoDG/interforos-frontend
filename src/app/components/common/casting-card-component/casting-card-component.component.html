@@ -65,9 +65,27 @@
     <div
       class="align-items-center justify-content-center col-lg-12 col-md-12 col-sm-12 d-flex"
     >
-      <div class="responsive mb-2">
-        <img [src]="urlImage" class="responsive" />
+
+      <!-- Logo Casting -->
+      <div class="card-body responsive mb-2">
+        <ng-container *ngIf="isImageLoading; else elseTemplate">
+          <img [src]="logoCasting" class="responsive" />
+        </ng-container>
+        <ng-template #elseTemplate>
+          <img [src]="logoDefault" class="responsive" />
+        </ng-template>
       </div>
+
+      <!-- Logo Promotora -->
+      <div class="card-body responsive mb-2">
+        <ng-container *ngIf="isImageLoadingPromotora; else elseTemplate2">
+          <img [src]="logoPromotora" class="responsive" />
+        </ng-container>
+        <ng-template #elseTemplate2>
+          <img [src]="logoDefault" class="responsive" />
+        </ng-template>
+      </div>
+
     </div>
     <div class="mt-2" style="height: 200px">
       <div class="hideScroll">

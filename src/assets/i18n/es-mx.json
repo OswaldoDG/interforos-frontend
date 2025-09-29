@@ -110,6 +110,7 @@
     "form-contactos": "Participantes",
     "form-roles": "Roles",
     "form-logo": "Cargar Imagen del Casting",
+    "form-logo-promotora": "Cargar Imagen de la Promotora",
     "form-logo-error": "Imagen Casting Requerida",
     "form-categorias": "Categorías",
     "form-agregar": "Agregar Categoría",
@@ -497,5 +498,14 @@
   },
   "videos-modelos":{
     "titulo": "Proyectos"
+  "about-us":{
+    "titulo":""
+  },
+  "footer-one":{
+    "titulo-uno": "Acerca de nosotros",
+    "acerca": "Acerda de interforos",
+    "terminos": "Términos y aviso y privacidad",
+    "noticias": "Noticias",
+    "info":"Información de contacto"
   }
 }
