@@ -495,5 +495,15 @@
     "pagina-login-titulo-secundario":"Ingrese ahora",
     "pagina-login-restablece":"Restablecer Contraseña",
     "pagina-login-restablece-email":"Ingrese su E-mail"
+  },
+  "about-us":{
+    "titulo":""
+  },
+  "footer-one":{
+    "titulo-uno": "Acerca de nosotros",
+    "acerca": "Acerda de interforos",
+    "terminos": "Términos y aviso y privacidad",
+    "noticias": "Noticias",
+    "info":"Información de contacto"
   }
 }

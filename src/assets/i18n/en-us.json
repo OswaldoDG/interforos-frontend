@@ -494,5 +494,15 @@
     "pagina-login-titulo-secundario":"Login now",
     "pagina-login-restablece":"Password reset",
     "pagina-login-restablece-email":"Type your E-mail"
+  },
+  "about-us":{
+    "titulo":"About us"
+  },
+  "footer-one":{
+    "titulo-uno": "About Us",
+    "acerca": "About Interforos",
+    "terminos": "Terms and Notice and Privacy",
+    "noticias": "News",
+    "info": "Contact information"
   }
 }
