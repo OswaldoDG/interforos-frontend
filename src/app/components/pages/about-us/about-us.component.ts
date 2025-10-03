@@ -48,12 +48,17 @@ export class AboutUsComponent implements OnInit {
     this.query.autenticado$.pipe(takeUntil(this.destroy$)).subscribe((u) => {
       this.autenticado = u;
     });
-
-    this.idiomaActual = this.query.Idioma;
-    console.log(this.idiomaActual);
-    this.contenidoActual = this.howItWorksBox.find(c => c.i === this.idiomaActual);
-    this.tituloActual = this.sectionTitle.find(t => t.i === this.idiomaActual);
+    this.query.idioma$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(idioma => {
+        if (idioma) {
+          this.idiomaActual = idioma;
+          this.contenidoActual = this.howItWorksBox.find(c => c.i === this.idiomaActual);
+          this.tituloActual = this.sectionTitle.find(t => t.i === this.idiomaActual);
+        }
+      });
   }
+  
 
   ngOnDestroy() {
     this.destroy$.next();

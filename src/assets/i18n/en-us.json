@@ -496,15 +496,48 @@
     "pagina-login-restablece-email":"Type your E-mail"
   },
   "videos-modelos":{
-    "titulo": "Proyectos"
+    "titulo": "Featured Projects"
+  },
   "about-us":{
     "titulo":"About us"
   },
   "footer-one":{
     "titulo-uno": "About Us",
     "acerca": "About Interforos",
-    "terminos": "Terms and Notice and Privacy",
+    "terminos": "Terms, notice and privacy",
     "noticias": "News",
-    "info": "Contact information"
+    "info": "Contact information",
+    "trabajo": "Our Work"
+  },
+  "animacion":{
+    "titulo": "Interforos Casting",
+    "subtitulo": "Looking for Talent",
+    "palabras": ["Television", "Cinema", "Billboards", "Magazines", "Fashion"]
+  },
+    "howItWorks": {
+    "sectionTitle": {
+      "title": "How does it work?",
+      "paragraph": "Become part of our talent and let Interforos take care of finding a role for you."
+    },
+    "steps": [
+      {
+        "icon": "flaticon-support-1",
+        "title": "Register on our platform",
+        "paragraph": "Provide your physical characteristics and skills when signing up on the platform."
+      },
+      {
+        "icon": "flaticon-placeholder",
+        "title": "Opportunity search",
+        "paragraph": "Interforos will promote its talent to all clients and publish offers that may interest you."
+      },
+      {
+        "icon": "flaticon-tick",
+        "title": "Join the castings",
+        "paragraph": "Participate in castings and your effort will be rewarded — don't miss the opportunity."
+      }
+    ]
+  },
+  "eventos":{
+    "titulo":"No events are currently scheduled. Please check back soon."
   }
 }

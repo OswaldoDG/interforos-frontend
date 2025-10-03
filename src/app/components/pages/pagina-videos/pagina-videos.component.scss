@@ -1,42 +1,95 @@
+.banner-area {
+    padding-top: 90px;
+    background-color: #f8f9fa;
+    background-image:
+        radial-gradient(circle at 15% 80%, rgba(102, 102, 102, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 85% 25%, rgba(102, 102, 102, 0.08) 0%, transparent 30%),
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 15px,
+            rgba(102, 102, 102, 0.04) 15px,
+            rgba(102, 102, 102, 0.04) 16px
+        );
+    background-attachment: fixed;
+}
+
+.banner-area h1 {
+    color: var(--blackColor);
+    text-shadow: none;
+}
+
+.video-card-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
 .video-placeholder {
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .video-placeholder:hover {
-  transform: scale(1.03);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.video-thumbnail {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.video-placeholder:hover .video-thumbnail {
+    transform: scale(1.1);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(204, 163, 0, 0.85);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.video-placeholder:hover .video-overlay {
+    opacity: 1;
 }
 
 .video-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
-  color: #cca300;
-  background-color: transparent;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    color: var(--mainColor);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    z-index: 3;
 }
 
 .video-placeholder:hover .video-title {
-  background-color: rgba(204, 163, 0, 0.85);
-  color: #ffffff;
+    transform: translateY(0);
+    color: var(--whiteColor);
+}
+
+.play-icon {
+    display: none;
 }
 
 .modal-content {
     border: 0;
-    border-radius: 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .modal-header {
@@ -44,42 +97,42 @@
 }
 
 .instagram-preview {
-  color: #E1306C;
-  opacity: 0.3;
-  z-index: 1;
+    color: #E1306C;
+    opacity: 0.3;
+    z-index: 1;
 }
 
 .instagram-modal-content {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    width: 100%;
 }
 
 #instagram-embed-content {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #instagram-embed-content[style*="visibility: hidden"] {
-  position: absolute;
+    position: absolute;
 }
 
 #instagram-embed-content .instagram-media {
-  min-width: 100% !important;
-  width: 100% !important;
+    min-width: 100% !important;
+    width: 100% !important;
 }
 
 .spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: #fff;
-  z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #fff;
+    z-index: 10;
 }

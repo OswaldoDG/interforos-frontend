@@ -2,7 +2,7 @@
 
 <section class="events-area pt-100 pb-70">
   <div class="section-title" *ngIf="hayCasting == false">
-    <h2>Lo sentimos, Por el momento no hay Eventos.</h2>
+    <h2>{{ "eventos.titulo" | translate }}</h2>
   </div>
   <div class="container" *ngIf="hayCasting != false">
     <div class="section-title" *ngFor="let Title of sectionTitle">

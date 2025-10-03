@@ -3,20 +3,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 col-md-12">
-                <div class="banner-content" *ngFor="let Content of bannerContent;">
-                    <h1>{{Content.title}}
-                        <ngx-typed-js [strings]="['Televisión', 'Cine', 'Carteleras', 'Revistas', 'Moda']" [typeSpeed]="100" [loop]="true" [backSpeed]="100" [showCursor]="false">
+                <div class="banner-content">
+                    <h1>{{ "animacion.titulo" | translate }}
+                        <ngx-typed-js [strings]="animacionPalabras" [typeSpeed]="100" [loop]="true" [backSpeed]="100" [showCursor]="false">
                             <span class="typing"></span>
                         </ngx-typed-js>
                     </h1>
-                    <h5>{{Content.paragraph}}</h5>
-                    <a
-                      *ngIf="Content.linkUrl"
-                      [routerLink]="Content.linkUrl"
-                      class="btn btn-primary mt-2">
-                      {{ Content.linkLabel }}
-                    </a>
-
+                    <h5>{{ "animacion.subtitulo" | translate }}</h5>
 
                     <!-- <form>
                         <div class="row m-0 align-items-center">
