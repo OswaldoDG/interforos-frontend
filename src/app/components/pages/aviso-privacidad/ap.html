@@ -1,36 +1,38 @@
-<!-- Start Page Title Area -->
-<div
-  class="page-title-area"
-  style="background-image: url({{ 'assets/img/page-title/page-title2-d.jpg' }})"
->
-  <div class="container">
-    <div class="page-title-content">
-      <h2>Términos y Aviso de Privacidad</h2>
-      <ul>
-        <!-- <li><a routerLink="/">Home</a></li>
-                <li>{{Content.title}}</li> -->
-      </ul>
-    </div>
-  </div>
-</div>
-<div *ngIf="uid != undefined" class="container pt-5">
-  <div class="page-title-content">
-    <h2>Términos y Aviso de Privacidad</h2>
-  </div>
-</div>
-<!-- End Page Title Area -->
+<app-navbar-promodel></app-navbar-promodel>
+<app-hometwo-banner></app-hometwo-banner>
 
-<!-- Start Gallery Area -->
-<section class="gallery-area bg-f9f9f9 pt-4 pb-70">
-  <div class="container">
-    <div class="row pt-2">
-      <div class="row">
-        <div class="col-lg-2 col-md-1 col-sm-1">&nbsp;</div>
-        <div class="col-lg-10 col-md-10 col-sm-10">
-            <div [innerHTML]="aviso"></div>
-        </div>
-        <div class="col-lg-2 col-md-1 col-sm-1">&nbsp;</div>
-      </div>
-    </div>
-  </div>
+<section class="how-it-works-area pt-60 pb-60 bg-f9f9f9">
+	<div class="container">
+		<p>&nbsp;</p>
+
+		<div class="section-title" *ngIf="tituloActual">
+			<h2>{{ tituloActual.title }}</h2>
+		</div>
+
+		<div *ngFor="let seccion of contenidoActual" class="single-how-it-works-box row align-items-stretch">
+
+				<div class="col-lg-2 col-md-3">
+						<div class="icon">
+								<i class="{{ seccion.icon }}"></i>
+						</div>
+				</div>
+
+				<div class="col-lg-10 col-md-9 d-flex flex-column">
+          <h3 class="text-start">{{ seccion.title }}</h3>
+          <div class="text-start" [innerHTML]="seccion.content"></div>
+				</div>
+				
+		</div>
+		<p>&nbsp;</p>
+	</div>
+
+</section>
+<section class="feedback-area bg-image ptb-100 ocultar">
+  <app-feedback-style-one></app-feedback-style-one>
+</section>
+
+<app-footer-botones *ngIf="autenticado == true" ></app-footer-botones>
+
+<section id="fin">
+  <app-footer-style-one></app-footer-style-one>
 </section>

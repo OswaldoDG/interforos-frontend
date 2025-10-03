@@ -174,6 +174,7 @@ import { PerfilModeloComponent } from './components/pages/perfil-modelo/perfil-m
 import { ModalAgregarModeloComponent } from './components/common/modal-agregar-modelo/modal-agregar-modelo.component';
 import { LanguageSwitcherComponent } from './components/common/langselector/language-switcher.component';
 import { PaginaVideosComponent } from './components/pages/pagina-videos/pagina-videos.component';
+import { APComponent } from './components/pages/aviso-privacidad/ap.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -306,6 +307,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PerfilModeloComponent,
     ModalAgregarModeloComponent,
     PaginaVideosComponent,
+    APComponent
   ],
   imports: [
     TabsModule,

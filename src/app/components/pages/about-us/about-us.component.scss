@@ -1,6 +1,14 @@
-.ocultar
-{
-  display: none;
+.ocultar {
+    display: none;
+}
+
+@keyframes subtle-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .single-how-it-works-box {
@@ -37,23 +45,18 @@
     }
     &:hover {
         .icon {
-            animation: bounce 2s;
+            animation: subtle-bounce 1.5s infinite;
         }
     }
-}
-.col-lg-4 {
-    &:nth-child(3) {
-        .single-how-it-works-box {
-            &::before {
-                display: none;
-            }
+    &:last-of-type {
+        &::before {
+            display: none;
         }
     }
 }
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
-
     .single-how-it-works-box {
         padding: {
             left: 0;
@@ -72,17 +75,14 @@
             font-size: 17px;
         }
     }
-
 }
+
 /* Min width 576px to Max width 767px */
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-
-
-
 }
+
 /* Min width 768px to Max width 991px */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-
     .single-how-it-works-box {
         padding: {
             left: 0;
@@ -101,11 +101,10 @@
             font-size: 20px;
         }
     }
-
 }
+
 /* Min width 992px to Max width 1199px */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-
     .single-how-it-works-box {
         padding: {
             left: 0;
@@ -118,17 +117,12 @@
             font-size: 20px;
         }
     }
-
 }
+
 /* Min width 1200px to Max width 1355px */
 @media only screen and (min-width: 1200px) and (max-width: 1355px) {
-
-
-
 }
+
 /* Min width 1550px */
 @media only screen and (min-width: 1550px) {
-
-    
-
 }

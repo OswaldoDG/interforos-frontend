@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-hometwo-banner',
@@ -6,39 +7,16 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./hometwo-banner.component.scss']
 })
 export class HometwoBannerComponent implements OnInit {
-
-    constructor() { }
+    animacionPalabras: string[] = [];
+    constructor(private translate: TranslateService) { }
 
     ngOnInit(): void {
         this.resetOption = [this.options[0]];
+        this.cargarPalabrasTraducidas();
+        this.translate.onLangChange.subscribe(() => {
+            this.cargarPalabrasTraducidas();
+        });
     }
-
-    bannerContent = [
-        {
-            title: 'Interforos Casting',
-            paragraph: 'En busca de talento',
-            linkLabel: 'Nuestro trabajo',
-            linkUrl: '/proyectos/videos',
-            popularSearchList: [
-                // {
-                //     title: 'Televisión',
-                //     link: 'grid-listings-left-sidebar'
-                // },
-                // {
-                //     title: 'Cine',
-                //     link: 'grid-listings-left-sidebar'
-                // },
-                // {
-                //     title: 'Carteleras',
-                //     link: 'grid-listings-left-sidebar'
-                // },
-                // {
-                //     title: 'Revistas',
-                //     link: 'grid-listings-left-sidebar'
-                // }
-            ]
-        }
-    ]
     bannerImage = [
         {
             img: 'assets/img/banner-inicial.png'
@@ -75,6 +53,9 @@ export class HometwoBannerComponent implements OnInit {
     }
     reset() {
         this.resetOption = [];
+    }
+    cargarPalabrasTraducidas(){
+        this.translate.get('animacion.palabras').subscribe((palabras: string[]) => {this.animacionPalabras = palabras});
     }
 
 }
